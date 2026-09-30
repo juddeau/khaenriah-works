@@ -145,6 +145,13 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 @media (prefers-reduced-motion:no-preference){.ava,.chip,.tab{transition:background-color .15s,border-color .15s}}
 
 /* reshape tool */
+.ups{display:grid;gap:10px}
+.upslot h3{margin-bottom:6px}
+.up{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 14px;align-items:center;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+@media (max-width:700px){.up{grid-template-columns:minmax(0,1fr)}}
+.upsubs{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:12.5px;color:var(--muted);margin-top:2px}
+.upsubs .w1{color:#ffe7a6;text-shadow:0 0 8px rgba(240,200,110,.6)}.upsubs .w05{color:#eed9a4}
+.upr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px}
 .hero{margin-top:10px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between;padding:18px;border-radius:18px;border:1px solid var(--line);
   background:radial-gradient(120% 140% at 0% 0%,color-mix(in srgb,var(--el) 28%,var(--panel)) 0%,var(--panel) 60%)}
 .hero .who{display:flex;gap:18px;align-items:center;min-width:0}
@@ -221,6 +228,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .ras{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .ra{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px;display:grid;gap:10px;align-content:start;min-width:0;scroll-margin-top:80px}
 .ra.hot{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 25%,transparent),0 0 24px -8px rgba(240,200,110,.5)}
+.ra > *{min-width:0}
 .ra .hd{display:flex;gap:10px;align-items:center}
 .ra .hd .t{min-width:0}.ra .hd .t b{display:block}.ra .hd small{color:var(--muted);font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sl{display:grid;gap:4px}
@@ -285,11 +293,23 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
     </div>
 
     <div id="mode-uid">
+      <div id="uidbox">
       <form class="sbox" id="uidform" autocomplete="off">
         <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
         <button class="btn" type="submit">Загрузить</button>
       </form>
       <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
+      </div>
+      <div id="gobox" hidden>
+        <div class="card fgrid">
+          <h3>База из Genshin Optimizer</h3>
+          <p class="sub" style="margin:0">В GO открой «Database», нажми «Export» / «Download» и выбери здесь скачанный файл. Можно и вставить текст файла. База остаётся только в этом браузере, на сервер ничего не уходит.</p>
+          <div class="row"><label class="btn" for="gofile" style="cursor:pointer">Выбрать файл</label><input type="file" id="gofile" accept=".json,application/json" hidden><span class="sub" id="gostat"></span></div>
+          <details><summary class="sub" style="cursor:pointer">или вставить текст</summary>
+            <textarea id="gopaste" class="inp mono" style="min-height:100px;margin-top:8px" placeholder='{"format":"GOOD", ...}' aria-label="Экспорт GO"></textarea>
+            <div class="row" style="margin-top:8px"><button class="btn small" type="button" id="goparse">Загрузить</button></div></details>
+        </div>
+      </div>
       <div id="panel"></div>
       <div id="profile"></div>
       <div id="bestbox"></div>
@@ -431,22 +451,21 @@ function fromEnka(j, uid){
     hidden: !list.length, showcase: (p.showAvatarInfoList||[]).length, chars };
 }
 function fromGOOD(j){
-  const weapons = j.weapons || [], arts = j.artifacts || [];
-  const chars = (j.characters || []).map(c => {
-    const w = weapons.find(x => x.location === c.key);
-    return { key: c.key, level: c.level, cons: c.constellation ?? 0,
-      talents: c.talent ? [c.talent.auto, c.talent.skill, c.talent.burst] : null,
-      weapon: w ? { name: splitCamel(w.key), level: w.level, ref: w.refinement, rarity: null } : null,
-      stats: null,
-      arts: arts.filter(a => a.location === c.key).map(a => ({ slot: SLOT[a.slotKey] || a.slotKey, set: splitCamel(a.setKey), level: a.level, rarity: a.rarity,
-        main: {k:a.mainStatKey, v:null}, subs: (a.substats||[]).filter(s => s.key).map(s => ({k:s.key, v:s.value})) })) };
-  });
-  return { source:'good', uid:'', nickname:'База Genshin Optimizer', level:null, signature:`${chars.length} персонажей из экспорта`, chars };
+  const weapons = j.weapons || [];
+  // only 5★ pieces matter here: 4★ can't be rerolled and never beat a decent 5★
+  const inv = (j.artifacts || []).filter(a => a.rarity === 5 && a.slotKey).map((a, n) => ({ id: a.id ?? n, loc: a.location || '', lock: !!a.lock,
+    slot: SLOT[a.slotKey] || a.slotKey, set: splitCamel(a.setKey), setKey: a.setKey, level: a.level ?? 0, rarity: 5,
+    main: {k: a.mainStatKey, v: null}, subs: (a.substats || []).filter(s => s.key && s.value).map(s => ({k: s.key, v: s.value})) }));
+  const chars = (j.characters || []).map(c => { const w = weapons.find(x => x.location === c.key);
+    return { key: c.key, level: c.level, cons: c.constellation ?? 0, weapon: w ? {name: splitCamel(w.key), level: w.level, ref: w.refinement} : null,
+      arts: inv.filter(a => a.loc === c.key) }; }).filter(c => c.arts.length);
+  return { source:'good', uid:'', nickname:'База Genshin Optimizer', chars, inv, total: (j.artifacts || []).length };
 }
 
 
 // ---------- state ----------
-const state = { profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: store.get('mode') === 'manual' ? 'manual' : 'uid' };
+const prof = () => state.mode === 'go' ? state.go : state.profile;
+const state = { go:null, onlySet:true, profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -475,7 +494,11 @@ function pastePanel(uid, reason){
 }
 function ingest(text, uid){
   let j; try { j = JSON.parse(text); } catch { diag('ingest: не JSON, длина '+String(text).length); return panel(`<div class="notice warn"><h3>Это не JSON</h3><p>Скопируй страницу целиком, начиная с фигурной скобки.</p></div>`); }
-  if (j.format === 'GOOD' || j.characters) { setProfile(fromGOOD(j)); panel(''); return; }
+  if (j.format === 'GOOD' || j.characters) {
+    state.go = fromGOOD(j); store.set('goProfile', JSON.stringify(state.go));
+    if (!state.go.chars.some(c => c.key === state.sel)) state.sel = state.go.chars[0]?.key || null;
+    state.mode = 'go'; store.set('mode', 'go'); panel(''); rerender(); return;
+  }
   if (j.playerInfo) {
     const p = fromEnka(j, uid);
     panel(p.hidden ? `<div class="notice warn"><h3>Витрина закрыта</h3><p>Enka видит профиль, но детали персонажей скрыты. В игре: Профиль → Витрина персонажей → включи «Показывать детали», подожди пару минут.</p></div>` : '');
@@ -583,18 +606,20 @@ function maxUseful(w, main){
 // then convolve roll tiers (70..100%) in 1/200-roll units. Weights are rounded to 1/20.
 const PAIRS = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
 const RS_CACHE = new Map();
-function reshape(m, w, pair, g){
-  const key = JSON.stringify([m.subs.map(s => [s.k, +s.init.toFixed(3), +s.value.toFixed(3)]), m.nEnh, SUBK.map(k => w[k]||0), pair, g]);
+// Shared engine: n enhancements land uniformly on the 4 substats (with the pair guarantee when pair is given),
+// each at a random tier; returns odds of beating `target` useful rolls and the expected gain over it
+function spreadOdds(subs, field, n, w, pair, g, target){
+  const key = JSON.stringify([subs.map(s => [s.k, +s[field].toFixed(3)]), field, n, SUBK.map(k => +(w[k]||0).toFixed(3)), pair, g, +target.toFixed(3)]);
   if (RS_CACHE.has(key)) return RS_CACHE.get(key);
-  const n = m.nEnh, comps = new Map(); let tot = 0;
+  const comps = new Map(); let tot = 0;
   for (let s = 0; s < 4 ** n; s++) {
     let x = s, hit = 0; const c = [0,0,0,0];
-    for (let j = 0; j < n; j++) { const i = x & 3; x >>= 2; c[i]++; if (i === pair[0] || i === pair[1]) hit++; }
-    if (hit < g) continue;
+    for (let j = 0; j < n; j++) { const i = x & 3; x >>= 2; c[i]++; if (pair && (i === pair[0] || i === pair[1])) hit++; }
+    if (pair && hit < g) continue;
     const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + 1); tot++;
   }
-  const base = useful(m.subs, w, 'init'), cur = useful(m.subs, w);
-  const mul = m.subs.map(s => Math.round((w[s.k] || 0) * 20));  // weight in 1/20 steps
+  const base = useful(subs, w, field);
+  const mul = subs.map(s => Math.round((w[s.k] || 0) * 20));  // weight in 1/20 steps
   let pBetter = 0, pWorse = 0, eGain = 0, eNew = 0;
   for (const [ck, cnt] of comps) {
     let dist = [1];
@@ -611,17 +636,19 @@ function reshape(m, w, pair, g){
       if (!p) return;
       const val = base + u / 200, q = p * wgt;
       eNew += q * val;
-      if (val > cur + 0.025) { pBetter += q; eGain += q * (val - cur); }
-      else if (val < cur - 0.025) pWorse += q;
+      if (val > target + 0.025) { pBetter += q; eGain += q * (val - target); }
+      else if (val < target - 0.025) pWorse += q;
     });
   }
-  const res = {pair, pBetter, pWorse, eGain, eNew, cur};
+  const res = {pair, pBetter, pWorse, eGain, eNew, cur: target};
   RS_CACHE.set(key, res);
   return res;
 }
-function bestPair(m, w, g){
+// Reroll: initial values stay, nEnh enhancements are redistributed; by default compared with the artifact itself
+const reshape = (m, w, pair, g, target = useful(m.subs, w)) => spreadOdds(m.subs, 'init', m.nEnh, w, pair, g, target);
+function bestPair(m, w, g, target){
   let best = null;
-  for (const pair of PAIRS) { const r = reshape(m, w, pair, g); if (!best || r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)) best = r; }
+  for (const pair of PAIRS) { const r = reshape(m, w, pair, g, target); if (!best || r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)) best = r; }
   return {...best, perDust: best.eGain / m.cost};
 }
 // Pair label; a useless stat in the pair makes no difference which one it is
@@ -696,6 +723,7 @@ async function loadAkasha(uid){
   } catch (err) { diag('akasha ошибка: ' + err.message); }
 }
 function akashaBlock(key){
+  if (state.mode !== 'uid') return '';
   const a = state.akasha;
   if (a?.missing) return `<p class="sub akmiss">Место в Акаше появится после обновления посредника в Cloudflare.</p>`;
   const list = a?.uid && a.uid === String(state.profile?.uid) ? a.by[key] : null;
@@ -723,19 +751,21 @@ function buildScore(c, w){
 const GRADE = s => s >= 0.65 ? 'топ-уровень' : s >= 0.55 ? 'сильная' : s >= 0.45 ? 'средняя' : 'слабая';
 
 function renderAccount(){
-  const p = state.profile;
+  const p = prof();
+  if (p && !p.chars.some(c => c.key === state.sel)) state.sel = p.chars[0]?.key || null;
   if (!p) {
     $('#profile').innerHTML = ''; $('#bestbox').innerHTML = ''; $('#roster').innerHTML = '';
+    if (state.mode === 'go') { $('#sheet').innerHTML = ''; return; }
     $('#sheet').innerHTML = `<div class="card" style="margin-top:16px"><h3>С чего начать</h3><ol class="howto">
       <li><b>Введи UID</b>: сайт возьмёт артефакты персонажей из витрины и покажет, куда выгоднее всего потратить перья.</li>
       <li><b>Не хочешь выкладывать витрину?</b> Переключись на «Вручную» и введи саб статы одного артефакта.</li>
       <li>Выбери свою гарантию: 2 обычная, 3 после шести рероллов, 4 на третьей усиленной подряд.</li></ol></div>`;
     return;
   }
-  $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.</span><span class="sp"></span>
+  $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.${p.inv ? ` с 5★ артефактами · ${p.inv.length} артефактов 5★` : ''}</span><span class="sp"></span>
     ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>`;
   if ($('#refresh')) $('#refresh').onclick = () => loadUid(String(p.uid));
-  $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
+  $('#forget').onclick = () => { if (state.mode === 'go') { state.go = null; try { localStorage.removeItem('goProfile'); } catch {} return renderAccount(); } try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
 
   // account-wide: where one Dust buys the most
   const all = [];
@@ -778,20 +808,71 @@ function rsBlock(m, w){
     ${m.exact ? '' : `<div class="sub">Роллы восстановлены по значениям${m.approx ? ', проверь цифры' : ''}</div>`}
   </div>`;
 }
+// ---------- inventory upgrades (GO database) ----------
+const subsOf = a => (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
+function upgrades(c, w){
+  const p = prof(); if (!p?.inv) return {html: ''};
+  const eq = {}, sets = {};
+  c.arts.forEach(a => { eq[a.slot] = a; sets[a.setKey] = (sets[a.setKey] || 0) + 1; });
+  const mainSet = Object.entries(sets).find(([, n]) => n >= 4)?.[0] || null;
+  let bestAll = null;
+  const blocks = SLOT_ORDER.map(slot => {
+    const cur = eq[slot], target = cur ? useful(subsOf(cur), w) : 0;
+    const keepSet = state.onlySet && mainSet && (!cur || cur.setKey === mainSet);
+    const acts = [];
+    for (const a of p.inv) {
+      if (a.slot !== slot || a === cur || (cur && a.id === cur.id) || (cur && a.main.k !== cur.main.k) || (keepSet && a.setKey !== mainSet)) continue;
+      const subs = subsOf(a), u = useful(subs, w);
+      if (a.level >= 20) {
+        if (u > target + 0.05) { acts.push({a, kind: 'wear', gain: u - target, p: 1, score: u - target + 10}); continue; }
+        const m = model(a); if (!m.ok) continue;
+        const r = bestPair(m, w, state.g, target);
+        if (r.pBetter >= 0.1) acts.push({a, kind: 'roll', gain: r.eGain, p: r.pBetter, pair: pairName(m, w, r.pair), cost: m.cost, score: r.eGain / m.cost, three: m.nEnh === 4});
+      } else if (subs.length === 4) {
+        const n = 5 - Math.floor(a.level / 4);
+        const r = spreadOdds(subs, 'value', n, w, null, 0, target);
+        if (r.pBetter >= 0.1) acts.push({a, kind: 'level', gain: r.eGain, p: r.pBetter, n, score: r.eGain * 0.8});
+      }
+    }
+    acts.sort((x, y) => y.score - x.score || y.p - x.p);
+    const top = acts.slice(0, 3);
+    if (top[0] && (!bestAll || top[0].score > bestAll.score)) bestAll = {...top[0], slot};
+    const rows = top.map(x => {
+      const tags = [x.a.setKey !== cur?.setKey ? 'другой сет' : '', x.a.loc && x.a.loc !== c.key ? `надет на ${charInfo(x.a.loc).ru}` : '', x.three ? '3-стат' : ''].filter(Boolean);
+      const act = x.kind === 'wear' ? `<span class="pill go">Надеть</span><span>${r1(x.gain)} ролла сразу</span>`
+        : x.kind === 'roll' ? `<span class="pill warn">Зароллить</span><span>обгонит с шансом <b>${pct(x.p)}</b>, пара ${esc(x.pair)}</span>`
+        : `<span class="pill">Прокачать</span><span>с +${x.a.level} до +20 обгонит с шансом <b>${pct(x.p)}</b></span>`;
+      return `<div class="up"><div class="upa"><b>${esc(x.a.set)}</b> <span class="sub">+${x.a.level}</span>${tags.map(g => ` <span class="pill">${esc(g)}</span>`).join('')}
+          <div class="upsubs">${subsOf(x.a).map(s => `<span class="${wcls(w[s.k]||0)}">${esc(SUB[s.k].n)} ${fmtSub(s.k, s.value)}</span>`).join('')}</div></div>
+        <div class="upr">${act}</div></div>`;
+    }).join('');
+    return `<div class="card upslot"><h3>${esc(slot)}${cur ? ` · сейчас ${Math.round((useful(subsOf(cur), w) / (maxUseful(w, KEY_OF[cur.main.k]) || 1)) * 100)}%` : ' · пусто'}</h3>
+      ${rows || '<p class="empty">В инвентаре нет варианта лучше.</p>'}</div>`;
+  }).join('');
+  const where = bestAll ? `${bestAll.slot.toLowerCase()} ${bestAll.a.set} +${bestAll.a.level}` : '';
+  const best = !bestAll ? null : bestAll.kind === 'wear' ? `Надеть из инвентаря ${where}: сразу ${r1(bestAll.gain)} полезного ролла.`
+    : bestAll.kind === 'roll' ? `Зароллить из инвентаря ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`
+    : `Прокачать ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`;
+  return {best, html: `<h2 class="sec">Замена из инвентаря</h2>
+    <p class="sub" style="margin:0 0 10px">Артефакты того же слота и основного стата из базы GO: что надеть сразу, что прокачать и что зароллить пером, чтобы обогнать надетый. Роллы в базе GO без истории, поэтому шансы приблизительные.
+    ${mainSet ? `<button type="button" class="alt-link" data-onlyset="1">${state.onlySet ? `Сейчас только ${esc(splitCamel(mainSet))}, показать все сеты` : 'Показаны все сеты, оставить только 4 предмета сета'}</button>` : ''}</p>
+    <div class="ups">${blocks}</div>`};
+}
 function weaponIcon(wp){
   if (!wp?.icon) return '';
   const srcs = [wp.icon, wp.baseIcon].filter(Boolean).map(UI);
   return `<span class="wbadge r${wp.rarity||4}" title="${esc(wp.name)}"><img alt="" src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)"></span>`;
 }
 function renderSheet(){
-  const c = state.profile && state.profile.chars.find(x => x.key === state.sel);
+  const c = prof()?.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
-  const i = charInfo(c.key), w = effW(c.key, c.base), bs = buildScore(c, w);
+  const i = charInfo(c.key), w = effW(c.key, c.base), bs = buildScore(c, w), up = upgrades(c, w);
   const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
     .sort((a, b) => b.r.perDust - a.r.perDust)[0];
   const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
   const steps = [];
   if (bs.items.length < 5) steps.push(`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`);
+  if (up.best) steps.push(up.best);
   if (best && best.r.perDust >= 0.25) steps.push(`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`);
   else if (best) steps.push('Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.');
   if (weakest && weakest.share < 0.45 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (качество ${Math.round(weakest.share*100)}%) слабее остальных.`);
@@ -818,7 +899,8 @@ function renderSheet(){
     </div>
     <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
     <details class="card wbox"><summary><span>Полезные статы: <b>${esc(on.join(', ') || 'не выбраны')}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
-    ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}`;
+    ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}
+    ${up.html}`;
 }
 // ---------- render: manual ----------
 function manualState(){
@@ -937,13 +1019,15 @@ function renderLib(){
 // ---------- events ----------
 function renderCtrl(){
   $('#gseg').innerHTML = [[2,'2','обычная'],[3,'3','усиленная'],[4,'4','высшая']].map(([g, n, t]) => `<button type="button" data-g="${g}" aria-pressed="${state.g===g}">${n}<small>${t}</small></button>`).join('');
-  $('#mseg').innerHTML = [['uid','По UID'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
-  $('#mode-uid').hidden = state.mode !== 'uid'; $('#mode-manual').hidden = state.mode !== 'manual';
+  $('#mseg').innerHTML = [['uid','По UID'],['go','База GO'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
+  $('#mode-uid').hidden = state.mode === 'manual'; $('#mode-manual').hidden = state.mode !== 'manual';
+  $('#uidbox').hidden = state.mode !== 'uid'; $('#gobox').hidden = state.mode !== 'go';
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-w],[data-preset]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-w],[data-preset],[data-onlyset]');
   if (!t) return;
+  if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
   if (t.dataset.mode) { state.mode = t.dataset.mode; store.set('mode', state.mode); rerender(); return; }
   if (t.dataset.w || t.dataset.preset) {
@@ -978,12 +1062,21 @@ function setTab(tab){
   if (tab === 'lib') renderLib();
 }
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
+$('#gofile').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('#gostat').textContent = 'Читаю…';
+  try { ingest(await f.text()); } catch (err) { diag('файл GO: ' + err.message); }
+  $('#gostat').textContent = state.go ? `Загружено: ${state.go.inv.length} артефактов 5★ из ${state.go.total}` : '';
+  e.target.value = '';
+});
+$('#goparse').onclick = () => ingest($('#gopaste').value);
 
 $('#report').onclick = () => {
   const p = state.profile;
   const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab, mode: state.mode, g: state.g,
     profile: p ? { source: p.source, hidden: !!p.hidden, chars: p.chars.map(c => `${c.key} C${c.cons} | арт ${c.arts?.length||0}, с историей ${(c.arts||[]).filter(a => a.rolls).length}`), selected: state.sel } : null,
     manual: state.mode === 'manual' ? manualState() : undefined,
+    go: state.go ? {chars: state.go.chars.length, inv: state.go.inv.length, total: state.go.total} : null,
     log: DIAG };
   const text = '```json\n' + JSON.stringify(rep, null, 1) + '\n```';
   const ta = $('#report-text'); ta.value = text;
@@ -993,10 +1086,11 @@ $('#report').onclick = () => {
 
 // boot: last loaded account (refreshed quietly), guarantee and mode from last visit
 renderCtrl();
-let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
+let boot = null; try { state.go = JSON.parse(store.get('goProfile') || 'null'); boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
 if (state.mode === 'manual') renderManual();
+if (state.mode === 'go') renderAccount();
 if (location.hash === '#library') setTab('lib');
 
 </script>
