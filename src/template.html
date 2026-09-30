@@ -282,7 +282,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 @keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 65%,transparent)}100%{box-shadow:0 0 0 16px transparent}}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 14px 1px color-mix(in srgb,var(--ok) 50%,transparent)}}
-.anim .hero,.anim .tile3,.anim .todo,.anim .ra,.anim .upslot,.anim .brow,.anim .elgrp,.anim .elbar{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms)}
+.anim .hero,.anim .pieces,.anim .pickbar,.anim .ra,.anim .upslot,.anim .brow,.anim .elgrp,.anim .elbar{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms)}
 .anim .meter span,.anim .ob{transform-origin:left;animation:grow .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms + 200ms)}
 [id^="view-"]:not([hidden]),#panel>*,#gobox:not([hidden]){animation:fadein .3s ease both}
 .ra,.tile3,.brow,.cchip,.upslot,.elbtn,.btn,.wchip{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease}
@@ -318,6 +318,47 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .upslot,.ra{scroll-margin-top:80px}
 .todo li .alt-link{font-size:13px}
 .secsub{margin:-4px 0 8px;font-size:13px}
+
+/* ---- character picker ---- */
+.pickbar{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px;margin-top:16px}
+@media (max-width:600px){.pickbar{grid-template-columns:minmax(0,1fr)}}
+.pick{display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;text-align:left;min-width:0;transition:border-color .18s ease,background-color .18s ease,transform .18s ease}
+.pick:hover{border-color:color-mix(in srgb,var(--fg) 30%,var(--line))}.pick:active{transform:scale(.98)}
+.pick.on{border-color:var(--gold);background:var(--panel-2)}
+.pick span:not(.bi){display:grid;min-width:0}.pick small{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.pick b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick em{margin-left:auto;font:500 13px var(--f-mono);color:var(--muted);font-style:normal;white-space:nowrap}
+.pick .bi{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--panel-2);color:var(--gold);font-size:18px;flex:none}
+.drawer{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 70%,var(--bg));animation:drop .28s cubic-bezier(.2,.7,.2,1) both}
+@keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.dtools{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.seg.sm button{padding:5px 10px;font-size:13px}
+.dtools .elbar{margin:0}
+.pcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;max-height:min(60vh,520px);overflow:auto;padding:2px}
+.pc{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);cursor:pointer;text-align:left;min-width:0;animation:rise .35s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(min(var(--i,0),20) * 18ms);transition:transform .18s ease,border-color .18s ease}
+.pc:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--el) 60%,var(--line))}
+.pc[aria-pressed="true"]{border-color:var(--gold);background:var(--panel-2)}
+.pc .face{transition:transform .25s ease}.pc:hover .face{transform:scale(1.08) rotate(-3deg)}
+.pcn{display:grid;min-width:0}.pcn b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pcn small{color:var(--muted);font-size:12px}
+.pcr{margin-left:auto;text-align:right;font:600 14px var(--f-mono);color:var(--muted);white-space:nowrap}.pcr small{display:block;font:400 10.5px var(--f-body);color:var(--muted)}
+.pcr.go{color:var(--ok)}.pcr.warn{color:var(--warn)}
+/* ---- hero stats and pieces table ---- */
+.hstats{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;justify-content:flex-end}
+.hq{display:grid;align-content:center;padding:10px 16px;border-radius:14px;background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--line);min-width:170px}
+.hq small{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.hq b{font:600 30px var(--f-mono);color:var(--gold);line-height:1.15}.hq span{font-size:12.5px;color:var(--muted)}
+@media (max-width:600px){.hstats{width:100%;justify-content:stretch}.hq{flex:1}}
+.pieces{margin-top:10px}
+.prow{display:grid;grid-template-columns:auto minmax(0,1fr) auto 84px 84px;gap:4px 14px;align-items:center;width:100%;padding:8px 6px;border:0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);background:none;color:var(--fg);cursor:pointer;text-align:left;border-radius:8px;transition:background-color .15s ease}
+.prow:hover{background:var(--panel-2)}
+.prow .aicon{width:40px;height:40px;border-radius:9px}
+.pn{display:grid;min-width:0}.pn b{font-weight:600}.pn small{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl{font-size:12.5px;font-weight:600;white-space:nowrap;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.pl::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pl.go{color:var(--ok)}.pl.warn{color:var(--warn)}.pl.lvl{color:var(--accent)}.pl.no{color:color-mix(in srgb,var(--muted) 70%,var(--bg))}
+.pv{text-align:right;white-space:nowrap}.pv b{display:block;font:600 16px var(--f-mono)}.pv small{color:var(--muted);font-size:11px}
+.prow.no{opacity:.6}
+@media (max-width:600px){.prow{grid-template-columns:auto minmax(0,1fr) auto;}.prow .pl{grid-column:2;grid-row:2}.prow .pv:last-child{display:none}}
+.luck{font-size:13px;color:var(--muted)}.luck b{font:600 18px var(--f-mono);color:var(--fg);margin-right:2px}
 </style>
 
 <header class="top">
@@ -541,7 +582,7 @@ function fromGOOD(j){
 
 // ---------- state ----------
 const prof = () => state.mode === 'go' ? state.go : state.profile;
-const state = { el:'all', go:null, onlySet:true, profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
+const state = { el:'all', go:null, panel:null, csort: store.get('csort') || 'roll', profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -888,32 +929,47 @@ function renderAccount(){
   if ($('#newbase')) $('#newbase').onclick = () => { state.goUpload = !state.goUpload; renderCtrl(); renderAccount(); };
   $('#forget').onclick = () => { if (state.mode === 'go') { state.go = null; try { localStorage.removeItem('goProfile'); } catch {} return renderAccount(); } try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
 
-  // account-wide: where one Dust buys the most
-  const all = [];
-  p.chars.forEach(c => { const w = effW(c.key); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
+  // per character: the best feather in the build and the quality, used for sorting and the "best rerolls" panel
+  const all = [], stat = {};
+  p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let bestPd = -1;
+    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g); all.push({c, a, m, idx, r}); bestPd = Math.max(bestPd, r.perDust); });
+    stat[c.key] = {share: bs.max ? bs.share : 0, bestPd}; });
   const tier = r => r.perDust >= 0.6 ? 2 : r.perDust >= 0.25 ? 1 : 0;
   // 4-line starts first within the same verdict: they get 5 enhancements, 3-line starts only 4
   all.sort((x, y) => tier(y.r) - tier(x.r) || (y.m.nEnh - x.m.nEnh) || (y.r.perDust - x.r.perDust));
-  // only rerolls worth a feather; the rest would just be noise here
-  const top = all.filter(t => t.r.perDust >= 0.25).slice(0, 6);
+  const top = all.filter(t => t.r.perDust >= 0.25).slice(0, 8);
   const ak = state.mode + ':' + (p.uid || p.total || '') + ':' + p.chars.length, freshAcc = state.lastAcct !== ak; state.lastAcct = ak;
-  $('#bestbox').classList.toggle('anim', freshAcc); $('#roster').classList.toggle('anim', freshAcc);
-  $('#bestbox').innerHTML = top.length ? `<h2 class="sec">Что роллить в первую очередь</h2><p class="sub secsub">Лучшие рероллы ${state.mode === 'go' ? 'во всей базе' : 'среди персонажей витрины'}. Нажми строку, чтобы открыть артефакт.</p><div class="best">${top.map((t, n) => {
+  if (!state.sel || freshAcc && !p.chars.some(c => c.key === state.sel)) state.panel = 'chars';
+  const cur = p.chars.find(c => c.key === state.sel);
+  const SORTS = [['roll', 'выгода реролла'], ['q', 'качество'], ['el', 'стихия'], ['name', 'имя']];
+  const sorted = [...p.chars].sort(state.csort === 'q' ? (x, y) => stat[y.key].share - stat[x.key].share
+    : state.csort === 'name' ? (x, y) => charInfo(x.key).ru.localeCompare(charInfo(y.key).ru, 'ru')
+    : state.csort === 'el' ? (x, y) => EL_ORDER.indexOf(charInfo(x.key).el) - EL_ORDER.indexOf(charInfo(y.key).el) || stat[y.key].bestPd - stat[x.key].bestPd
+    : (x, y) => stat[y.key].bestPd - stat[x.key].bestPd);
+  const els = EL_ORDER.filter(e => p.chars.some(c => charInfo(c.key).el === e));
+  if (state.el !== 'all' && !els.includes(state.el)) state.el = 'all';
+  const card = (c, n) => { const i = charInfo(c.key), st = stat[c.key], [vc] = st.bestPd >= 0 ? VERDICT(st.bestPd) : [''];
+    return `<button type="button" class="pc" aria-pressed="${c.key === state.sel}" data-key="${esc(c.key)}" style="--el:var(--${i.el});--i:${n}">
+      ${face(c.key, 'sm')}<span class="pcn"><b>${esc(i.ru)}</b><small>C${c.cons} · качество ${Math.round(st.share * 100)}%</small></span>
+      <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestPd)}<small>за перо</small>` : '<small>нет +20</small>'}</span></button>`; };
+  const charsPanel = `<div class="drawer" id="drawer-chars">
+      <div class="dtools"><div class="seg sm">${SORTS.map(([k, t]) => `<button type="button" data-sort="${k}" aria-pressed="${(state.csort || 'roll') === k}">${t}</button>`).join('')}</div>
+        ${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el === 'all'}">Все</button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el === e}" title="${EL_RU[e]}">${elIcon(e)}</button>`).join('')}</div>` : ''}</div>
+      <div class="pcs">${sorted.filter(c => state.el === 'all' || charInfo(c.key).el === state.el).map(card).join('')}</div></div>`;
+  const bestPanel = `<div class="drawer" id="drawer-best">${top.length ? `<div class="best">${top.map((t, n) => {
       const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el});--i:${n}">${face(t.c.key, 'sm')}
         <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${t.m.nEnh === 4 ? '3-стат · ' : ''}${esc(t.a.set)}</small></span>
-        <span class="pair">Выбрать <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
+        <span class="pair">Пара <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс удачи ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>RV за перо</small></span>
-        <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>` :
-    (p.chars.length ? `<p class="empty" style="margin-top:12px">${all.length ? 'Сейчас нет реролла, который стоит пера: везде прирост ниже +25% RV.' : 'Среди артефактов нет 5★ +20, их нельзя роллить.'}</p>` : '');
-  // characters grouped by element, with an element filter bar
-  const byEl = {}; p.chars.forEach(c => (byEl[charInfo(c.key).el] ||= []).push(c));
-  const els = EL_ORDER.filter(e => byEl[e]);
-  if (state.el !== 'all' && !byEl[state.el]) state.el = 'all';
-  const chip = c => { const i = charInfo(c.key), bs = buildScore(c, effW(c.key));
-    return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`; };
-  $('#roster').innerHTML = !p.chars.length ? '' : `<h2 class="sec">Персонажи</h2>${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el==='all'}">Все <small>${p.chars.length}</small></button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el===e}" title="${EL_RU[e]}">${elIcon(e)}<small>${byEl[e].length}</small></button>`).join('')}</div>` : ''}
-    ${els.filter(e => state.el === 'all' || state.el === e).map(e => `<div class="elgrp"><div class="elhd">${elIcon(e)}${EL_RU[e]}</div><div class="chars">${byEl[e].map(chip).join('')}</div></div>`).join('')}`;
+        <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>`
+    : `<p class="empty">${all.length ? 'Сейчас нет реролла, который стоит пера: везде прирост ниже +25% RV.' : 'Нет 5★ +20, их нельзя роллить.'}</p>`}</div>`;
+  $('#bestbox').classList.toggle('anim', freshAcc);
+  $('#bestbox').innerHTML = !p.chars.length ? '' : `<div class="pickbar">
+      <button type="button" class="pick ${state.panel === 'chars' ? 'on' : ''}" data-panel="chars">${cur ? face(cur.key, 'sm') : ''}<span><small>Персонаж</small><b>${cur ? esc(charInfo(cur.key).ru) : 'Выбрать'}</b></span><em>${p.chars.length} ▾</em></button>
+      <button type="button" class="pick ${state.panel === 'best' ? 'on' : ''}" data-panel="best"><span class="bi">★</span><span><small>По всем персонажам</small><b>Лучшие рероллы</b></span><em>${top.length} ▾</em></button>
+    </div>${state.panel === 'chars' ? charsPanel : state.panel === 'best' ? bestPanel : ''}`;
+  $('#roster').innerHTML = '';
   renderSheet();
 }
 
@@ -950,64 +1006,15 @@ function rsBlock(m, w, a){
   const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust), cur = useful(m.subs, w);
   const other = [2,3,4].filter(g => g !== state.g).map(g => `${g}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
-    <div class="v1"><span class="pill ${vc}">${vt}</span><span class="sub"><b class="pd">${r1(r.perDust)}</b> RV за перо</span></div>
-    <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b></div>
+    <div class="v1"><span class="pill ${vc}">${vt}</span><span class="luck"><b>${pct(r.pBetter)}</b> шанс удачи</span></div>
+    <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b> <span class="sub">· ${r1(r.perDust)} RV за перо</span></div>
     ${outcomeBar(r)}
     <div class="sub">Сейчас RV ${Math.round(cur * 100)}%, после реролла в среднем ${Math.round(r.eNew * 100)}%.${r.eNew < cur ? ` Худший исход можно не оставлять, поэтому перо в среднем даёт ${r1(r.perDust)}.` : ''}</div>
     <div class="sub">За перо с гарантией ${other}${m.nEnh === 4 ? '. 3-стат: при реролле всего 4 улучшения' : ''}</div>
     ${accLine(m)}
   </div>`;
 }
-// ---------- inventory upgrades (GO database) ----------
 const subsOf = a => (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
-function upgrades(c, w){
-  const p = prof(); if (!p?.inv) return {html: ''};
-  const eq = {}, sets = {};
-  c.arts.forEach(a => { eq[a.slot] = a; sets[a.setKey] = (sets[a.setKey] || 0) + 1; });
-  const mainSet = Object.entries(sets).find(([, n]) => n >= 4)?.[0] || null;
-  let bestAll = null;
-  const blocks = SLOT_ORDER.map(slot => {
-    const cur = eq[slot], target = cur ? useful(subsOf(cur), w) : 0;
-    const keepSet = state.onlySet && mainSet && (!cur || cur.setKey === mainSet);
-    const acts = [];
-    for (const a of p.inv) {
-      if (a.slot !== slot || a === cur || (cur && a.id === cur.id) || (cur && a.main.k !== cur.main.k) || (keepSet && a.setKey !== mainSet)) continue;
-      const subs = subsOf(a), u = useful(subs, w);
-      if (a.level >= 20) {
-        if (u > target + 0.05) { acts.push({a, kind: 'wear', gain: u - target, p: 1, score: u - target + 10}); continue; }
-        const m = model(a); if (!m.ok) continue;
-        const r = bestPair(m, w, state.g, target);
-        if (r.pBetter >= 0.1) acts.push({a, kind: 'roll', gain: r.eGain, p: r.pBetter, pair: pairName(m, w, r.pair), cost: m.cost, score: r.eGain / m.cost, three: m.nEnh === 4});
-      } else if (subs.length === 4) {
-        const n = 5 - Math.floor(a.level / 4);
-        const r = spreadOdds(subs, 'value', n, w, null, 0, target);
-        if (r.pBetter >= 0.1) acts.push({a, kind: 'level', gain: r.eGain, p: r.pBetter, n, score: r.eGain * 0.8});
-      }
-    }
-    acts.sort((x, y) => y.score - x.score || y.p - x.p);
-    const top = acts.slice(0, 3);
-    if (top[0] && (!bestAll || top[0].score > bestAll.score)) bestAll = {...top[0], slot};
-    const rows = top.map((x, n) => {
-      const tags = [x.a.setKey !== cur?.setKey ? 'другой сет' : '', x.a.loc && x.a.loc !== c.key ? `надет на ${charInfo(x.a.loc).ru}` : '', x.three ? '3-стат' : ''].filter(Boolean);
-      const act = x.kind === 'wear' ? `<span class="act go">Надеть</span><span>сразу <b>${r1(x.gain)}</b> RV</span>`
-        : x.kind === 'roll' ? `<span class="act warn">Зароллить</span><span>обгонит надетый с шансом <b>${pct(x.p)}</b>, пара ${esc(x.pair)}</span>`
-        : `<span class="act">Прокачать</span><span>с +${x.a.level} до +20 обгонит надетый с шансом <b>${pct(x.p)}</b></span>`;
-      return `${n === 1 ? `<details class="upmore"><summary>ещё ${top.length - 1} ${plural(top.length - 1, 'вариант', 'варианта', 'вариантов')}</summary>` : ''}<div class="up"><div class="upw"><span class="aicon upi r5">${imgTag([x.a.icon])}</span><div class="upa"><b>${esc(x.a.set)}</b> <span class="sub">+${x.a.level}</span>${tags.map(g => ` <span class="pill">${esc(g)}</span>`).join('')}
-          <div class="upsubs">${subsOf(x.a).map(s => `<span class="${wcls(w[s.k]||0)}">${esc(SUB[s.k].n)} ${fmtSub(s.k, s.value)}</span>`).join('')}</div></div></div>
-        <div class="upr">${act}</div></div>${n > 0 && n === top.length - 1 ? '</details>' : ''}`;
-    }).join('');
-    return `<div class="card upslot" id="up-${esc(slot)}" style="--i:${SLOT_ORDER.indexOf(slot) + 9}"><h3>${esc(slot)}${cur ? ` · сейчас RV ${Math.round(useful(subsOf(cur), w) * 100)}%` : ' · пусто'}</h3>
-      ${rows || '<p class="empty">В инвентаре нет варианта лучше.</p>'}</div>`;
-  }).join('');
-  const where = bestAll ? `${bestAll.slot.toLowerCase()} ${bestAll.a.set} +${bestAll.a.level}` : '';
-  const best = !bestAll ? null : bestAll.kind === 'wear' ? `Надеть из инвентаря ${where}: сразу ${r1(bestAll.gain)} RV.`
-    : bestAll.kind === 'roll' ? `Зароллить из инвентаря ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`
-    : `Прокачать ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`;
-  return {best, bestSlot: bestAll?.slot, html: `<h2 class="sec">Замена из инвентаря</h2>
-    <p class="sub" style="margin:0 0 10px">Артефакты того же слота и основного стата из базы GO: что надеть сразу, что прокачать и что зароллить пером, чтобы обогнать надетый. Сначала показан лучший вариант, остальные под ним.
-    ${mainSet ? `<button type="button" class="alt-link" data-onlyset="1">${state.onlySet ? `Сейчас только ${esc(DATA.sets[mainSet]?.[1] || splitCamel(mainSet))}, показать все сеты` : 'Показаны все сеты, оставить только 4 предмета сета'}</button>` : ''}</p>
-    <div class="ups">${blocks}</div>`};
-}
 function weaponIcon(wp){
   if (!wp?.icon) return '';
   return `<span class="wbadge r${wp.rarity||4}" title="${esc(wp.name)}">${imgTag([wp.icon, wp.baseIcon])}</span>`;
@@ -1015,18 +1022,28 @@ function weaponIcon(wp){
 function renderSheet(){
   const c = prof()?.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
-  const i = charInfo(c.key), w = effW(c.key), bs = buildScore(c, w), up = upgrades(c, w);
-  const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
-    .sort((a, b) => b.r.perDust - a.r.perDust)[0];
-  const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
-  const steps = [];   // [text, id of the block it points to]
-  if (bs.items.length < 5) steps.push([`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`]);
-  if (up.best) steps.push([up.best, 'up-' + up.bestSlot]);
-  if (best && best.r.perDust >= 0.25) steps.push([`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`, 'art-' + best.idx]);
-  else if (best) steps.push(['Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.']);
-  if (weakest && weakest.share < 0.5 && weakest !== best?.x) steps.push([`Поискать замену: ${weakest.a.slot.toLowerCase()} (RV ${Math.round(weakest.u*100)}%, это ${pctOf(weakest)}% от лучшего возможного).`, prof()?.inv ? 'up-' + weakest.a.slot : 'art-' + bs.items.indexOf(weakest)]);
-  if (!steps.length) steps.push(['Сборка ровная, срочно менять нечего.']);
-  const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}" style="--i:${idx + 4}">
+  const i = charInfo(c.key), w = effW(c.key), bs = buildScore(c, w);
+  // every piece: can it be rerolled, and how good is the best pair
+  const rows = bs.items.map((x, idx) => {
+    const r = x.m.ok ? bestPair(x.m, w, state.g) : null;
+    let st, cls, rank;
+    if (r) { const v = VERDICT(r.perDust); st = v[1]; cls = v[0]; rank = r.perDust; }
+    else if (x.a.rarity === 5 && x.a.level != null && x.a.level < 20) { st = 'Сначала +20'; cls = 'lvl'; rank = -1; }
+    else { st = x.a.rarity && x.a.rarity !== 5 ? 'Только 5★' : 'Нельзя'; cls = 'no'; rank = -2; }
+    return {x, idx, r, st, cls, rank};
+  });
+  const order = [...rows].sort((a, b) => b.rank - a.rank);
+  const best = order[0]?.r ? order[0] : null;
+  const table = `<div class="card pieces" style="--i:2"><h3>Какие артефакты роллить</h3>
+    <p class="sub" style="margin:0 0 6px">Шанс удачи: вероятность, что после реролла RV станет выше, чем сейчас. Гарантия ${state.g}, меняется сверху.</p>
+    ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
+      <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
+      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc(y.x.a.set)}${y.x.m.nEnh === 4 ? ' · 3-стат' : ''}</small></span>
+      <span class="pl ${y.cls}">${esc(y.st)}</span>
+      <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
+      <span class="pv">${y.r ? `<b>${r1(y.r.perDust)}</b><small>RV за перо</small>` : ''}</span></button>`).join('')}
+  </div>`;
+  const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx === best.idx && best.r.perDust >= 0.6 ? 'hot' : ''}" id="art-${idx}" style="--i:${idx + 4}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
         <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
         <span class="q" title="RV ${Math.round(x.u*100)}% из ${Math.round(x.mx*100)}% возможных">${pctOf(x)}%<small>${qTxt(x)}</small></span></div>
@@ -1041,17 +1058,12 @@ function renderSheet(){
       <div class="who"><span class="avw">${face(c.key, 'lg')}${weaponIcon(wp)}</span>
         <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
         ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
-      ${akashaBlock(c)}
+      <div class="hstats">${akashaBlock(c)}
+        <div class="hq" title="RV артефактов от лучшего возможного: все 4 саб стата полезные и все улучшения ушли в них"><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100) + '%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}%` : 'нет артефактов'}</span></div></div>
     </section>
-    <div class="tiles3">
-      <div class="tile3" style="--i:1"><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}% возможных` : 'нет артефактов'}</span><em>Сколько RV набрали артефакты от лучшего возможного. Лучший артефакт: все 4 саб стата полезные и все 5 улучшений ушли в них, это 900% RV.</em></div>
-      <div class="tile3" style="--i:2"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} RV за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько RV в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
-      <div class="tile3" style="--i:3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${pctOf(weakest)}% от лучшего, ${qTxt(weakest)}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
-    </div>
-    <div class="card todo" style="--i:4"><h3>Что делать</h3><ol>${steps.map(([t, id]) => `<li>${esc(t)}${id ? ` <button type="button" class="alt-link" data-goto="${id}">показать</button>` : ''}</li>`).join('')}</ol></div>
+    ${table}
     <details class="card wbox"><summary><span>RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
-    ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}
-    ${up.html}`;
+    ${cards ? `<h2 class="sec">Подробно по каждому</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов.</p>'}`;
   if (fresh) countUp($('#sheet'));
 }
 function flashTo(el){
@@ -1191,10 +1203,11 @@ function renderCtrl(){
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-onlyset],[data-goto]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-goto],[data-sort],[data-panel]');
   if (!t) return;
   if (t.dataset.goto) { flashTo(document.getElementById(t.dataset.goto)); return; }
-  if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
+  if (t.dataset.panel) { state.panel = state.panel === t.dataset.panel ? null : t.dataset.panel; renderAccount(); return; }
+  if (t.dataset.sort) { state.csort = t.dataset.sort; store.set('csort', t.dataset.sort); renderAccount(); return; }
   if (t.dataset.el) { state.el = t.dataset.el; renderAccount(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
   if (t.dataset.mode) { state.mode = t.dataset.mode; store.set('mode', state.mode); rerender(); return; }
@@ -1207,7 +1220,7 @@ document.addEventListener('click', e => {
     return;
   }
   if (t.dataset.key) {
-    state.sel = t.dataset.key; renderAccount();
+    state.sel = t.dataset.key; state.panel = null; renderAccount();
     if (t.dataset.jump != null) flashTo(document.getElementById('art-'+t.dataset.jump));
     return;
   }
