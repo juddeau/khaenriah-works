@@ -2,7 +2,8 @@
 //   /api/uid/<UID>/  -> Enka.Network showcase (characters, artifacts with roll history)
 //   /akasha/<UID>    -> Akasha System rankings for that UID (unofficial API, may change without notice)
 //   /akasha-cats/<characterId>        -> Akasha leaderboard categories of a character
-//   /akasha-lb/<calculationId>?lt=&size= -> a slice of one leaderboard (entries below result lt), for the rank estimate
+//   /akasha-lb/<calculationId>?lt=&size=&filter= -> a slice of one leaderboard (entries below result lt,
+//                                        optionally one constellation), for the rank estimate
 //   /akasha-size/<hash>               -> total rows of a leaderboard
 // Only UIDs are accepted, only the site's own origin is allowed, answers are cached.
 const SITE = 'https://juddeau.github.io';
@@ -45,8 +46,9 @@ export default {
       const q = new URL(request.url).searchParams;
       const lt = /^\d+(\.\d+)?$/.test(q.get('lt') || '') ? q.get('lt') : '';
       const size = Math.min(20, Math.max(1, parseInt(q.get('size'), 10) || 10));
-      const qs = `calculationId=${m[1]}&size=${size}&page=${lt ? 2 : 1}&sort=calculation.result&order=-1&variant=&p=${lt ? encodeURIComponent('lt|' + lt) : ''}`;
-      res = await cached(ctx, `aklb/${m[1]}/${lt}/${size}`, `https://akasha.cv/api/leaderboards?${qs}`, async () => 3600);
+      const filter = /^\[constellation\][0-6]$/.test(q.get('filter') || '') ? q.get('filter') : '';
+      const qs = `calculationId=${m[1]}&size=${size}&page=${lt ? 2 : 1}&sort=calculation.result&order=-1&variant=&filter=${encodeURIComponent(filter)}&p=${lt ? encodeURIComponent('lt|' + lt) : ''}`;
+      res = await cached(ctx, `aklb/${m[1]}/${lt}/${size}/${encodeURIComponent(filter)}`, `https://akasha.cv/api/leaderboards?${qs}`, async () => 3600);
     } else if ((m = path.match(/^\/akasha-size\/([A-Za-z0-9_-]{1,128})\/?$/))) {
       res = await cached(ctx, `aksize/${m[1]}`, `https://akasha.cv/api/getCollectionSize?hash=${m[1]}&variant=charactersLb`, async () => 3600);
     } else {
