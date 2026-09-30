@@ -865,7 +865,6 @@ function judge(m, w, r){
   // how many useful off-stats this piece could have at best: limited by the character's list (and the main stat)
   const avail = SUBK.filter(k => w[k] > 0 && !(critChar && (k === 'cr' || k === 'cd')) && k !== m.main).length;
   const need = Math.min(others.length, avail), use = extra >= need ? 'full' : extra > 0 ? 'part' : 'none';
-  const useTxt = need ? `польза ${Math.min(extra, need)}/${need}` : '';
   let cls4, why = '', note = '';
   if (critChar && !crits) { cls4 = 0; why = 'нет двух критов'; }
   else if (four) cls4 = use === 'full' ? 5 : use === 'part' ? 4 : 3;
@@ -875,7 +874,7 @@ function judge(m, w, r){
   if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', 'Можно'];
   if (text === 'Не стоит') note = '';
   const tierN = why ? 0 : r.perDust >= 0.6 ? 3 : r.perDust >= 0.25 ? 2 : 1;
-  const tag = [four ? '4 стата' : '3 стата', critChar ? (crits ? '2 крита' : 'без 2 критов') : '', useTxt].filter(Boolean).join(' · ');
+  const tag = four ? '4 стата' : '3 стата';
   return {cls, text, why, note, ok: !why, extra, critChar, tag, key: cls4 * 1000 + tierN * 100 + r.perDust};
 }
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
@@ -1052,7 +1051,6 @@ function rsBlock(m, w, a){
   const other = [2,3,4].filter(g => g !== state.g).map(g => `${g}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
     <div class="v1"><span class="pill ${vc}">${vt}</span><span class="luck"><b>${pct(r.pBetter)}</b> шанс удачи</span></div>
-    ${j.why ? `<div class="why">${j.why[0].toUpperCase() + j.why.slice(1)}: перья лучше потратить на артефакт с двумя критами и 4 статами.</div>` : j.note ? `<div class="why soft">${j.note}</div>` : ''}
     <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b> <span class="sub">· ${r1(r.perDust)} RV за перо</span></div>
     ${outcomeBar(r)}
     <div class="sub">Сейчас RV ${Math.round(cur * 100)}%, после реролла в среднем ${Math.round(r.eNew * 100)}%.${r.eNew < cur ? ` Худший исход можно не оставлять, поэтому перо в среднем даёт ${r1(r.perDust)}.` : ''}</div>
@@ -1087,7 +1085,7 @@ function renderSheet(){
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
       <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
-      <span class="pl ${y.cls}">${esc(y.st)}${y.why ? `<small>${esc(y.why)}</small>` : ''}</span>
+      <span class="pl ${y.cls}">${esc(y.st)}</span>
       <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
       <span class="pv">${y.r ? `<b>${r1(y.r.perDust)}</b><small>RV за перо</small>` : ''}</span></button>`).join('')}
   </div>`;
