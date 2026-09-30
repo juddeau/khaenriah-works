@@ -351,10 +351,12 @@ async function loadUid(uid){
       if (r.status === 424) return pastePanel(uid, 'Enka на обслуживании после патча');
       if (r.status === 429) return pastePanel(uid, 'Enka просит подождать: слишком много запросов');
       if (!r.ok) continue;
-      return ingest(await r.text(), uid);
+      const body = await r.text();
+      if (!body.includes('playerInfo')) { diag(`  ответ без playerInfo: ${body.slice(0,60)}`); continue; }
+      return ingest(body, uid);
     } catch (err) { diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → ошибка: ${err.name}: ${err.message}`); }
   }
-  pastePanel(uid, 'Браузер не пустил запрос к Enka напрямую');
+  pastePanel(uid, 'Не получилось загрузить автоматически');
 }
 
 // ---------- render: account ----------
