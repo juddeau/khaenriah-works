@@ -1,0 +1,6 @@
+{"name":"Escoffier Skirk Team | 1E 1Q 19 Parfait","targets":[
+{"weight":1,"path":["skill","skillDmg"],"hitMode":"avgHit","bonusStats":{},"description":"E initial hit"},
+{"weight":1,"path":["skill","bladeDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Surging Blade (Ousia), 1 per E"},
+{"weight":19,"path":["skill","parfaitDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Frosty Parfait every ~0.98s, ~21s rotation (est. 18-20)"},
+{"weight":1,"path":["burst","skillDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q every rotation"}
+]}

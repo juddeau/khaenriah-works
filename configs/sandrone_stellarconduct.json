@@ -1,0 +1,9 @@
+{"name":"Sandrone Stellar-Conduct | 1Q 3E 3CA","targets":[
+{"weight":9,"path":["charged","beamStellarDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Condensed beams, est. 3 per CA x3"},
+{"weight":3,"path":["charged","sweepDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Sweeping fire, est. 1 per CA"},
+{"weight":3,"path":["skill","prismDmg1"],"hitMode":"avgHit","bonusStats":{},"description":"1st Prism Shot per E"},
+{"weight":3,"path":["skill","prismStellarDmg"],"hitMode":"avgHit","bonusStats":{},"description":"2nd Prism Shot per E, A1 x4"},
+{"weight":3,"path":["burst","bombardDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q bombardment x3"},
+{"weight":1,"path":["burst","rayStellarDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q ray, A1 Refined Tactics"},
+{"weight":2,"path":["nicole","c1ArcaneProjectionUnityDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Nicole C1 Unity, 6s CD, ~12s field"}
+]}

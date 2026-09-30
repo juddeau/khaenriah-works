@@ -1,0 +1,6 @@
+{"name":"Yae Miko Stellar-Conduct | 3E 18 Sakura 9SC","targets":[
+{"weight":12,"path":["skill","dmg3"],"hitMode":"avgHit","bonusStats":{},"description":"Sakura Lv3 hits, 3 totems x6 minus enhanced"},
+{"weight":6,"path":["lockedPassive","dmg3"],"hitMode":"avgHit","bonusStats":{},"description":"Enhanced Sakura Lv3 hits, every 3rd hit"},
+{"weight":6,"path":["lockedPassive","dmg"],"hitMode":"avgHit","bonusStats":{},"description":"Stellar-Conduct bolt on enhanced hit"},
+{"weight":3,"path":["passive1","stellarDmg"],"hitMode":"avgHit","bonusStats":{},"description":"A1 strike per E with 3 totems"}
+]}

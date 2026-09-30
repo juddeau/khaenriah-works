@@ -1,0 +1,13 @@
+{"name":"Zibai Lunar-Crystallize | 1Q 5Stride 3N4 28LCr","targets":[
+{"weight":1,"path":["skill","stride2Dmg"],"hitMode":"avgHit","bonusStats":{"lunarcrystallize_dmg_":220},"description":"1st Stride 2nd hit, C1 +220% (keep C1 toggle off)"},
+{"weight":4,"path":["skill","stride2Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"Stride 2nd hit, other 4"},
+{"weight":5,"path":["skill","stride1Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"Stride 1st hit, 5 per mode (C1)"},
+{"weight":3,"path":["skill","shift4GleamDmg"],"hitMode":"avgHit","bonusStats":{},"description":"N4 additional hit (Ascendant Gleam)"},
+{"weight":4,"path":["skill","shift1Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"N1, 3 N4 + N1 before Q"},
+{"weight":3,"path":["skill","shift2Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"N2"},
+{"weight":6,"path":["skill","shift3Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"N3, 2 hits x3"},
+{"weight":3,"path":["skill","shift4Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"N4"},
+{"weight":1,"path":["burst","skill1Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q 1st hit, every rotation"},
+{"weight":1,"path":["burst","skill2Dmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q 2nd hit (Lunar-Crystallize)"},
+{"weight":16.8,"path":["reaction","lunarcrystallize"],"hitMode":"avgHit","bonusStats":{},"description":"est. 8 Harmony x3 + Columbina A4 extra ~28, 28 * 0.6"}
+]}

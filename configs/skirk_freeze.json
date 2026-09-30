@@ -1,0 +1,9 @@
+{"name":"Skirk Freeze | 1E 1sQ 11N2 3N3 1N5 1CA 6C1 (21s)","targets":[
+{"weight":11,"path":["skill","0"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash N1, 11 chains"},
+{"weight":11,"path":["skill","1"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash N2, 11 chains"},
+{"weight":6,"path":["skill","2"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash N3, 2 hits x 3"},
+{"weight":2,"path":["skill","3"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash N4, 2 hits x 1"},
+{"weight":1,"path":["skill","4"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash N5"},
+{"weight":3,"path":["skill","chargedDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Seven-Phase Flash CA, 3 hits x 1"},
+{"weight":6,"path":["constellation1","dmg"],"hitMode":"avgHit","bonusStats":{},"description":"C1 crystal blades, 3 rifts on sQ + 3 on CA (est.)"}
+]}

@@ -1,0 +1,12 @@
+{"name":"Flins Lunar-Charged | 3E 3Q 22N 7LC","targets":[
+{"weight":3,"path":["burst","thunderDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q thunder DMG"},
+{"weight":3,"path":["burst","thunderAddlDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q additional thunder DMG (Ascendant Gleam)"},
+{"weight":3,"path":["skill","spearDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Spearstorm"},
+{"weight":3,"path":["constellation2","dmg"],"hitMode":"avgHit","bonusStats":{},"description":"C2 first NA after Spearstorm"},
+{"weight":4.2,"path":["reaction","lunarcharged"],"hitMode":"avgHit","bonusStats":{},"description":"7 * 0.6"},
+{"weight":2,"path":["nicole","c1ArcaneProjectionUnityDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Nicole C1 Unity, every 6s, no Q needed"},
+{"weight":6,"path":["skill","na1"],"hitMode":"avgHit","bonusStats":{},"description":"N1"},
+{"weight":6,"path":["skill","na2"],"hitMode":"avgHit","bonusStats":{},"description":"N2"},
+{"weight":4,"path":["skill","na3"],"hitMode":"avgHit","bonusStats":{},"description":"N3"},
+{"weight":6,"path":["skill","na4"],"hitMode":"avgHit","bonusStats":{},"description":"N4, 2 hits x3"}
+]}

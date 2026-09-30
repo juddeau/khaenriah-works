@@ -1,0 +1,10 @@
+{"name":"Odette Stellar-Conduct | E+Coda, 10 Double hits","targets":[
+{"weight":1,"path":["skill","skillDmg"],"hitMode":"avgHit","bonusStats":{},"description":"E cast"},
+{"weight":4,"path":["skill","codaDotDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Coda DoT ticks (estimate)"},
+{"weight":1,"path":["skill","codaStellarconductDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Coda final Stellar-Conduct hit"},
+{"weight":1,"path":["constellation1","stellarconduct_dmg"],"hitMode":"avgHit","bonusStats":{},"description":"C1 extra hit after Coda"},
+{"weight":5,"path":["skill","plumeDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Double Plume, 20s (estimate)"},
+{"weight":5,"path":["skill","plumeStellarconductDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Double Plume Stellar-Conduct part"},
+{"weight":5,"path":["skill","wingDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Double Wing, 20s (estimate)"},
+{"weight":5,"path":["skill","wingStellarconductDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Double Wing Stellar-Conduct part"}
+]}

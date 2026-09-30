@@ -1,0 +1,9 @@
+{"name":"Furina Skirk Team | 1E 2N 1Q 6U 12C 4Cr (21s)","targets":[
+{"weight":1,"path":["normal","0"],"hitMode":"avgHit","bonusStats":{},"description":"N1 after E, C6 Center of Attention (Ousia)"},
+{"weight":1,"path":["normal","1"],"hitMode":"avgHit","bonusStats":{},"description":"N2 after E, C6 Center of Attention (Ousia)"},
+{"weight":1,"path":["skill","bubbleDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Ousia bubble, 1 E per rotation"},
+{"weight":6,"path":["skill","usherDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Usher, every ~3.4s in 21s"},
+{"weight":12,"path":["skill","chevalDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Chevalmarin, every ~1.6s in 21s"},
+{"weight":4,"path":["skill","crabDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Crabaletta, every ~5.2s in 21s"},
+{"weight":1,"path":["burst","skillDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Q every rotation"}
+]}

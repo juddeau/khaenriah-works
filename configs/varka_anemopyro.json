@@ -1,0 +1,18 @@
+{"name":"Varka Anemo/Pyro | E 3sE 3sC 9N","targets":[
+{"weight":1,"path":["skill","skillDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Tap E, enter Sturm und Drang"},
+{"weight":1,"path":["constellation1","fourWind1"],"hitMode":"avgHit","bonusStats":{},"description":"1st Four Winds, C1 200%, pyro part"},
+{"weight":1,"path":["constellation1","fourWind2"],"hitMode":"avgHit","bonusStats":{},"description":"1st Four Winds, C1 200%, anemo part"},
+{"weight":2,"path":["skill","fourWind1"],"hitMode":"avgHit","bonusStats":{},"description":"Four Winds x2, pyro part"},
+{"weight":2,"path":["skill","fourWind2"],"hitMode":"avgHit","bonusStats":{},"description":"Four Winds x2, anemo part"},
+{"weight":6,"path":["skill","azure1"],"hitMode":"avgHit","bonusStats":{},"description":"C6 Azure Devour x3, 2 pyro hits each"},
+{"weight":6,"path":["skill","azure2"],"hitMode":"avgHit","bonusStats":{},"description":"C6 Azure Devour x3, 2 anemo hits each"},
+{"weight":6,"path":["constellation2","dmg"],"hitMode":"avgHit","bonusStats":{},"description":"C2 strike per sE/sC"},
+{"weight":3,"path":["skill","na1"],"hitMode":"avgHit","bonusStats":{},"description":"N1, 3 strings"},
+{"weight":2,"path":["skill","na21"],"hitMode":"avgHit","bonusStats":{},"description":"N2 anemo"},
+{"weight":2,"path":["skill","na22"],"hitMode":"avgHit","bonusStats":{},"description":"N2 pyro"},
+{"weight":2,"path":["skill","na31"],"hitMode":"avgHit","bonusStats":{},"description":"N3 anemo"},
+{"weight":2,"path":["skill","na32"],"hitMode":"avgHit","bonusStats":{},"description":"N3 pyro"},
+{"weight":2,"path":["skill","na41"],"hitMode":"avgHit","bonusStats":{},"description":"N4 pyro"},
+{"weight":2,"path":["skill","na42"],"hitMode":"avgHit","bonusStats":{},"description":"N4 anemo"},
+{"weight":2,"path":["nicole","c1ArcaneProjectionUnityDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Nicole C1 Unity, 6s CD, ~12s field"}
+]}

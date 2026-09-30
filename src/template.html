@@ -1,0 +1,537 @@
+<title>Khaenri'ah Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: optimizer-style dark console. Search bar on top, roster strip of avatars, then character sheet (left) beside its configs (right). */
+:root{
+  --bg:#0d1424; --panel:#152038; --panel-2:#1c2a48; --line:#2a3a5f; --fg:#e7ecf6; --muted:#8e9bb8;
+  --accent:#7fb2ff; --accent-ink:#0d1424; --gold:#e6c36f; --purple:#b69cf0;
+  --ok:#6fd3a0; --warn:#f0b35a; --bad:#f08080;
+  --pyro:#f2894c; --hydro:#4fc3f7; --anemo:#6fd6b4; --electro:#b98cf0; --dendro:#a8d14a; --cryo:#9fdcec; --geo:#f2c14e;
+  --f-display:"Unbounded","Trebuchet MS",sans-serif; --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body);margin:0}
+button,input,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand svg{flex:none}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tab{background:none;border:1px solid transparent;border-radius:8px;padding:6px 12px;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{color:var(--fg);background:var(--panel-2);border-color:var(--line)}
+
+/* search */
+.search{padding-block:28px 12px;display:grid;gap:12px}
+.search h1{font-family:var(--f-display);font-weight:600;font-size:clamp(20px,3.4vw,30px);line-height:1.2;margin:0;text-wrap:balance}
+.search h1 em{font-style:normal;color:var(--accent)}
+.sbox{display:flex;gap:8px;flex-wrap:wrap}
+.sbox .field{flex:1 1 260px;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 14px}
+.sbox .field span{font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.sbox input{flex:1;min-width:0;background:none;border:0;padding:14px 0;font-family:var(--f-mono);font-size:18px;letter-spacing:.12em;outline:none}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--panel-2);color:var(--fg);border:1px solid var(--line);font-weight:500}
+.btn.small{padding:6px 10px;font-size:13px;border-radius:8px}
+.alt{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted);align-items:center}
+.alt button{background:none;border:0;color:var(--accent);cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.notice{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
+.notice.warn{border-color:color-mix(in srgb,var(--warn) 50%,var(--line))}
+.notice h3{margin:0;font-size:15px}
+.notice p{margin:0;color:var(--muted);max-width:75ch}
+.notice textarea{width:100%;min-height:110px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-family:var(--f-mono);font-size:12px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+code,.mono{font-family:var(--f-mono);font-size:.9em}
+.copyline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.copyline code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;user-select:all;overflow-wrap:anywhere}
+
+/* profile */
+.profile{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-block:18px 8px}
+.profile .who{font-family:var(--f-display);font-size:20px;font-weight:600}
+.profile .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.profile .meta b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);white-space:nowrap}
+.pill.demo{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
+.pill.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))}
+.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
+
+/* roster */
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;padding-block:8px 18px}
+.ava{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 6px 8px;border-radius:12px;background:var(--panel);border:1px solid var(--line);cursor:pointer;text-align:center}
+.ava[aria-pressed="true"]{border-color:var(--el);box-shadow:0 0 0 1px var(--el) inset;background:color-mix(in srgb,var(--el) 10%,var(--panel))}
+.ava .nm{font-size:12px;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ava .cn{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.ava .cfg{position:absolute;top:6px;right:6px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:600;display:grid;place-items:center;padding:0 5px}
+.ava.dim{opacity:.55}
+.face{position:relative;width:52px;height:52px;border-radius:50%;background:color-mix(in srgb,var(--el) 22%,var(--panel-2));border:2px solid var(--el);display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:17px;color:var(--el);overflow:hidden;flex:none}
+.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.face.lg{width:72px;height:72px;font-size:24px}
+.face.xs{width:26px;height:26px;font-size:11px;border-width:1.5px}
+.r5{--rar:var(--gold)} .r4{--rar:var(--purple)}
+
+/* sheet */
+.sheet{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;padding-bottom:40px}
+@media (max-width:920px){.sheet{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.card h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0;line-height:1.2}
+.card h3,.config h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.stack{display:grid;gap:16px;align-content:start;min-width:0}
+.head{display:flex;gap:14px;align-items:center}
+.sub{color:var(--muted);font-size:13px}
+.cons{display:flex;gap:5px;margin-top:8px}
+.cons i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.cons i.on{border-color:var(--el);background:color-mix(in srgb,var(--el) 25%,transparent);color:var(--fg)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13px}
+.weapon{display:flex;gap:10px;align-items:center}
+.weapon .stars{color:var(--rar,var(--muted));font-size:12px;letter-spacing:1px}
+.arts{display:grid;gap:8px}
+.art{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:4px;background:var(--panel-2)}
+.art .t{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.art .t b{font-weight:600}
+.art .subs{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.art .subs .c{color:var(--fg)}
+.cv{font-family:var(--f-mono);font-size:12px;color:var(--gold)}
+.empty{color:var(--muted);font-size:14px;margin:0}
+
+/* configs */
+.cfgs{display:grid;gap:14px}
+.config{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;min-width:0}
+.config header{padding:14px 16px;display:grid;gap:8px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--el) 14%,transparent),transparent 60%)}
+.config .ttl{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.config .ttl h4{margin:0;font-size:17px;font-weight:600}
+.config .ttl .nm{font-family:var(--f-mono);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.config .body{padding:14px 16px;display:grid;gap:14px}
+.team{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.mate{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:2px 10px 2px 2px;font-size:13px;background:var(--panel-2)}
+.mate small{font-family:var(--f-mono);color:var(--muted)}
+.mate.miss{opacity:.6;border-style:dashed}
+.mate.low small{color:var(--warn)}
+.rot{font-family:var(--f-mono);font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;overflow-wrap:anywhere}
+.notes{display:grid;gap:6px;margin:0;padding:0;list-style:none;font-size:14px}
+.notes li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start}
+.notes li::before{content:"";width:8px;height:8px;border-radius:2px;margin-top:7px;background:var(--c)}
+.notes .w{--c:var(--warn)} .notes .e{--c:var(--accent)}
+.hits{width:100%;border-collapse:collapse;font-size:13px}
+.hits td{padding:5px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);vertical-align:top}
+.hits td.p{font-family:var(--f-mono);font-size:12px;white-space:nowrap;padding-right:10px}
+.hits td.d{color:var(--muted);padding-right:10px}
+.hits td.w{width:34%;min-width:110px}
+.bar{display:flex;align-items:center;gap:8px}
+.bar span{height:8px;border-radius:4px;background:var(--el);min-width:2px}
+.bar span.re{background:repeating-linear-gradient(135deg,var(--el) 0 4px,color-mix(in srgb,var(--el) 40%,transparent) 4px 8px)}
+.bar b{font-family:var(--f-mono);font-weight:500;font-size:12px;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font:12px/1.55 var(--f-mono);overflow-x:auto;white-space:pre}
+.jk{color:var(--accent)} .js{color:var(--ok)} .jn{color:var(--gold)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toast{font-size:13px;color:var(--ok)}
+
+/* library */
+.filters{display:flex;gap:6px;flex-wrap:wrap;padding-block:6px 14px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.lib{display:grid;gap:22px;padding-bottom:40px}
+.libgrp{display:grid;gap:10px}
+.libgrp > *{min-width:0}
+@media (max-width:600px){.hits tr{display:grid;grid-template-columns:minmax(0,1fr) 120px;column-gap:10px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);padding-block:6px}.hits td{border:0;padding:0}.hits td.p{white-space:normal;overflow-wrap:anywhere}.hits td.d{grid-column:1/-1;grid-row:2;font-size:12px}.hits td.w{width:auto;min-width:0}}
+.libgrp > .head h2{font-family:var(--f-display);font-size:18px;margin:0}
+.howto{display:grid;gap:6px;margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+.howto b{color:var(--fg);font-weight:500}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding-block:18px 28px}
+@media (prefers-reduced-motion:no-preference){.ava,.chip,.tab{transition:background-color .15s,border-color .15s}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="none" stroke="var(--gold)" stroke-width="2"/><circle cx="13" cy="2" r="2" fill="var(--accent)"/><circle cx="22.5" cy="18.5" r="2" fill="var(--gold)"/><circle cx="3.5" cy="18.5" r="2" fill="var(--accent)"/></svg>
+      Khaenri'ah Works
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-acc" aria-selected="true" data-tab="acc">Аккаунт</button>
+      <button class="tab" role="tab" id="tab-lib" aria-selected="false" data-tab="lib">Все конфиги</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="search" id="acc-search">
+    <h1>Введи UID и получи <em>Custom Multi-target</em> под своих персонажей</h1>
+    <form class="sbox" id="uidform" autocomplete="off">
+      <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
+      <button class="btn" type="submit">Найти</button>
+    </form>
+    <div class="alt">
+      <span>Или:</span>
+      <button type="button" id="open-paste">вставить JSON с Enka</button>·
+      <button type="button" id="open-good">загрузить базу из GO</button>·
+      <button type="button" id="load-demo">показать пример</button>
+    </div>
+    <div id="panel"></div>
+  </section>
+
+  <section id="view-acc">
+    <div class="profile" id="profile"></div>
+    <div class="roster" id="roster" aria-label="Персонажи"></div>
+    <div class="sheet" id="sheet"></div>
+  </section>
+
+  <section id="view-lib" hidden>
+    <div class="search">
+      <h1>Все конфиги</h1>
+      <p class="sub" style="margin:0" id="libsum"></p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="lib" id="lib"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Пути взяты из исходников Genshin Optimizer, веса = удары за ротацию. Доли лунных реакций 0.6 / 0.3 / 0.05. Данные аккаунта: Enka.Network или экспорт базы GO.
+  </div>
+</footer>
+
+<script>
+const DATA = /*DATA*/null;
+const FILES = /*FILES*/null;
+/*META*/
+
+const CH = DATA.chars;               // enka id -> [key,en,ru,element,rarity,skillOrder,icon]
+const BYKEY = {};
+for (const [id,c] of Object.entries(CH)) if (!BYKEY[c[0]]) BYKEY[c[0]] = {id, key:c[0], en:c[1], ru:c[2], el:c[3], rar:c[4], order:c[5], icon:c[6]};
+const LOC = h => DATA.loc.ru[String(h)] || DATA.loc.en[String(h)] || null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = { get(k){ try { return localStorage.getItem(k) } catch { return null } }, set(k,v){ try { localStorage.setItem(k,v) } catch {} } };
+
+function charInfo(key){
+  if (BYKEY[key]) return BYKEY[key];
+  if (/^Traveler/.test(key)) return {...BYKEY.Traveler, key, ru:'Путешественник', el:(key.replace('Traveler','').toLowerCase()||'anemo')};
+  return {key, en:key, ru:key.replace(/([a-z])([A-Z])/g,'$1 $2'), el:'anemo', rar:4, icon:null};
+}
+function face(key, cls=''){
+  const c = charInfo(key);
+  const mono = esc((c.ru||c.en||'?').slice(0,1));
+  const img = c.icon ? `<img alt="" loading="lazy" src="https://enka.network/ui/${esc(c.icon)}.png" onerror="this.remove()">` : '';
+  return `<span class="face ${cls}" style="--el:var(--${c.el})">${mono}${img}</span>`;
+}
+
+// ---------- stat labels ----------
+const EL_RU = {pyro:'Пиро',hydro:'Гидро',anemo:'Анемо',electro:'Электро',dendro:'Дендро',cryo:'Крио',geo:'Гео',physical:'Физ.'};
+const PROP = {
+  FIGHT_PROP_HP:['HP',0], FIGHT_PROP_HP_PERCENT:['HP',1], FIGHT_PROP_ATTACK:['Атака',0], FIGHT_PROP_ATTACK_PERCENT:['Атака',1],
+  FIGHT_PROP_DEFENSE:['Защита',0], FIGHT_PROP_DEFENSE_PERCENT:['Защита',1], FIGHT_PROP_ELEMENT_MASTERY:['МС',0],
+  FIGHT_PROP_CHARGE_EFFICIENCY:['ВЭ',1], FIGHT_PROP_CRITICAL:['Крит. шанс',1], FIGHT_PROP_CRITICAL_HURT:['Крит. урон',1],
+  FIGHT_PROP_HEAL_ADD:['Бонус лечения',1], FIGHT_PROP_PHYSICAL_ADD_HURT:['Физ. урон',1],
+  FIGHT_PROP_FIRE_ADD_HURT:['Пиро урон',1], FIGHT_PROP_WATER_ADD_HURT:['Гидро урон',1], FIGHT_PROP_WIND_ADD_HURT:['Анемо урон',1],
+  FIGHT_PROP_ELEC_ADD_HURT:['Электро урон',1], FIGHT_PROP_GRASS_ADD_HURT:['Дендро урон',1], FIGHT_PROP_ICE_ADD_HURT:['Крио урон',1], FIGHT_PROP_ROCK_ADD_HURT:['Гео урон',1],
+  hp:['HP',0], hp_:['HP',1], atk:['Атака',0], atk_:['Атака',1], def:['Защита',0], def_:['Защита',1], eleMas:['МС',0], enerRech_:['ВЭ',1],
+  critRate_:['Крит. шанс',1], critDMG_:['Крит. урон',1], heal_:['Бонус лечения',1], physical_dmg_:['Физ. урон',1],
+  pyro_dmg_:['Пиро урон',1], hydro_dmg_:['Гидро урон',1], anemo_dmg_:['Анемо урон',1], electro_dmg_:['Электро урон',1], dendro_dmg_:['Дендро урон',1], cryo_dmg_:['Крио урон',1], geo_dmg_:['Гео урон',1]
+};
+const CRIT = {FIGHT_PROP_CRITICAL:2, critRate_:2, FIGHT_PROP_CRITICAL_HURT:1, critDMG_:1};
+const FLATPCT = new Set(['HP','Атака','Защита']);
+const fmtStat = (k,v) => { const p = PROP[k]; if (!p) return [k, v]; return [p[0]+(p[1]&&FLATPCT.has(p[0])?'%':''), p[1] ? (+v).toFixed(1)+'%' : Math.round(v).toLocaleString('ru-RU')]; };
+const SLOT = {EQUIP_BRACER:'Цветок',EQUIP_NECKLACE:'Перо',EQUIP_SHOES:'Часы',EQUIP_RING:'Кубок',EQUIP_DRESS:'Корона',flower:'Цветок',plume:'Перо',sands:'Часы',goblet:'Кубок',circlet:'Корона'};
+const SLOT_ORDER = ['Цветок','Перо','Часы','Кубок','Корона'];
+const splitCamel = s => String(s).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/([A-Za-z])(\d)/g,'$1 $2');
+
+// ---------- parsers ----------
+function fromEnka(j, uid){
+  const p = j.playerInfo || {};
+  const list = j.avatarInfoList || [];
+  const chars = list.map(av => {
+    const c = CH[av.avatarId];
+    const key = c ? c[0] : 'Unknown'+av.avatarId;
+    const eq = av.equipList || [];
+    const w = eq.find(e => e.flat && e.flat.itemType === 'ITEM_WEAPON');
+    const weapon = w ? { name: LOC(w.flat.nameTextMapHash) || 'Оружие '+w.itemId, level: w.weapon?.level ?? null,
+      ref: (Object.values(w.weapon?.affixMap || {})[0] ?? 0) + 1, rarity: w.flat.rankLevel } : null;
+    const arts = eq.filter(e => e.flat && e.flat.itemType === 'ITEM_RELIQUARY').map(e => ({
+      slot: SLOT[e.flat.equipType] || e.flat.equipType, set: LOC(e.flat.setNameTextMapHash) || 'Сет',
+      level: (e.reliquary?.level ?? 1) - 1, rarity: e.flat.rankLevel,
+      main: {k: e.flat.reliquaryMainstat?.mainPropId, v: e.flat.reliquaryMainstat?.statValue},
+      subs: (e.flat.reliquarySubstats || []).map(s => ({k:s.appendPropId, v:s.statValue}))
+    }));
+    const f = av.fightPropMap || {};
+    const dmgIds = {pyro:40, electro:41, hydro:42, dendro:43, anemo:44, geo:45, cryo:46};
+    const el = c ? c[3] : 'anemo';
+    const stats = Object.keys(f).length ? [
+      ['HP', Math.round(f[2000]||0).toLocaleString('ru-RU')], ['Атака', Math.round(f[2001]||0).toLocaleString('ru-RU')],
+      ['Защита', Math.round(f[2002]||0).toLocaleString('ru-RU')], ['МС', Math.round(f[28]||0)],
+      ['Крит. шанс', ((f[20]||0)*100).toFixed(1)+'%'], ['Крит. урон', ((f[22]||0)*100).toFixed(1)+'%'],
+      ['ВЭ', ((f[23]||0)*100).toFixed(1)+'%'], [EL_RU[el]+' урон', ((f[dmgIds[el]]||0)*100).toFixed(1)+'%']
+    ] : null;
+    return { key, level: +(av.propMap?.['4001']?.val) || null, cons: (av.talentIdList||[]).length,
+      talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null, weapon, stats, arts };
+  });
+  return { source:'enka', uid: uid || j.uid || '', nickname: p.nickname || 'Без имени', level: p.level || null, world: p.worldLevel,
+    signature: p.signature || '', achievements: p.finishAchievementNum, abyss: p.towerFloorIndex ? `${p.towerFloorIndex}-${p.towerLevelIndex}` : null,
+    hidden: !list.length, showcase: (p.showAvatarInfoList||[]).length, chars };
+}
+function fromGOOD(j){
+  const weapons = j.weapons || [], arts = j.artifacts || [];
+  const chars = (j.characters || []).map(c => {
+    const w = weapons.find(x => x.location === c.key);
+    return { key: c.key, level: c.level, cons: c.constellation ?? 0,
+      talents: c.talent ? [c.talent.auto, c.talent.skill, c.talent.burst] : null,
+      weapon: w ? { name: splitCamel(w.key), level: w.level, ref: w.refinement, rarity: null } : null,
+      stats: null,
+      arts: arts.filter(a => a.location === c.key).map(a => ({ slot: SLOT[a.slotKey] || a.slotKey, set: splitCamel(a.setKey), level: a.level, rarity: a.rarity,
+        main: {k:a.mainStatKey, v:null}, subs: (a.substats||[]).filter(s => s.key).map(s => ({k:s.key, v:s.value})) })) };
+  });
+  return { source:'good', uid:'', nickname:'База Genshin Optimizer', level:null, signature:`${chars.length} персонажей из экспорта`, chars };
+}
+
+// ---------- state ----------
+const state = { profile:null, sel:null, tab:'acc', filter:'all', open:{} };
+const cfgFor = key => CONFIGS.filter(c => c.char === key);
+const owned = key => state.profile?.chars.find(c => c.key === key);
+
+function setProfile(p, remember=true){
+  state.profile = p;
+  const withCfg = p.chars.filter(c => cfgFor(c.key).length);
+  state.sel = (withCfg[0] || p.chars[0])?.key || null;
+  if (remember && p.source !== 'demo') store.set('lastProfile', JSON.stringify(p));
+  renderAccount();
+}
+
+// ---------- panels (paste / GOOD / errors) ----------
+function panel(html){ $('#panel').innerHTML = html; }
+function enkaUrl(uid){ return `https://enka.network/api/uid/${uid}/`; }
+function pastePanel(uid, reason){
+  const link = uid ? enkaUrl(uid) : 'https://enka.network/api/uid/ТВОЙ_UID/';
+  panel(`<div class="notice ${reason?'warn':''}">
+    <h3>${reason ? esc(reason) : 'Вставить ответ Enka вручную'}</h3>
+    <p>Открой ссылку в новой вкладке, выдели всю страницу (Ctrl+A), скопируй и вставь сюда. Это тот же ответ, который сайт получил бы сам.</p>
+    <div class="copyline"><code id="enka-link">${esc(link)}</code>${uid?`<a class="btn ghost small" href="${esc(link)}" target="_blank" rel="noopener">Открыть</a>`:''}</div>
+    <textarea id="paste" placeholder='{"playerInfo":{...},"avatarInfoList":[...]}' aria-label="JSON с Enka"></textarea>
+    <div class="row"><button class="btn" id="parse" type="button">Разобрать</button><button class="btn ghost" type="button" id="close-panel">Закрыть</button></div>
+  </div>`);
+  $('#parse').onclick = () => ingest($('#paste').value, uid);
+  $('#close-panel').onclick = () => panel('');
+}
+function goodPanel(){
+  panel(`<div class="notice">
+    <h3>Загрузить базу из Genshin Optimizer</h3>
+    <p>В GO открой Database, нажми Export и сохрани файл. Тут появятся все персонажи с оружием и артефактами, не только витрина из 12.</p>
+    <div class="row"><input type="file" id="goodfile" accept=".json,application/json" aria-label="Файл экспорта GO"></div>
+    <textarea id="paste" placeholder='{"format":"GOOD","characters":[...]}' aria-label="JSON базы GO"></textarea>
+    <div class="row"><button class="btn" id="parse" type="button">Разобрать</button><button class="btn ghost" type="button" id="close-panel">Закрыть</button></div>
+  </div>`);
+  $('#goodfile').onchange = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => ingest(r.result); r.readAsText(f); };
+  $('#parse').onclick = () => ingest($('#paste').value);
+  $('#close-panel').onclick = () => panel('');
+}
+function ingest(text, uid){
+  let j; try { j = JSON.parse(text); } catch { return panel(`<div class="notice warn"><h3>Это не JSON</h3><p>Скопируй страницу целиком, начиная с фигурной скобки.</p></div>`); }
+  if (j.format === 'GOOD' || j.characters) { setProfile(fromGOOD(j)); panel(''); return; }
+  if (j.playerInfo) {
+    const p = fromEnka(j, uid);
+    panel(p.hidden ? `<div class="notice warn"><h3>Витрина закрыта</h3><p>Enka видит профиль, но детали персонажей скрыты. В игре: Профиль → Витрина персонажей → включи «Показывать детали», подожди пару минут.</p></div>` : '');
+    setProfile(p); return;
+  }
+  panel(`<div class="notice warn"><h3>Не узнал формат</h3><p>Нужен ответ Enka (есть поле playerInfo) или экспорт GO (format: GOOD).</p></div>`);
+}
+async function loadUid(uid){
+  if (!/^\d{9,10}$/.test(uid)) return panel(`<div class="notice warn"><h3>UID из 9–10 цифр</h3><p>Его видно в правом нижнем углу экрана в игре.</p></div>`);
+  panel(`<div class="notice"><h3>Загружаю ${esc(uid)}…</h3></div>`);
+  const proxy = store.get('proxy');
+  const urls = [proxy ? proxy.replace(/\/$/,'') + `/api/uid/${uid}/` : null, enkaUrl(uid)].filter(Boolean);
+  for (const u of urls) {
+    try {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 9000);
+      const r = await fetch(u, {signal: ctl.signal}); clearTimeout(t);
+      if (r.status === 400) return panel(`<div class="notice warn"><h3>Неверный UID</h3></div>`);
+      if (r.status === 404) return panel(`<div class="notice warn"><h3>Игрок не найден</h3><p>Проверь UID и регион.</p></div>`);
+      if (r.status === 424) return pastePanel(uid, 'Enka на обслуживании после патча');
+      if (r.status === 429) return pastePanel(uid, 'Enka просит подождать: слишком много запросов');
+      if (!r.ok) continue;
+      return ingest(await r.text(), uid);
+    } catch {}
+  }
+  pastePanel(uid, 'Браузер не пустил запрос к Enka напрямую');
+}
+
+// ---------- render: account ----------
+function renderAccount(){
+  const p = state.profile;
+  if (!p) { $('#profile').innerHTML = ''; $('#roster').innerHTML = ''; $('#sheet').innerHTML = ''; return; }
+  const n = p.chars.filter(c => cfgFor(c.key).length).length;
+  $('#profile').innerHTML = `
+    <div style="display:grid;gap:4px;min-width:0">
+      <div class="row"><span class="who">${esc(p.nickname)}</span>${p.source==='demo'?'<span class="pill demo">пример</span>':p.source==='good'?'<span class="pill">экспорт GO</span>':'<span class="pill ok">Enka</span>'}</div>
+      <div class="meta">
+        ${p.uid && p.source!=='demo' ? `<span>UID <b>${esc(p.uid)}</b></span>` : ''}
+        ${p.level ? `<span>РП <b>${p.level}</b></span>` : ''}
+        ${p.world ? `<span>Мир <b>${p.world}</b></span>` : ''}
+        ${p.achievements ? `<span>Достижения <b>${p.achievements}</b></span>` : ''}
+        ${p.abyss ? `<span>Бездна <b>${esc(p.abyss)}</b></span>` : ''}
+        <span>Персонажей <b>${p.chars.length}</b></span><span>С конфигами <b>${n}</b></span>
+      </div>
+      ${p.signature ? `<div class="sub">${esc(p.signature)}</div>` : ''}
+    </div>`;
+  const sorted = [...p.chars].sort((a,b) => (cfgFor(b.key).length>0) - (cfgFor(a.key).length>0));
+  $('#roster').innerHTML = sorted.map(c => {
+    const i = charInfo(c.key), k = cfgFor(c.key).length;
+    return `<button class="ava ${k?'':'dim'}" style="--el:var(--${i.el})" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">
+      ${k?`<span class="cfg" title="Конфигов: ${k}">${k}</span>`:''}${face(c.key)}
+      <span class="nm">${esc(i.ru)}</span><span class="cn">C${c.cons}${c.level?` · ${c.level}`:''}</span></button>`;
+  }).join('');
+  renderSheet();
+}
+function renderSheet(){
+  const c = owned(state.sel);
+  if (!c) { $('#sheet').innerHTML = ''; return; }
+  const i = charInfo(c.key);
+  const cons = [1,2,3,4,5,6].map(n => `<i class="${n<=c.cons?'on':''}">${n}</i>`).join('');
+  const tal = c.talents ? `<div class="sub mono">Таланты ${c.talents.map(x=>x??'–').join(' / ')}</div>` : '';
+  const w = c.weapon;
+  const weapon = w ? `<div class="weapon ${w.rarity>=5?'r5':w.rarity==4?'r4':''}"><div style="min-width:0"><div>${esc(w.name)}</div>
+      <div class="sub">${w.level?`ур. ${w.level} · `:''}${w.ref?`R${w.ref}`:''} ${w.rarity?`<span class="stars">${'★'.repeat(w.rarity)}</span>`:''}</div></div></div>` : '<p class="empty">Нет данных</p>';
+  const stats = c.stats ? `<dl class="kv">${c.stats.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`
+    : `<p class="empty">${state.profile.source==='good' ? 'Экспорт GO не содержит итоговых статов, они есть в самом GO.' : 'Появятся после загрузки по UID.'}</p>`;
+  let arts = '<p class="empty">Нет данных</p>';
+  if (c.arts && c.arts.length) {
+    const list = [...c.arts].sort((a,b) => SLOT_ORDER.indexOf(a.slot) - SLOT_ORDER.indexOf(b.slot));
+    const sets = {}; list.forEach(a => sets[a.set] = (sets[a.set]||0)+1);
+    const setLine = Object.entries(sets).filter(([,n])=>n>=2).map(([s,n])=>`${n>=4?4:2} × ${esc(s)}`).join(', ') || 'Без бонусов сетов';
+    let cvTotal = 0;
+    arts = `<div class="sub" style="margin-bottom:8px">${setLine}</div><div class="arts">` + list.map(a => {
+      const cv = a.subs.reduce((s,x) => s + (CRIT[x.k]||0) * x.v, 0); cvTotal += cv;
+      const [mk, mv] = fmtStat(a.main.k, a.main.v ?? 0);
+      return `<div class="art"><div class="t"><b>${esc(a.slot)} · ${esc(mk)}${a.main.v!=null?' '+esc(mv):''}</b><span class="sub">+${a.level}</span></div>
+        <div class="subs">${a.subs.map(s => { const [k,v] = fmtStat(s.k,s.v); return `<span class="${CRIT[s.k]?'c':''}">${esc(k)} ${esc(v)}</span>`; }).join('')}</div>
+        <div class="cv">CV ${cv.toFixed(1)}</div></div>`;
+    }).join('') + `</div><div class="cv" style="margin-top:8px">Итого CV ${cvTotal.toFixed(1)}</div>`;
+  }
+  const cfgs = cfgFor(c.key);
+  $('#sheet').innerHTML = `
+    <div class="stack" style="--el:var(--${i.el})">
+      <div class="card">
+        <div class="head">${face(c.key,'lg')}<div style="min-width:0"><h2>${esc(i.ru)}</h2>
+          <div class="sub">${esc(EL_RU[i.el]||'')}${c.level?` · ур. ${c.level}`:''} · <span class="mono">C${c.cons}</span></div></div></div>
+        <div class="cons" aria-label="Созвездия">${cons}</div>${tal}
+      </div>
+      <div class="card"><h3>Оружие</h3>${weapon}</div>
+      <div class="card"><h3>Статы</h3>${stats}</div>
+      <div class="card"><h3>Артефакты</h3>${arts}</div>
+    </div>
+    <div class="stack" style="--el:var(--${i.el})">
+      ${cfgs.length ? `<div class="cfgs">${cfgs.map(cfg => configCard(cfg, c)).join('')}</div>` : `<div class="card"><h3>Конфиги</h3><p class="empty">Для ${esc(i.ru)} конфигов пока нет. Сейчас в базе ${new Set(CONFIGS.map(x=>x.char)).size} персонажей, список во вкладке «Все конфиги».</p></div>`}
+      ${howto()}
+    </div>`;
+}
+function howto(){
+  return `<div class="card"><h3>Как вставить в GO</h3><ol class="howto">
+    <li>Открой персонажа в GO и вкладку <b>Optimize</b>.</li>
+    <li>В цели оптимизации выбери <b>Custom Multi-target</b>, затем импорт и вставь JSON.</li>
+    <li>Включи все переключатели баффов отряда, кроме тех, что отмечены в предупреждениях конфига.</li></ol></div>`;
+}
+
+// ---------- config card ----------
+function matchPill(cfg, me){
+  if (!me) return '';
+  if (me.cons === cfg.cons) return `<span class="pill ok">под твои C${me.cons}</span>`;
+  if (me.cons > cfg.cons) return `<span class="pill warn">собран под C${cfg.cons}, у тебя C${me.cons}</span>`;
+  return `<span class="pill bad">нужно C${cfg.cons}, у тебя C${me.cons}</span>`;
+}
+function hl(json){
+  return esc(json).replace(/(&quot;[^&]*?&quot;)(\s*:)?|(-?\d+\.?\d*)/g, (m,s,colon,num) => s ? `<span class="${colon?'jk':'js'}">${s}</span>${colon||''}` : `<span class="jn">${num}</span>`);
+}
+function configCard(cfg, me){
+  const i = charInfo(cfg.char);
+  const text = FILES[cfg.file]; const j = JSON.parse(text);
+  const max = Math.max(...j.targets.map(t => t.weight));
+  const rows = j.targets.map(t => {
+    const react = t.path[0] === 'reaction' || /lunar|stellar/i.test(t.path[1]);
+    return `<tr><td class="p">${esc(t.path.join(' · '))}${t.reaction?` <span class="pill">${esc(t.reaction)}</span>`:''}${Object.keys(t.bonusStats||{}).length?` <span class="pill warn">bonusStats</span>`:''}</td>
+      <td class="d">${esc(t.description||'')}</td>
+      <td class="w"><div class="bar"><span class="${react?'re':''}" style="width:${Math.max(2, t.weight/max*100).toFixed(1)}%"></span><b>${+t.weight.toFixed(3)}</b></div></td></tr>`;
+  }).join('');
+  const team = cfg.team.map(([k,cn]) => {
+    const o = state.profile ? owned(k) : null; const ci = charInfo(k);
+    const cls = !state.profile ? '' : !o ? 'miss' : o.cons < cn ? 'low' : '';
+    const title = !state.profile ? '' : !o ? 'нет на аккаунте' : o.cons < cn ? `у тебя C${o.cons}` : 'есть';
+    return `<span class="mate ${cls}" title="${esc(title)}" style="--el:var(--${ci.el})">${face(k,'xs')}${esc(ci.ru)} <small>C${cn}</small></span>`;
+  }).join('');
+  const notes = [...cfg.warnings.map(w => `<li class="w">${esc(w)}</li>`), ...cfg.estimates.map(e => `<li class="e">${esc(e)}</li>`)].join('');
+  const open = state.open[cfg.id];
+  return `<article class="config" style="--el:var(--${i.el})">
+    <header>
+      <div class="ttl"><div style="min-width:0"><h4>${esc(i.ru)} · ${esc(cfg.reaction)}</h4><div class="nm">${esc(j.name)}</div></div>
+        <div class="row">${matchPill(cfg, me)}<span class="pill">C${cfg.cons}${cfg.weapon?` · ${esc(cfg.weapon)}`:''}</span></div></div>
+      <div class="sub">${esc(cfg.role)}</div>
+    </header>
+    <div class="body">
+      <div><h3>Отряд</h3><div class="team">${face(cfg.char,'xs')}<span style="margin-right:4px">+</span>${team}</div></div>
+      <div><h3>Ротация · ${esc(cfg.source)}</h3><div class="rot">${esc(cfg.rotation)}</div></div>
+      ${notes ? `<div><h3>Обрати внимание</h3><ul class="notes">${notes}</ul></div>` : ''}
+      <div><h3>Удары за ротацию</h3><div class="scroll"><table class="hits">${rows}</table></div></div>
+      <div class="actions">
+        <button class="btn small" data-copy="${cfg.id}" type="button">Копировать JSON</button>
+        <button class="btn ghost small" data-toggle="${cfg.id}" type="button">${open?'Скрыть JSON':'Показать JSON'}</button>
+        <span class="toast" id="toast-${cfg.id}" aria-live="polite"></span>
+      </div>
+      ${open ? `<pre class="json" id="pre-${cfg.id}">${hl(text.trim())}</pre>` : ''}
+    </div>
+  </article>`;
+}
+
+// ---------- library ----------
+const TAGS = [['all','Все'],['lunarcharged','Лунный заряд'],['lunarcrystallize','Лунная кристаллизация'],['stellarconduct','Звёздный проводник'],['swirl','Рассеивание'],['freeze','Заморозка']];
+function renderLib(){
+  $('#libsum').textContent = `${CONFIGS.length} конфигов на ${new Set(CONFIGS.map(c=>c.char)).size} персонажей. Отряд и консты показаны у каждого; если загружен аккаунт, сверяются с ним.`;
+  $('#filters').innerHTML = TAGS.map(([k,l]) => `<button class="chip" aria-pressed="${state.filter===k}" data-f="${k}" type="button">${l}</button>`).join('');
+  const list = CONFIGS.filter(c => state.filter === 'all' || c.tag === state.filter);
+  const groups = {}; list.forEach(c => (groups[c.char] ||= []).push(c));
+  $('#lib').innerHTML = Object.entries(groups).map(([k, cs]) => {
+    const i = charInfo(k); const me = state.profile ? owned(k) : null;
+    return `<div class="libgrp" style="--el:var(--${i.el})"><div class="head">${face(k)}<div><h2>${esc(i.ru)}</h2><div class="sub">${cs.length} ${cs.length>1?'конфига':'конфиг'}${me?` · у тебя C${me.cons}`:''}</div></div></div>
+      ${cs.map(c => configCard(c, me)).join('')}</div>`;
+  }).join('');
+}
+
+// ---------- events ----------
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f]');
+  if (!t) return;
+  if (t.dataset.key) { state.sel = t.dataset.key; renderAccount(); return; }
+  if (t.dataset.tab) { setTab(t.dataset.tab); return; }
+  if (t.dataset.f) { state.filter = t.dataset.f; renderLib(); return; }
+  if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; state.tab==='lib' ? renderLib() : renderSheet(); return; }
+  if (t.dataset.copy) {
+    const cfg = CONFIGS.find(c => c.id === t.dataset.copy); const text = FILES[cfg.file].trim();
+    const toast = document.getElementById('toast-'+cfg.id);
+    const fallback = () => { state.open[cfg.id] = true; state.tab==='lib' ? renderLib() : renderSheet();
+      const pre = document.getElementById('pre-'+cfg.id); const r = document.createRange(); r.selectNodeContents(pre);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); const tt = document.getElementById('toast-'+cfg.id); if (tt) tt.textContent = 'Выделил JSON, нажми Ctrl+C'; };
+    try { navigator.clipboard.writeText(text).then(() => { toast.textContent = 'Скопировано'; setTimeout(()=>toast.textContent='',1800); }, fallback); } catch { fallback(); }
+  }
+});
+function setTab(tab){
+  state.tab = tab;
+  $('#tab-acc').setAttribute('aria-selected', tab==='acc'); $('#tab-lib').setAttribute('aria-selected', tab==='lib');
+  $('#view-acc').hidden = tab !== 'acc'; $('#acc-search').hidden = tab !== 'acc'; $('#view-lib').hidden = tab !== 'lib';
+  if (tab === 'lib') renderLib();
+}
+$('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
+$('#open-paste').onclick = () => pastePanel($('#uid').value.trim());
+$('#open-good').onclick = goodPanel;
+$('#load-demo').onclick = () => { panel(''); setProfile(DEMO, false); };
+
+// boot: last loaded account, else the example
+let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
+setProfile(boot && boot.chars ? boot : DEMO, false);
+if (location.hash === '#library') setTab('lib');
+</script>

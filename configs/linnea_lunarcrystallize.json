@@ -1,0 +1,5 @@
+{"name":"Linnea Lunar-Crystallize | 1E 3.5 Hammer 12 Pummeler","targets":[
+{"weight":3.5,"path":["skill","hammerDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Heavy Overdrive Hammer, ~1 per 5s, 18s rotation (est.)"},
+{"weight":12,"path":["skill","pummelerDmg"],"hitMode":"avgHit","bonusStats":{},"description":"Pummeler, est. 6 attacks x2"},
+{"weight":0.175,"path":["reaction","lunarcrystallize"],"hitMode":"avgHit","bonusStats":{},"description":"C2 Harmony per Hammer: 3.5 * 0.05"}
+]}

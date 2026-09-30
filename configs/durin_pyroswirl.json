@@ -1,0 +1,7 @@
+{"name":"Durin Pyro Swirl | 2E 1Q 20 White Flame","targets":[
+{"weight":1,"path":["skill","purityDmg"],"hitMode":"avgHit","bonusStats":{},"description":"2nd E: Confirmation of Purity"},
+{"weight":1,"path":["burst","purityDmg1"],"hitMode":"avgHit","bonusStats":{},"description":"Q Purity hit 1"},
+{"weight":1,"path":["burst","purityDmg2"],"hitMode":"avgHit","bonusStats":{},"description":"Q Purity hit 2"},
+{"weight":1,"path":["burst","purityDmg3"],"hitMode":"avgHit","bonusStats":{},"description":"Q Purity hit 3"},
+{"weight":15.71429,"path":["burst","whiteDmg"],"hitMode":"avgHit","bonusStats":{},"description":"20 ticks/1s: 10 + 10/1.75 (A4 on 10 only)"}
+]}
