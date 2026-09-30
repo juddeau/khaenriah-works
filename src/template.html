@@ -42,11 +42,6 @@ a{color:var(--accent)}
 .btn.small{padding:6px 10px;font-size:13px;border-radius:8px}
 .alt{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted);align-items:center}
 .alt-link{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font:inherit;text-decoration:underline;text-underline-offset:3px}
-.drop{display:grid;gap:4px;justify-items:center;text-align:center;padding:28px 16px;border:2px dashed var(--line);border-radius:14px;background:var(--panel);cursor:pointer}
-.drop:hover,.drop.over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
-.drop b{font-size:17px}.drop span{color:var(--muted);font-size:14px}
-.uidmini{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.uidmini input{width:130px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-family:var(--f-mono);letter-spacing:.08em}
 .alt button{background:none;border:0;color:var(--accent);cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
 .notice{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
 .notice.warn{border-color:color-mix(in srgb,var(--warn) 50%,var(--line))}
@@ -171,24 +166,12 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 
 <main class="wrap">
   <section class="search" id="acc-search">
-    <h1>Загрузи базу из <em>Genshin Optimizer</em> и получи конфиги под своих персонажей</h1>
-    <label class="drop" id="drop" for="goodfile">
-      <input type="file" id="goodfile" accept=".json,application/json" hidden>
-      <b>Перетащи сюда файл экспорта GO</b>
-      <span>или нажми, чтобы выбрать файл. Можно и вставить скопированный текст: Ctrl+V на этой странице.</span>
-    </label>
-    <ol class="howto">
-      <li>В Genshin Optimizer открой раздел базы данных (<b>Database</b>) и нажми <b>Download</b> или <b>Copy to Clipboard</b>.</li>
-      <li>Перетащи файл сюда или вставь текст.</li>
-      <li>Файл читается прямо в браузере и никуда не отправляется.</li>
-    </ol>
-    <div class="alt">
-      <span>Или по UID:</span>
-      <form class="uidmini" id="uidform" autocomplete="off">
-        <input id="uid" inputmode="numeric" maxlength="10" placeholder="UID" aria-label="UID">
-        <button type="submit">вставить ответ Enka вручную</button>
-      </form>
-    </div>
+    <h1>Введи UID и получи <em>Custom Multi-target</em> под своих персонажей</h1>
+    <form class="sbox" id="uidform" autocomplete="off">
+      <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
+      <button class="btn" type="submit">Найти</button>
+    </form>
+    <p class="sub" style="margin:0">Данные берутся из витрины персонажей в игре через Enka.Network. В игре включи «Показывать детали» у витрины.</p>
     <div id="panel"></div>
   </section>
 
@@ -219,6 +202,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 <script>
 const DATA = /*DATA*/null;
 const BUILD = '/*BUILD*/';
+const DEFAULT_PROXY = '/*PROXY*/';  // own Cloudflare Worker (proxy/worker.js); empty = manual paste only
 const DIAG = [];
 function diag(msg){ DIAG.push(new Date().toISOString().slice(11,19)+' '+msg); }
 window.addEventListener('error', e => diag('JS ошибка: '+e.message+' @'+(e.lineno||'?')));
@@ -353,8 +337,8 @@ function ingest(text, uid){
 }
 async function loadUid(uid){
   if (!/^\d{9,10}$/.test(uid)) return panel(`<div class="notice warn"><h3>UID из 9–10 цифр</h3><p>Его видно в правом нижнем углу экрана в игре.</p></div>`);
-  const proxy = store.get('proxy');
-  if (!proxy) return pastePanel(uid);
+  const proxy = store.get('proxy') || DEFAULT_PROXY;
+  if (!proxy) return pastePanel(uid, 'Автозагрузка ещё не настроена');
   panel(`<div class="notice"><h3>Загружаю ${esc(uid)}…</h3></div>`);
   const urls = [proxy.replace(/\/$/,'') + `/api/uid/${uid}/`];
   for (const u of urls) {
@@ -379,8 +363,8 @@ function renderAccount(){
   if (!p) {
     $('#profile').innerHTML = ''; $('#roster').innerHTML = '';
     $('#sheet').innerHTML = `<div class="card" style="grid-column:1/-1"><h3>Как это работает</h3><ol class="howto">
-      <li><b>Загрузи экспорт базы из GO</b> в поле выше.</li>
-      <li>Сайт покажет всех персонажей: созвездия, уровни, таланты, оружие, артефакты с CV.</li>
+      <li><b>Введи UID</b> и нажми «Найти». В игре должна быть открыта витрина персонажей с деталями.</li>
+      <li>Сайт покажет персонажей из витрины: созвездия, уровень, таланты, оружие, статы, артефакты с CV.</li>
       <li>У кого есть готовые конфиги, стоит счётчик. Открой персонажа и скопируй JSON в Custom Multi-target в GO.</li></ol>
       <p class="sub" style="margin:12px 0 0">Сейчас в базе ${CONFIGS.length} конфигов на ${new Set(CONFIGS.map(c=>c.char)).size} персонажей, их можно посмотреть во вкладке <button class="alt-link" data-tab="lib" type="button">«Все конфиги»</button>.</p></div>`;
     return;
@@ -546,16 +530,6 @@ function setTab(tab){
   if (tab === 'lib') renderLib();
 }
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
-const readFile = f => { if (!f) return; const r = new FileReader(); r.onload = () => ingest(r.result); r.readAsText(f); };
-$('#goodfile').onchange = e => readFile(e.target.files[0]);
-const drop = $('#drop');
-['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
-['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
-drop.addEventListener('drop', e => readFile(e.dataTransfer.files[0]));
-document.addEventListener('paste', e => {
-  if (e.target.closest && e.target.closest('textarea,input')) return;
-  const text = e.clipboardData?.getData('text'); if (text && text.trim().startsWith('{')) ingest(text);
-});
 
 $('#report').onclick = () => {
   const p = state.profile;
