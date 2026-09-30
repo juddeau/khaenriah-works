@@ -53,80 +53,18 @@ code,.mono{font-family:var(--f-mono);font-size:.9em}
 .copyline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .copyline code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;user-select:all;overflow-wrap:anywhere}
 
-/* profile */
-.player{position:relative;margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(120deg,#1c2a48,#2a3d66);min-height:220px;display:grid;align-content:end}
-.player .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.player::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,13,24,.88) 0%,rgba(9,13,24,.55) 55%,rgba(9,13,24,.2) 100%),linear-gradient(0deg,rgba(9,13,24,.6),transparent 60%)}
-.player .inner{position:relative;z-index:1;padding:24px;display:grid;gap:18px}
-.player .who-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.player .pfp{position:relative;width:92px;height:92px;border-radius:50%;background:var(--panel-2);overflow:hidden;flex:none;display:grid;place-items:center;font:600 32px var(--f-display);color:var(--muted);box-shadow:0 0 0 3px rgba(255,255,255,.85),0 8px 24px rgba(0,0,0,.45)}
-.player .pfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.player .who{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:600;line-height:1.15;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.player .sig{color:rgba(255,255,255,.78);font-size:14px;margin-top:4px;max-width:60ch}
-.player .uid{font:500 13px var(--f-mono);color:rgba(255,255,255,.7);letter-spacing:.08em;margin-top:6px}
-.player .tiles{display:flex;flex-wrap:wrap;gap:8px}
-.player .tile{display:grid;gap:1px;padding:8px 14px;border-radius:12px;background:rgba(10,15,28,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
-.player .tile small{color:rgba(255,255,255,.62);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-.player .tile b{font:600 18px var(--f-mono);color:#fff;font-variant-numeric:tabular-nums}
-.player .actions{position:absolute;top:14px;right:14px;z-index:2;display:flex;gap:8px}
-@media (max-width:600px){.player .inner{padding-top:60px}}
-.player .actions .btn{background:rgba(10,15,28,.55);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.12)}
 .sec{font-family:var(--f-display);font-size:18px;font-weight:600;margin:28px 0 4px}
-.profile{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-block:18px 8px}
-.profile .who{font-family:var(--f-display);font-size:20px;font-weight:600}
-.profile .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
-.profile .meta b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);white-space:nowrap}
 .pill.demo{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
 .pill.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
 .pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))}
 .pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
-
-/* roster: portrait cards like the in-game character list */
-.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;padding-block:8px 20px}
-.ava{position:relative;display:grid;grid-template-rows:auto auto;border-radius:12px;overflow:hidden;cursor:pointer;padding:0;border:0;background:var(--panel-2);text-align:center;box-shadow:0 0 0 1px var(--line);transition:transform .15s,box-shadow .15s}
-.ava:hover{transform:translateY(-2px)}
-.ava[aria-pressed="true"]{box-shadow:0 0 0 2px var(--fg)}
-.ava .pic{position:relative;aspect-ratio:1/1.08;background:var(--rar-bg);overflow:hidden}
-.ava .pic img{position:absolute;inset:auto 0 0 0;width:100%;height:100%;object-fit:cover;object-position:top}
-.ava .pic .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-size:30px;color:rgba(255,255,255,.55)}
-.ava .cbadge{position:absolute;top:5px;left:5px;z-index:1;font:600 11px var(--f-mono);padding:1px 6px;border-radius:6px;background:rgba(10,14,26,.72);color:#fff}
-.ava .eldot{position:absolute;top:7px;right:7px;z-index:1;width:10px;height:10px;border-radius:50%;background:var(--el);box-shadow:0 0 0 2px rgba(10,14,26,.6)}
-.ava .lvl{position:absolute;bottom:4px;right:6px;z-index:1;font:600 11px var(--f-mono);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.8)}
-.ava .nm{font-size:12px;line-height:1.2;padding:6px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--panel)}
 .r5{--rar-bg:linear-gradient(165deg,#7a5230 0%,#b98446 55%,#d9a25a 100%);--rar:var(--gold)}
 .r4{--rar-bg:linear-gradient(165deg,#4a3a78 0%,#7a60b8 55%,#9d82d6 100%);--rar:var(--purple)}
 .face{position:relative;width:52px;height:52px;border-radius:50%;background:color-mix(in srgb,var(--el) 22%,var(--panel-2));border:2px solid var(--el);display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:17px;color:var(--el);overflow:hidden;flex:none}
 .face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .face.lg{width:72px;height:72px;font-size:24px}
 .face.xs{width:26px;height:26px;font-size:11px;border-width:1.5px}
-
-/* character showcase: splash art on the left, build on the right, artifacts below */
-.sheet{display:grid;gap:16px;padding-bottom:40px}
-.show{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);border-radius:18px;overflow:hidden;border:1px solid var(--line);
-  background:radial-gradient(120% 90% at 20% 30%,color-mix(in srgb,var(--el) 38%,#0d1424) 0%,color-mix(in srgb,var(--el) 12%,#0d1424) 45%,#0b111e 100%)}
-@media (max-width:860px){.show{grid-template-columns:minmax(0,1fr)}}
-.art-pane{position:relative;min-height:460px}
-@media (max-width:860px){.art-pane{min-height:360px}}
-.splash{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent);mask-image:linear-gradient(90deg,#000 70%,transparent)}
-@media (max-width:860px){.splash{-webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent)}}
-.splash.front{object-fit:contain;object-position:50% 70%;padding:40px}
-.art-pane .ttl{position:absolute;left:20px;top:18px;z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.6)}
-.art-pane .ttl h2{font-family:var(--f-display);font-size:clamp(26px,3.6vw,38px);font-weight:600;margin:0;line-height:1.1;color:#fff}
-.art-pane .ttl .sub{color:rgba(255,255,255,.8);font-size:14px;margin-top:4px}
-.consts{position:absolute;right:14px;top:18px;z-index:1;display:grid;gap:8px}
-@media (max-width:860px){.consts{right:12px}}
-.const{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(8,12,22,.6);border:1.5px solid color-mix(in srgb,var(--el) 70%,#fff);position:relative;overflow:hidden}
-.const img{width:78%;height:78%;object-fit:contain}
-.const span{font:600 12px var(--f-mono);color:#fff}
-.const.off{border-color:rgba(255,255,255,.18);filter:grayscale(1);opacity:.45}
-.talents{position:absolute;left:20px;bottom:18px;z-index:1;display:flex;gap:12px}
-.tal{position:relative;width:48px;height:48px;border-radius:50%;background:rgba(8,12,22,.65);border:1.5px solid rgba(255,255,255,.3);display:grid;place-items:center}
-.tal img{width:70%;height:70%;object-fit:contain}
-.tal b{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);font:600 12px var(--f-mono);padding:0 6px;border-radius:6px;background:#0b111e;color:#fff;border:1px solid rgba(255,255,255,.2)}
-.tal b.up{color:#7fd4ff;border-color:#7fd4ff}
-.build{position:relative;z-index:1;padding:20px;display:grid;gap:16px;align-content:start;background:linear-gradient(90deg,transparent,rgba(8,12,22,.55) 12%)}
-@media (max-width:860px){.build{background:rgba(8,12,22,.55)}}
 .build h3,.card h3,.config h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
 .weapon{display:flex;gap:12px;align-items:center}
 .wicon{width:64px;height:64px;border-radius:10px;background:var(--rar-bg,var(--panel-2));flex:none;display:grid;place-items:center;overflow:hidden}
@@ -205,6 +143,82 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .howto b{color:var(--fg);font-weight:500}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding-block:18px 28px}
 @media (prefers-reduced-motion:no-preference){.ava,.chip,.tab{transition:background-color .15s,border-color .15s}}
+
+/* reshape tool */
+.lead{margin:0;max-width:78ch}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.ctrl > span{color:var(--muted);font-size:13px}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{background:none;border:0;border-radius:7px;padding:6px 12px;color:var(--muted);cursor:pointer;font-size:14px;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--fg);box-shadow:0 0 0 1px var(--line)}
+.seg button small{color:var(--muted);font-size:11px;margin-left:4px}
+.acct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-top:12px}
+.acct b{font-weight:600}
+.acct .sp{flex:1}
+.best{display:grid;gap:6px;margin-top:6px}
+.brow{display:grid;grid-template-columns:auto minmax(0,1.2fr) minmax(0,1.3fr) auto auto;gap:4px 14px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);cursor:pointer;text-align:left;width:100%}
+.brow:hover{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.brow .n{min-width:0}.brow .n b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brow .n small{color:var(--muted);font-size:12px}
+.brow .pair{font-size:13px;color:var(--muted);min-width:0}.brow .pair b{color:var(--fg);font-weight:500}
+.brow .num{font:600 15px var(--f-mono);text-align:right;white-space:nowrap}.brow .num small{display:block;font:400 11px var(--f-body);color:var(--muted)}
+@media (max-width:700px){.brow{grid-template-columns:auto minmax(0,1fr) auto}.brow .pair{grid-column:2/-1;grid-row:2}.brow .num.p{display:none}}
+.chars{display:flex;gap:8px;flex-wrap:wrap;padding-block:8px 4px}
+.cchip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer;font-size:14px}
+.cchip[aria-pressed="true"]{border-color:var(--fg);background:var(--panel-2)}
+.cchip small{font:500 12px var(--f-mono);color:var(--muted)}
+.face.sm{width:34px;height:34px;font-size:13px;border-width:1.5px}
+.bhead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center}
+@media (max-width:600px){.bhead{grid-template-columns:auto minmax(0,1fr)}.bhead .score{grid-column:1/-1}}
+.bhead h2{font-family:var(--f-display);font-size:22px;font-weight:600;margin:0}
+.score{display:grid;justify-items:end;gap:2px}
+@media (max-width:600px){.score{justify-items:start}}
+.score b{font:600 30px var(--f-mono);color:var(--gold);line-height:1}
+.score small{color:var(--muted);font-size:12px}
+.advice{display:grid;gap:4px;margin:14px 0 0;padding:0;list-style:none;font-size:14px}
+.advice li::before{content:"→ ";color:var(--gold)}
+.wts{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.wchip{border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer}
+.wchip.w1{color:#ffe7a6;border-color:color-mix(in srgb,var(--gold) 70%,transparent);background:color-mix(in srgb,var(--gold) 16%,var(--bg));text-shadow:0 0 8px rgba(240,200,110,.8)}
+.wchip.w05{color:#f3dca0;border-color:color-mix(in srgb,var(--gold) 35%,var(--line));background:color-mix(in srgb,var(--gold) 6%,var(--bg))}
+.presets{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:13px;color:var(--muted);align-items:center}
+.ras{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ra{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px;display:grid;gap:10px;align-content:start;min-width:0;scroll-margin-top:80px}
+.ra.hot{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 25%,transparent),0 0 24px -8px rgba(240,200,110,.5)}
+.ra .hd{display:flex;gap:10px;align-items:center}
+.ra .hd .t{min-width:0}.ra .hd .t b{display:block}.ra .hd small{color:var(--muted);font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl{display:grid;gap:4px}
+.sl div{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sl .v{font-family:var(--f-mono);font-size:13px}
+.sl .w1{color:#ffe7a6;text-shadow:0 0 10px rgba(240,200,110,.75)}
+.sl .w05{color:#eed9a4}
+.dots{display:inline-flex;gap:2px;min-width:44px;justify-content:flex-end}
+.dots i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:calc(var(--o,1))}
+.meter{height:6px;border-radius:3px;background:var(--bg);overflow:hidden}
+.meter span{display:block;height:100%;background:linear-gradient(90deg,#b8923f,var(--gold))}
+.useful{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.useful b{color:var(--fg);font-family:var(--f-mono);font-weight:500}
+.rs{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:13.5px}
+.rs .v1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rs .pairl b{color:#ffe7a6}
+.rs .g{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.rs .g b{color:var(--fg);font-family:var(--f-mono);font-weight:500}
+.rs .g .cur{color:var(--fg)}
+.pill.go{color:#1b1406;background:var(--gold);border-color:var(--gold);font-weight:600}
+.manual{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.manual{grid-template-columns:minmax(0,1fr)}}
+.fgrid{display:grid;gap:10px}
+.fgrid label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--fg);font:inherit;min-width:0;width:100%}
+.subrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:8px}
+.pairs{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.pairs th{text-align:left;color:var(--muted);font-weight:500;font-size:12px;padding:4px 6px 4px 0}
+.pairs td{padding:6px 6px 6px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.pairs td.n{font-family:var(--f-mono);text-align:right}
+.pairs tr.top td{color:#ffe7a6}
+.how p,.how li{color:var(--muted);font-size:14px;max-width:80ch}
+.how summary{cursor:pointer;font-weight:600}
+.how ul{padding-left:20px;display:grid;gap:4px}
+
 </style>
 
 <header class="top">
@@ -214,28 +228,54 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
       Khaenri'ah Works
     </div>
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tab-acc" aria-selected="true" data-tab="acc">Аккаунт</button>
+      <button class="tab" role="tab" id="tab-acc" aria-selected="true" data-tab="acc">Перековка</button>
       <button class="tab" role="tab" id="tab-lib" aria-selected="false" data-tab="lib">Все конфиги</button>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="search" id="acc-search">
-    <h1>Введи UID и открой <em>витрину</em> своих персонажей</h1>
-    <form class="sbox" id="uidform" autocomplete="off">
-      <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
-      <button class="btn" type="submit">Найти</button>
-    </form>
-    <p class="sub" style="margin:0">Данные берутся из витрины персонажей в игре через Enka.Network. В игре включи «Показывать детали» у витрины.</p>
-    <div id="panel"></div>
-  </section>
-
   <section id="view-acc">
-    <div id="profile"></div>
-    <h2 class="sec" id="roster-title" hidden>Витрина персонажей</h2>
-    <div class="roster" id="roster" aria-label="Персонажи"></div>
-    <div class="sheet" id="sheet"></div>
+    <div class="search">
+      <h1>Какой артефакт <em>перековать</em> Пылью просветления</h1>
+      <p class="sub lead">Сайт считает для каждого 5★ артефакта +20, какую пару саб статов выбрать, с каким шансом он станет лучше и сколько полезных роллов в среднем прибавит на одну Пыль. Полезные для персонажа статы подсвечены золотом, их можно поменять.</p>
+      <div class="ctrl">
+        <span>Гарантия</span>
+        <div class="seg" id="gseg" role="group" aria-label="Гарантия перековки"></div>
+        <span>Данные</span>
+        <div class="seg" id="mseg" role="group" aria-label="Источник данных"></div>
+      </div>
+    </div>
+
+    <div id="mode-uid">
+      <form class="sbox" id="uidform" autocomplete="off">
+        <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
+        <button class="btn" type="submit">Загрузить</button>
+      </form>
+      <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
+      <div id="panel"></div>
+      <div id="profile"></div>
+      <div id="bestbox"></div>
+      <div class="chars" id="roster" aria-label="Персонажи"></div>
+      <div class="sheet" id="sheet"></div>
+    </div>
+
+    <div id="mode-manual" hidden>
+      <div class="manual" id="manual"></div>
+    </div>
+
+    <details class="card how" style="margin:24px 0 40px">
+      <summary>Как считается и что здесь допущение</summary>
+      <ul>
+        <li><b>Полезный ролл</b> = одно максимальное улучшение полезного стата. Крит. шанс 3.9 = 1 ролл, 3.1 = 0.8 ролла. Стат с весом ½ считается наполовину.</li>
+        <li><b>Перековка</b>: 5★ артефакт +20, выбираешь 2 саб стата. Начальные значения остаются, а 5 улучшений (4, если артефакт начинался с 3 строк) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных перековок гарантия 3, третья подряд усиленная даёт 4. Цена: цветок и перо 1 Пыль, остальное 2.</li>
+        <li><b>Шанс стать лучше и прирост</b> считаются точно, перебором всех раскладов улучшений, без случайной симуляции. Прирост учитывает, что худший результат можно не оставлять.</li>
+        <li><b>Допущение 1</b>: сила каждого улучшения (70, 80, 90 или 100%) при перековке выпадает заново. Так считают существующие калькуляторы, официально это не описано.</li>
+        <li><b>Допущение 2</b>: гарантия работает как «расклад случайный, но с не меньше чем N улучшениями в паре».</li>
+        <li><b>Вердикт</b> по приросту на одну Пыль: от 0.6 «Перековать», от 0.25 «Можно», ниже «Не стоит». Пороги подобраны мной, это не игровые правила.</li>
+        <li>При ручном вводе число улучшений каждого стата восстанавливается по значению, поэтому результат приблизительный. С UID история улучшений точная.</li>
+      </ul>
+    </details>
   </section>
 
   <section id="view-lib" hidden>
@@ -248,9 +288,10 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
   </section>
 </main>
 
+
 <footer>
   <div class="wrap">
-    <p style="margin:0 0 8px">Пути взяты из исходников Genshin Optimizer, веса = удары за ротацию. Доли лунных реакций 0.6 / 0.3 / 0.05. Данные аккаунта: Enka.Network или экспорт базы GO.</p>
+    <p style="margin:0 0 8px">Перековка считается по точной истории улучшений из Enka.Network или по введённым вручную значениям. Конфиги GO: веса = удары за ротацию, доли лунных реакций 0.6 / 0.3 / 0.05.</p>
     <div class="row"><span class="mono">Версия /*BUILD*/</span>·<button class="alt-link" type="button" id="report">Скопировать отчёт для Claude</button><span class="toast" id="report-toast" aria-live="polite"></span></div>
     <textarea id="report-text" hidden readonly aria-label="Отчёт" style="width:100%;min-height:140px;margin-top:8px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px;font:12px var(--f-mono)"></textarea>
   </div>
@@ -324,7 +365,7 @@ function fromEnka(j, uid){
       stats: (w.flat.weaponStats || []).map(s => ({k:s.appendPropId, v:s.statValue})) } : null;
     const arts = eq.filter(e => e.flat && e.flat.itemType === 'ITEM_RELIQUARY').map(e => ({
       slot: SLOT[e.flat.equipType] || e.flat.equipType, set: LOC(e.flat.setNameTextMapHash) || 'Сет',
-      level: (e.reliquary?.level ?? 1) - 1, rarity: e.flat.rankLevel, icon: e.flat.icon,
+      level: (e.reliquary?.level ?? 1) - 1, rarity: e.flat.rankLevel, icon: e.flat.icon, rolls: e.reliquary?.appendPropIdList || null,
       main: {k: e.flat.reliquaryMainstat?.mainPropId, v: e.flat.reliquaryMainstat?.statValue},
       subs: (e.flat.reliquarySubstats || []).map(s => ({k:s.appendPropId, v:s.statValue}))
     }));
@@ -363,8 +404,9 @@ function fromGOOD(j){
   return { source:'good', uid:'', nickname:'База Genshin Optimizer', level:null, signature:`${chars.length} персонажей из экспорта`, chars };
 }
 
+
 // ---------- state ----------
-const state = { profile:null, sel:null, tab:'acc', filter:'all', open:{} };
+const state = { profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: store.get('mode') === 'manual' ? 'manual' : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -427,102 +469,298 @@ async function loadUid(uid, quiet=false){
   pastePanel(uid, 'Не получилось загрузить автоматически');
 }
 
-// ---------- render: account ----------
+// ---------- reshape math ----------
+// 5★ substat roll values per tier (70/80/90/100%), from Enka's affix table; percent stats in percent units
+const SUB = {
+  hp:{n:'HP',t:[209.13,239.00,268.88,298.75],e:'FIGHT_PROP_HP',g:'hp',id:'02'},
+  atk:{n:'Атака',t:[13.62,15.56,17.51,19.45],e:'FIGHT_PROP_ATTACK',g:'atk',id:'05'},
+  def:{n:'Защита',t:[16.20,18.52,20.83,23.15],e:'FIGHT_PROP_DEFENSE',g:'def',id:'08'},
+  hp_:{n:'HP%',t:[4.08,4.66,5.25,5.83],e:'FIGHT_PROP_HP_PERCENT',g:'hp_',id:'03',p:1},
+  atk_:{n:'Атака%',t:[4.08,4.66,5.25,5.83],e:'FIGHT_PROP_ATTACK_PERCENT',g:'atk_',id:'06',p:1},
+  def_:{n:'Защита%',t:[5.10,5.83,6.56,7.29],e:'FIGHT_PROP_DEFENSE_PERCENT',g:'def_',id:'09',p:1},
+  em:{n:'МС',t:[16.32,18.65,20.98,23.31],e:'FIGHT_PROP_ELEMENT_MASTERY',g:'eleMas',id:'24'},
+  er:{n:'ВЭ',t:[4.53,5.18,5.83,6.48],e:'FIGHT_PROP_CHARGE_EFFICIENCY',g:'enerRech_',id:'23',p:1},
+  cr:{n:'Крит. шанс',t:[2.72,3.11,3.50,3.89],e:'FIGHT_PROP_CRITICAL',g:'critRate_',id:'20',p:1},
+  cd:{n:'Крит. урон',t:[5.44,6.22,6.99,7.77],e:'FIGHT_PROP_CRITICAL_HURT',g:'critDMG_',id:'22',p:1},
+};
+const SUBK = Object.keys(SUB);
+const KEY_OF = {};
+for (const k of SUBK) { KEY_OF[SUB[k].e] = k; KEY_OF[SUB[k].g] = k; KEY_OF['id'+SUB[k].id] = k; KEY_OF[k] = k; }
+const MAXV = k => SUB[k].t[3];
+const fmtSub = (k, v) => SUB[k].p ? (+v).toFixed(1)+'%' : Math.round(v).toLocaleString('ru-RU');
+function affix(id){
+  const s = String(id);
+  if (s.length !== 6 || !s.startsWith('501')) return null;
+  const k = KEY_OF['id'+s.slice(3,5)], tier = +s[5];
+  return k && tier >= 1 && tier <= 4 ? {k, tier, v: SUB[k].t[tier-1]} : null;
+}
+const COST = slot => (slot === 'Цветок' || slot === 'Перо') ? 1 : 2;
+
+// Guess how many rolls produced a value: the count whose average roll is closest to 85% of max
+function guessRolls(k, v){
+  const x = v / MAXV(k); let best = null;
+  for (let r = 1; r <= 6; r++) { const a = x / r; if (a >= 0.68 && a <= 1.02 && (!best || Math.abs(a-0.85) < Math.abs(best.a-0.85))) best = {r, a}; }
+  return best ? best.r : Math.min(6, Math.max(1, Math.round(x / 0.85)));
+}
+
+// Artifact -> reshape model: 4 substats with initial value, current value and roll count; nEnh enhancements to redistribute
+function model(a, lines){
+  const main = KEY_OF[a.main?.k] || null;
+  const base = {slot: a.slot, cost: COST(a.slot), main};
+  if (a.rarity && a.rarity !== 5) return {...base, ok:false, why:'Перековать можно только 5★'};
+  if (a.level != null && a.level < 20) return {...base, ok:false, why:`Перековка только для +20, этот +${a.level}`};
+  const subsIn = (a.subs || []).map(s => ({k: KEY_OF[s.k], v: +s.v})).filter(s => s.k && s.v > 0);
+  if (Array.isArray(a.rolls) && a.rolls.length >= 8) {
+    const rolls = a.rolls.map(affix);
+    if (rolls.every(Boolean)) {
+      const subs = [];
+      for (const r of rolls) {
+        let s = subs.find(x => x.k === r.k);
+        if (!s) { s = {k: r.k, init: r.v, value: 0, rolls: 0, tiers: []}; subs.push(s); }
+        s.value += r.v; s.rolls++; s.tiers.push(r.tier);
+      }
+      if (subs.length === 4) return {...base, ok:true, exact:true, subs, nEnh: rolls.length - 4};
+    }
+  }
+  if (subsIn.length !== 4) return {...base, ok:false, why: subsIn.length ? 'Нужно 4 саб стата' : 'Нет саб статов'};
+  const subs = subsIn.map(s => { const r = guessRolls(s.k, s.v); return {k: s.k, init: s.v / r, value: s.v, rolls: r}; });
+  const total = subs.reduce((t, s) => t + s.rolls, 0);
+  let nEnh = total - 4, approx = false;
+  if (lines === 4 || lines === 3) { const want = lines === 4 ? 5 : 4; approx = nEnh !== want; nEnh = want; }
+  else if (nEnh < 4 || nEnh > 5) { approx = true; nEnh = nEnh < 4 ? 4 : 5; }
+  return {...base, ok:true, exact:false, approx, subs, nEnh};
+}
+
+// "Useful rolls": sum of weight * value / max roll
+const useful = (subs, w, field='value') => subs.reduce((t, s) => t + (w[s.k] || 0) * s[field] / MAXV(s.k), 0);
+// Best possible artifact for these weights: 4 best stats (not the main stat), all enhancements in the top one
+function maxUseful(w, main){
+  const ws = SUBK.filter(k => k !== main).map(k => w[k] || 0).sort((a,b) => b-a);
+  return ws[0] * 6 + ws[1] + ws[2] + ws[3];
+}
+
+// Exact reshape outcome for one pair: enumerate every order of enhancements (4^n), keep those meeting the guarantee,
+// then convolve roll tiers (70..100%) in 0.05-roll units. Weights are 0, 0.5 or 1.
+const PAIRS = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+const RS_CACHE = new Map();
+function reshape(m, w, pair, g){
+  const key = JSON.stringify([m.subs.map(s => [s.k, +s.init.toFixed(3), +s.value.toFixed(3)]), m.nEnh, SUBK.map(k => w[k]||0), pair, g]);
+  if (RS_CACHE.has(key)) return RS_CACHE.get(key);
+  const n = m.nEnh, comps = new Map(); let tot = 0;
+  for (let s = 0; s < 4 ** n; s++) {
+    let x = s, hit = 0; const c = [0,0,0,0];
+    for (let j = 0; j < n; j++) { const i = x & 3; x >>= 2; c[i]++; if (i === pair[0] || i === pair[1]) hit++; }
+    if (hit < g) continue;
+    const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + 1); tot++;
+  }
+  const base = useful(m.subs, w, 'init'), cur = useful(m.subs, w);
+  const mul = m.subs.map(s => Math.round((w[s.k] || 0) * 2));
+  let pBetter = 0, pWorse = 0, eGain = 0, eNew = 0;
+  for (const [ck, cnt] of comps) {
+    let dist = [1];
+    ck.split('').forEach((cn, i) => {
+      for (let r = 0; r < +cn; r++) {
+        if (!mul[i]) continue;
+        const out = new Array(dist.length + 10 * mul[i]).fill(0);
+        dist.forEach((p, u) => { if (p) for (const t of [7,8,9,10]) out[u + t * mul[i]] += p / 4; });
+        dist = out;
+      }
+    });
+    const wgt = cnt / tot;
+    dist.forEach((p, u) => {
+      if (!p) return;
+      const val = base + u * 0.05, q = p * wgt;
+      eNew += q * val;
+      if (val > cur + 0.025) { pBetter += q; eGain += q * (val - cur); }
+      else if (val < cur - 0.025) pWorse += q;
+    });
+  }
+  const res = {pair, pBetter, pWorse, eGain, eNew, cur};
+  RS_CACHE.set(key, res);
+  return res;
+}
+function bestPair(m, w, g){
+  let best = null;
+  for (const pair of PAIRS) { const r = reshape(m, w, pair, g); if (!best || r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)) best = r; }
+  return {...best, perDust: best.eGain / m.cost};
+}
+const VERDICT = pd => pd >= 0.6 ? ['go','Перековать'] : pd >= 0.25 ? ['warn','Можно'] : ['','Не стоит'];
+const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
+const r1 = x => (x >= 0 ? '+' : '') + x.toFixed(Math.abs(x) > 0.004 && Math.abs(x) < 0.1 ? 2 : 1).replace('.', ',');
+
+// ---------- weights ----------
+const WDEF = {cr:1, cd:1, atk_:1, er:0.5, em:0.5};
+const PRESETS = [
+  ['Крит + атака', {cr:1, cd:1, atk_:1, er:0.5}], ['Крит + HP', {cr:1, cd:1, hp_:1, er:0.5}], ['Крит + защита', {cr:1, cd:1, def_:1, er:0.5}],
+  ['Крит + МС', {cr:1, cd:1, em:1, atk_:0.5}], ['МС', {em:1, er:0.5}], ['Саппорт: ВЭ + HP', {er:1, hp_:1, cr:0.5}], ['Саппорт: ВЭ + защита', {er:1, def_:1}],
+];
+const CHAR_W = {Furina:1, Neuvillette:1, Yelan:1, HuTao:1, Nilou:{hp_:1, em:0.5, er:0.5}, AratakiItto:2, Chiori:2, Albedo:2, Noelle:2,
+  Nahida:{em:1, cr:0.5, cd:0.5, er:0.5}, KaedeharaKazuha:4, Sucrose:4, Bennett:5, SangonomiyaKokomi:{hp_:1, er:1}, Xilonen:6, Zhongli:{hp_:1, er:0.5}};
+function getW(key){
+  try { const s = JSON.parse(store.get('w:'+key) || 'null'); if (s) return s; } catch {}
+  const d = CHAR_W[key]; if (d == null) return {...WDEF};
+  return typeof d === 'number' ? {...PRESETS[d][1]} : {...d};
+}
+const setW = (key, w) => store.set('w:'+key, JSON.stringify(w));
+const wcls = v => v >= 1 ? 'w1' : v > 0 ? 'w05' : '';
+function weightsUI(key){
+  const w = getW(key);
+  return `<div class="wts">${SUBK.map(k => `<button type="button" class="wchip ${wcls(w[k]||0)}" data-w="${k}" data-wkey="${esc(key)}" title="Нажми, чтобы менять: полезный → наполовину → бесполезный">${esc(SUB[k].n)}${w[k] === 0.5 ? ' ½' : ''}</button>`).join('')}</div>
+    <div class="presets">Шаблоны: ${PRESETS.map(([n], i) => `<button type="button" class="alt-link" data-preset="${i}" data-wkey="${esc(key)}">${esc(n)}</button>`).join('')}</div>`;
+}
+
+// ---------- render: reshape by UID ----------
+function charModels(c){ return (c.arts || []).map(a => ({a, m: model(a)})).sort((x,y) => SLOT_ORDER.indexOf(x.a.slot) - SLOT_ORDER.indexOf(y.a.slot)); }
+function buildScore(c, w){
+  let got = 0, max = 0; const items = [];
+  for (const {a, m} of charModels(c)) {
+    const subs = (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
+    const u = useful(subs, w), mx = maxUseful(w, KEY_OF[a.main?.k]);
+    got += u; max += mx; items.push({a, m, u, mx, share: mx ? u / mx : 0});
+  }
+  return {got, max, share: max ? got / max : 0, items};
+}
+const GRADE = s => s >= 0.8 ? 'отличный' : s >= 0.65 ? 'хороший' : s >= 0.5 ? 'средний' : 'слабый';
+
 function renderAccount(){
   const p = state.profile;
   if (!p) {
-    $('#profile').innerHTML = ''; $('#roster').innerHTML = ''; $('#roster-title').hidden = true;
-    $('#sheet').innerHTML = `<div class="card"><h3>Как это работает</h3><ol class="howto">
-      <li><b>Введи UID</b> и нажми «Найти». В игре у витрины персонажей должно быть включено «Показывать детали».</li>
-      <li>Появятся персонажи из витрины. Нажми на любого, чтобы открыть его карточку: арт, созвездия, таланты, оружие, статы и артефакты с CV.</li></ol></div>`;
+    $('#profile').innerHTML = ''; $('#bestbox').innerHTML = ''; $('#roster').innerHTML = '';
+    $('#sheet').innerHTML = `<div class="card" style="margin-top:16px"><h3>С чего начать</h3><ol class="howto">
+      <li><b>Введи UID</b>: сайт возьмёт артефакты персонажей из витрины и покажет, куда выгоднее всего потратить Пыль.</li>
+      <li><b>Не хочешь выкладывать витрину?</b> Переключись на «Вручную» и введи саб статы одного артефакта.</li>
+      <li>Выбери свою гарантию: 2 обычная, 3 после шести перековок, 4 на третьей усиленной подряд.</li></ol></div>`;
     return;
   }
-  const tile = (label, val) => val == null || val === '' ? '' : `<div class="tile"><small>${label}</small><b>${esc(val)}</b></div>`;
-  const first = p.chars[0] ? charInfo(p.chars[0].key) : null;
-  // Enka's lookup tables lag behind new patches: fall back to the first showcase character's card and icon
-  const cardSrcs = [p.namecard, first?.base && `UI_NameCardPic_${first.base}_P`].filter(Boolean).map(UI);
-  const pfpSrcs = [p.avatarPic, first?.base && `UI_AvatarIcon_${first.base}_Circle`, first?.base && `UI_AvatarIcon_${first.base}`].filter(Boolean).map(UI);
-  const chain = srcs => srcs.length ? `src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)"` : '';
-  $('#profile').innerHTML = `<section class="player">
-      ${cardSrcs.length ? `<img class="bg" alt="" ${chain(cardSrcs)}>` : ''}
-      <div class="actions"><button class="btn ghost small" type="button" id="refresh">Обновить</button><button class="btn ghost small" type="button" id="forget">Забыть</button></div>
-      <div class="inner">
-        <div class="who-row">
-          <span class="pfp">${esc((p.nickname||'?').slice(0,1))}${pfpSrcs.length ? `<img alt="" ${chain(pfpSrcs)}>` : ''}</span>
-          <div style="min-width:0"><div class="who">${esc(p.nickname)}</div>${p.signature ? `<div class="sig">${esc(p.signature)}</div>` : ''}${p.uid ? `<div class="uid">UID ${esc(p.uid)}</div>` : ''}</div>
-        </div>
-        <div class="tiles">
-          ${tile('Ранг приключений', p.level)}${tile('Уровень мира', p.world)}${tile('Достижения', p.achievements)}
-          ${tile('Витая бездна', p.abyss ? p.abyss + (p.abyssStars!=null ? ` · ${p.abyssStars}★` : '') : null)}${tile('Театр', p.theater)}${tile('Макс. дружба', p.fetter)}
-        </div>
-      </div></section>`;
-  $('#roster-title').hidden = false;
-  $('#refresh').onclick = () => p.uid && loadUid(String(p.uid));
+  $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.</span><span class="sp"></span>
+    ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>`;
+  if ($('#refresh')) $('#refresh').onclick = () => loadUid(String(p.uid));
   $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; renderAccount(); };
-  $('#roster').innerHTML = p.chars.map(c => {
-    const i = charInfo(c.key);
-    const img = i.base ? `<img alt="" loading="lazy" src="${UI('UI_AvatarIcon_'+i.base)}" onerror="this.remove()">` : '';
-    return `<button class="ava r${i.rar}" style="--el:var(--${i.el})" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}" type="button">
-      <span class="pic"><span class="mono">${esc((i.ru||'?').slice(0,1))}</span>${img}
-        <span class="cbadge">C${c.cons}</span><span class="eldot"></span>${c.level?`<span class="lvl">${c.level}</span>`:''}</span>
-      <span class="nm">${esc(i.ru)}</span></button>`;
-  }).join('');
+
+  // account-wide: where one Dust buys the most
+  const all = [];
+  p.chars.forEach(c => { const w = getW(c.key); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
+  all.sort((x, y) => y.r.perDust - x.r.perDust);
+  const top = all.slice(0, 6);
+  $('#bestbox').innerHTML = top.length ? `<h2 class="sec">Куда потратить Пыль в первую очередь</h2><div class="best">${top.map(t => {
+      const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
+      return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el})">${face(t.c.key, 'sm')}
+        <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${esc(t.a.set)}</small></span>
+        <span class="pair">Выбрать <b>${esc(SUB[t.m.subs[t.r.pair[0]].k].n)} + ${esc(SUB[t.m.subs[t.r.pair[1]].k].n)}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
+        <span class="num p">${r1(t.r.perDust)}<small>ролла за Пыль</small></span>
+        <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>` :
+    (p.chars.length ? `<p class="empty" style="margin-top:12px">Среди артефактов витрины нет 5★ +20, их нельзя перековать.</p>` : '');
+  $('#roster').innerHTML = p.chars.length ? p.chars.map(c => {
+    const i = charInfo(c.key), bs = buildScore(c, getW(c.key));
+    return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`;
+  }).join('') : '';
   renderSheet();
+}
+
+function subLines(m, subs, w){
+  return `<div class="sl">${subs.map(s => {
+    const ms = m?.ok ? m.subs.find(x => x.k === s.k) : null, n = ms?.rolls;
+    const dots = n ? `<span class="dots">${(ms.tiers || Array(n).fill(0)).map(t => `<i style="--o:${t ? 0.4 + t*0.15 : 0.8}"></i>`).join('')}</span>` : '<span></span>';
+    return `<div class="${wcls(w[s.k]||0)}"><span>${esc(SUB[s.k].n)}</span>${dots}<span class="v">${fmtSub(s.k, s.value)}</span></div>`;
+  }).join('')}</div>`;
+}
+function rsBlock(m, w){
+  if (!m.ok) return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
+  const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust);
+  const gs = [2,3,4].map(g => { const x = bestPair(m, w, g); return `<span class="${g===state.g?'cur':''}">гарантия ${g}: <b>${r1(x.eGain)}</b></span>`; }).join('');
+  return `<div class="rs">
+    <div class="v1"><span class="pairl">Выбрать <b>${esc(SUB[m.subs[r.pair[0]].k].n)} + ${esc(SUB[m.subs[r.pair[1]].k].n)}</b></span><span class="pill ${vc}">${vt}</span></div>
+    <div>Шанс стать лучше <b>${pct(r.pBetter)}</b>, хуже ${pct(r.pWorse)}</div>
+    <div>В среднем <b>${r1(r.eGain)}</b> полезного ролла, <b>${r1(r.perDust)}</b> за 1 Пыль (цена ${m.cost})</div>
+    <div class="g">${gs}</div>
+    ${m.exact ? '' : `<div class="sub">Роллы восстановлены по значениям${m.approx ? ', число улучшений не сошлось, проверь цифры' : ''}</div>`}
+  </div>`;
 }
 function renderSheet(){
   const c = state.profile && state.profile.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
-  const i = charInfo(c.key);
-  // splash art, falling back to the front icon, then to nothing
-  const splash = i.base ? `<img class="splash" alt="" src="${UI('UI_Gacha_AvatarImg_'+i.base)}"
-      onerror="if(!this.dataset.f){this.dataset.f=1;this.classList.add('front');this.src='${UI('UI_AvatarIcon_'+i.base)}'}else{this.remove()}">` : '';
-  const consts = [0,1,2,3,4,5].map(n => {
-    const ic = i.consts?.[n];
-    return `<span class="const ${n < c.cons ? '' : 'off'}" title="C${n+1}">${ic ? `<img alt="C${n+1}" src="${UI(ic)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${n+1}'}))">` : `<span>${n+1}</span>`}</span>`;
-  }).join('');
-  const talents = c.talents ? c.talents.map((lv, n) => {
-    const sid = i.order?.[n]; const ic = sid ? i.skills?.[sid] : null; const bonus = c.talentBonus?.[n] || 0;
-    const name = ['Обычная атака','Элементальный навык','Взрыв стихии'][n];
-    return `<span class="tal" title="${name}">${ic ? `<img alt="" src="${UI(ic)}" onerror="this.remove()">` : ''}<b class="${bonus?'up':''}">${lv==null?'–':lv+bonus}</b></span>`;
-  }).join('') : '';
-  const w = c.weapon;
-  const wstats = w?.stats?.length ? `<div class="sub">${w.stats.map(s => { const [k,v] = fmtStat(s.k, s.v); return `${esc(k)} ${esc(v)}`; }).join(' · ')}</div>` : '';
-  const weapon = w ? `<div class="weapon r${w.rarity||4}">
-      <span class="wicon">${w.icon ? `<img alt="" src="${UI(w.icon)}" onerror="if('${w.baseIcon||''}'&&!this.dataset.f){this.dataset.f=1;this.src='${UI(w.baseIcon||'')}'}else{this.remove()}">` : ''}</span>
-      <div style="min-width:0"><div>${esc(w.name)}</div>
-      <div class="sub">${w.level?`ур. ${w.level}`:''}${w.ref?` · R${w.ref}`:''} ${w.rarity?`<span class="stars">${'★'.repeat(w.rarity)}</span>`:''}</div>${wstats}</div></div>` : '<p class="empty">Нет данных</p>';
-  const stats = c.stats ? `<dl class="kv">${c.stats.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : '<p class="empty">Нет данных</p>';
-  let arts = '', cvTotal = 0, setLine = '';
-  if (c.arts && c.arts.length) {
-    const list = [...c.arts].sort((a,b) => SLOT_ORDER.indexOf(a.slot) - SLOT_ORDER.indexOf(b.slot));
-    const sets = {}; list.forEach(a => sets[a.set] = (sets[a.set]||0)+1);
-    setLine = Object.entries(sets).filter(([,n])=>n>=2).map(([s,n])=>`<span class="pill">${n>=4?4:2} × ${esc(s)}</span>`).join('') || '<span class="pill">Без бонусов сетов</span>';
-    arts = list.map(a => {
-      const cv = a.subs.reduce((s,x) => s + (CRIT[x.k]||0) * x.v, 0); cvTotal += cv;
-      const [mk, mv] = fmtStat(a.main.k, a.main.v ?? 0);
-      return `<div class="art"><div class="top"><span class="aicon r${a.rarity||5}">${a.icon?`<img alt="" src="${UI(a.icon)}" onerror="this.remove()">`:''}</span>
-          <div class="ms"><small>${esc(a.slot)} · ${esc(mk)}</small><b>${a.main.v!=null?esc(mv):'—'}</b></div></div>
-        <div class="subs">${a.subs.map(s => { const [k,v] = fmtStat(s.k,s.v); return `<div class="${CRIT[s.k]?'c':''}"><span>${esc(k)}</span><span>${esc(v)}</span></div>`; }).join('')}</div>
-        <div class="foot"><span>+${a.level}</span><span class="cv">CV ${cv.toFixed(1)}</span></div></div>`;
-    }).join('');
-  }
-  const nCfg = cfgFor(c.key).length;
-  $('#sheet').innerHTML = `
-    <section class="show r${i.rar}" style="--el:var(--${i.el})">
-      <div class="art-pane">${splash}
-        <div class="ttl"><h2>${esc(i.ru)}</h2><div class="sub">${esc(EL_RU[i.el]||'')}${c.level?` · ур. ${c.level}`:''} · C${c.cons}</div></div>
-        <div class="consts" aria-label="Созвездия">${consts}</div>
-        <div class="talents" aria-label="Таланты">${talents}</div>
-      </div>
-      <div class="build">
-        <div><h3>Оружие</h3>${weapon}</div>
-        <div><h3>Статы</h3>${stats}</div>
-        ${c.arts?.length ? `<div><h3>Артефакты</h3><div class="sets">${setLine}</div><div class="cvbig" style="margin-top:10px"><b>${cvTotal.toFixed(1)}</b><span class="sub">крит-значение (CV) всех артефактов</span></div></div>` : ''}
-        ${nCfg ? `<button class="btn ghost small cfglink" type="button" data-tab="lib">Конфиги для GO в базе: ${nCfg}</button>` : ''}
-      </div>
-    </section>
-    ${arts ? `<div class="arts">${arts}</div>` : ''}`;
+  const i = charInfo(c.key), w = getW(c.key), bs = buildScore(c, w);
+  const hot = bs.items.map(x => x.m.ok ? bestPair(x.m, w, state.g).perDust : -1);
+  const bestIdx = hot.indexOf(Math.max(...hot));
+  const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
+  const advice = [];
+  if (weakest) advice.push(`Слабее всего ${weakest.a.slot.toLowerCase()}: ${Math.round(weakest.share*100)}% от идеала. Его в первую очередь менять или перековывать.`);
+  if (bestIdx >= 0 && hot[bestIdx] >= 0.25) advice.push(`Выгоднее всего перековать ${bs.items[bestIdx].a.slot.toLowerCase()}: ${r1(hot[bestIdx])} ролла за Пыль.`);
+  else if (bs.items.some(x => x.m.ok)) advice.push('Перековка здесь почти ничего не даст: хорошие артефакты уже сильнее среднего результата.');
+  if (bs.items.length < 5) advice.push(`Надето ${bs.items.length} из 5 артефактов.`);
+  const cards = bs.items.map((x, idx) => `<article class="ra ${idx===bestIdx && hot[idx]>=0.6 ? 'hot' : ''}" id="art-${idx}">
+      <div class="hd"><span class="aicon r${x.a.rarity||5}">${x.a.icon ? `<img alt="" src="${UI(x.a.icon)}" onerror="this.remove()">` : ''}</span>
+        <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div></div>
+      ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
+      <div class="useful"><span>Полезных роллов <b>${x.u.toFixed(1).replace('.',',')}</b> из ${x.mx.toFixed(1).replace('.',',')}</span><b>${Math.round(x.share*100)}%</b></div>
+      <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
+      ${rsBlock(x.m, w)}</article>`).join('');
+  $('#sheet').innerHTML = `<div class="card" style="--el:var(--${i.el});margin-top:8px">
+      <div class="bhead">${face(c.key, 'lg')}<div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)}${c.weapon.ref ? ' R'+c.weapon.ref : ''}` : ''}</div></div>
+        <div class="score"><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><small>оценка сборки: ${bs.max ? GRADE(bs.share) : 'нет артефактов'}</small><small>${bs.got.toFixed(1).replace('.',',')} полезных роллов</small></div></div>
+      ${advice.length ? `<ul class="advice">${advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
+      <h3 style="margin-top:16px">Полезные статы · нажми, чтобы поменять</h3>${weightsUI(c.key)}
+    </div>
+    ${cards ? `<div class="ras" style="margin-top:12px">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}`;
 }
+
+// ---------- render: manual ----------
+function manualState(){
+  let s = null; try { s = JSON.parse(store.get('manual') || 'null'); } catch {}
+  return s && s.subs ? s : {char:'', slot:'Цветок', main:'', lines:'auto', subs:[{k:'cr',v:''},{k:'cd',v:''},{k:'atk_',v:''},{k:'er',v:''}]};
+}
+function renderManual(){
+  const s = manualState();
+  const opts = (list, val) => list.map(([v, t]) => `<option value="${esc(v)}" ${v===val?'selected':''}>${esc(t)}</option>`).join('');
+  const chars = [['', 'Без персонажа (общие веса)'], ...Object.values(BYKEY).filter((c, i, a) => a.findIndex(x => x.key === c.key) === i).sort((a,b) => a.ru.localeCompare(b.ru, 'ru')).map(c => [c.key, c.ru])];
+  const mains = [['', 'не важно'], ...SUBK.filter(k => SUB[k].p || k === 'em').map(k => [k, SUB[k].n]), ['dmg', 'Бонус урона / лечения']];
+  $('#manual').innerHTML = `<div class="card fgrid" id="mform">
+      <h3>Артефакт</h3>
+      <label>Персонаж, для которого считаем полезные статы<select id="m-char">${opts(chars, s.char)}</select></label>
+      <div class="subrow"><label>Слот<select id="m-slot">${opts(SLOT_ORDER.map(x => [x, x + (COST(x)===1?' · 1 Пыль':' · 2 Пыли')]), s.slot)}</select></label>
+        <label>Основной стат<select id="m-main">${opts(mains, s.main)}</select></label></div>
+      <p class="sub" style="margin:0">Саб статы артефакта +20, как в игре:</p>
+      ${s.subs.map((x, n) => `<div class="subrow"><select id="m-k${n}" aria-label="Саб стат ${n+1}">${opts(SUBK.map(k => [k, SUB[k].n]), x.k)}</select>
+        <input class="inp mono" id="m-v${n}" inputmode="decimal" placeholder="${SUB[x.k].p ? 'напр. 7.8' : 'напр. 42'}" value="${esc(x.v)}" aria-label="Значение ${n+1}"></div>`).join('')}
+      <label>Сколько строк было на +0<select id="m-lines">${opts([['auto','Определить по значениям'],['4','4 строки (5 улучшений)'],['3','3 строки (4 улучшения)']], s.lines)}</select></label>
+      <div><h3 style="margin-top:6px">Полезные статы</h3><div id="m-w">${weightsUI(s.char || 'manual')}</div></div>
+    </div>
+    <div class="card" id="m-out"></div>`;
+  $('#mform').addEventListener('input', manualRead);
+  $('#mform').addEventListener('change', e => { manualRead(); if (e.target.id === 'm-char') $('#m-w').innerHTML = weightsUI($('#m-char').value || 'manual'); });
+  manualCalc();
+}
+function manualRead(){
+  const s = {char: $('#m-char').value, slot: $('#m-slot').value, main: $('#m-main').value, lines: $('#m-lines').value,
+    subs: [0,1,2,3].map(n => ({k: $('#m-k'+n).value, v: $('#m-v'+n).value.trim()}))};
+  s.subs.forEach((x, n) => { $('#m-v'+n).placeholder = SUB[x.k].p ? 'напр. 7.8' : 'напр. 42'; });
+  store.set('manual', JSON.stringify(s)); manualCalc();
+}
+function manualCalc(){
+  const s = manualState(), out = $('#m-out'), w = getW(s.char || 'manual');
+  const vals = s.subs.map(x => ({k: x.k, v: parseFloat(String(x.v).replace(',', '.'))}));
+  const keys = vals.map(x => x.k);
+  let err = '';
+  if (new Set(keys).size < 4) err = 'Саб статы не должны повторяться.';
+  else if (s.main && keys.includes(s.main)) err = 'Саб стат не может совпадать с основным.';
+  else if (vals.some(x => !(x.v > 0))) err = 'Введи все четыре значения.';
+  else { const bad = vals.find(x => x.v > MAXV(x.k) * 6.05); if (bad) err = `${SUB[bad.k].n} ${bad.v} больше, чем бывает на артефакте. Проверь, не перепутан ли стат с процентным.`; }
+  if (err) { out.innerHTML = `<h3>Результат</h3><p class="empty">${esc(err)}</p>`; return; }
+  const a = {slot: s.slot, rarity: 5, level: 20, main: {k: s.main}, subs: vals};
+  const m = model(a, s.lines === 'auto' ? null : +s.lines);
+  const cur = useful(vals.map(x => ({k: x.k, value: x.v})), w), mx = maxUseful(w, s.main || null);
+  const rows = PAIRS.map(pair => ({...reshape(m, w, pair, state.g), pair})).sort((x, y) => y.eGain - x.eGain);
+  const pairRow = (r, n) => `<tr class="${n===0?'top':''}"><td>${esc(SUB[m.subs[r.pair[0]].k].n)} + ${esc(SUB[m.subs[r.pair[1]].k].n)}</td><td class="n">${pct(r.pBetter)}</td><td class="n">${r1(r.eGain)}</td><td class="n">${r1(r.eGain / m.cost)}</td></tr>`;
+  out.innerHTML = `<h3>Результат</h3>
+    ${subLines(m, vals.map(x => ({k: x.k, value: x.v})), w)}
+    <div class="useful" style="margin-top:10px"><span>Полезных роллов <b>${cur.toFixed(1).replace('.',',')}</b> из ${mx.toFixed(1).replace('.',',')}</span><b>${mx ? Math.round(cur/mx*100) : 0}%</b></div>
+    <div class="meter"><span style="width:${mx ? Math.min(100, cur/mx*100).toFixed(1) : 0}%"></span></div>
+    <p class="sub" style="margin:8px 0 0">Восстановлено по значениям: ${m.subs.map(x => `${SUB[x.k].n} ${x.rolls} ${x.rolls===1?'ролл':x.rolls<5?'ролла':'роллов'}`).join(', ')}. Улучшений к перераспределению: ${m.nEnh}.${m.approx ? ' Сумма роллов не сходится с +20, проверь значения или выбери число строк.' : ''}</p>
+    ${rsBlock(m, w)}
+    <h3 style="margin-top:14px">Все пары при гарантии ${state.g}</h3>
+    <div class="scroll"><table class="pairs"><tr><th>Пара</th><th>Лучше</th><th>Прирост</th><th>За Пыль</th></tr>${rows.map(pairRow).join('')}</table></div>`;
+}
+
 // ---------- config card ----------
 function hl(json){
   return esc(json).replace(/(&quot;[^&]*?&quot;)(\s*:)?|(-?\d+\.?\d*)/g, (m,s,colon,num) => s ? `<span class="${colon?'jk':'js'}">${s}</span>${colon||''}` : `<span class="jn">${num}</span>`);
@@ -579,17 +817,37 @@ function renderLib(){
 }
 
 // ---------- events ----------
+function renderCtrl(){
+  $('#gseg').innerHTML = [[2,'2','обычная'],[3,'3','усиленная'],[4,'4','высшая']].map(([g, n, t]) => `<button type="button" data-g="${g}" aria-pressed="${state.g===g}">${n}<small>${t}</small></button>`).join('');
+  $('#mseg').innerHTML = [['uid','По UID'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
+  $('#mode-uid').hidden = state.mode !== 'uid'; $('#mode-manual').hidden = state.mode !== 'manual';
+}
+function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-w],[data-preset]');
   if (!t) return;
-  if (t.dataset.key) { state.sel = t.dataset.key; renderAccount(); return; }
+  if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
+  if (t.dataset.mode) { state.mode = t.dataset.mode; store.set('mode', state.mode); rerender(); return; }
+  if (t.dataset.w || t.dataset.preset) {
+    const key = t.dataset.wkey; let w = getW(key);
+    if (t.dataset.preset) w = {...PRESETS[+t.dataset.preset][1]};
+    else { const v = w[t.dataset.w] || 0; w[t.dataset.w] = v >= 1 ? 0.5 : v > 0 ? 0 : 1; }
+    setW(key, w);
+    if (state.mode === 'manual') { $('#m-w').innerHTML = weightsUI(key); manualCalc(); } else renderAccount();
+    return;
+  }
+  if (t.dataset.key) {
+    state.sel = t.dataset.key; renderAccount();
+    if (t.dataset.jump != null) document.getElementById('art-'+t.dataset.jump)?.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
   if (t.dataset.tab) { setTab(t.dataset.tab); return; }
   if (t.dataset.f) { state.filter = t.dataset.f; renderLib(); return; }
-  if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; state.tab==='lib' ? renderLib() : renderSheet(); return; }
+  if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; renderLib(); return; }
   if (t.dataset.copy) {
     const cfg = CONFIGS.find(c => c.id === t.dataset.copy); const text = FILES[cfg.file].trim();
     const toast = document.getElementById('toast-'+cfg.id);
-    const fallback = () => { state.open[cfg.id] = true; state.tab==='lib' ? renderLib() : renderSheet();
+    const fallback = () => { state.open[cfg.id] = true; renderLib();
       const pre = document.getElementById('pre-'+cfg.id); const r = document.createRange(); r.selectNodeContents(pre);
       const s = getSelection(); s.removeAllRanges(); s.addRange(r); const tt = document.getElementById('toast-'+cfg.id); if (tt) tt.textContent = 'Выделил JSON, нажми Ctrl+C'; };
     try { navigator.clipboard.writeText(text).then(() => { toast.textContent = 'Скопировано'; setTimeout(()=>toast.textContent='',1800); }, fallback); } catch { fallback(); }
@@ -598,17 +856,16 @@ document.addEventListener('click', e => {
 function setTab(tab){
   state.tab = tab;
   $('#tab-acc').setAttribute('aria-selected', tab==='acc'); $('#tab-lib').setAttribute('aria-selected', tab==='lib');
-  $('#view-acc').hidden = tab !== 'acc'; $('#acc-search').hidden = tab !== 'acc'; $('#view-lib').hidden = tab !== 'lib';
+  $('#view-acc').hidden = tab !== 'acc'; $('#view-lib').hidden = tab !== 'lib';
   if (tab === 'lib') renderLib();
 }
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
 
 $('#report').onclick = () => {
   const p = state.profile;
-  const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab,
-    proxy: store.get('proxy') ? 'задан' : 'нет',
-    profile: p ? { source: p.source, hidden: !!p.hidden, showcase: p.showcase, chars: p.chars.map(c => `${c.key} C${c.cons}${c.level?' L'+c.level:''}${c.weapon?' | '+c.weapon.name+(c.ref?'':'')+(c.weapon.ref?' R'+c.weapon.ref:''):''}${c.stats?'':' | без статов'}${c.arts?' | арт '+c.arts.length:''}`),
-      selected: state.sel, icons: (() => { const c = p.chars.find(x => x.key === state.sel); return c ? { weapon: c.weapon?.icon, art: c.arts?.[0]?.icon } : null; })() } : null,
+  const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab, mode: state.mode, g: state.g,
+    profile: p ? { source: p.source, hidden: !!p.hidden, chars: p.chars.map(c => `${c.key} C${c.cons} | арт ${c.arts?.length||0}, с историей ${(c.arts||[]).filter(a => a.rolls).length}`), selected: state.sel } : null,
+    manual: state.mode === 'manual' ? manualState() : undefined,
     log: DIAG };
   const text = '```json\n' + JSON.stringify(rep, null, 1) + '\n```';
   const ta = $('#report-text'); ta.value = text;
@@ -616,9 +873,12 @@ $('#report').onclick = () => {
   try { navigator.clipboard.writeText(text).then(() => { $('#report-toast').textContent = 'Скопировано, вставь в тред'; }, show); } catch { show(); }
 };
 
-// boot: last loaded account, else the example
+// boot: last loaded account (refreshed quietly), guarantee and mode from last visit
+renderCtrl();
 let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
+if (state.mode === 'manual') renderManual();
 if (location.hash === '#library') setTab('lib');
+
 </script>
