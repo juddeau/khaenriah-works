@@ -430,7 +430,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
         <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Список статов по умолчанию взят у Акаши, его можно поменять под свой отряд. Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Перековка» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных рероллов гарантия 3, на третьем усиленном подряд 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
-        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с двумя критами и 4 статами (крит в основном стате короны считается), потом 3-статы с двумя критами и полезными остальными статами (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Кандидатам по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Кандидатам по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
         <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. На 40 000 случайных артефактах так угадано верно в 99% случаев, а уверенность сайт пишет на каждом артефакте. Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
@@ -853,24 +853,30 @@ function startOf(a, m){
   return h ? {n: h.L, sure: h.confL >= 0.9} : null;
 }
 const startTxt = st => st ? `${st.n} стата${st.sure ? '' : '?'}` : '';
-// Feathers are rare. For characters whose RV counts crits:
-//  1) 4 stats with both crits (a crit main stat on the circlet counts as one of them): the real candidates;
-//  2) 3 stats with both crits and useful other stats: fine, but only after the 4-stat ones;
-//  3) 3 stats with both crits and junk (flat DEF, HP...) and anything without both crits: not worth it.
-// Candidates rank by class, then verdict, then gain per feather. Without crits in the list only 4 vs 3 stats matters.
+// Feathers are rare. Order for characters whose RV counts crits (a crit main stat on the circlet counts as a crit):
+//  4 stats + both crits: full use (every other stat useful, as far as the character's list allows) > partial > none;
+//  then 3 stats + both crits with full use (capped at "Можно"); the rest is not worth a feather.
+// Within a class: verdict, then gain per feather. Without crits in the list only stat count and use matter.
 function judge(m, w, r){
   const critChar = w.cr > 0 && w.cd > 0, has = k => m.main === k || m.subs.some(s => s.k === k);
   const four = m.nEnh === 5, crits = has('cr') && has('cd');
-  const others = m.subs.filter(s => s.k !== 'cr' && s.k !== 'cd'), extra = others.filter(s => w[s.k] > 0).length;
-  let cls3 = four ? 2 : (critChar ? extra >= Math.min(2, others.length) : extra >= 3) ? 1 : 0, why = '', note = '';
-  if (critChar && !crits) { cls3 = 0; why = 'нет двух критов'; }
-  else if (cls3 === 0) why = critChar ? '3 стата, остальное бесполезно' : '3 стата';
-  else if (cls3 === 1) note = 'Хороший 3-стат: роллить можно, но после артефактов с 4 статами.';
+  const others = m.subs.filter(s => !(critChar && (s.k === 'cr' || s.k === 'cd')));
+  const extra = others.filter(s => w[s.k] > 0).length;
+  // how many useful off-stats this piece could have at best: limited by the character's list (and the main stat)
+  const avail = SUBK.filter(k => w[k] > 0 && !(critChar && (k === 'cr' || k === 'cd')) && k !== m.main).length;
+  const need = Math.min(others.length, avail), use = extra >= need ? 'full' : extra > 0 ? 'part' : 'none';
+  const useTxt = need ? `польза ${Math.min(extra, need)}/${need}` : '';
+  let cls4, why = '', note = '';
+  if (critChar && !crits) { cls4 = 0; why = 'нет двух критов'; }
+  else if (four) cls4 = use === 'full' ? 5 : use === 'part' ? 4 : 3;
+  else if (use === 'full') { cls4 = 2; note = 'Хороший 3-стат: роллить можно, но после артефактов с 4 статами.'; }
+  else { cls4 = use === 'part' ? 1 : 0.5; why = critChar ? (use === 'part' ? '3 стата, не вся польза' : '3 стата без пользы') : '3 стата'; }
   let [cls, text] = why ? ['', 'Не стоит'] : VERDICT(r.perDust);
-  if (cls3 === 1 && cls === 'go') [cls, text] = ['warn', 'Можно'];
+  if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', 'Можно'];
   if (text === 'Не стоит') note = '';
   const tierN = why ? 0 : r.perDust >= 0.6 ? 3 : r.perDust >= 0.25 ? 2 : 1;
-  return {cls, text, why, note, ok: !why, extra, critChar, key: cls3 * 1000 + tierN * 100 + r.perDust};
+  const tag = [four ? '4 стата' : '3 стата', critChar ? (crits ? '2 крита' : 'без 2 критов') : '', useTxt].filter(Boolean).join(' · ');
+  return {cls, text, why, note, ok: !why, extra, critChar, tag, key: cls4 * 1000 + tierN * 100 + r.perDust};
 }
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
 // gains are shown in RV percent: 1 max roll = 100%
@@ -998,7 +1004,7 @@ function renderAccount(){
   const bestPanel = `<div class="drawer" id="drawer-best">${top.length ? `<div class="best">${top.map((t, n) => {
       const i = charInfo(t.c.key), vc = t.j.cls, vt = t.j.text;
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el});--i:${n}">${face(t.c.key, 'sm')}
-        <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${esc(startTxt(startOf(t.a, t.m)))} · ${esc(t.a.set)}</small></span>
+        <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${esc(t.j.tag)} · ${esc(t.a.set)}</small></span>
         <span class="pair">Пара <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс удачи ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>RV за перо</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>`
@@ -1068,18 +1074,19 @@ function renderSheet(){
     const r = x.m.ok ? bestPair(x.m, w, state.g) : null;
     let st, cls, rank;
     let why = '';
-    if (r) { const j = judge(x.m, w, r); st = j.text; cls = j.cls; rank = j.key; why = j.why; }
+    let tag = '';
+    if (r) { const j = judge(x.m, w, r); st = j.text; cls = j.cls; rank = j.key; why = j.why; tag = j.tag; }
     else if (x.a.rarity === 5 && x.a.level != null && x.a.level < 20) { st = 'Сначала +20'; cls = 'lvl'; rank = -1; }
     else { st = x.a.rarity && x.a.rarity !== 5 ? 'Только 5★' : 'Нельзя'; cls = 'no'; rank = -2; }
-    return {x, idx, r, st, cls, rank, why, start: startOf(x.a, x.m)};
+    return {x, idx, r, st, cls, rank, why, tag, start: startOf(x.a, x.m)};
   });
   const order = [...rows].sort((a, b) => b.rank - a.rank);
   const best = order[0]?.r && !order[0].why ? order[0] : null;
   const table = `<div class="card pieces" style="--i:2"><h3>Какие артефакты роллить</h3>
-    <p class="sub" style="margin:0 0 6px">Перья в первую очередь на артефакты +20 с двумя критами и 4 статами (крит в основном стате короны тоже считается), потом на 3-статы с двумя критами и полезными остальными статами. Шанс удачи: вероятность, что после реролла RV станет выше. Гарантия ${state.g}, меняется сверху.</p>
+    <p class="sub" style="margin:0 0 6px">Порядок: 4 стата с двумя критами и полной пользой (все остальные статы нужны персонажу), потом с частичной, потом без пользы, потом хорошие 3-статы. Крит в основном стате короны считается. Шанс удачи: вероятность, что после реролла RV станет выше. Гарантия ${state.g}, меняется сверху.</p>
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
-      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
+      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
       <span class="pl ${y.cls}">${esc(y.st)}${y.why ? `<small>${esc(y.why)}</small>` : ''}</span>
       <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
       <span class="pv">${y.r ? `<b>${r1(y.r.perDust)}</b><small>RV за перо</small>` : ''}</span></button>`).join('')}
@@ -1262,7 +1269,7 @@ document.addEventListener('click', e => {
   }
   if (t.dataset.key) {
     state.sel = t.dataset.key; if (t.dataset.jump == null) state.panel = null; renderAccount();
-    if (t.dataset.jump != null) { const row = document.querySelector(`.prow[data-goto="art-${t.dataset.jump}"]`); if (row) { row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash'); } }
+    if (t.dataset.jump != null) flashTo(document.getElementById('art-' + t.dataset.jump));
     return;
   }
   if (t.dataset.tab) { setTab(t.dataset.tab); return; }
