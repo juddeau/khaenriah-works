@@ -178,6 +178,10 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .akbig span{font-size:13px}.akbig small{color:var(--muted);font-size:12px}
 .akbig small:first-child{grid-column:1/-1;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
 .akmore{font-size:13px;color:var(--muted)}.akmore summary{cursor:pointer;text-align:right}
+.akest{max-width:340px;text-align:right;font-size:12px;margin:0}
+.akbig.akest{max-width:none;text-align:left;border-style:dashed}.akbig.akest b{font-size:22px}
+.aksm{display:block;font-size:13px;color:var(--fg);text-decoration:none}.aksm b{color:var(--gold);font-family:var(--f-mono)}
+@media (max-width:600px){.akest{text-align:left;max-width:none}}
 .akmore a{display:block;color:var(--fg);text-decoration:none;padding:3px 0}.akmore a b{color:var(--gold);font-family:var(--f-mono)}
 .akmiss{margin:0;max-width:30ch}
 .tiles3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
@@ -458,11 +462,12 @@ function fromEnka(j, uid){
       ['Крит. шанс', ((f[20]||0)*100).toFixed(1)+'%'], ['Крит. урон', ((f[22]||0)*100).toFixed(1)+'%'],
       ['ВЭ', ((f[23]||0)*100).toFixed(1)+'%'], [EL_RU[el]+' урон', ((f[dmgIds[el]]||0)*100).toFixed(1)+'%']
     ] : null;
-    return { key, level: +(av.propMap?.['4001']?.val) || null, cons: (av.talentIdList||[]).length,
+    return { key, id: av.avatarId, level: +(av.propMap?.['4001']?.val) || null, cons: (av.talentIdList||[]).length,
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
       talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts,
       base: f[1] ? {hp: f[1], atk: f[4], def: f[7]} : null,
-      fp: f[2000] ? {hp: f[2000], atk: f[2001], def: f[2002], em: f[28] || 0, cr: f[20] || 0, cd: f[22] || 0} : null };
+      fp: f[2000] ? {hp: f[2000], atk: f[2001], def: f[2002], em: f[28] || 0, cr: f[20] || 0, cd: f[22] || 0, er: f[23] || 1,
+        dmg: Object.fromEntries(Object.entries({...dmgIds, physical: 30}).map(([k, id]) => [k, f[id] || 0]))} : null };
   });
   const pic = p.profilePicture || {};
   const avatarPic = DATA.pfps[pic.id] || (CH[pic.avatarId] ? 'UI_AvatarIcon_Side_' + CH[pic.avatarId][6] : null);
@@ -737,18 +742,145 @@ async function loadAkasha(uid){
     if (state.mode === 'uid') renderAccount();
   } catch (err) { diag('akasha ошибка: ' + err.message); }
 }
-function akashaBlock(key){
+function akashaBlock(c){
   if (state.mode !== 'uid') return '';
-  const a = state.akasha;
+  const key = c.key, a = state.akasha;
   if (a?.missing) return `<p class="sub akmiss">Место в Акаше появится после обновления посредника в Cloudflare.</p>`;
   const list = a?.uid && a.uid === String(state.profile?.uid) ? a.by[key] : null;
-  if (!list?.length) return '';
+  if (!list?.length) return `<div class="akbox">${estBlock(c, false)}</div>`;
   const fmt = n => Number(n).toLocaleString('ru-RU');
   const topS = x => x.top < 1 ? x.top.toFixed(1).replace('.', ',') : Math.round(x.top);
   const [b, ...rest] = list;
   return `<div class="akbox"><a class="akbig" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
       <small>Акаша ↗</small><b>топ ${topS(b)}%</b><span>${esc(b.name)}${b.variant ? ' · ' + esc(b.variant) : ''}</span><small>${fmt(b.rank)} из ${fmt(b.of)}</small></a>
-    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}</div>`;
+    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}
+    ${estBlock(c, true)}</div>`;
+}
+
+// ---------- Estimated Akasha place for a build that is not on Akasha yet ----------
+// Akasha's damage formulas are closed. So the page samples ~120 real entries of the same leaderboard (stats, result, rank),
+// fits ln(result) on ln(stats) with ridge regression, predicts this build's result and reads the rank off the sampled entries.
+const akIcon = s => ((/UI_EquipIcon_[A-Za-z0-9_]+/.exec(s || '') || [''])[0]).replace(/_Awaken$/, '');
+const akData = j => Array.isArray(j) ? j : Array.isArray(j?.data) ? j.data : [];
+function akFeat(s, cons){
+  const cr = Math.min(1, Math.max(0, s.cr));
+  return [Math.log(s.hp), Math.log(s.atk), Math.log(s.def), Math.log(1 + 2.78 * s.em / (s.em + 1400)),
+    Math.log(1 + cr * s.cd), Math.log(1 + s.dmg), Math.log(Math.max(0.5, s.er)), cons];
+}
+// ridge regression on standardized columns; constant columns (everyone the same) get no say
+function ridge(X, y, lam){
+  const n = X.length, p = X[0].length, mu = [], sd = [];
+  for (let j = 0; j < p; j++) {
+    const col = X.map(r => r[j]), m = col.reduce((a, b) => a + b, 0) / n;
+    const v = col.reduce((a, b) => a + (b - m) ** 2, 0) / n;
+    mu.push(m); sd.push(v > 1e-12 ? Math.sqrt(v) : 0);
+  }
+  const Z = X.map(r => r.map((x, j) => sd[j] ? (x - mu[j]) / sd[j] : 0));
+  const ym = y.reduce((a, b) => a + b, 0) / n;
+  const A = Array.from({length: p}, (_, i) => Array.from({length: p}, (_, j) => Z.reduce((a, r) => a + r[i] * r[j], 0) + (i === j ? lam * n : 0)));
+  const bv = Array.from({length: p}, (_, i) => Z.reduce((a, r, k) => a + r[i] * (y[k] - ym), 0));
+  for (let i = 0; i < p; i++) {             // Gauss-Jordan, A is symmetric positive definite
+    const d = A[i][i]; for (let j = 0; j < p; j++) A[i][j] /= d; bv[i] /= d;
+    for (let k = 0; k < p; k++) if (k !== i) { const f = A[k][i]; for (let j = 0; j < p; j++) A[k][j] -= f * A[i][j]; bv[k] -= f * bv[i]; }
+  }
+  const pred = x => ym + x.reduce((a, v, j) => a + (sd[j] ? bv[j] * (v - mu[j]) / sd[j] : 0), 0);
+  const res = X.map((r, k) => y[k] - pred(r));
+  const sigma = Math.sqrt(res.reduce((a, r) => a + r * r, 0) / Math.max(1, n - p - 1));
+  return {pred, sigma, mu, sd};
+}
+// rank for a result, read off sampled (result, rank) points; ranks are interpolated on a log scale
+function akRank(pts, r){
+  if (r >= pts[0].res) return 1;
+  for (let i = 1; i < pts.length; i++) if (r >= pts[i].res) {
+    const a = pts[i - 1], b = pts[i], t = (a.res - r) / ((a.res - b.res) || 1);
+    return Math.round(Math.exp(Math.log(a.rank) + t * (Math.log(b.rank) - Math.log(a.rank))));
+  }
+  return null;                                // below everything sampled
+}
+async function akEstimate(c){
+  const base = (store.get('proxy') || DEFAULT_PROXY).replace(/\/$/, '');
+  const get = async path => { const r = await fetch(base + path); if (r.status === 404 && !(await r.clone().text()).includes('akasha-lb')) throw new Error('old-worker'); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); };
+  const el = charInfo(c.key).el, cons = c.cons || 0;
+  const id = c.id || Object.keys(CH).find(k => CH[k][0] === c.key);
+  const cats = akData(await get(`/akasha-cats/${id}`));
+  const mine = akIcon(c.weapon?.baseIcon || c.weapon?.icon);
+  const all = [], fits = [];
+  for (const cat of cats) for (const wpn of cat.weapons || []) {
+    all.push(wpn.name);
+    const cMin = /^C(\d)/.exec(cat.name || '');
+    if (mine && akIcon(wpn.icon) === mine && !(cMin && +cMin[1] > cons)) fits.push({cat, wpn});
+  }
+  if (!fits.length) return {none: true, weapons: [...new Set(all)]};
+  const out = [];
+  for (const {cat, wpn} of fits.slice(0, 4)) {
+    const calc = wpn.calculationId;
+    const topJ = await get(`/akasha-lb/${calc}?size=20`);
+    const top = akData(topJ); if (!top.length) continue;
+    const r1 = top[0].calculation?.result; if (!r1) continue;
+    const slices = await Promise.all([0.97, 0.93, 0.9, 0.86, 0.82, 0.78, 0.72, 0.65, 0.55, 0.45, 0.35]
+      .map(f => get(`/akasha-lb/${calc}?size=10&lt=${(r1 * f).toFixed(4)}`).then(akData).catch(() => [])));
+    let total = null;
+    if (topJ.totalRowsHash) try { total = (await get(`/akasha-size/${encodeURIComponent(topJ.totalRowsHash)}`)).totalRows || null; } catch {}
+    const seen = new Set(), rows = [];
+    for (const e of [top, ...slices].flat()) {
+      if (!e || seen.has(e._id) || !(e.calculation?.result > 0) || !(e.index > 0)) continue;
+      seen.add(e._id); rows.push(e);
+    }
+    const g = (e, k) => +(e.stats?.[k]?.value ?? e.stats?.[k] ?? 0);
+    const crs = rows.map(e => g(e, 'critRate')).sort((a, b) => a - b), pctUnits = crs[crs.length >> 1] > 3 ? 100 : 1;
+    const st = e => ({hp: g(e, 'maxHp'), atk: g(e, 'atk'), def: g(e, 'def'), em: g(e, 'elementalMastery'), er: g(e, 'energyRecharge') / pctUnits,
+      cr: g(e, 'critRate') / pctUnits, cd: g(e, 'critDamage') / pctUnits, dmg: g(e, el + 'DamageBonus') / pctUnits});
+    const f = c.fp, me = akFeat({hp: f.hp, atk: f.atk, def: f.def, em: f.em, er: f.er, cr: f.cr, cd: f.cd, dmg: f.dmg?.[el] || 0}, cons);
+    const fitOn = () => {
+      const ok = rows.filter(e => { const s = st(e); return s.hp > 0 && s.atk > 0 && s.def > 0; });
+      return ok.length < 20 ? null : {ok, fit: ridge(ok.map(e => akFeat(st(e), e.constellation || 0)), ok.map(e => Math.log(e.calculation.result)), 0.05)};
+    };
+    let r0 = fitOn(); if (!r0) continue;
+    // second pass: more entries right around the predicted result, for a sharper rank and a better local fit
+    const guess = Math.exp(r0.fit.pred(me));
+    if (guess < r1) {
+      const near = await Promise.all([1.06, 1.02, 0.98, 0.94].map(m => get(`/akasha-lb/${calc}?size=20&lt=${(guess * m).toFixed(4)}`).then(akData).catch(() => [])));
+      for (const e of near.flat()) if (e && !seen.has(e._id) && e.calculation?.result > 0 && e.index > 0) { seen.add(e._id); rows.push(e); }
+      r0 = fitOn() || r0;
+    }
+    const {ok, fit} = r0, res = Math.exp(fit.pred(me));
+    const pts = ok.map(e => ({res: e.calculation.result, rank: e.index})).sort((a, b) => b.res - a.res);
+    const rank = akRank(pts, res), hi = akRank(pts, res * Math.exp(fit.sigma)), lo = akRank(pts, res * Math.exp(-fit.sigma));
+    out.push({id: calc, name: cat.name || wpn.name, weapon: wpn.name, n: ok.length, total, rank, hi, lo, res, r1,
+      err: Math.round((Math.exp(fit.sigma) - 1) * 100), lowest: pts[pts.length - 1],
+      consSeen: ok.some(e => (e.constellation || 0) === cons)});
+  }
+  if (!out.length) throw new Error('empty');
+  const top = x => x.rank && x.total ? x.rank / x.total * 100 : null;
+  return {list: out.sort((a, b) => (top(a) ?? 999) - (top(b) ?? 999)), top};
+}
+function estBlock(c, hasReal){
+  if (!c.fp) return '';
+  const k = `${state.profile?.uid}:${c.key}`, s = (state.akEst ||= {})[k];
+  if (!s) return `<button type="button" class="alt-link akest-btn" data-akest="${esc(c.key)}">${hasReal ? 'Сверить с оценкой сайта' : 'Прикинуть место в Акаше'}</button>`;
+  if (s.loading) return `<p class="sub akest">Считаю по таблицам Акаши…</p>`;
+  if (s.error === 'old-worker') return `<p class="sub akest">Для оценки нужно обновить посредник в Cloudflare (новый код в proxy/worker.js).</p>`;
+  if (s.error) return `<p class="sub akest">Оценить не вышло (${esc(s.error)}). <button type="button" class="alt-link" data-akest="${esc(c.key)}">Ещё раз</button></p>`;
+  if (s.none) return `<p class="sub akest">У Акаши нет таблицы для ${esc(charInfo(c.key).ru)} с этим оружием. Есть с: ${esc(s.weapons.join(', ') || 'ничем')}.</p>`;
+  const fmt = n => Number(n).toLocaleString('ru-RU');
+  const pc = (r, t) => { const v = r / t * 100; return v < 1 ? v.toFixed(1).replace('.', ',') : String(Math.round(v)); };
+  const one = x => {
+    const where = x.rank == null ? `ниже ${fmt(x.lowest.rank)} места` : x.total ? `топ ${pc(x.rank, x.total)}%` : `${fmt(x.rank)} место`;
+    const range = x.total && x.hi && x.lo ? `разброс: топ ${pc(x.hi, x.total)}–${pc(x.lo, x.total)}%` : x.hi ? `разброс: ${fmt(x.hi)}–${x.lo ? fmt(x.lo) : '…'} место` : '';
+    return {where, range, place: x.rank && x.total ? `примерно ${fmt(x.rank)} из ${fmt(x.total)}` : ''};
+  };
+  const [b, ...rest] = s.list, o = one(b);
+  return `<a class="akbig akest" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
+      <small>Оценка сайта ↗</small><b>≈ ${esc(o.where)}</b><span>${esc(b.name)}${b.name !== b.weapon ? ' · ' + esc(b.weapon) : ''}</span><small>${esc([o.place, o.range].filter(Boolean).join(' · '))}</small></a>
+    ${rest.map(x => { const q = one(x); return `<a class="aksm" href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>≈ ${esc(q.where)}</b> ${esc(x.name)}</a>`; }).join('')}
+    <p class="sub akest">Это не настоящее место: формулы урона Акаши закрыты. Сайт взял ${b.n} записей этой таблицы, подобрал по ним зависимость урона от статов (промах в среднем ±${b.err}%) и поставил твои статы в этот ряд.${b.consSeen ? '' : ` Среди взятых записей нет C${c.cons}, поэтому оценка грубее.`} Точное место: выставь персонажа в витрину и обнови профиль на akasha.cv.</p>`;
+}
+async function runEst(key){
+  const c = state.profile?.chars?.find(x => x.key === key); if (!c) return;
+  const k = `${state.profile.uid}:${key}`; (state.akEst ||= {})[k] = {loading: true}; renderSheet();
+  try { state.akEst[k] = await akEstimate(c); }
+  catch (err) { state.akEst[k] = {error: err.message === 'old-worker' ? 'old-worker' : err.message}; diag('оценка акаши: ' + err.message); }
+  renderSheet();
 }
 
 // ---------- render: reshape by UID ----------
@@ -911,7 +1043,7 @@ function renderSheet(){
       <div class="who"><span class="avw">${face(c.key, 'lg')}${weaponIcon(wp)}</span>
         <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
         ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
-      ${akashaBlock(c.key)}
+      ${akashaBlock(c)}
     </section>
     <div class="tiles3">
       <div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}% возможных` : 'нет артефактов'}</span><em>Сколько RV набрали артефакты от лучшего возможного. Лучший артефакт: все 4 саб стата полезные и все 5 улучшений ушли в них, это 900% RV.</em></div>
@@ -1046,8 +1178,9 @@ function renderCtrl(){
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-onlyset]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-onlyset],[data-akest]');
   if (!t) return;
+  if (t.dataset.akest) { runEst(t.dataset.akest); return; }
   if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
   if (t.dataset.el) { state.el = t.dataset.el; renderAccount(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }

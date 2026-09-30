@@ -1,6 +1,9 @@
 // Cloudflare Worker for Khaenri'ah Works on GitHub Pages. Adds CORS headers to two read-only lookups:
 //   /api/uid/<UID>/  -> Enka.Network showcase (characters, artifacts with roll history)
 //   /akasha/<UID>    -> Akasha System rankings for that UID (unofficial API, may change without notice)
+//   /akasha-cats/<characterId>        -> Akasha leaderboard categories of a character
+//   /akasha-lb/<calculationId>?lt=&size= -> a slice of one leaderboard (entries below result lt), for the rank estimate
+//   /akasha-size/<hash>               -> total rows of a leaderboard
 // Only UIDs are accepted, only the site's own origin is allowed, answers are cached.
 const SITE = 'https://juddeau.github.io';
 const CORS = {
@@ -36,8 +39,18 @@ export default {
         async r => { try { return (await r.json()).ttl || 60; } catch { return 60; } });
     } else if ((m = path.match(/^\/akasha\/(\d{9,10})\/?$/))) {
       res = await cached(ctx, `akasha/${m[1]}`, `https://akasha.cv/api/getCalculationsForUser/${m[1]}`, async () => 600);
+    } else if ((m = path.match(/^\/akasha-cats\/(\d{1,12})\/?$/))) {
+      res = await cached(ctx, `akcats/${m[1]}`, `https://akasha.cv/api/v2/leaderboards/categories?characterId=${m[1]}`, async () => 21600);
+    } else if ((m = path.match(/^\/akasha-lb\/(\d{1,12})\/?$/))) {
+      const q = new URL(request.url).searchParams;
+      const lt = /^\d+(\.\d+)?$/.test(q.get('lt') || '') ? q.get('lt') : '';
+      const size = Math.min(20, Math.max(1, parseInt(q.get('size'), 10) || 10));
+      const qs = `calculationId=${m[1]}&size=${size}&page=${lt ? 2 : 1}&sort=calculation.result&order=-1&variant=&p=${lt ? encodeURIComponent('lt|' + lt) : ''}`;
+      res = await cached(ctx, `aklb/${m[1]}/${lt}/${size}`, `https://akasha.cv/api/leaderboards?${qs}`, async () => 3600);
+    } else if ((m = path.match(/^\/akasha-size\/([A-Za-z0-9_-]{1,128})\/?$/))) {
+      res = await cached(ctx, `aksize/${m[1]}`, `https://akasha.cv/api/getCollectionSize?hash=${m[1]}&variant=charactersLb`, async () => 3600);
     } else {
-      return new Response('Use /api/uid/<UID>/ or /akasha/<UID>', { status: 404, headers: CORS });
+      return new Response('Use /api/uid/<UID>/, /akasha/<UID>, /akasha-cats/<id>, /akasha-lb/<id>, /akasha-size/<hash>', { status: 404, headers: CORS });
     }
     const out = new Response(res.body, res);
     for (const [k, v] of Object.entries(CORS)) out.headers.set(k, v);
