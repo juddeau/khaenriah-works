@@ -180,7 +180,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .todo{margin-top:10px}.todo ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:14px}
 .wbox{margin-top:10px}.wbox summary{display:flex;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;font-size:14px}
 .wbox summary::-webkit-details-marker{display:none}.wbox summary b{color:#ffe7a6;font-weight:500}
-.ra .hd .q{margin-left:auto;font:600 16px var(--f-mono);color:var(--gold)}
+.ra .hd .q{margin-left:auto;white-space:nowrap;font:600 16px var(--f-mono);color:var(--gold)}
 
 .aks{margin-top:14px;display:grid;gap:6px}
 .aks h3{margin:0}
@@ -287,6 +287,8 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
       <div class="ctrl">
         <span>Гарантия</span>
         <div class="seg" id="gseg" role="group" aria-label="Гарантия реролла"></div>
+        <span>Считать</span>
+        <div class="seg" id="vseg" role="group" aria-label="Как считать"></div>
         <span>Данные</span>
         <div class="seg" id="mseg" role="group" aria-label="Источник данных"></div>
       </div>
@@ -379,13 +381,16 @@ function charInfo(key){
   return {key, en:key, ru:key.replace(/([a-z])([A-Z])/g,'$1 $2'), el:'anemo', rar:4, icon:null};
 }
 const UI = n => `https://enka.network/ui/${n}.png`;
+// Enka's image store lags behind new patches; Project Amber (the fallback Akasha uses) often has the newer icons
+const AMBR = n => `https://gi.yatta.moe/assets/UI/${n}.png`;
+const withAmbr = names => names.filter(Boolean).flatMap(n => [UI(n), AMBR(n)]);
+const imgTag = (names, extra='') => { const s = withAmbr(names); return s.length ? `<img alt="" ${extra} src="${s[0]}" data-next="${esc(s.slice(1).join('|'))}" onerror="nextSrc(this)">` : ''; };
 function nextSrc(img){ const rest = (img.dataset.next || '').split('|').filter(Boolean); if (!rest.length) return img.remove(); img.dataset.next = rest.slice(1).join('|'); img.src = rest[0]; }
 function face(key, cls=''){
   const c = charInfo(key);
   const mono = esc((c.ru||c.en||'?').slice(0,1));
   // round portrait like GO/Akasha: front icon on the rarity gradient, side icon as fallback
-  const srcs = [c.base && UI('UI_AvatarIcon_'+c.base), c.icon && UI(c.icon)].filter(Boolean);
-  const img = srcs.length ? `<img alt="" loading="lazy" src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)">` : '';
+  const img = imgTag([c.base && 'UI_AvatarIcon_'+c.base, c.icon], 'loading="lazy"');
   return `<span class="face r${c.rar||4} ${cls}" style="--el:var(--${c.el})">${mono}${img}</span>`;
 }
 
@@ -455,7 +460,8 @@ function fromGOOD(j){
   const weapons = j.weapons || [];
   // only 5★ pieces matter here: 4★ can't be rerolled and never beat a decent 5★
   const inv = (j.artifacts || []).filter(a => a.rarity === 5 && a.slotKey).map((a, n) => ({ id: a.id ?? n, loc: a.location || '', lock: !!a.lock,
-    slot: SLOT[a.slotKey] || a.slotKey, set: splitCamel(a.setKey), setKey: a.setKey, level: a.level ?? 0, rarity: 5,
+    slot: SLOT[a.slotKey] || a.slotKey, set: DATA.sets[a.setKey]?.[1] || splitCamel(a.setKey), setKey: a.setKey, level: a.level ?? 0, rarity: 5,
+    icon: DATA.sets[a.setKey] ? `UI_RelicIcon_${DATA.sets[a.setKey][0]}_${({flower:4, plume:2, sands:5, goblet:1, circlet:3})[a.slotKey]}` : null,
     main: {k: a.mainStatKey, v: null}, subs: (a.substats || []).filter(s => s.key && s.value).map(s => ({k: s.key, v: s.value})) }));
   const chars = (j.characters || []).map(c => { const w = weapons.find(x => x.location === c.key);
     return { key: c.key, level: c.level, cons: c.constellation ?? 0, weapon: w ? {name: splitCamel(w.key), level: w.level, ref: w.refinement} : null,
@@ -466,7 +472,7 @@ function fromGOOD(j){
 
 // ---------- state ----------
 const prof = () => state.mode === 'go' ? state.go : state.profile;
-const state = { go:null, onlySet:true, profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
+const state = { metric: store.get('metric') === 'rv' ? 'rv' : 'dmg', go:null, onlySet:true, profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -681,6 +687,10 @@ function getCfg(key){
 const setCfg = (key, cfg) => store.set('cfg:'+key, JSON.stringify(cfg));
 const BASE_DEF = {hp:15000, atk:900, def:800};
 function effW(key, c){
+  if (state.metric === 'rv') {  // Akasha's RV: every roll of a listed stat counts at value / max roll
+    const w = {}; (DATA.rv[key] || ['cr','cd']).forEach(k => w[k] = 1);
+    Object.defineProperty(w, 'guess', {value: false}); return w;
+  }
   const cfg = getCfg(key), base = {...BASE_DEF, ...(c?.base || {})};
   // without final stats (GO base, manual input) assume a typical built character
   const tot = c?.fp || {hp: base.hp * 2.4, atk: base.atk * 2.3, def: base.def * 2.6, em: 90, cr: 0.65, cd: 1.5};
@@ -706,6 +716,7 @@ function cfgSummary(key){
   return [`бьёт от ${({atk:'атаки', hp:'HP', def:'защиты', em:'МС'})[cfg.sc] || '?'}`, cfg.crit ? 'криты' : 'без критов', cfg.er ? 'нужна ВЭ' : '', cfg.em && cfg.sc !== 'em' ? 'нужно МС' : ''].filter(Boolean).join(', ');
 }
 function weightsUI(key, c){
+  if (isRV()) return `<p class="sub" style="margin:8px 0 0">В режиме RV статы берутся из списка Акаши для этого персонажа и не меняются: каждый ролл в них считается как значение / максимальный ролл. Чтобы учесть твою сборку, переключи «Считать» на «по урону».</p>`;
   const cfg = getCfg(key), w = effW(key, c);
   const chip = (f, label, on) => `<button type="button" class="wchip ${on ? 'w1' : ''}" data-cf="${f}" data-wkey="${esc(key)}">${label}</button>`;
   return `<div class="presets" style="margin-top:4px">Бьёт от:</div>
@@ -772,6 +783,10 @@ function buildScore(c, w){
 }
 // rough scale: the ideal (9 useful rolls on every piece) never happens, strong real builds sit around 55-65%
 const GRADE = s => s >= 0.65 ? 'топ-уровень' : s >= 0.55 ? 'сильная' : s >= 0.45 ? 'средняя' : 'слабая';
+// Akasha's own per-artifact RV classes
+const RVGRADE = rv => rv >= 900 ? 'нереальный' : rv >= 750 ? 'единорог' : rv >= 650 ? 'верхний алмаз' : rv >= 550 ? 'алмаз' : rv >= 450 ? 'хороший' : rv >= 350 ? 'нормальный' : 'слабый';
+const isRV = () => state.metric === 'rv';
+const qTxt = x => isRV() ? `RV ${Math.round(x.u*100)}%` : `${Math.round(x.share*100)}%`;
 
 function renderAccount(){
   const p = prof();
@@ -878,13 +893,12 @@ function upgrades(c, w){
     : `Прокачать ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`;
   return {best, html: `<h2 class="sec">Замена из инвентаря</h2>
     <p class="sub" style="margin:0 0 10px">Артефакты того же слота и основного стата из базы GO: что надеть сразу, что прокачать и что зароллить пером, чтобы обогнать надетый. Роллы в базе GO без истории, поэтому шансы приблизительные.
-    ${mainSet ? `<button type="button" class="alt-link" data-onlyset="1">${state.onlySet ? `Сейчас только ${esc(splitCamel(mainSet))}, показать все сеты` : 'Показаны все сеты, оставить только 4 предмета сета'}</button>` : ''}</p>
+    ${mainSet ? `<button type="button" class="alt-link" data-onlyset="1">${state.onlySet ? `Сейчас только ${esc(DATA.sets[mainSet]?.[1] || splitCamel(mainSet))}, показать все сеты` : 'Показаны все сеты, оставить только 4 предмета сета'}</button>` : ''}</p>
     <div class="ups">${blocks}</div>`};
 }
 function weaponIcon(wp){
   if (!wp?.icon) return '';
-  const srcs = [wp.icon, wp.baseIcon].filter(Boolean).map(UI);
-  return `<span class="wbadge r${wp.rarity||4}" title="${esc(wp.name)}"><img alt="" src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)"></span>`;
+  return `<span class="wbadge r${wp.rarity||4}" title="${esc(wp.name)}">${imgTag([wp.icon, wp.baseIcon])}</span>`;
 }
 function renderSheet(){
   const c = prof()?.chars.find(x => x.key === state.sel);
@@ -901,9 +915,9 @@ function renderSheet(){
   if (weakest && weakest.share < 0.45 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (качество ${Math.round(weakest.share*100)}%) слабее остальных.`);
   if (!steps.length) steps.push('Сборка ровная, срочно менять нечего.');
   const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}">
-      <div class="hd"><span class="aicon r${x.a.rarity||5}">${x.a.icon ? `<img alt="" src="${UI(x.a.icon)}" onerror="this.remove()">` : ''}</span>
+      <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
         <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
-        <span class="q" title="Полезных роллов ${x.u.toFixed(1)} из идеальных ${x.mx.toFixed(1)}">${Math.round(x.share*100)}%</span></div>
+        <span class="q" title="${isRV() ? RVGRADE(x.u*100) : `Полезных роллов ${x.u.toFixed(1)} из идеальных ${x.mx.toFixed(1)}`}">${qTxt(x)}</span></div>
       <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
       ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
       ${rsBlock(x.m, w)}</article>`).join('');
@@ -915,12 +929,13 @@ function renderSheet(){
       ${akashaBlock(c.key)}
     </section>
     <div class="tiles3">
-      <div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.max ? GRADE(bs.share) : 'нет артефактов'}</span><em>Сколько роллов ушло в полезные статы, от идеала. Это не урон: урон и место среди игроков показывает Акаша.</em></div>
+      ${isRV() ? `<div class="tile3"><small>RV как в Акаше</small><b>${bs.items.length ? Math.round(bs.got*100).toLocaleString('ru-RU')+'%' : '—'}</b><span>${bs.items.length ? `в среднем ${Math.round(bs.got*100/bs.items.length)}% на артефакт: ${RVGRADE(bs.got*100/bs.items.length)}` : 'нет артефактов'}</span><em>Сумма ролл-вэлью по статам из списка Акаши для этого персонажа. 100% = один максимальный ролл. Шкала Акаши на артефакт: 350 нормальный, 450 хороший, 550 алмаз, 650 верхний алмаз, 750 единорог.</em></div>`
+      : `<div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.max ? GRADE(bs.share) : 'нет артефактов'}</span><em>Сколько урона дают роллы, от идеала. Урон и место среди игроков показывает Акаша.</em></div>`}
       <div class="tile3"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} ролла за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько полезных роллов в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
-      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>качество ${Math.round(weakest.share*100)}%</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
+      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${isRV() ? qTxt(weakest) : `качество ${Math.round(weakest.share*100)}%`}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
     </div>
     <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
-    <details class="card wbox"><summary><span>Цена роллов: <b>${esc(cfgSummary(c.key))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key, c)}</details>
+    <details class="card wbox"><summary><span>${isRV() ? `RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b>` : `Цена роллов: <b>${esc(cfgSummary(c.key))}</b>`}</span><span class="alt-link">изменить</span></summary>${weightsUI(c.key, c)}</details>
     ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}
     ${up.html}`;
 }
@@ -1041,15 +1056,17 @@ function renderLib(){
 // ---------- events ----------
 function renderCtrl(){
   $('#gseg').innerHTML = [[2,'2','обычная'],[3,'3','усиленная'],[4,'4','высшая']].map(([g, n, t]) => `<button type="button" data-g="${g}" aria-pressed="${state.g===g}">${n}<small>${t}</small></button>`).join('');
+  $('#vseg').innerHTML = [['dmg','по урону'],['rv','RV как в Акаше']].map(([m, t]) => `<button type="button" data-metric="${m}" aria-pressed="${state.metric===m}">${t}</button>`).join('');
   $('#mseg').innerHTML = [['uid','По UID'],['go','База GO'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
   $('#mode-uid').hidden = state.mode === 'manual'; $('#mode-manual').hidden = state.mode !== 'manual';
   $('#uidbox').hidden = state.mode !== 'uid'; $('#gobox').hidden = state.mode !== 'go';
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-sc],[data-cf],[data-onlyset]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-sc],[data-cf],[data-onlyset],[data-metric]');
   if (!t) return;
   if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
+  if (t.dataset.metric) { state.metric = t.dataset.metric; store.set('metric', state.metric); rerender(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
   if (t.dataset.mode) { state.mode = t.dataset.mode; store.set('mode', state.mode); rerender(); return; }
   if (t.dataset.sc || t.dataset.cf) {
