@@ -145,6 +145,36 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 @media (prefers-reduced-motion:no-preference){.ava,.chip,.tab{transition:background-color .15s,border-color .15s}}
 
 /* reshape tool */
+.hero{margin-top:10px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between;padding:18px;border-radius:18px;border:1px solid var(--line);
+  background:radial-gradient(120% 140% at 0% 0%,color-mix(in srgb,var(--el) 28%,var(--panel)) 0%,var(--panel) 60%)}
+.hero .who{display:flex;gap:18px;align-items:center;min-width:0}
+.hero h2{font-family:var(--f-display);font-size:26px;font-weight:600;margin:0;line-height:1.15}
+.avw{position:relative;flex:none}
+.wbadge{position:absolute;right:-10px;bottom:-6px;width:46px;height:46px;border-radius:12px;background:var(--rar-bg,var(--panel-2));border:2px solid var(--bg);overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.wbadge img{width:100%;height:100%;object-fit:contain}
+.wname{margin-top:4px;font-size:14px}.wname b{color:var(--gold);font-weight:600}
+.akbox{display:grid;gap:6px;justify-items:end}
+@media (max-width:600px){.akbox{justify-items:stretch;width:100%}}
+.akbig{display:grid;grid-template-columns:auto auto;gap:0 12px;align-items:baseline;padding:10px 16px;border-radius:14px;text-decoration:none;color:var(--fg);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,var(--bg)),var(--bg));border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line))}
+.akbig b{font:600 26px var(--f-mono);color:var(--gold);grid-row:span 2}
+.akbig span{font-size:13px}.akbig small{color:var(--muted);font-size:12px}
+.akbig small:first-child{grid-column:1/-1;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.akmore{font-size:13px;color:var(--muted)}.akmore summary{cursor:pointer;text-align:right}
+.akmore a{display:block;color:var(--fg);text-decoration:none;padding:3px 0}.akmore a b{color:var(--gold);font-family:var(--f-mono)}
+.akmiss{margin:0;max-width:30ch}
+.tiles3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+@media (max-width:760px){.tiles3{grid-template-columns:minmax(0,1fr)}}
+.tile3{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:2px;align-content:start}
+.tile3 small{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.tile3 b{font:600 24px var(--f-mono);color:var(--gold);line-height:1.2}
+.tile3 span{font-size:14px}
+.tile3 em{font-style:normal;color:var(--muted);font-size:12px;margin-top:6px}
+.todo{margin-top:10px}.todo ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:14px}
+.wbox{margin-top:10px}.wbox summary{display:flex;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;font-size:14px}
+.wbox summary::-webkit-details-marker{display:none}.wbox summary b{color:#ffe7a6;font-weight:500}
+.ra .hd .q{margin-left:auto;font:600 16px var(--f-mono);color:var(--gold)}
+
 .aks{margin-top:14px;display:grid;gap:6px}
 .aks h3{margin:0}
 .akrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);text-decoration:none;font-size:14px}
@@ -602,7 +632,7 @@ function pairName(m, w, pair){
 }
 const VERDICT = pd => pd >= 0.6 ? ['go','Роллить'] : pd >= 0.25 ? ['warn','Можно'] : ['','Не стоит'];
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
-const r1 = x => (x >= 0 ? '+' : '') + x.toFixed(Math.abs(x) > 0.004 && Math.abs(x) < 0.1 ? 2 : 1).replace('.', ',');
+const r1 = x => Math.abs(x) < 0.005 ? '0' : (x >= 0 ? '+' : '') + x.toFixed(Math.abs(x) < 0.1 ? 2 : 1).replace('.', ',');
 
 // ---------- weights ----------
 const WDEF = {cr:1, cd:1, atk_:1};
@@ -667,12 +697,15 @@ async function loadAkasha(uid){
 }
 function akashaBlock(key){
   const a = state.akasha;
-  if (a?.missing) return `<p class="sub" style="margin:10px 0 0">Место в Акаше появится, когда в Cloudflare будет обновлён код посредника.</p>`;
+  if (a?.missing) return `<p class="sub akmiss">Место в Акаше появится после обновления посредника в Cloudflare.</p>`;
   const list = a?.uid && a.uid === String(state.profile?.uid) ? a.by[key] : null;
   if (!list?.length) return '';
   const fmt = n => Number(n).toLocaleString('ru-RU');
-  return `<div class="aks"><h3>Акаша</h3>${list.slice(0, 3).map(x => `<a class="akrow" href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener">
-      <b>топ ${x.top < 1 ? x.top.toFixed(1).replace('.', ',') : Math.round(x.top)}%</b><span>${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}${x.weapon ? ` <small>${esc(x.weapon)}</small>` : ''}</span><small>${fmt(x.rank)} из ${fmt(x.of)}</small></a>`).join('')}</div>`;
+  const topS = x => x.top < 1 ? x.top.toFixed(1).replace('.', ',') : Math.round(x.top);
+  const [b, ...rest] = list;
+  return `<div class="akbox"><a class="akbig" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
+      <small>Акаша ↗</small><b>топ ${topS(b)}%</b><span>${esc(b.name)}${b.variant ? ' · ' + esc(b.variant) : ''}</span><small>${fmt(b.rank)} из ${fmt(b.of)}</small></a>
+    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}</div>`;
 }
 
 // ---------- render: reshape by UID ----------
@@ -736,45 +769,57 @@ function subLines(m, subs, w){
 function rsBlock(m, w){
   if (!m.ok) return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
   const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust);
-  const gs = [2,3,4].map(g => { const x = bestPair(m, w, g); return `<span class="${g===state.g?'cur':''}">гарантия ${g}: <b>${r1(x.eGain)}</b></span>`; }).join('');
+  const other = [2,3,4].filter(g => g !== state.g).map(g => `${g}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
-    <div class="v1"><span class="pairl">Выбрать <b>${esc(pairName(m, w, r.pair))}</b></span><span class="pill ${vc}">${vt}</span></div>
-    <div>Шанс стать лучше <b>${pct(r.pBetter)}</b>, хуже ${pct(r.pWorse)}</div>
-    <div>В среднем <b>${r1(r.eGain)}</b> полезного ролла, <b>${r1(r.perDust)}</b> за 1 перо (цена ${m.cost})</div>
-    <div class="g">${gs}</div>
-    ${m.nEnh === 4 ? `<div class="sub">3-стат: при реролле всего 4 улучшения, роллить после 4-статов</div>` : ''}
-    ${m.exact ? '' : `<div class="sub">Роллы восстановлены по значениям${m.approx ? ', число улучшений не сошлось, проверь цифры' : ''}</div>`}
+    <div class="v1"><span class="pill ${vc}">${vt}</span><span class="sub">${r1(r.perDust)} ролла за перо</span></div>
+    <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b></div>
+    <div class="sub">Шанс стать лучше ${pct(r.pBetter)}. С гарантией ${other}</div>
+    ${m.nEnh === 4 ? `<div class="sub">3-стат: при реролле всего 4 улучшения</div>` : ''}
+    ${m.exact ? '' : `<div class="sub">Роллы восстановлены по значениям${m.approx ? ', проверь цифры' : ''}</div>`}
   </div>`;
+}
+function weaponIcon(wp){
+  if (!wp?.icon) return '';
+  const srcs = [wp.icon, wp.baseIcon].filter(Boolean).map(UI);
+  return `<span class="wbadge r${wp.rarity||4}" title="${esc(wp.name)}"><img alt="" src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)"></span>`;
 }
 function renderSheet(){
   const c = state.profile && state.profile.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
   const i = charInfo(c.key), w = effW(c.key, c.base), bs = buildScore(c, w);
-  const hot = bs.items.map(x => x.m.ok ? bestPair(x.m, w, state.g).perDust : -1);
-  const bestIdx = hot.indexOf(Math.max(...hot));
+  const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
+    .sort((a, b) => b.r.perDust - a.r.perDust)[0];
   const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
-  const advice = [];
-  if (weakest) advice.push(`Слабее всего ${weakest.a.slot.toLowerCase()}: ${Math.round(weakest.share*100)}% от идеала. Его в первую очередь менять или роллить.`);
-  if (bestIdx >= 0 && hot[bestIdx] >= 0.25) advice.push(`Выгоднее всего зароллить ${bs.items[bestIdx].a.slot.toLowerCase()}: ${r1(hot[bestIdx])} ролла за перо.`);
-  else if (bs.items.some(x => x.m.ok)) advice.push('Реролл здесь почти ничего не даст: хорошие артефакты уже сильнее среднего результата.');
-  if (bs.items.length < 5) advice.push(`Надето ${bs.items.length} из 5 артефактов.`);
-  const cards = bs.items.map((x, idx) => `<article class="ra ${idx===bestIdx && hot[idx]>=0.6 ? 'hot' : ''}" id="art-${idx}">
+  const steps = [];
+  if (bs.items.length < 5) steps.push(`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`);
+  if (best && best.r.perDust >= 0.25) steps.push(`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`);
+  else if (best) steps.push('Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.');
+  if (weakest && weakest.share < 0.45 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (качество ${Math.round(weakest.share*100)}%) слабее остальных.`);
+  if (!steps.length) steps.push('Сборка ровная, срочно менять нечего.');
+  const on = TOGGLE.filter(k => w[k] > 0).map(k => SUB[k].n);
+  const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${x.a.icon ? `<img alt="" src="${UI(x.a.icon)}" onerror="this.remove()">` : ''}</span>
-        <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div></div>
-      ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
-      <div class="useful"><span>Полезных роллов <b>${x.u.toFixed(1).replace('.',',')}</b> из ${x.mx.toFixed(1).replace('.',',')}</span><b>${Math.round(x.share*100)}%</b></div>
+        <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
+        <span class="q" title="Полезных роллов ${x.u.toFixed(1)} из идеальных ${x.mx.toFixed(1)}">${Math.round(x.share*100)}%</span></div>
       <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
+      ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
       ${rsBlock(x.m, w)}</article>`).join('');
-  $('#sheet').innerHTML = `<div class="card" style="--el:var(--${i.el});margin-top:8px">
-      <div class="bhead">${face(c.key, 'lg')}<div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)}${c.weapon.ref ? ' R'+c.weapon.ref : ''}` : ''}</div></div>
-        <div class="score"><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><small>оценка сборки: ${bs.max ? GRADE(bs.share) : 'нет артефактов'}</small><small>${bs.got.toFixed(1).replace('.',',')} полезных роллов</small></div></div>
-      ${advice.length ? `<ul class="advice">${advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
+  const wp = c.weapon;
+  $('#sheet').innerHTML = `<section class="hero" style="--el:var(--${i.el})">
+      <div class="who"><span class="avw">${face(c.key, 'lg')}${weaponIcon(wp)}</span>
+        <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
+        ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
       ${akashaBlock(c.key)}
-      <h3 style="margin-top:16px">Полезные статы · нажми, чтобы поменять</h3>${weightsUI(c.key)}
+    </section>
+    <div class="tiles3">
+      <div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.max ? GRADE(bs.share) : 'нет артефактов'}</span><em>Сколько роллов ушло в полезные статы, от идеала. Это не урон: урон и место среди игроков показывает Акаша.</em></div>
+      <div class="tile3"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} ролла за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько полезных роллов в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
+      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>качество ${Math.round(weakest.share*100)}%</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
     </div>
-    ${cards ? `<div class="ras" style="margin-top:12px">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}`;
+    <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
+    <details class="card wbox"><summary><span>Полезные статы: <b>${esc(on.join(', ') || 'не выбраны')}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
+    ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}`;
 }
-
 // ---------- render: manual ----------
 function manualState(){
   let s = null; try { s = JSON.parse(store.get('manual') || 'null'); } catch {}
