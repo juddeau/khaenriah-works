@@ -359,6 +359,12 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .prow.no{opacity:.6}
 @media (max-width:600px){.prow{grid-template-columns:auto minmax(0,1fr) auto;}.prow .pl{grid-column:2;grid-row:2}.prow .pv:last-child{display:none}}
 .luck{font-size:13px;color:var(--muted)}.luck b{font:600 18px var(--f-mono);color:var(--fg);margin-right:2px}
+
+.why{font-size:12.5px;color:var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:8px;padding:6px 8px}
+.pl small{grid-column:2;font-weight:400;font-size:11px;color:var(--muted)}
+.prow .pl{display:inline-grid;grid-template-columns:auto auto;column-gap:6px;align-items:center}
+.ra .hd .t small.st{display:block;color:var(--muted);font-size:11.5px}
+.prow.flash{animation:flash 1s ease-out}
 </style>
 
 <header class="top">
@@ -423,7 +429,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
         <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Список статов по умолчанию взят у Акаши, его можно поменять под свой отряд. Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Перековка» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных рероллов гарантия 3, на третьем усиленном подряд 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
-        <li><b>Вердикт</b> по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Эти пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Вердикт.</b> Перья редкие, поэтому кандидат только артефакт +20 с двумя критами и 4 статами на старте (для персонажей, у которых криты в списке RV). Остальным сразу «Не стоит», шанс всё равно показан. Кандидатам по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
         <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. На 40 000 случайных артефактах так угадано верно в 99% случаев, а уверенность сайт пишет на каждом артефакте. Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
@@ -708,22 +714,25 @@ function initTiers(k, v, r){
   const z = it.reduce((a, b) => a + b, 0);
   return z ? it.map(x => x / z) : null;
 }
-function guessHistory(subsIn, lines){
+function guessHistory(subsIn, lines, level = 20){
+  const ups = Math.floor(Math.min(20, level) / 4);
   const opts = subsIn.map(s => rollOptions(s.k, s.v));
   if (opts.some(o => !o.length)) return null;
   const hyps = []; let Z = 0;
   for (const L of lines ? [lines] : [3, 4]) {
-    const nUp = L === 4 ? 5 : 4, prior = L === 4 ? 0.25 : 0.75;
+    const nUp = L === 4 ? ups : ups - 1, prior = L === 4 ? 0.25 : 0.75;   // a 3-line piece spends its first upgrade on the 4th line
+    if (nUp < 0) continue;
     for (const a of opts[0]) for (const b of opts[1]) for (const c of opts[2]) for (const d of opts[3]) {
       const rs = [a.r, b.r, c.r, d.r]; if (rs.reduce((x, y) => x + y, 0) !== 4 + nUp) continue;
       const multi = FACT[nUp] / rs.reduce((x, r) => x * FACT[r - 1], 1) / 4 ** nUp;
       const lk = prior * multi * a.p * b.p * c.p * d.p;
-      hyps.push({rs, lk}); Z += lk;
+      hyps.push({rs, lk, L}); Z += lk;
     }
   }
   if (!hyps.length) return null;
   hyps.sort((x, y) => y.lk - x.lk);
-  return {rs: hyps[0].rs, conf: hyps[0].lk / Z};
+  const pL = hyps.filter(h => h.L === hyps[0].L).reduce((t, h) => t + h.lk, 0) / Z;
+  return {rs: hyps[0].rs, conf: hyps[0].lk / Z, L: hyps[0].L, confL: pL};
 }
 
 // Artifact -> reshape model: 4 substats with initial value, current value and roll count; nEnh enhancements to redistribute
@@ -830,6 +839,29 @@ function pairName(m, w, pair){
   return `${SUB[a].n} + ${w[b] > 0 ? SUB[b].n : 'любой бесполезный'}`;
 }
 const VERDICT = pd => pd >= 0.6 ? ['go','Роллить'] : pd >= 0.25 ? ['warn','Можно'] : ['','Не стоит'];
+// how many substats the piece had at +0: from Enka's history, or guessed from the values (any level)
+function startOf(a, m){
+  if (m?.ok) return {n: m.nEnh === 5 ? 4 : 3, sure: m.exact || m.conf >= 0.9};
+  const subs = (a.subs || []).map(s => ({k: KEY_OF[s.k], v: +s.v})).filter(s => s.k && s.v > 0), ups = Math.floor(Math.min(20, a.level ?? 20) / 4);
+  const fromHist = Array.isArray(a.rolls) ? a.rolls.length - ups : 0;
+  if (fromHist === 3 || fromHist === 4) return {n: fromHist, sure: true};
+  if (subs.length === 3) return {n: 3, sure: true};
+  if (subs.length !== 4) return null;
+  if (ups === 0) return {n: 4, sure: true};
+  const h = guessHistory(subs, null, a.level ?? 20);
+  return h ? {n: h.L, sure: h.confL >= 0.9} : null;
+}
+const startTxt = st => st ? `${st.n} стата на старте${st.sure ? '' : '?'}` : '';
+// Feathers are rare: they go only to pieces with both crits and 4 lines at +0 (for characters whose RV counts crits).
+// Everything else is "not worth it" whatever the odds; eligible pieces rank by verdict, then gain per feather.
+function judge(m, w, r){
+  const critChar = w.cr > 0 && w.cd > 0, has = k => m.subs.some(s => s.k === k);
+  const extra = m.subs.filter(s => s.k !== 'cr' && s.k !== 'cd' && w[s.k] > 0).length;
+  const why = critChar && !(has('cr') && has('cd')) ? 'нет двух критов' : m.nEnh !== 5 ? '3 стата на старте' : '';
+  const [cls, text] = why ? ['', 'Не стоит'] : VERDICT(r.perDust);
+  const tierN = why ? 0 : r.perDust >= 0.6 ? 3 : r.perDust >= 0.25 ? 2 : 1;
+  return {cls, text, why, ok: !why, extra, critChar, key: tierN * 100 + r.perDust};
+}
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
 // gains are shown in RV percent: 1 max roll = 100%
 const r1 = x => Math.abs(x) < 0.005 ? '0%' : (x >= 0 ? '+' : '') + Math.round(x * 100) + '%';
@@ -932,12 +964,10 @@ function renderAccount(){
   // per character: the best feather in the build and the quality, used for sorting and the "best rerolls" panel
   const all = [], stat = {};
   p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let bestPd = -1;
-    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g); all.push({c, a, m, idx, r}); bestPd = Math.max(bestPd, r.perDust); });
+    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); if (j.ok) bestPd = Math.max(bestPd, r.perDust); });
     stat[c.key] = {share: bs.max ? bs.share : 0, bestPd}; });
-  const tier = r => r.perDust >= 0.6 ? 2 : r.perDust >= 0.25 ? 1 : 0;
-  // 4-line starts first within the same verdict: they get 5 enhancements, 3-line starts only 4
-  all.sort((x, y) => tier(y.r) - tier(x.r) || (y.m.nEnh - x.m.nEnh) || (y.r.perDust - x.r.perDust));
-  const top = all.filter(t => t.r.perDust >= 0.25).slice(0, 8);
+  all.sort((x, y) => y.j.key - x.j.key);
+  const top = all.filter(t => t.j.ok && t.r.perDust >= 0.25).slice(0, 8);
   const ak = state.mode + ':' + (p.uid || p.total || '') + ':' + p.chars.length, freshAcc = state.lastAcct !== ak; state.lastAcct = ak;
   if (!state.sel || freshAcc && !p.chars.some(c => c.key === state.sel)) state.panel = 'chars';
   const cur = p.chars.find(c => c.key === state.sel);
@@ -951,19 +981,19 @@ function renderAccount(){
   const card = (c, n) => { const i = charInfo(c.key), st = stat[c.key], [vc] = st.bestPd >= 0 ? VERDICT(st.bestPd) : [''];
     return `<button type="button" class="pc" aria-pressed="${c.key === state.sel}" data-key="${esc(c.key)}" style="--el:var(--${i.el});--i:${n}">
       ${face(c.key, 'sm')}<span class="pcn"><b>${esc(i.ru)}</b><small>C${c.cons} · качество ${Math.round(st.share * 100)}%</small></span>
-      <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestPd)}<small>за перо</small>` : '<small>нет +20</small>'}</span></button>`; };
+      <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestPd)}<small>за перо</small>` : '<small>нечего роллить</small>'}</span></button>`; };
   const charsPanel = `<div class="drawer" id="drawer-chars">
       <div class="dtools"><div class="seg sm">${SORTS.map(([k, t]) => `<button type="button" data-sort="${k}" aria-pressed="${(state.csort || 'roll') === k}">${t}</button>`).join('')}</div>
         ${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el === 'all'}">Все</button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el === e}" title="${EL_RU[e]}">${elIcon(e)}</button>`).join('')}</div>` : ''}</div>
       <div class="pcs">${sorted.filter(c => state.el === 'all' || charInfo(c.key).el === state.el).map(card).join('')}</div></div>`;
   const bestPanel = `<div class="drawer" id="drawer-best">${top.length ? `<div class="best">${top.map((t, n) => {
-      const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
+      const i = charInfo(t.c.key), vc = t.j.cls, vt = t.j.text;
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el});--i:${n}">${face(t.c.key, 'sm')}
-        <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${t.m.nEnh === 4 ? '3-стат · ' : ''}${esc(t.a.set)}</small></span>
+        <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${esc(startTxt(startOf(t.a, t.m)))} · ${esc(t.a.set)}</small></span>
         <span class="pair">Пара <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс удачи ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>RV за перо</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>`
-    : `<p class="empty">${all.length ? 'Сейчас нет реролла, который стоит пера: везде прирост ниже +25% RV.' : 'Нет 5★ +20, их нельзя роллить.'}</p>`}</div>`;
+    : `<p class="empty">${all.length ? 'Сейчас нет реролла, который стоит пера: нужен артефакт +20 с двумя критами и 4 статами на старте, и прирост от +25% RV.' : 'Нет 5★ +20, их нельзя роллить.'}</p>`}</div>`;
   $('#bestbox').classList.toggle('anim', freshAcc);
   $('#bestbox').innerHTML = !p.chars.length ? '' : `<div class="pickbar">
       <button type="button" class="pick ${state.panel === 'chars' ? 'on' : ''}" data-panel="chars">${cur ? face(cur.key, 'sm') : ''}<span><small>Персонаж</small><b>${cur ? esc(charInfo(cur.key).ru) : 'Выбрать'}</b></span><em>${p.chars.length} ▾</em></button>
@@ -1003,14 +1033,15 @@ function rsBlock(m, w, a){
     }
     return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
   }
-  const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust), cur = useful(m.subs, w);
+  const r = bestPair(m, w, state.g), j = judge(m, w, r), vc = j.cls, vt = j.text, cur = useful(m.subs, w);
   const other = [2,3,4].filter(g => g !== state.g).map(g => `${g}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
     <div class="v1"><span class="pill ${vc}">${vt}</span><span class="luck"><b>${pct(r.pBetter)}</b> шанс удачи</span></div>
+    ${j.why ? `<div class="why">${j.why === 'нет двух критов' ? 'Нет двух критов' : '3 стата на старте'}: перья лучше потратить на артефакт с двумя критами и 4 статами на старте.</div>` : ''}
     <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b> <span class="sub">· ${r1(r.perDust)} RV за перо</span></div>
     ${outcomeBar(r)}
     <div class="sub">Сейчас RV ${Math.round(cur * 100)}%, после реролла в среднем ${Math.round(r.eNew * 100)}%.${r.eNew < cur ? ` Худший исход можно не оставлять, поэтому перо в среднем даёт ${r1(r.perDust)}.` : ''}</div>
-    <div class="sub">За перо с гарантией ${other}${m.nEnh === 4 ? '. 3-стат: при реролле всего 4 улучшения' : ''}</div>
+    <div class="sub">За перо с гарантией ${other}${m.nEnh === 4 ? '. 3 стата на старте: при реролле всего 4 улучшения' : ''}</div>
     ${accLine(m)}
   </div>`;
 }
@@ -1027,25 +1058,26 @@ function renderSheet(){
   const rows = bs.items.map((x, idx) => {
     const r = x.m.ok ? bestPair(x.m, w, state.g) : null;
     let st, cls, rank;
-    if (r) { const v = VERDICT(r.perDust); st = v[1]; cls = v[0]; rank = r.perDust; }
+    let why = '';
+    if (r) { const j = judge(x.m, w, r); st = j.text; cls = j.cls; rank = j.key; why = j.why; }
     else if (x.a.rarity === 5 && x.a.level != null && x.a.level < 20) { st = 'Сначала +20'; cls = 'lvl'; rank = -1; }
     else { st = x.a.rarity && x.a.rarity !== 5 ? 'Только 5★' : 'Нельзя'; cls = 'no'; rank = -2; }
-    return {x, idx, r, st, cls, rank};
+    return {x, idx, r, st, cls, rank, why, start: startOf(x.a, x.m)};
   });
   const order = [...rows].sort((a, b) => b.rank - a.rank);
-  const best = order[0]?.r ? order[0] : null;
+  const best = order[0]?.r && !order[0].why ? order[0] : null;
   const table = `<div class="card pieces" style="--i:2"><h3>Какие артефакты роллить</h3>
-    <p class="sub" style="margin:0 0 6px">Шанс удачи: вероятность, что после реролла RV станет выше, чем сейчас. Гарантия ${state.g}, меняется сверху.</p>
+    <p class="sub" style="margin:0 0 6px">Перья тратим только на артефакты +20 с двумя критами и 4 статами на старте, лучше всего если и остальные два стата полезные. Шанс удачи: вероятность, что после реролла RV станет выше. Гарантия ${state.g}, меняется сверху.</p>
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
-      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc(y.x.a.set)}${y.x.m.nEnh === 4 ? ' · 3-стат' : ''}</small></span>
-      <span class="pl ${y.cls}">${esc(y.st)}</span>
+      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
+      <span class="pl ${y.cls}">${esc(y.st)}${y.why ? `<small>${esc(y.why)}</small>` : ''}</span>
       <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
       <span class="pv">${y.r ? `<b>${r1(y.r.perDust)}</b><small>RV за перо</small>` : ''}</span></button>`).join('')}
   </div>`;
   const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx === best.idx && best.r.perDust >= 0.6 ? 'hot' : ''}" id="art-${idx}" style="--i:${idx + 4}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
-        <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
+        <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small><small class="st">${esc(startTxt(startOf(x.a, x.m)))}</small></div>
         <span class="q" title="RV ${Math.round(x.u*100)}% из ${Math.round(x.mx*100)}% возможных">${pctOf(x)}%<small>${qTxt(x)}</small></span></div>
       <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
       ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
@@ -1220,8 +1252,8 @@ document.addEventListener('click', e => {
     return;
   }
   if (t.dataset.key) {
-    state.sel = t.dataset.key; state.panel = null; renderAccount();
-    if (t.dataset.jump != null) flashTo(document.getElementById('art-'+t.dataset.jump));
+    state.sel = t.dataset.key; if (t.dataset.jump == null) state.panel = null; renderAccount();
+    if (t.dataset.jump != null) { const row = document.querySelector(`.prow[data-goto="art-${t.dataset.jump}"]`); if (row) { row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash'); } }
     return;
   }
   if (t.dataset.tab) { setTab(t.dataset.tab); return; }
