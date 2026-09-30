@@ -54,6 +54,22 @@ code,.mono{font-family:var(--f-mono);font-size:.9em}
 .copyline code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;user-select:all;overflow-wrap:anywhere}
 
 /* profile */
+.player{position:relative;margin-top:20px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
+.player .banner{position:relative;height:150px;background:linear-gradient(120deg,#1c2a48,#2a3d66)}
+.player .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.player .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,36,.1) 30%,var(--panel) 100%)}
+.player .who-row{position:relative;display:flex;gap:16px;align-items:flex-end;padding:0 20px;margin-top:-56px;flex-wrap:wrap}
+.player .pfp{position:relative;width:96px;height:96px;border-radius:50%;border:3px solid var(--panel);background:var(--panel-2);overflow:hidden;flex:none;display:grid;place-items:center;font:600 34px var(--f-display);color:var(--muted)}
+.player .pfp img{width:100%;height:100%;object-fit:cover}
+.player .who{font-family:var(--f-display);font-size:24px;font-weight:600;line-height:1.2}
+.player .sig{color:var(--muted);font-size:14px;margin-top:2px}
+.player .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);margin-top:18px;border-top:1px solid var(--line)}
+.player .tile{background:var(--panel);padding:12px 16px;display:grid;gap:2px}
+.player .tile small{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.player .tile b{font:600 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.player .actions{position:absolute;top:12px;right:12px;z-index:1;display:flex;gap:8px}
+.player .actions .btn{background:rgba(13,20,36,.7);backdrop-filter:blur(6px)}
+.sec{font-family:var(--f-display);font-size:18px;font-weight:600;margin:28px 0 4px}
 .profile{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-block:18px 8px}
 .profile .who{font-family:var(--f-display);font-size:20px;font-weight:600}
 .profile .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
@@ -214,7 +230,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
   </section>
 
   <section id="view-acc">
-    <div class="profile" id="profile"></div>
+    <div id="profile"></div>
+    <h2 class="sec" id="roster-title" hidden>Витрина персонажей</h2>
     <div class="roster" id="roster" aria-label="Персонажи"></div>
     <div class="sheet" id="sheet"></div>
   </section>
@@ -300,7 +317,7 @@ function fromEnka(j, uid){
     const w = eq.find(e => e.flat && e.flat.itemType === 'ITEM_WEAPON');
     const weapon = w ? { name: LOC(w.flat.nameTextMapHash) || 'Оружие '+w.itemId, level: w.weapon?.level ?? null,
       ref: (Object.values(w.weapon?.affixMap || {})[0] ?? 0) + 1, rarity: w.flat.rankLevel,
-      icon: (w.weapon?.promoteLevel >= 2 && w.flat.icon) ? w.flat.icon + '_Awaken' : w.flat.icon, baseIcon: w.flat.icon,
+      icon: DATA.weapons[w.itemId] || w.flat.icon, baseIcon: w.flat.icon,
       stats: (w.flat.weaponStats || []).map(s => ({k:s.appendPropId, v:s.statValue})) } : null;
     const arts = eq.filter(e => e.flat && e.flat.itemType === 'ITEM_RELIQUARY').map(e => ({
       slot: SLOT[e.flat.equipType] || e.flat.equipType, set: LOC(e.flat.setNameTextMapHash) || 'Сет',
@@ -321,7 +338,11 @@ function fromEnka(j, uid){
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
       talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts };
   });
-  return { source:'enka', uid: uid || j.uid || '', nickname: p.nickname || 'Без имени', level: p.level || null, world: p.worldLevel,
+  const pic = p.profilePicture || {};
+  const avatarPic = DATA.pfps[pic.id] || (CH[pic.avatarId] ? 'UI_AvatarIcon_Side_' + CH[pic.avatarId][6] : null);
+  return { v:2, source:'enka', uid: uid || j.uid || '', nickname: p.nickname || 'Без имени', level: p.level || null, world: p.worldLevel,
+    namecard: DATA.namecards[p.nameCardId] || null, avatarPic, abyssStars: p.towerStarIndex ?? null,
+    theater: p.theaterActIndex ? `акт ${p.theaterActIndex}` : null, fetter: p.fetterCount ?? null,
     signature: p.signature || '', achievements: p.finishAchievementNum, abyss: p.towerFloorIndex ? `${p.towerFloorIndex}-${p.towerLevelIndex}` : null,
     hidden: !list.length, showcase: (p.showAvatarInfoList||[]).length, chars };
 }
@@ -346,7 +367,8 @@ const owned = key => state.profile?.chars.find(c => c.key === key);
 
 function setProfile(p, remember=true){
   state.profile = p;
-  state.sel = p.chars[0]?.key || null;
+  const keep = state.sel && p.chars.some(c => c.key === state.sel);
+  if (!keep) state.sel = p.chars[0]?.key || null;
   if (remember && p.source !== 'demo') store.set('lastProfile', JSON.stringify(p));
   renderAccount();
 }
@@ -376,17 +398,18 @@ function ingest(text, uid){
   }
   panel(`<div class="notice warn"><h3>Не узнал формат</h3><p>Нужен ответ Enka (есть поле playerInfo) или экспорт GO (format: GOOD).</p></div>`);
 }
-async function loadUid(uid){
+async function loadUid(uid, quiet=false){
   if (!/^\d{9,10}$/.test(uid)) return panel(`<div class="notice warn"><h3>UID из 9–10 цифр</h3><p>Его видно в правом нижнем углу экрана в игре.</p></div>`);
   const proxy = store.get('proxy') || DEFAULT_PROXY;
   if (!proxy) return pastePanel(uid, 'Автозагрузка ещё не настроена');
-  panel(`<div class="notice"><h3>Загружаю ${esc(uid)}…</h3></div>`);
+  if (!quiet) panel(`<div class="notice"><h3>Загружаю ${esc(uid)}…</h3></div>`);
   const urls = [proxy.replace(/\/$/,'') + `/api/uid/${uid}/`];
   for (const u of urls) {
     try {
       const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 9000);
       const r = await fetch(u, {signal: ctl.signal}); clearTimeout(t);
       diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → HTTP ${r.status}`);
+      if (quiet && !r.ok) return diag('тихое обновление: HTTP ' + r.status);
       if (r.status === 400) return panel(`<div class="notice warn"><h3>Неверный UID</h3></div>`);
       if (r.status === 404) return panel(`<div class="notice warn"><h3>Игрок не найден</h3><p>Проверь UID и регион.</p></div>`);
       if (r.status === 424) return pastePanel(uid, 'Enka на обслуживании после патча');
@@ -397,6 +420,7 @@ async function loadUid(uid){
       return ingest(body, uid);
     } catch (err) { diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → ошибка: ${err.name}: ${err.message}`); }
   }
+  if (quiet) return diag('тихое обновление не удалось');
   pastePanel(uid, 'Не получилось загрузить автоматически');
 }
 
@@ -404,26 +428,26 @@ async function loadUid(uid){
 function renderAccount(){
   const p = state.profile;
   if (!p) {
-    $('#profile').innerHTML = ''; $('#roster').innerHTML = '';
+    $('#profile').innerHTML = ''; $('#roster').innerHTML = ''; $('#roster-title').hidden = true;
     $('#sheet').innerHTML = `<div class="card"><h3>Как это работает</h3><ol class="howto">
       <li><b>Введи UID</b> и нажми «Найти». В игре у витрины персонажей должно быть включено «Показывать детали».</li>
       <li>Появятся персонажи из витрины. Нажми на любого, чтобы открыть его карточку: арт, созвездия, таланты, оружие, статы и артефакты с CV.</li></ol></div>`;
     return;
   }
-  $('#profile').innerHTML = `
-    <div style="display:grid;gap:4px;min-width:0">
-      <div class="row"><span class="who">${esc(p.nickname)}</span>${p.source==='good'?'<span class="pill">экспорт GO</span>':'<span class="pill ok">Enka</span>'}</div>
-      <div class="meta">
-        ${p.uid ? `<span>UID <b>${esc(p.uid)}</b></span>` : ''}
-        ${p.level ? `<span>РП <b>${p.level}</b></span>` : ''}
-        ${p.world ? `<span>Мир <b>${p.world}</b></span>` : ''}
-        ${p.achievements ? `<span>Достижения <b>${p.achievements}</b></span>` : ''}
-        ${p.abyss ? `<span>Бездна <b>${esc(p.abyss)}</b></span>` : ''}
-        <span>Персонажей <b>${p.chars.length}</b></span>
-        <button class="alt-link" type="button" id="forget">Забыть аккаунт</button>
+  const tile = (label, val) => val == null || val === '' ? '' : `<div class="tile"><small>${label}</small><b>${esc(val)}</b></div>`;
+  $('#profile').innerHTML = `<section class="player">
+      <div class="banner">${p.namecard ? `<img alt="" src="${UI(p.namecard)}" onerror="this.remove()">` : ''}</div>
+      <div class="actions"><button class="btn ghost small" type="button" id="refresh">Обновить</button><button class="btn ghost small" type="button" id="forget">Забыть</button></div>
+      <div class="who-row">
+        <span class="pfp">${esc((p.nickname||'?').slice(0,1))}${p.avatarPic ? `<img alt="" src="${UI(p.avatarPic)}" onerror="this.remove()" style="position:absolute;width:96px;height:96px">` : ''}</span>
+        <div style="min-width:0;padding-bottom:6px"><div class="who">${esc(p.nickname)}</div>${p.signature ? `<div class="sig">${esc(p.signature)}</div>` : ''}</div>
       </div>
-      ${p.signature ? `<div class="sub">${esc(p.signature)}</div>` : ''}
-    </div>`;
+      <div class="tiles">
+        ${tile('UID', p.uid)}${tile('Ранг приключений', p.level)}${tile('Уровень мира', p.world)}${tile('Достижения', p.achievements)}
+        ${tile('Витая бездна', p.abyss ? p.abyss + (p.abyssStars!=null ? ` · ${p.abyssStars}★` : '') : null)}${tile('Театр', p.theater)}${tile('Макс. дружба', p.fetter)}
+      </div></section>`;
+  $('#roster-title').hidden = false;
+  $('#refresh').onclick = () => p.uid && loadUid(String(p.uid));
   $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; renderAccount(); };
   $('#roster').innerHTML = p.chars.map(c => {
     const i = charInfo(c.key);
@@ -574,7 +598,7 @@ $('#report').onclick = () => {
   const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab,
     proxy: store.get('proxy') ? 'задан' : 'нет',
     profile: p ? { source: p.source, hidden: !!p.hidden, showcase: p.showcase, chars: p.chars.map(c => `${c.key} C${c.cons}${c.level?' L'+c.level:''}${c.weapon?' | '+c.weapon.name+(c.ref?'':'')+(c.weapon.ref?' R'+c.weapon.ref:''):''}${c.stats?'':' | без статов'}${c.arts?' | арт '+c.arts.length:''}`),
-      selected: state.sel } : null,
+      selected: state.sel, icons: (() => { const c = p.chars.find(x => x.key === state.sel); return c ? { weapon: c.weapon?.icon, art: c.arts?.[0]?.icon } : null; })() } : null,
     log: DIAG };
   const text = '```json\n' + JSON.stringify(rep, null, 1) + '\n```';
   const ta = $('#report-text'); ta.value = text;
@@ -584,6 +608,7 @@ $('#report').onclick = () => {
 
 // boot: last loaded account, else the example
 let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
-if (boot && boot.chars) setProfile(boot, false); else renderAccount();
+if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
+else renderAccount();
 if (location.hash === '#library') setTab('lib');
 </script>
