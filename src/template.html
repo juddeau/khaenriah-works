@@ -54,21 +54,23 @@ code,.mono{font-family:var(--f-mono);font-size:.9em}
 .copyline code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;user-select:all;overflow-wrap:anywhere}
 
 /* profile */
-.player{position:relative;margin-top:20px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
-.player .banner{position:relative;height:150px;background:linear-gradient(120deg,#1c2a48,#2a3d66)}
-.player .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.player .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,36,.1) 30%,var(--panel) 100%)}
-.player .who-row{position:relative;display:flex;gap:16px;align-items:flex-end;padding:0 20px;margin-top:-56px;flex-wrap:wrap}
-.player .pfp{position:relative;width:96px;height:96px;border-radius:50%;border:3px solid var(--panel);background:var(--panel-2);overflow:hidden;flex:none;display:grid;place-items:center;font:600 34px var(--f-display);color:var(--muted)}
-.player .pfp img{width:100%;height:100%;object-fit:cover}
-.player .who{font-family:var(--f-display);font-size:24px;font-weight:600;line-height:1.2}
-.player .sig{color:var(--muted);font-size:14px;margin-top:2px}
-.player .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);margin-top:18px;border-top:1px solid var(--line)}
-.player .tile{background:var(--panel);padding:12px 16px;display:grid;gap:2px}
-.player .tile small{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
-.player .tile b{font:600 20px var(--f-mono);font-variant-numeric:tabular-nums}
-.player .actions{position:absolute;top:12px;right:12px;z-index:1;display:flex;gap:8px}
-.player .actions .btn{background:rgba(13,20,36,.7);backdrop-filter:blur(6px)}
+.player{position:relative;margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(120deg,#1c2a48,#2a3d66);min-height:220px;display:grid;align-content:end}
+.player .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.player::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,13,24,.88) 0%,rgba(9,13,24,.55) 55%,rgba(9,13,24,.2) 100%),linear-gradient(0deg,rgba(9,13,24,.6),transparent 60%)}
+.player .inner{position:relative;z-index:1;padding:24px;display:grid;gap:18px}
+.player .who-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.player .pfp{position:relative;width:92px;height:92px;border-radius:50%;background:var(--panel-2);overflow:hidden;flex:none;display:grid;place-items:center;font:600 32px var(--f-display);color:var(--muted);box-shadow:0 0 0 3px rgba(255,255,255,.85),0 8px 24px rgba(0,0,0,.45)}
+.player .pfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.player .who{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:600;line-height:1.15;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.player .sig{color:rgba(255,255,255,.78);font-size:14px;margin-top:4px;max-width:60ch}
+.player .uid{font:500 13px var(--f-mono);color:rgba(255,255,255,.7);letter-spacing:.08em;margin-top:6px}
+.player .tiles{display:flex;flex-wrap:wrap;gap:8px}
+.player .tile{display:grid;gap:1px;padding:8px 14px;border-radius:12px;background:rgba(10,15,28,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
+.player .tile small{color:rgba(255,255,255,.62);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.player .tile b{font:600 18px var(--f-mono);color:#fff;font-variant-numeric:tabular-nums}
+.player .actions{position:absolute;top:14px;right:14px;z-index:2;display:flex;gap:8px}
+@media (max-width:600px){.player .inner{padding-top:60px}}
+.player .actions .btn{background:rgba(10,15,28,.55);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.12)}
 .sec{font-family:var(--f-display);font-size:18px;font-weight:600;margin:28px 0 4px}
 .profile{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-block:18px 8px}
 .profile .who{font-family:var(--f-display);font-size:20px;font-weight:600}
@@ -279,6 +281,7 @@ function charInfo(key){
   return {key, en:key, ru:key.replace(/([a-z])([A-Z])/g,'$1 $2'), el:'anemo', rar:4, icon:null};
 }
 const UI = n => `https://enka.network/ui/${n}.png`;
+function nextSrc(img){ const rest = (img.dataset.next || '').split('|').filter(Boolean); if (!rest.length) return img.remove(); img.dataset.next = rest.slice(1).join('|'); img.src = rest[0]; }
 function face(key, cls=''){
   const c = charInfo(key);
   const mono = esc((c.ru||c.en||'?').slice(0,1));
@@ -435,16 +438,23 @@ function renderAccount(){
     return;
   }
   const tile = (label, val) => val == null || val === '' ? '' : `<div class="tile"><small>${label}</small><b>${esc(val)}</b></div>`;
+  const first = p.chars[0] ? charInfo(p.chars[0].key) : null;
+  // Enka's lookup tables lag behind new patches: fall back to the first showcase character's card and icon
+  const cardSrcs = [p.namecard, first?.base && `UI_NameCardPic_${first.base}_P`].filter(Boolean).map(UI);
+  const pfpSrcs = [p.avatarPic, first?.base && `UI_AvatarIcon_${first.base}_Circle`, first?.base && `UI_AvatarIcon_${first.base}`].filter(Boolean).map(UI);
+  const chain = srcs => srcs.length ? `src="${srcs[0]}" data-next="${esc(srcs.slice(1).join('|'))}" onerror="nextSrc(this)"` : '';
   $('#profile').innerHTML = `<section class="player">
-      <div class="banner">${p.namecard ? `<img alt="" src="${UI(p.namecard)}" onerror="this.remove()">` : ''}</div>
+      ${cardSrcs.length ? `<img class="bg" alt="" ${chain(cardSrcs)}>` : ''}
       <div class="actions"><button class="btn ghost small" type="button" id="refresh">Обновить</button><button class="btn ghost small" type="button" id="forget">Забыть</button></div>
-      <div class="who-row">
-        <span class="pfp">${esc((p.nickname||'?').slice(0,1))}${p.avatarPic ? `<img alt="" src="${UI(p.avatarPic)}" onerror="this.remove()" style="position:absolute;width:96px;height:96px">` : ''}</span>
-        <div style="min-width:0;padding-bottom:6px"><div class="who">${esc(p.nickname)}</div>${p.signature ? `<div class="sig">${esc(p.signature)}</div>` : ''}</div>
-      </div>
-      <div class="tiles">
-        ${tile('UID', p.uid)}${tile('Ранг приключений', p.level)}${tile('Уровень мира', p.world)}${tile('Достижения', p.achievements)}
-        ${tile('Витая бездна', p.abyss ? p.abyss + (p.abyssStars!=null ? ` · ${p.abyssStars}★` : '') : null)}${tile('Театр', p.theater)}${tile('Макс. дружба', p.fetter)}
+      <div class="inner">
+        <div class="who-row">
+          <span class="pfp">${esc((p.nickname||'?').slice(0,1))}${pfpSrcs.length ? `<img alt="" ${chain(pfpSrcs)}>` : ''}</span>
+          <div style="min-width:0"><div class="who">${esc(p.nickname)}</div>${p.signature ? `<div class="sig">${esc(p.signature)}</div>` : ''}${p.uid ? `<div class="uid">UID ${esc(p.uid)}</div>` : ''}</div>
+        </div>
+        <div class="tiles">
+          ${tile('Ранг приключений', p.level)}${tile('Уровень мира', p.world)}${tile('Достижения', p.achievements)}
+          ${tile('Витая бездна', p.abyss ? p.abyss + (p.abyssStars!=null ? ` · ${p.abyssStars}★` : '') : null)}${tile('Театр', p.theater)}${tile('Макс. дружба', p.fetter)}
+        </div>
       </div></section>`;
   $('#roster-title').hidden = false;
   $('#refresh').onclick = () => p.uid && loadUid(String(p.uid));
