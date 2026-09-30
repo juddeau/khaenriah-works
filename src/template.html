@@ -145,6 +145,13 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 @media (prefers-reduced-motion:no-preference){.ava,.chip,.tab{transition:background-color .15s,border-color .15s}}
 
 /* reshape tool */
+.aks{margin-top:14px;display:grid;gap:6px}
+.aks h3{margin:0}
+.akrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);text-decoration:none;font-size:14px}
+.akrow:hover{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.akrow b{font:600 16px var(--f-mono);color:var(--gold);white-space:nowrap}
+.akrow small{color:var(--muted);font-size:12px;white-space:nowrap}
+@media (max-width:600px){.akrow{grid-template-columns:auto minmax(0,1fr)}.akrow > small{grid-column:2}}
 .lead{margin:0;max-width:78ch}
 .ctrl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
 .ctrl > span{color:var(--muted);font-size:13px}
@@ -267,7 +274,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
     <details class="card how" style="margin:24px 0 40px">
       <summary>Как считается и что здесь допущение</summary>
       <ul>
-        <li><b>Полезный ролл</b> = одно максимальное улучшение полезного стата. Крит. шанс 3.9 = 1 ролл, 3.1 = 0.8 ролла. Бесполезные статы не считаются вовсе.</li><li><b>Оценка сборки</b> = сколько полезных роллов на всех артефактах, делённое на идеал. Идеал артефакта: 4 полезных стата на старте и все 5 улучшений в лучший из них, то есть 9 роллов, если полезных статов 4 и больше.</li>
+        <li><b>Полезный ролл</b> = одно максимальное улучшение полезного стата. Крит. шанс 3.9 = 1 ролл, 3.1 = 0.8 ролла. Бесполезные статы не считаются вовсе.</li><li><b>Оценка сборки</b> = сколько полезных роллов на всех артефактах, делённое на идеал. Идеал артефакта: 4 полезных стата на старте и все 5 улучшений в лучший из них, то есть 9 роллов, если полезных статов 4 и больше. Такого не бывает, поэтому шкала мягкая: от 65% топ-уровень, от 55% сильная, от 45% средняя. Шкалу я подобрал примерно, место в Акаше рядом показывает реальное сравнение с другими игроками.</li><li><b>Флэт статы</b> засчитываются, если полезен их процент, по курсу от базовых статов персонажа. У Коломбины с 15 000 базового HP один ролл флэт HP (299) стоит примерно треть ролла HP%.</li>
         <li><b>Реролл</b> (в игре «Перековка» за Пыль просветления, в народе перо): 5★ артефакт +20, выбираешь 2 саб стата. Начальные значения остаются, а 5 улучшений (4, если артефакт начинался с 3 строк) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных рероллов гарантия 3, третья подряд усиленная даёт 4. Цена: цветок и перо стоят 1 перо, часы, кубок и корона 2.</li>
         <li><b>3-статы</b> (на +0 было 3 строки) получают при реролле только 4 улучшения вместо 5, поэтому в списке они всегда ниже 4-статов с тем же вердиктом.</li><li><b>Шанс стать лучше и прирост</b> считаются точно, перебором всех раскладов улучшений, без случайной симуляции. Прирост учитывает, что худший результат можно не оставлять.</li>
         <li><b>Допущение 1</b>: сила каждого улучшения (70, 80, 90 или 100%) при реролле выпадает заново. Так считают существующие калькуляторы, официально это не описано.</li>
@@ -382,7 +389,8 @@ function fromEnka(j, uid){
     ] : null;
     return { key, level: +(av.propMap?.['4001']?.val) || null, cons: (av.talentIdList||[]).length,
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
-      talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts };
+      talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts,
+      base: f[1] ? {hp: f[1], atk: f[4], def: f[7]} : null };
   });
   const pic = p.profilePicture || {};
   const avatarPic = DATA.pfps[pic.id] || (CH[pic.avatarId] ? 'UI_AvatarIcon_Side_' + CH[pic.avatarId][6] : null);
@@ -464,7 +472,7 @@ async function loadUid(uid, quiet=false){
       if (!r.ok) continue;
       const body = await r.text();
       if (!body.includes('playerInfo')) { diag(`  ответ без playerInfo: ${body.slice(0,60)}`); continue; }
-      return ingest(body, uid);
+      ingest(body, uid); loadAkasha(uid); return;
     } catch (err) { diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → ошибка: ${err.name}: ${err.message}`); }
   }
   if (quiet) return diag('тихое обновление не удалось');
@@ -542,7 +550,7 @@ function maxUseful(w, main){
 }
 
 // Exact reshape outcome for one pair: enumerate every order of enhancements (4^n), keep those meeting the guarantee,
-// then convolve roll tiers (70..100%) in 0.05-roll units. Weights are 0 or 1 (0.5 would also work).
+// then convolve roll tiers (70..100%) in 1/200-roll units. Weights are rounded to 1/20.
 const PAIRS = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
 const RS_CACHE = new Map();
 function reshape(m, w, pair, g){
@@ -556,7 +564,7 @@ function reshape(m, w, pair, g){
     const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + 1); tot++;
   }
   const base = useful(m.subs, w, 'init'), cur = useful(m.subs, w);
-  const mul = m.subs.map(s => Math.round((w[s.k] || 0) * 2));
+  const mul = m.subs.map(s => Math.round((w[s.k] || 0) * 20));  // weight in 1/20 steps
   let pBetter = 0, pWorse = 0, eGain = 0, eNew = 0;
   for (const [ck, cnt] of comps) {
     let dist = [1];
@@ -571,7 +579,7 @@ function reshape(m, w, pair, g){
     const wgt = cnt / tot;
     dist.forEach((p, u) => {
       if (!p) return;
-      const val = base + u * 0.05, q = p * wgt;
+      const val = base + u / 200, q = p * wgt;
       eNew += q * val;
       if (val > cur + 0.025) { pBetter += q; eGain += q * (val - cur); }
       else if (val < cur - 0.025) pWorse += q;
@@ -604,6 +612,15 @@ const PRESETS = [
 ];
 const CHAR_W = {Furina:2, Neuvillette:2, Yelan:2, HuTao:2, Nilou:{hp_:1}, AratakiItto:3, Chiori:3, Albedo:3, Noelle:3,
   Nahida:4, KaedeharaKazuha:5, Sucrose:5, Bennett:6, SangonomiyaKokomi:6, Xilonen:7, Zhongli:{hp_:1}};
+// Flat HP/ATK/DEF follow their % stat, converted by the character's base stat:
+// e.g. with 15000 base HP one flat HP roll (298.75) is worth 298.75 / (5.83% of 15000) = 0.34 of an HP% roll
+const TOGGLE = ['hp_','atk_','def_','em','er','cr','cd'];
+const BASE_DEF = {hp:15000, atk:900, def:800};
+function effW(key, base){
+  const w = {...getW(key)}, b = {...BASE_DEF, ...(base || {})};
+  for (const [f, pc] of [['hp','hp_'],['atk','atk_'],['def','def_']]) w[f] = w[pc] ? Math.min(1, MAXV(f) / (MAXV(pc) / 100 * b[f])) : 0;
+  return w;
+}
 function getW(key){
   // stats are either useful (1) or not (0); older saves with ½ read as not useful
   try { const s = JSON.parse(store.get('w:'+key) || 'null'); if (s) { for (const k in s) s[k] = s[k] >= 1 ? 1 : 0; return s; } } catch {}
@@ -614,8 +631,48 @@ const setW = (key, w) => store.set('w:'+key, JSON.stringify(w));
 const wcls = v => v >= 1 ? 'w1' : v > 0 ? 'w05' : '';
 function weightsUI(key){
   const w = getW(key);
-  return `<div class="wts">${SUBK.map(k => `<button type="button" class="wchip ${wcls(w[k]||0)}" data-w="${k}" data-wkey="${esc(key)}" title="Нажми, чтобы включить или выключить">${esc(SUB[k].n)}</button>`).join('')}</div>
+  return `<div class="wts">${TOGGLE.map(k => `<button type="button" class="wchip ${wcls(w[k]||0)}" data-w="${k}" data-wkey="${esc(key)}" title="Нажми, чтобы включить или выключить">${esc(SUB[k].n)}</button>`).join('')}</div>
+    <div class="presets">Флэт HP, атака и защита считаются сами, если полезен их процент: по курсу от базовых статов персонажа.</div>
     <div class="presets">Шаблоны: ${PRESETS.map(([n], i) => `<button type="button" class="alt-link" data-preset="${i}" data-wkey="${esc(key)}">${esc(n)}</button>`).join('')}</div>`;
+}
+
+// ---------- Akasha rankings (through the same Worker, /akasha/<UID>) ----------
+// Akasha's API is unofficial: fields per akasha-py (characterId, calculations{calculationId,name,details,weapon,ranking,outOf})
+function parseAkasha(j){
+  const list = Array.isArray(j) ? j : Array.isArray(j?.data) ? j.data : [];
+  const by = {};
+  for (const c of list) {
+    const key = CH[c.characterId]?.[0]; if (!key) continue;
+    const calcs = Object.values(c.calculations || {}).filter(x => x && x.ranking && x.outOf).map(x => ({
+      id: x.calculationId, name: x.name || x.short || '', details: x.details || '', weapon: x.weapon?.name || '',
+      variant: x.variant?.displayName || '', rank: x.ranking, of: x.outOf, top: x.ranking / x.outOf * 100 }));
+    if (calcs.length) (by[key] ||= []).push(...calcs.sort((a, b) => a.top - b.top));
+  }
+  return by;
+}
+async function loadAkasha(uid){
+  const proxy = store.get('proxy') || DEFAULT_PROXY; if (!proxy || !uid) return;
+  try {
+    const r = await fetch(proxy.replace(/\/$/,'') + `/akasha/${uid}`);
+    diag(`akasha → HTTP ${r.status}`);
+    // the older Worker only knows /api/uid/ and answers 404 with its usage line
+    if (r.status === 404) { const txt = await r.text(); if (!txt.includes('/akasha/')) { state.akasha = {missing: true}; renderAccount(); } return; }
+    if (!r.ok) return;
+    const by = parseAkasha(await r.json());
+    state.akasha = {uid: String(uid), by};
+    store.set('akasha', JSON.stringify(state.akasha));
+    diag(`akasha: ${Object.keys(by).length} перс.`);
+    if (state.mode === 'uid') renderAccount();
+  } catch (err) { diag('akasha ошибка: ' + err.message); }
+}
+function akashaBlock(key){
+  const a = state.akasha;
+  if (a?.missing) return `<p class="sub" style="margin:10px 0 0">Место в Акаше появится, когда в Cloudflare будет обновлён код посредника.</p>`;
+  const list = a?.uid && a.uid === String(state.profile?.uid) ? a.by[key] : null;
+  if (!list?.length) return '';
+  const fmt = n => Number(n).toLocaleString('ru-RU');
+  return `<div class="aks"><h3>Акаша</h3>${list.slice(0, 3).map(x => `<a class="akrow" href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener">
+      <b>топ ${x.top < 1 ? x.top.toFixed(1).replace('.', ',') : Math.round(x.top)}%</b><span>${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}${x.weapon ? ` <small>${esc(x.weapon)}</small>` : ''}</span><small>${fmt(x.rank)} из ${fmt(x.of)}</small></a>`).join('')}</div>`;
 }
 
 // ---------- render: reshape by UID ----------
@@ -629,7 +686,8 @@ function buildScore(c, w){
   }
   return {got, max, share: max ? got / max : 0, items};
 }
-const GRADE = s => s >= 0.8 ? 'отличный' : s >= 0.65 ? 'хороший' : s >= 0.5 ? 'средний' : 'слабый';
+// rough scale: the ideal (9 useful rolls on every piece) never happens, strong real builds sit around 55-65%
+const GRADE = s => s >= 0.65 ? 'топ-уровень' : s >= 0.55 ? 'сильная' : s >= 0.45 ? 'средняя' : 'слабая';
 
 function renderAccount(){
   const p = state.profile;
@@ -644,11 +702,11 @@ function renderAccount(){
   $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.</span><span class="sp"></span>
     ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>`;
   if ($('#refresh')) $('#refresh').onclick = () => loadUid(String(p.uid));
-  $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; renderAccount(); };
+  $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
 
   // account-wide: where one Dust buys the most
   const all = [];
-  p.chars.forEach(c => { const w = getW(c.key); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
+  p.chars.forEach(c => { const w = effW(c.key, c.base); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
   const tier = r => r.perDust >= 0.6 ? 2 : r.perDust >= 0.25 ? 1 : 0;
   // 4-line starts first within the same verdict: they get 5 enhancements, 3-line starts only 4
   all.sort((x, y) => tier(y.r) - tier(x.r) || (y.m.nEnh - x.m.nEnh) || (y.r.perDust - x.r.perDust));
@@ -657,12 +715,12 @@ function renderAccount(){
       const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el})">${face(t.c.key, 'sm')}
         <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${t.m.nEnh === 4 ? '3-стат · ' : ''}${esc(t.a.set)}</small></span>
-        <span class="pair">Выбрать <b>${esc(pairName(t.m, getW(t.c.key), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
+        <span class="pair">Выбрать <b>${esc(pairName(t.m, effW(t.c.key, t.c.base), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>ролла за перо</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>` :
     (p.chars.length ? `<p class="empty" style="margin-top:12px">Среди артефактов витрины нет 5★ +20, их нельзя роллить.</p>` : '');
   $('#roster').innerHTML = p.chars.length ? p.chars.map(c => {
-    const i = charInfo(c.key), bs = buildScore(c, getW(c.key));
+    const i = charInfo(c.key), bs = buildScore(c, effW(c.key, c.base));
     return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`;
   }).join('') : '';
   renderSheet();
@@ -691,7 +749,7 @@ function rsBlock(m, w){
 function renderSheet(){
   const c = state.profile && state.profile.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
-  const i = charInfo(c.key), w = getW(c.key), bs = buildScore(c, w);
+  const i = charInfo(c.key), w = effW(c.key, c.base), bs = buildScore(c, w);
   const hot = bs.items.map(x => x.m.ok ? bestPair(x.m, w, state.g).perDust : -1);
   const bestIdx = hot.indexOf(Math.max(...hot));
   const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
@@ -711,6 +769,7 @@ function renderSheet(){
       <div class="bhead">${face(c.key, 'lg')}<div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)}${c.weapon.ref ? ' R'+c.weapon.ref : ''}` : ''}</div></div>
         <div class="score"><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><small>оценка сборки: ${bs.max ? GRADE(bs.share) : 'нет артефактов'}</small><small>${bs.got.toFixed(1).replace('.',',')} полезных роллов</small></div></div>
       ${advice.length ? `<ul class="advice">${advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
+      ${akashaBlock(c.key)}
       <h3 style="margin-top:16px">Полезные статы · нажми, чтобы поменять</h3>${weightsUI(c.key)}
     </div>
     ${cards ? `<div class="ras" style="margin-top:12px">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}`;
@@ -749,7 +808,7 @@ function manualRead(){
   store.set('manual', JSON.stringify(s)); manualCalc();
 }
 function manualCalc(){
-  const s = manualState(), out = $('#m-out'), w = getW(s.char || 'manual');
+  const s = manualState(), out = $('#m-out'), w = effW(s.char || 'manual');
   const vals = s.subs.map(x => ({k: x.k, v: parseFloat(String(x.v).replace(',', '.'))}));
   const keys = vals.map(x => x.k);
   let err = '';
@@ -889,7 +948,7 @@ $('#report').onclick = () => {
 
 // boot: last loaded account (refreshed quietly), guarantee and mode from last visit
 renderCtrl();
-let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
+let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
 if (state.mode === 'manual') renderManual();
