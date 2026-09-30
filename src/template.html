@@ -178,11 +178,6 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .akbig span{font-size:13px}.akbig small{color:var(--muted);font-size:12px}
 .akbig small:first-child{grid-column:1/-1;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
 .akmore{font-size:13px;color:var(--muted)}.akmore summary{cursor:pointer;text-align:right}
-.akest{max-width:340px;text-align:right;font-size:12px;margin:0}
-.akbig.akest{max-width:none;text-align:left;border-style:dashed}.akbig.akest b{font-size:22px}
-.aksm{display:block;font-size:13px;color:var(--fg);text-decoration:none}.aksm b{color:var(--gold);font-family:var(--f-mono)}
-@media (max-width:600px){.akest{text-align:left;max-width:none}}
-.akcheck{text-align:left;max-width:420px}.akcheck ul{margin:4px 0;padding-left:18px}
 .akmore a{display:block;color:var(--fg);text-decoration:none;padding:3px 0}.akmore a b{color:var(--gold);font-family:var(--f-mono)}
 .akmiss{margin:0;max-width:30ch}
 .tiles3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
@@ -280,6 +275,49 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .how summary{cursor:pointer;font-weight:600}
 .how ul{padding-left:20px;display:grid;gap:4px}
 
+
+/* ---- motion: gentle entrances, hover lift, reduced for people who ask the OS for less motion ---- */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 65%,transparent)}100%{box-shadow:0 0 0 16px transparent}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 14px 1px color-mix(in srgb,var(--ok) 50%,transparent)}}
+.anim .hero,.anim .tile3,.anim .todo,.anim .ra,.anim .upslot,.anim .brow,.anim .elgrp,.anim .elbar{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms)}
+.anim .meter span,.anim .ob{transform-origin:left;animation:grow .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms + 200ms)}
+[id^="view-"]:not([hidden]),#panel>*,#gobox:not([hidden]){animation:fadein .3s ease both}
+.ra,.tile3,.brow,.cchip,.upslot,.elbtn,.btn,.wchip{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease}
+.ra:hover,.tile3:hover{transform:translateY(-2px);box-shadow:0 10px 26px -14px rgba(0,0,0,.7);border-color:color-mix(in srgb,var(--fg) 22%,var(--line))}
+.brow:hover{transform:translateX(3px)}
+.cchip:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--fg) 35%,var(--line))}
+.cchip .face{transition:transform .25s ease}.cchip:hover .face{transform:scale(1.08) rotate(-3deg)}
+.btn:active,.cchip:active,.brow:active,.elbtn:active,.wchip:active{transform:scale(.97)}
+.hero .face{transition:transform .4s ease}.hero:hover .face{transform:scale(1.04)}
+.ra .pill.go{animation:glow 2.6s ease-in-out 1s 2}
+.flash{animation:flash 1s ease-out}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ---- reroll outcome ---- */
+.ob{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--bg);gap:2px}
+.ob i{display:block;flex:var(--p) 0 0;min-width:0;border-radius:2px}
+.ob i[style="--p:0"]{display:none}
+.ob .w{background:color-mix(in srgb,var(--bad) 75%,var(--panel))}.ob .s{background:var(--line)}.ob .b{background:color-mix(in srgb,var(--ok) 85%,var(--panel))}
+.obl{display:flex;justify-content:space-between;gap:6px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.obl .w{color:color-mix(in srgb,var(--bad) 80%,var(--fg))}.obl .b{color:var(--ok)}
+.rs .pd{color:var(--fg);font-family:var(--f-mono)}
+.acc{font-size:11.5px;color:var(--muted);border-top:1px dashed color-mix(in srgb,var(--line) 80%,transparent);padding-top:6px}
+.acc.ok{color:var(--ok)}.acc.warn{color:var(--warn)}.acc.bad{color:var(--bad)}
+/* ---- GO tab ---- */
+.gosteps{margin:0;padding-left:20px;display:grid;gap:3px;font-size:14px}
+.godrop{transition:border-color .2s ease,background-color .2s ease}
+.godrop.over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel));border-style:dashed}
+.goacc{margin:6px 2px 0;font-size:12.5px}
+.act{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.act::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.act.go{color:var(--ok)}.act.warn{color:var(--warn)}
+.upmore summary{cursor:pointer;color:var(--muted);font-size:13px;padding:6px 0 2px;list-style:none}
+.upmore summary::before{content:"▸";margin-right:6px;display:inline-block;transition:transform .2s ease}.upmore[open] summary::before{transform:rotate(90deg)}
+.upslot,.ra{scroll-margin-top:80px}
+.todo li .alt-link{font-size:13px}
+.secsub{margin:-4px 0 8px;font-size:13px}
 </style>
 
 <header class="top">
@@ -317,10 +355,11 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
       <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
       </div>
       <div id="gobox" hidden>
-        <div class="card fgrid">
+        <div class="card fgrid godrop" id="godrop">
           <h3>База из Genshin Optimizer</h3>
-          <p class="sub" style="margin:0">В GO открой «Database», нажми «Export» / «Download» и выбери здесь скачанный файл. Можно и вставить текст файла. База остаётся только в этом браузере, на сервер ничего не уходит.</p>
+          <ol class="gosteps"><li>Открой Genshin Optimizer, раздел <b>Database</b>.</li><li>Нажми <b>Download</b>: скачается файл .json.</li><li>Перетащи файл сюда или выбери его кнопкой.</li></ol>
           <div class="row"><label class="btn" for="gofile" style="cursor:pointer">Выбрать файл</label><input type="file" id="gofile" accept=".json,application/json" hidden><span class="sub" id="gostat"></span></div>
+          <p class="sub" style="margin:0">База остаётся только в этом браузере, на сервер ничего не уходит.</p>
           <details><summary class="sub" style="cursor:pointer">или вставить текст</summary>
             <textarea id="gopaste" class="inp mono" style="min-height:100px;margin-top:8px" placeholder='{"format":"GOOD", ...}' aria-label="Экспорт GO"></textarea>
             <div class="row" style="margin-top:8px"><button class="btn small" type="button" id="goparse">Загрузить</button></div></details>
@@ -346,7 +385,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
         <li><b>Вердикт</b> по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Эти пороги подобрал я, игра их не задаёт.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
-        <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта. С базой GO и при ручном вводе число улучшений каждого стата восстанавливается по значению, поэтому там результат приблизительный.</li>
+        <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. На 40 000 случайных артефактах так угадано верно в 99% случаев, а уверенность сайт пишет на каждом артефакте. Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
       </ol>
     </details>
   </section>
@@ -603,6 +642,49 @@ function guessRolls(k, v){
   return best ? best.r : Math.min(6, Math.max(1, Math.round(x / 0.85)));
 }
 
+// ---------- roll history from values (GO keeps no history) ----------
+// Every roll is 70/80/90/100% of the max roll, so a value is (sum of tiers) x max/10. For each substat list the roll
+// counts that can give the shown value, then pick the most likely combination: upgrades land on the 4 lines evenly,
+// a +20 piece has 8 rolls (started with 3 lines) or 9 (started with 4, about a quarter of drops).
+const TIER_WAYS = [[1]];   // TIER_WAYS[r][i]: number of tier sequences of r rolls with tier sum 7r+i
+for (let r = 1; r <= 6; r++) { const prev = TIER_WAYS[r - 1], out = new Array(prev.length + 3).fill(0); prev.forEach((c, i) => { for (let t = 0; t < 4; t++) out[i + t] += c; }); TIER_WAYS.push(out); }
+// exact max rolls (the table above is rounded for display); tiers are 70/80/90/100% of these
+const MAXP = {hp: 298.75, atk: 19.45, def: 23.15, hp_: 5.8275, atk_: 5.8275, def_: 7.2875, em: 23.31, er: 6.475, cr: 3.8889, cd: 7.7778};
+function rollOptions(k, v){
+  const mx = MAXP[k], tol = SUB[k].p ? 0.051 : 0.51, out = [];
+  for (let r = 1; r <= 6; r++) {
+    let ways = 0; TIER_WAYS[r].forEach((c, i) => { if (Math.abs((7 * r + i) * mx / 10 - v) <= tol) ways += c; });
+    if (ways) out.push({r, p: ways / 4 ** r});
+  }
+  return out;
+}
+const FACT = [1, 1, 2, 6, 24, 120];
+// odds of the first (kept) roll being tier 7/8/9/10, given r rolls add up to the shown value
+function initTiers(k, v, r){
+  const mx = MAXP[k], tol = SUB[k].p ? 0.051 : 0.51, it = [0, 0, 0, 0];
+  TIER_WAYS[r].forEach((c, i) => { const S = 7 * r + i; if (!c || Math.abs(S * mx / 10 - v) > tol) return;
+    for (let t = 7; t <= 10; t++) { const j = S - t - 7 * (r - 1); if (j >= 0 && j < TIER_WAYS[r - 1].length) it[t - 7] += TIER_WAYS[r - 1][j]; } });
+  const z = it.reduce((a, b) => a + b, 0);
+  return z ? it.map(x => x / z) : null;
+}
+function guessHistory(subsIn, lines){
+  const opts = subsIn.map(s => rollOptions(s.k, s.v));
+  if (opts.some(o => !o.length)) return null;
+  const hyps = []; let Z = 0;
+  for (const L of lines ? [lines] : [3, 4]) {
+    const nUp = L === 4 ? 5 : 4, prior = L === 4 ? 0.25 : 0.75;
+    for (const a of opts[0]) for (const b of opts[1]) for (const c of opts[2]) for (const d of opts[3]) {
+      const rs = [a.r, b.r, c.r, d.r]; if (rs.reduce((x, y) => x + y, 0) !== 4 + nUp) continue;
+      const multi = FACT[nUp] / rs.reduce((x, r) => x * FACT[r - 1], 1) / 4 ** nUp;
+      const lk = prior * multi * a.p * b.p * c.p * d.p;
+      hyps.push({rs, lk}); Z += lk;
+    }
+  }
+  if (!hyps.length) return null;
+  hyps.sort((x, y) => y.lk - x.lk);
+  return {rs: hyps[0].rs, conf: hyps[0].lk / Z};
+}
+
 // Artifact -> reshape model: 4 substats with initial value, current value and roll count; nEnh enhancements to redistribute
 function model(a, lines){
   const main = KEY_OF[a.main?.k] || null;
@@ -623,12 +705,17 @@ function model(a, lines){
     }
   }
   if (subsIn.length !== 4) return {...base, ok:false, why: subsIn.length ? 'Нужно 4 саб стата' : 'Нет саб статов'};
+  const h = guessHistory(subsIn, lines === 3 || lines === 4 ? lines : null);
+  if (h) return {...base, ok:true, exact:false, approx:false, conf: h.conf, nEnh: h.rs.reduce((t, r) => t + r, 0) - 4,
+    subs: subsIn.map((s, i) => { const it = initTiers(s.k, s.v, h.rs[i]);
+      return {k: s.k, value: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * (t + 7) / 10, 0) * MAXV(s.k) : s.v / h.rs[i]}; })};
+  // values no roll combination explains (typo, old data): nearest average roll
   const subs = subsIn.map(s => { const r = guessRolls(s.k, s.v); return {k: s.k, init: s.v / r, value: s.v, rolls: r}; });
   const total = subs.reduce((t, s) => t + s.rolls, 0);
-  let nEnh = total - 4, approx = false;
-  if (lines === 4 || lines === 3) { const want = lines === 4 ? 5 : 4; approx = nEnh !== want; nEnh = want; }
-  else if (nEnh < 4 || nEnh > 5) { approx = true; nEnh = nEnh < 4 ? 4 : 5; }
-  return {...base, ok:true, exact:false, approx, subs, nEnh};
+  let nEnh = total - 4;
+  if (lines === 4 || lines === 3) nEnh = lines === 4 ? 5 : 4;
+  else if (nEnh < 4 || nEnh > 5) nEnh = nEnh < 4 ? 4 : 5;
+  return {...base, ok:true, exact:false, approx:true, conf: 0, subs, nEnh};
 }
 
 // "Useful rolls": sum of weight * value / max roll
@@ -646,7 +733,7 @@ const RS_CACHE = new Map();
 // Shared engine: n enhancements land uniformly on the 4 substats (with the pair guarantee when pair is given),
 // each at a random tier; returns odds of beating `target` useful rolls and the expected gain over it
 function spreadOdds(subs, field, n, w, pair, g, target){
-  const key = JSON.stringify([subs.map(s => [s.k, +s[field].toFixed(3)]), field, n, SUBK.map(k => +(w[k]||0).toFixed(3)), pair, g, +target.toFixed(3)]);
+  const key = JSON.stringify([subs.map(s => [s.k, +s[field].toFixed(3), field === 'init' && s.it ? s.it.map(x => +x.toFixed(4)) : 0]), field, n, SUBK.map(k => +(w[k]||0).toFixed(3)), pair, g, +target.toFixed(3)]);
   if (RS_CACHE.has(key)) return RS_CACHE.get(key);
   const comps = new Map(); let tot = 0;
   for (let s = 0; s < 4 ** n; s++) {
@@ -655,11 +742,18 @@ function spreadOdds(subs, field, n, w, pair, g, target){
     if (pair && hit < g) continue;
     const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + 1); tot++;
   }
-  const base = useful(subs, w, field);
   const mul = subs.map(s => Math.round((w[s.k] || 0) * 20));  // weight in 1/20 steps
+  // without roll history the kept first roll is unknown: its tier odds are folded in instead of a fixed value
+  const unk = subs.map(s => field === 'init' && s.it && mul[subs.indexOf(s)] > 0);
+  const base = useful(subs.filter((s, i) => !unk[i]), w, field);
+  let dist0 = [1];
+  subs.forEach((s, i) => { if (!unk[i]) return;
+    const out = new Array(dist0.length + 10 * mul[i]).fill(0);
+    dist0.forEach((p, u) => { if (p) s.it.forEach((q, t) => { out[u + (t + 7) * mul[i]] += p * q; }); });
+    dist0 = out; });
   let pBetter = 0, pWorse = 0, eGain = 0, eNew = 0;
   for (const [ck, cnt] of comps) {
-    let dist = [1];
+    let dist = dist0;
     ck.split('').forEach((cn, i) => {
       for (let r = 0; r < +cn; r++) {
         if (!mul[i]) continue;
@@ -744,7 +838,6 @@ async function loadAkasha(uid){
   } catch (err) { diag('akasha ошибка: ' + err.message); }
 }
 function akashaBlock(c){
-  if (state.mode === 'go') return `<div class="akbox">${estBlock(c, false)}</div>`;
   if (state.mode !== 'uid') return '';
   const key = c.key, a = state.akasha;
   if (a?.missing) return `<p class="sub akmiss">Место в Акаше появится после обновления посредника в Cloudflare.</p>`;
@@ -755,208 +848,7 @@ function akashaBlock(c){
   const [b, ...rest] = list;
   return `<div class="akbox"><a class="akbig" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
       <small>Акаша ↗</small><b>топ ${topS(b)}%</b><span>${esc(b.name)}${b.variant ? ' · ' + esc(b.variant) : ''}</span><small>${fmt(b.rank)} из ${fmt(b.of)}</small></a>
-    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}
-    ${c.fp?.dmg ? estBlock(c, true) : ''}</div>`;
-}
-
-// ---------- Estimated Akasha place for a GO build ----------
-// Akasha's damage formulas are closed. The page samples real entries of the same leaderboard (stats, result, rank),
-// fits ln(result) on ln(stats) around this build, and reads the rank off the sampled entries. When the same character
-// is on the player's Akasha, its real result corrects the fit (the model then only has to get the difference right).
-const EKEY = {FIGHT_PROP_HP:'hp', FIGHT_PROP_HP_PERCENT:'hp_', FIGHT_PROP_ATTACK:'atk', FIGHT_PROP_ATTACK_PERCENT:'atk_', FIGHT_PROP_DEFENSE:'def',
-  FIGHT_PROP_DEFENSE_PERCENT:'def_', FIGHT_PROP_ELEMENT_MASTERY:'eleMas', FIGHT_PROP_CHARGE_EFFICIENCY:'enerRech_', FIGHT_PROP_CRITICAL:'critRate_',
-  FIGHT_PROP_CRITICAL_HURT:'critDMG_', FIGHT_PROP_HEAL_ADD:'heal_', FIGHT_PROP_PHYSICAL_ADD_HURT:'physical_dmg_', FIGHT_PROP_FIRE_ADD_HURT:'pyro_dmg_',
-  FIGHT_PROP_ELEC_ADD_HURT:'electro_dmg_', FIGHT_PROP_WATER_ADD_HURT:'hydro_dmg_', FIGHT_PROP_GRASS_ADD_HURT:'dendro_dmg_', FIGHT_PROP_WIND_ADD_HURT:'anemo_dmg_',
-  FIGHT_PROP_ROCK_ADD_HURT:'geo_dmg_', FIGHT_PROP_ICE_ADD_HURT:'cryo_dmg_', FIGHT_PROP_BASE_ATTACK:'baseAtk'};
-const gk = k => EKEY[k] || SUB[k]?.g || k;
-const isPctK = k => /_$/.test(k || '');
-const ascOf = lv => [20, 40, 50, 60, 70, 80].filter(x => lv > x).length;
-const akIcon = s => ((/UI_EquipIcon_[A-Za-z0-9_]+/.exec(s || '') || [''])[0]).replace(/_Awaken$/, '');
-const SET_BY_ID = Object.fromEntries(Object.entries(DATA.sets).map(([k, v]) => [String(v[0]), k]));
-const W_BY_ICON = Object.fromEntries(Object.entries(DATA.wkeys).map(([k, v]) => [akIcon(v[0]), k]));
-const ELS = ['pyro', 'hydro', 'electro', 'dendro', 'anemo', 'geo', 'cryo', 'physical'];
-// character panel stats (what the game, Enka and Akasha show) from base curves, weapon and artifacts, like GO does
-function panelStats(c){
-  const G = DATA.gs, cd = G.c[c.key]; if (!cd) return null;
-  const lv = Math.min(100, c.level || 90), asc = c.asc ?? ascOf(lv), w = c.weapon;
-  const S = {critRate_: 0.05, critDMG_: 0.5, enerRech_: 1};
-  const add = (k, v) => { if (k && v) S[k] = (S[k] || 0) + (+v); };
-  const bHp = cd[1] * G.cc[cd[2]][lv] + cd[7][asc], bAtk = cd[3] * G.cc[cd[4]][lv] + cd[8][asc], bDef = cd[5] * G.cc[cd[6]][lv] + cd[9][asc];
-  if (cd[10]) add(cd[10], cd[11][asc]);
-  const wkey = w && (w.key && G.w[w.key] ? w.key : W_BY_ICON[akIcon(w.icon || w.baseIcon)]);
-  let wAtk = 0;
-  if (w?.stats?.length) for (const x of w.stats) { const k = gk(x.k); if (k === 'baseAtk') wAtk = +x.v; else add(k, isPctK(k) ? x.v / 100 : x.v); }
-  else if (wkey && G.w[wkey]) { const d = G.w[wkey], wl = Math.min(100, w.level || 90), wa = w.asc ?? ascOf(wl); wAtk = d[0] * G.wc[d[1]][wl] + d[2][wa]; if (d[3]) add(d[3], d[4] * G.wc[d[5]][wl]); }
-  if (wkey && G.w[wkey]) for (const [k, arr] of Object.entries(G.w[wkey][6] || {})) add(k, arr[w.ref || 1]);
-  const sets = {};
-  for (const a of c.arts || []) {
-    const mk = gk(a.main?.k), mv = a.main?.v;
-    add(mk, mv != null ? (isPctK(mk) ? mv / 100 : mv) : G.main[mk]?.[Math.min(20, a.level ?? 20)]);
-    for (const x of a.subs || []) { const k = gk(x.k); add(k, isPctK(k) ? x.v / 100 : x.v); }
-    const sk = a.setKey || SET_BY_ID[(/UI_RelicIcon_(\d+)_/.exec(a.icon || '') || [])[1]];
-    if (sk) sets[sk] = (sets[sk] || 0) + 1;
-  }
-  for (const [k, n] of Object.entries(sets)) if (n >= 2) for (const [sk, v] of Object.entries(G.set2[k] || {})) add(sk, v);
-  return {hp: bHp * (1 + (S.hp_ || 0)) + (S.hp || 0), atk: (bAtk + wAtk) * (1 + (S.atk_ || 0)) + (S.atk || 0), def: bDef * (1 + (S.def_ || 0)) + (S.def || 0),
-    em: S.eleMas || 0, er: S.enerRech_, cr: S.critRate_, cd: S.critDMG_, dmg: Object.fromEntries(ELS.map(e => [e, S[e + '_dmg_'] || 0]))};
-}
-// GO build stats; when the same character with the same weapon is in the loaded showcase, the gap between Enka's real
-// panel and the computed one (weapon and talent passives, sets the table doesn't know) is carried over
-function goFp(c){
-  const p = panelStats(c); if (!p) return null;
-  const e = state.profile?.chars?.find(x => x.key === c.key && x.fp?.dmg);
-  if (e && akIcon(e.weapon?.icon || e.weapon?.baseIcon) === akIcon(c.weapon?.icon)) {
-    const q = panelStats(e);
-    if (q) { for (const k of ['hp', 'atk', 'def', 'em', 'er', 'cr', 'cd']) p[k] += e.fp[k] - q[k];
-      for (const k of ELS) p.dmg[k] += (e.fp.dmg[k] || 0) - q.dmg[k];
-      p.cal = true; diag(`поправка ${c.key}: ` + ['hp', 'atk', 'def', 'em', 'er', 'cr', 'cd'].map(k => `${k} ${(e.fp[k] - q[k]).toFixed(k === 'hp' || k === 'atk' || k === 'def' || k === 'em' ? 0 : 3)}`).join(' ')); }
-  }
-  return p;
-}
-const akData = j => Array.isArray(j) ? j : Array.isArray(j?.data) ? j.data : [];
-function akFeat(s, cons){
-  const cr = Math.min(1, Math.max(0, s.cr));
-  return [Math.log(s.hp), Math.log(s.atk), Math.log(s.def), Math.log(1 + 2.78 * s.em / (s.em + 1400)), Math.log(1 + 6 * s.em / (s.em + 2000)),
-    Math.log(1 + cr * s.cd), Math.log(1 + s.dmg), Math.log(Math.max(0.5, s.er)), cons];
-}
-// weighted ridge regression on standardized columns; constant columns (everyone the same) get no say
-function ridge(X, y, lam, wt){
-  const n = X.length, p = X[0].length, W = wt || X.map(() => 1), sw = W.reduce((a, b) => a + b, 0), mu = [], sd = [];
-  for (let j = 0; j < p; j++) {
-    const m = X.reduce((a, r, k) => a + W[k] * r[j], 0) / sw, v = X.reduce((a, r, k) => a + W[k] * (r[j] - m) ** 2, 0) / sw;
-    mu.push(m); sd.push(v > 1e-12 ? Math.sqrt(v) : 0);
-  }
-  const Z = X.map(r => r.map((x, j) => sd[j] ? (x - mu[j]) / sd[j] : 0));
-  const ym = y.reduce((a, b, k) => a + W[k] * b, 0) / sw;
-  const A = Array.from({length: p}, (_, i) => Array.from({length: p}, (_, j) => Z.reduce((a, r, k) => a + W[k] * r[i] * r[j], 0) + (i === j ? lam * sw : 0)));
-  const bv = Array.from({length: p}, (_, i) => Z.reduce((a, r, k) => a + W[k] * r[i] * (y[k] - ym), 0));
-  for (let i = 0; i < p; i++) {             // Gauss-Jordan, A is symmetric positive definite
-    const d = A[i][i]; for (let j = 0; j < p; j++) A[i][j] /= d; bv[i] /= d;
-    for (let k = 0; k < p; k++) if (k !== i) { const f = A[k][i]; for (let j = 0; j < p; j++) A[k][j] -= f * A[i][j]; bv[k] -= f * bv[i]; }
-  }
-  const pred = x => ym + x.reduce((a, v, j) => a + (sd[j] ? bv[j] * (v - mu[j]) / sd[j] : 0), 0);
-  const sigma = Math.sqrt(X.reduce((a, r, k) => a + W[k] * (y[k] - pred(r)) ** 2, 0) / sw * n / Math.max(1, n - p - 1));
-  return {pred, sigma};
-}
-// rank for a result, read off sampled (result, rank) points; ranks are interpolated on a log scale
-function akRank(pts, r){
-  if (r >= pts[0].res) return 1;
-  for (let i = 1; i < pts.length; i++) if (r >= pts[i].res) {
-    const a = pts[i - 1], b = pts[i], t = (a.res - r) / ((a.res - b.res) || 1);
-    return Math.round(Math.exp(Math.log(a.rank) + t * (Math.log(b.rank) - Math.log(a.rank))));
-  }
-  return null;                                // below everything sampled
-}
-async function akEstimate(c, fp, check){
-  const base = (store.get('proxy') || DEFAULT_PROXY).replace(/\/$/, '');
-  const get = async path => { const r = await fetch(base + path); if (r.status === 404 && !(await r.clone().text()).includes('akasha-lb')) throw new Error('old-worker'); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); };
-  const el = charInfo(c.key).el, cons = c.cons || 0;
-  const id = c.id || Object.keys(CH).find(k => CH[k][0] === c.key);
-  const cats = akData(await get(`/akasha-cats/${id}`));
-  const mine = akIcon(c.weapon?.icon || c.weapon?.baseIcon);
-  const all = [], fits = [];
-  for (const cat of cats) for (const wpn of cat.weapons || []) {
-    all.push(wpn.name);
-    const cMin = /^C(\d)/.exec(cat.name || '');
-    if (mine && akIcon(wpn.icon) === mine && !(cMin && +cMin[1] > cons)) fits.push({cat, wpn});
-  }
-  if (!fits.length) return {none: true, weapons: [...new Set(all)]};
-  // the player's own Akasha entries: a real result for this very character corrects the fit
-  const ak = state.akasha?.uid && state.akasha.uid === String(state.profile?.uid) ? state.akasha.by[c.key] || [] : [];
-  const enka = state.profile?.chars?.find(x => x.key === c.key && x.fp?.dmg);
-  const me = akFeat({...fp, dmg: fp.dmg?.[el] || 0}, cons);
-  const out = [];
-  for (const {cat, wpn} of fits.slice(0, 3)) {
-    const calc = wpn.calculationId, lb = q => get(`/akasha-lb/${calc}?${q}`).then(akData).catch(() => []);
-    const topJ = await get(`/akasha-lb/${calc}?size=20`), top = akData(topJ);
-    const r1 = top[0]?.calculation?.result; if (!r1) continue;
-    const cf = encodeURIComponent(`[constellation]${cons}`);
-    const F = [0.97, 0.94, 0.9, 0.86, 0.82, 0.78, 0.72, 0.65, 0.55, 0.45, 0.35];
-    const [slices, same] = await Promise.all([Promise.all(F.map(f => lb(`size=10&lt=${(r1 * f).toFixed(4)}`))),
-      Promise.all([0, 0.94, 0.86, 0.78, 0.65, 0.45].map(f => lb(`size=20&filter=${cf}${f ? `&lt=${(r1 * f).toFixed(4)}` : ''}`)))]);
-    let total = null;
-    if (topJ.totalRowsHash) try { total = (await get(`/akasha-size/${encodeURIComponent(topJ.totalRowsHash)}`)).totalRows || null; } catch {}
-    const good = e => e && e.calculation?.result > 0;
-    // rank rows: the whole board (its index is the real place); fit rows: same constellation only when there are enough
-    const rankRows = new Map(), fitRows = new Map();
-    const addRank = list => list.forEach(e => { if (good(e) && e.index > 0) rankRows.set(e._id, e); });
-    const addFit = list => list.forEach(e => { if (good(e) && (e.constellation ?? 0) === cons) fitRows.set(e._id, e); });
-    addRank([top, ...slices].flat()); addFit([top, ...slices, ...same].flat());
-    const g = (e, k) => +(e.stats?.[k]?.value ?? e.stats?.[k] ?? 0);
-    const crs = [...rankRows.values()].map(e => g(e, 'critRate')).sort((a, b) => a - b), pctUnits = crs[crs.length >> 1] > 3 ? 100 : 1;
-    const st = e => ({hp: g(e, 'maxHp'), atk: g(e, 'atk'), def: g(e, 'def'), em: g(e, 'elementalMastery'), er: g(e, 'energyRecharge') / pctUnits,
-      cr: g(e, 'critRate') / pctUnits, cd: g(e, 'critDamage') / pctUnits, dmg: g(e, el + 'DamageBonus') / pctUnits});
-    const fitOn = (center, width) => {
-      let rows = [...fitRows.values()], consOnly = true;
-      if (rows.length < 40) { rows = [...new Map([...rankRows, ...fitRows]).values()]; consOnly = false; }
-      rows = rows.filter(e => { const s = st(e); return s.hp > 0 && s.atk > 0 && s.def > 0; });
-      if (rows.length < 20) return null;
-      const wt = center ? rows.map(e => 0.05 + Math.exp(-(((Math.log(e.calculation.result) - Math.log(center)) / width) ** 2))) : null;
-      return {n: rows.length, consOnly, fit: ridge(rows.map(e => akFeat(st(e), e.constellation || 0)), rows.map(e => Math.log(e.calculation.result)), 0.02, wt)};
-    };
-    let f0 = fitOn(); if (!f0) continue;
-    // second pass: more entries right around this build, and a fit weighted towards them
-    const guess = Math.exp(f0.fit.pred(me));
-    const near = await Promise.all([...[1.08, 1.04, 1, 0.96, 0.92].map(m => lb(`size=20&lt=${(guess * m).toFixed(4)}`)),
-      ...[1.1, 1.03, 0.97].map(m => lb(`size=20&filter=${cf}&lt=${(guess * m).toFixed(4)}`))]);
-    addRank(near.slice(0, 5).flat()); addFit(near.flat());
-    const f1 = fitOn(guess, 0.12) || f0, fit = f1.fit;
-    let res = Math.exp(fit.pred(me)), cal = null;
-    const real = ak.find(x => String(x.id) === String(calc) && x.result);
-    if (real && enka?.fp?.dmg) {
-      const predReal = Math.exp(fit.pred(akFeat({...enka.fp, dmg: enka.fp.dmg[el] || 0}, enka.cons || 0)));
-      cal = {real: real.result, pred: predReal, diff: predReal / real.result - 1, rank: real.rank, of: real.of};
-      if (!check) res *= real.result / predReal;
-    }
-    const pts = [...rankRows.values()].map(e => ({res: e.calculation.result, rank: e.index})).sort((a, b) => b.res - a.res);
-    const sig = cal && !check ? Math.min(fit.sigma, 0.02) : fit.sigma;
-    const rank = akRank(pts, res);
-    const above = [...pts].reverse().find(x => x.res >= res), below = pts.find(x => x.res < res);
-    out.push({id: calc, name: cat.name || wpn.name, weapon: wpn.name, n: f1.n, consOnly: f1.consOnly, total, res, rank, cal,
-      hi: akRank(pts, res * Math.exp(sig)), lo: akRank(pts, res * Math.exp(-sig)), err: Math.round((Math.exp(sig) - 1) * 100),
-      above, below, lowest: pts[pts.length - 1]});
-    diag(`оценка ${c.key} ${calc}: урон ${Math.round(res)}, место ${rank}, σ ${fit.sigma.toFixed(3)}, записей ${f1.n}${cal ? `, Акаша ${Math.round(cal.real)} / расчёт ${Math.round(cal.pred)}` : ''}`);
-  }
-  if (!out.length) throw new Error('нет записей');
-  const topP = x => x.rank && x.total ? x.rank / x.total * 100 : 999;
-  return {list: out.sort((a, b) => topP(a) - topP(b))};
-}
-function estBlock(c, check){
-  const k = `${check ? 'uid' : 'go'}:${c.key}`, s = (state.akEst ||= {})[k];
-  if (!s) return `<button type="button" class="alt-link akest-btn" data-akest="${esc(c.key)}"${check ? ' data-check="1"' : ''}>${check ? 'Проверить точность оценки сайта' : 'Прикинуть место в Акаше'}</button>`;
-  if (s.loading) return `<p class="sub akest">Считаю по таблицам Акаши…</p>`;
-  if (s.error === 'old-worker') return `<p class="sub akest">Для оценки нужно обновить посредник в Cloudflare (новый код в proxy/worker.js).</p>`;
-  if (s.error) return `<p class="sub akest">Оценить не вышло (${esc(s.error)}). <button type="button" class="alt-link" data-akest="${esc(c.key)}"${check ? ' data-check="1"' : ''}>Ещё раз</button></p>`;
-  if (s.none) return `<p class="sub akest">У Акаши нет таблицы для ${esc(charInfo(c.key).ru)} с этим оружием. Есть с: ${esc(s.weapons.join(', ') || 'ничем')}.</p>`;
-  const fmt = n => Math.round(n).toLocaleString('ru-RU');
-  const pc = (r, t) => { const v = r / t * 100; return v < 10 ? v.toFixed(1).replace('.', ',') : String(Math.round(v)); };
-  const whereOf = x => x.rank == null ? `ниже ${fmt(x.lowest.rank)} места` : x.total ? `топ ${pc(x.rank, x.total)}%` : `${fmt(x.rank)} место`;
-  if (check) {
-    const rows = s.list.map(x => x.cal ? `<li><b>${esc(x.name)}</b>: сайт насчитал ${fmt(x.cal.pred)}, у Акаши ${fmt(x.cal.real)} (промах ${x.cal.diff >= 0 ? '+' : ''}${(x.cal.diff * 100).toFixed(1).replace('.', ',')}%). По расчёту сайта это ${esc(whereOf(x))}, на деле топ ${pc(x.cal.rank, x.cal.of)}%.</li>`
-      : `<li><b>${esc(x.name)}</b>: на Акаше нет твоей записи в этой таблице, сверить не с чем.</li>`).join('');
-    return `<div class="akest akcheck"><ul>${rows}</ul><p class="sub">Это проверка без поправки. В режиме «База GO» сайт сверяется с этим настоящим результатом, поэтому там промах меньше.</p></div>`;
-  }
-  const one = x => ({where: whereOf(x),
-    range: x.total && x.hi && x.lo ? `разброс: топ ${pc(x.hi, x.total)}–${pc(x.lo, x.total)}%` : '',
-    place: x.rank && x.total ? `примерно ${fmt(x.rank)} из ${fmt(x.total)}` : ''});
-  const [b, ...rest] = s.list, o = one(b);
-  const between = b.above && b.below ? ` Твой расчётный урон ${fmt(b.res)}, это между местами ${fmt(b.above.rank)} (${fmt(b.above.res)}) и ${fmt(b.below.rank)} (${fmt(b.below.res)}).` : '';
-  const how = b.cal ? `Поправлено по настоящему результату этого персонажа на твоей Акаше (${fmt(b.cal.real)}), поэтому оценка точная, пока сборка похожа на ту, что там.`
-    : `Этого персонажа нет на твоей Акаше, поэтому без поправки: промах около ±${b.err}% урона. Для точности загрузи UID с ним в витрине.`;
-  return `<a class="akbig akest" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
-      <small>Оценка сайта ↗</small><b>≈ ${esc(o.where)}</b><span>${esc(b.name)}${b.name !== b.weapon ? ' · ' + esc(b.weapon) : ''}</span><small>${esc([o.place, o.range].filter(Boolean).join(' · '))}</small></a>
-    ${rest.map(x => { const q = one(x); return `<a class="aksm" href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>≈ ${esc(q.where)}</b> ${esc(x.name)}</a>`; }).join('')}
-    <p class="sub akest">Оценка, не настоящее место. Сайт посчитал статы сборки и сравнил с ${b.n} записями таблицы${b.consOnly ? ` (C${c.cons})` : ''}.${between} ${how}</p>`;
-}
-async function runEst(key, check){
-  const c = (check ? state.profile : state.go)?.chars?.find(x => x.key === key); if (!c) return;
-  const k = `${check ? 'uid' : 'go'}:${key}`; (state.akEst ||= {})[k] = {loading: true}; renderSheet();
-  try {
-    const fp = check ? c.fp : goFp(c);
-    if (!fp) throw new Error(check ? 'загрузи UID заново' : 'нет данных о персонаже');
-    state.akEst[k] = await akEstimate(c, fp, check);
-  } catch (err) { state.akEst[k] = {error: err.message === 'old-worker' ? 'old-worker' : err.message}; diag('оценка акаши: ' + err.message); }
-  renderSheet();
+    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}</div>`;
 }
 
 // ---------- render: reshape by UID ----------
@@ -990,8 +882,10 @@ function renderAccount(){
     return;
   }
   $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.${p.inv ? ` с 5★ артефактами · ${p.inv.length} артефактов 5★` : ''}</span><span class="sp"></span>
-    ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>`;
+    ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}${state.mode === 'go' ? `<button class="btn ghost small" type="button" id="newbase">${state.goUpload ? 'Скрыть загрузку' : 'Загрузить новую'}</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>
+    ${state.mode === 'go' ? `<p class="sub goacc">GO не хранит историю роллов, поэтому сайт восстанавливает её по цифрам. На 40 000 случайных артефактах число роллов в каждом стате угадано верно в 99% случаев, а где сайт не уверен, он это пишет.</p>` : ''}`;
   if ($('#refresh')) $('#refresh').onclick = () => loadUid(String(p.uid));
+  if ($('#newbase')) $('#newbase').onclick = () => { state.goUpload = !state.goUpload; renderCtrl(); renderAccount(); };
   $('#forget').onclick = () => { if (state.mode === 'go') { state.go = null; try { localStorage.removeItem('goProfile'); } catch {} return renderAccount(); } try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
 
   // account-wide: where one Dust buys the most
@@ -1000,22 +894,25 @@ function renderAccount(){
   const tier = r => r.perDust >= 0.6 ? 2 : r.perDust >= 0.25 ? 1 : 0;
   // 4-line starts first within the same verdict: they get 5 enhancements, 3-line starts only 4
   all.sort((x, y) => tier(y.r) - tier(x.r) || (y.m.nEnh - x.m.nEnh) || (y.r.perDust - x.r.perDust));
-  const top = all.slice(0, 6);
-  $('#bestbox').innerHTML = top.length ? `<h2 class="sec">Что роллить в первую очередь</h2><div class="best">${top.map(t => {
+  // only rerolls worth a feather; the rest would just be noise here
+  const top = all.filter(t => t.r.perDust >= 0.25).slice(0, 6);
+  const ak = state.mode + ':' + (p.uid || p.total || '') + ':' + p.chars.length, freshAcc = state.lastAcct !== ak; state.lastAcct = ak;
+  $('#bestbox').classList.toggle('anim', freshAcc); $('#roster').classList.toggle('anim', freshAcc);
+  $('#bestbox').innerHTML = top.length ? `<h2 class="sec">Что роллить в первую очередь</h2><p class="sub secsub">Лучшие рероллы ${state.mode === 'go' ? 'во всей базе' : 'среди персонажей витрины'}. Нажми строку, чтобы открыть артефакт.</p><div class="best">${top.map((t, n) => {
       const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
-      return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el})">${face(t.c.key, 'sm')}
+      return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el});--i:${n}">${face(t.c.key, 'sm')}
         <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${t.m.nEnh === 4 ? '3-стат · ' : ''}${esc(t.a.set)}</small></span>
         <span class="pair">Выбрать <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>RV за перо</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>` :
-    (p.chars.length ? `<p class="empty" style="margin-top:12px">Среди артефактов витрины нет 5★ +20, их нельзя роллить.</p>` : '');
+    (p.chars.length ? `<p class="empty" style="margin-top:12px">${all.length ? 'Сейчас нет реролла, который стоит пера: везде прирост ниже +25% RV.' : 'Среди артефактов нет 5★ +20, их нельзя роллить.'}</p>` : '');
   // characters grouped by element, with an element filter bar
   const byEl = {}; p.chars.forEach(c => (byEl[charInfo(c.key).el] ||= []).push(c));
   const els = EL_ORDER.filter(e => byEl[e]);
   if (state.el !== 'all' && !byEl[state.el]) state.el = 'all';
   const chip = c => { const i = charInfo(c.key), bs = buildScore(c, effW(c.key));
     return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`; };
-  $('#roster').innerHTML = !p.chars.length ? '' : `${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el==='all'}">Все <small>${p.chars.length}</small></button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el===e}" title="${EL_RU[e]}">${elIcon(e)}<small>${byEl[e].length}</small></button>`).join('')}</div>` : ''}
+  $('#roster').innerHTML = !p.chars.length ? '' : `<h2 class="sec">Персонажи</h2>${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el==='all'}">Все <small>${p.chars.length}</small></button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el===e}" title="${EL_RU[e]}">${elIcon(e)}<small>${byEl[e].length}</small></button>`).join('')}</div>` : ''}
     ${els.filter(e => state.el === 'all' || state.el === e).map(e => `<div class="elgrp"><div class="elhd">${elIcon(e)}${EL_RU[e]}</div><div class="chars">${byEl[e].map(chip).join('')}</div></div>`).join('')}`;
   renderSheet();
 }
@@ -1027,16 +924,38 @@ function subLines(m, subs, w){
     return `<div class="${wcls(w[s.k]||0)}"><span>${esc(SUB[s.k].n)}</span>${dots}<span class="v">${fmtSub(s.k, s.value)}</span></div>`;
   }).join('')}</div>`;
 }
-function rsBlock(m, w){
-  if (!m.ok) return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
-  const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust);
+const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? b : c;
+function outcomeBar(r){
+  const same = Math.max(0, 1 - r.pBetter - r.pWorse);
+  return `<div class="ob" role="img" aria-label="хуже ${pct(r.pWorse)}, почти так же ${pct(same)}, лучше ${pct(r.pBetter)}"><i class="w" style="--p:${r.pWorse}"></i><i class="s" style="--p:${same}"></i><i class="b" style="--p:${r.pBetter}"></i></div>
+    <div class="obl"><span class="w">хуже ${pct(r.pWorse)}</span><span>почти так же ${pct(same)}</span><span class="b">лучше ${pct(r.pBetter)}</span></div>`;
+}
+function accLine(m){
+  if (m.exact) return `<div class="acc ok">✓ История роллов из Enka, расчёт точный</div>`;
+  if (m.approx) return `<div class="acc bad">Цифры не сходятся ни с одной историей роллов, проверь значения</div>`;
+  return m.conf >= 0.9 ? `<div class="acc">Роллы восстановлены по цифрам, уверенность ${pct(m.conf)}</div>`
+    : `<div class="acc warn">Роллы восстановлены неуверенно (${pct(m.conf)}), шансы могут отличаться</div>`;
+}
+function rsBlock(m, w, a){
+  if (!m.ok) {
+    const subs = a ? subsOf(a) : [];
+    if (a && a.rarity === 5 && a.level != null && a.level < 20 && subs.length === 4) {
+      const n = 5 - Math.floor(a.level / 4), r = spreadOdds(subs, 'value', n, w, null, 0, useful(subs, w));
+      return `<div class="rs"><div class="v1"><span class="pill">Сначала прокачать</span></div>
+        <div class="sub">До +20 ${plural(n, 'осталось', 'осталось', 'осталось')} ${n} ${plural(n, 'улучшение', 'улучшения', 'улучшений')}: в среднем <b>${r1(r.eGain)}</b> RV, хоть одно попадёт в полезный стат с шансом ${pct(r.pBetter)}.</div>
+        <div class="sub">Реролл пером доступен только на +20.</div></div>`;
+    }
+    return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
+  }
+  const r = bestPair(m, w, state.g), [vc, vt] = VERDICT(r.perDust), cur = useful(m.subs, w);
   const other = [2,3,4].filter(g => g !== state.g).map(g => `${g}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
-    <div class="v1"><span class="pill ${vc}">${vt}</span><span class="sub">${r1(r.perDust)} RV за перо</span></div>
+    <div class="v1"><span class="pill ${vc}">${vt}</span><span class="sub"><b class="pd">${r1(r.perDust)}</b> RV за перо</span></div>
     <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b></div>
-    <div class="sub">Шанс стать лучше ${pct(r.pBetter)}. С гарантией ${other}</div>
-    ${m.nEnh === 4 ? `<div class="sub">3-стат: при реролле всего 4 улучшения</div>` : ''}
-    ${m.exact ? '' : `<div class="sub">Роллы восстановлены по значениям${m.approx ? ', проверь цифры' : ''}</div>`}
+    ${outcomeBar(r)}
+    <div class="sub">Сейчас RV ${Math.round(cur * 100)}%, после реролла в среднем ${Math.round(r.eNew * 100)}%.${r.eNew < cur ? ` Худший исход можно не оставлять, поэтому перо в среднем даёт ${r1(r.perDust)}.` : ''}</div>
+    <div class="sub">За перо с гарантией ${other}${m.nEnh === 4 ? '. 3-стат: при реролле всего 4 улучшения' : ''}</div>
+    ${accLine(m)}
   </div>`;
 }
 // ---------- inventory upgrades (GO database) ----------
@@ -1068,24 +987,24 @@ function upgrades(c, w){
     acts.sort((x, y) => y.score - x.score || y.p - x.p);
     const top = acts.slice(0, 3);
     if (top[0] && (!bestAll || top[0].score > bestAll.score)) bestAll = {...top[0], slot};
-    const rows = top.map(x => {
+    const rows = top.map((x, n) => {
       const tags = [x.a.setKey !== cur?.setKey ? 'другой сет' : '', x.a.loc && x.a.loc !== c.key ? `надет на ${charInfo(x.a.loc).ru}` : '', x.three ? '3-стат' : ''].filter(Boolean);
-      const act = x.kind === 'wear' ? `<span class="pill go">Надеть</span><span>${r1(x.gain)} RV сразу</span>`
-        : x.kind === 'roll' ? `<span class="pill warn">Зароллить</span><span>обгонит с шансом <b>${pct(x.p)}</b>, пара ${esc(x.pair)}</span>`
-        : `<span class="pill">Прокачать</span><span>с +${x.a.level} до +20 обгонит с шансом <b>${pct(x.p)}</b></span>`;
-      return `<div class="up"><div class="upw"><span class="aicon upi r5">${imgTag([x.a.icon])}</span><div class="upa"><b>${esc(x.a.set)}</b> <span class="sub">+${x.a.level}</span>${tags.map(g => ` <span class="pill">${esc(g)}</span>`).join('')}
+      const act = x.kind === 'wear' ? `<span class="act go">Надеть</span><span>сразу <b>${r1(x.gain)}</b> RV</span>`
+        : x.kind === 'roll' ? `<span class="act warn">Зароллить</span><span>обгонит надетый с шансом <b>${pct(x.p)}</b>, пара ${esc(x.pair)}</span>`
+        : `<span class="act">Прокачать</span><span>с +${x.a.level} до +20 обгонит надетый с шансом <b>${pct(x.p)}</b></span>`;
+      return `${n === 1 ? `<details class="upmore"><summary>ещё ${top.length - 1} ${plural(top.length - 1, 'вариант', 'варианта', 'вариантов')}</summary>` : ''}<div class="up"><div class="upw"><span class="aicon upi r5">${imgTag([x.a.icon])}</span><div class="upa"><b>${esc(x.a.set)}</b> <span class="sub">+${x.a.level}</span>${tags.map(g => ` <span class="pill">${esc(g)}</span>`).join('')}
           <div class="upsubs">${subsOf(x.a).map(s => `<span class="${wcls(w[s.k]||0)}">${esc(SUB[s.k].n)} ${fmtSub(s.k, s.value)}</span>`).join('')}</div></div></div>
-        <div class="upr">${act}</div></div>`;
+        <div class="upr">${act}</div></div>${n > 0 && n === top.length - 1 ? '</details>' : ''}`;
     }).join('');
-    return `<div class="card upslot"><h3>${esc(slot)}${cur ? ` · сейчас RV ${Math.round(useful(subsOf(cur), w) * 100)}%` : ' · пусто'}</h3>
+    return `<div class="card upslot" id="up-${esc(slot)}" style="--i:${SLOT_ORDER.indexOf(slot) + 9}"><h3>${esc(slot)}${cur ? ` · сейчас RV ${Math.round(useful(subsOf(cur), w) * 100)}%` : ' · пусто'}</h3>
       ${rows || '<p class="empty">В инвентаре нет варианта лучше.</p>'}</div>`;
   }).join('');
   const where = bestAll ? `${bestAll.slot.toLowerCase()} ${bestAll.a.set} +${bestAll.a.level}` : '';
   const best = !bestAll ? null : bestAll.kind === 'wear' ? `Надеть из инвентаря ${where}: сразу ${r1(bestAll.gain)} RV.`
     : bestAll.kind === 'roll' ? `Зароллить из инвентаря ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`
     : `Прокачать ${where}: обгонит надетый с шансом ${pct(bestAll.p)}.`;
-  return {best, html: `<h2 class="sec">Замена из инвентаря</h2>
-    <p class="sub" style="margin:0 0 10px">Артефакты того же слота и основного стата из базы GO: что надеть сразу, что прокачать и что зароллить пером, чтобы обогнать надетый. Роллы в базе GO без истории, поэтому шансы приблизительные.
+  return {best, bestSlot: bestAll?.slot, html: `<h2 class="sec">Замена из инвентаря</h2>
+    <p class="sub" style="margin:0 0 10px">Артефакты того же слота и основного стата из базы GO: что надеть сразу, что прокачать и что зароллить пером, чтобы обогнать надетый. Сначала показан лучший вариант, остальные под ним.
     ${mainSet ? `<button type="button" class="alt-link" data-onlyset="1">${state.onlySet ? `Сейчас только ${esc(DATA.sets[mainSet]?.[1] || splitCamel(mainSet))}, показать все сеты` : 'Показаны все сеты, оставить только 4 предмета сета'}</button>` : ''}</p>
     <div class="ups">${blocks}</div>`};
 }
@@ -1100,21 +1019,24 @@ function renderSheet(){
   const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
     .sort((a, b) => b.r.perDust - a.r.perDust)[0];
   const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
-  const steps = [];
-  if (bs.items.length < 5) steps.push(`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`);
-  if (up.best) steps.push(up.best);
-  if (best && best.r.perDust >= 0.25) steps.push(`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`);
-  else if (best) steps.push('Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.');
-  if (weakest && weakest.share < 0.5 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (RV ${Math.round(weakest.u*100)}%, это ${pctOf(weakest)}% от лучшего возможного).`);
-  if (!steps.length) steps.push('Сборка ровная, срочно менять нечего.');
-  const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}">
+  const steps = [];   // [text, id of the block it points to]
+  if (bs.items.length < 5) steps.push([`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`]);
+  if (up.best) steps.push([up.best, 'up-' + up.bestSlot]);
+  if (best && best.r.perDust >= 0.25) steps.push([`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`, 'art-' + best.idx]);
+  else if (best) steps.push(['Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.']);
+  if (weakest && weakest.share < 0.5 && weakest !== best?.x) steps.push([`Поискать замену: ${weakest.a.slot.toLowerCase()} (RV ${Math.round(weakest.u*100)}%, это ${pctOf(weakest)}% от лучшего возможного).`, prof()?.inv ? 'up-' + weakest.a.slot : 'art-' + bs.items.indexOf(weakest)]);
+  if (!steps.length) steps.push(['Сборка ровная, срочно менять нечего.']);
+  const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}" style="--i:${idx + 4}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
         <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
         <span class="q" title="RV ${Math.round(x.u*100)}% из ${Math.round(x.mx*100)}% возможных">${pctOf(x)}%<small>${qTxt(x)}</small></span></div>
       <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
       ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
-      ${rsBlock(x.m, w)}</article>`).join('');
+      ${rsBlock(x.m, w, x.a)}</article>`).join('');
   const wp = c.weapon;
+  // entrance animation only when another character (or mode) is opened, not on every re-render
+  const sk = state.mode + ':' + c.key, fresh = state.lastSheet !== sk; state.lastSheet = sk;
+  $('#sheet').classList.toggle('anim', fresh);
   $('#sheet').innerHTML = `<section class="hero" style="--el:var(--${i.el})">
       <div class="who"><span class="avw">${face(c.key, 'lg')}${weaponIcon(wp)}</span>
         <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
@@ -1122,14 +1044,29 @@ function renderSheet(){
       ${akashaBlock(c)}
     </section>
     <div class="tiles3">
-      <div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}% возможных` : 'нет артефактов'}</span><em>Сколько RV набрали артефакты от лучшего возможного. Лучший артефакт: все 4 саб стата полезные и все 5 улучшений ушли в них, это 900% RV.</em></div>
-      <div class="tile3"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} RV за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько RV в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
-      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${pctOf(weakest)}% от лучшего, ${qTxt(weakest)}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
+      <div class="tile3" style="--i:1"><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}% возможных` : 'нет артефактов'}</span><em>Сколько RV набрали артефакты от лучшего возможного. Лучший артефакт: все 4 саб стата полезные и все 5 улучшений ушли в них, это 900% RV.</em></div>
+      <div class="tile3" style="--i:2"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} RV за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько RV в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
+      <div class="tile3" style="--i:3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${pctOf(weakest)}% от лучшего, ${qTxt(weakest)}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
     </div>
-    <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
+    <div class="card todo" style="--i:4"><h3>Что делать</h3><ol>${steps.map(([t, id]) => `<li>${esc(t)}${id ? ` <button type="button" class="alt-link" data-goto="${id}">показать</button>` : ''}</li>`).join('')}</ol></div>
     <details class="card wbox"><summary><span>RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
     ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}
     ${up.html}`;
+  if (fresh) countUp($('#sheet'));
+}
+function flashTo(el){
+  if (!el) return;
+  el.scrollIntoView({behavior: 'smooth', block: 'start'});
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
+// numbers in tiles run up from zero when a character opens
+function countUp(root){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  root.querySelectorAll('[data-count]').forEach(el => {
+    const to = +el.dataset.count, t0 = performance.now(), dur = 700;
+    const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - (1 - k) ** 3; el.textContent = Math.round(to * e) + '%'; if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
 }
 // ---------- render: manual ----------
 function manualState(){
@@ -1250,13 +1187,13 @@ function renderCtrl(){
   $('#gseg').innerHTML = [[2,'2','обычная'],[3,'3','усиленная'],[4,'4','высшая']].map(([g, n, t]) => `<button type="button" data-g="${g}" aria-pressed="${state.g===g}">${n}<small>${t}</small></button>`).join('');
   $('#mseg').innerHTML = [['uid','По UID'],['go','База GO'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
   $('#mode-uid').hidden = state.mode === 'manual'; $('#mode-manual').hidden = state.mode !== 'manual';
-  $('#uidbox').hidden = state.mode !== 'uid'; $('#gobox').hidden = state.mode !== 'go';
+  $('#uidbox').hidden = state.mode !== 'uid'; $('#gobox').hidden = state.mode !== 'go' || (!!state.go && !state.goUpload);
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-onlyset],[data-akest]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-onlyset],[data-goto]');
   if (!t) return;
-  if (t.dataset.akest) { runEst(t.dataset.akest, !!t.dataset.check); return; }
+  if (t.dataset.goto) { flashTo(document.getElementById(t.dataset.goto)); return; }
   if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
   if (t.dataset.el) { state.el = t.dataset.el; renderAccount(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
@@ -1271,7 +1208,7 @@ document.addEventListener('click', e => {
   }
   if (t.dataset.key) {
     state.sel = t.dataset.key; renderAccount();
-    if (t.dataset.jump != null) document.getElementById('art-'+t.dataset.jump)?.scrollIntoView({behavior:'smooth', block:'start'});
+    if (t.dataset.jump != null) flashTo(document.getElementById('art-'+t.dataset.jump));
     return;
   }
   if (t.dataset.tab) { setTab(t.dataset.tab); return; }
@@ -1296,11 +1233,16 @@ $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#
 $('#gofile').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   $('#gostat').textContent = 'Читаю…';
-  try { ingest(await f.text()); } catch (err) { diag('файл GO: ' + err.message); }
+  state.goUpload = false; try { ingest(await f.text()); } catch (err) { diag('файл GO: ' + err.message); }
   $('#gostat').textContent = state.go ? `Загружено: ${state.go.inv.length} артефактов 5★ из ${state.go.total}` : '';
   e.target.value = '';
 });
 $('#goparse').onclick = () => ingest($('#gopaste').value);
+// drag and drop of the GO file anywhere on the upload card
+const drop = $('#godrop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', async e => { const f = e.dataTransfer.files[0]; if (!f) return; state.goUpload = false; try { ingest(await f.text()); } catch (err) { diag('файл GO: ' + err.message); } });
 
 $('#report').onclick = () => {
   const p = state.profile;
