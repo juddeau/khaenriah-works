@@ -43,6 +43,7 @@ a{color:var(--accent)}
 .btn.ghost{background:var(--panel-2);color:var(--fg);border:1px solid var(--line);font-weight:500}
 .btn.small{padding:6px 10px;font-size:13px;border-radius:8px}
 .alt{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted);align-items:center}
+.alt-link{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font:inherit;text-decoration:underline;text-underline-offset:3px}
 .alt button{background:none;border:0;color:var(--accent);cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
 .notice{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
 .notice.warn{border-color:color-mix(in srgb,var(--warn) 50%,var(--line))}
@@ -176,8 +177,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
     <div class="alt">
       <span>Или:</span>
       <button type="button" id="open-paste">вставить JSON с Enka</button>·
-      <button type="button" id="open-good">загрузить базу из GO</button>·
-      <button type="button" id="load-demo">показать пример</button>
+      <button type="button" id="open-good">загрузить базу из GO</button>
     </div>
     <div id="panel"></div>
   </section>
@@ -290,17 +290,6 @@ const CONFIGS = [
     warnings:['Пассивка требует 4 гидро/крио в отряде GO, собери отряд там же.'],
     estimates:['Parfait 18–20 за ротацию, взято 19.'] },
 ];
-
-// Example account, filled from the project notes. Levels, stats and artifacts are unknown here.
-const DEMO = { source:'demo', uid:'пример', nickname:'Пример аккаунта', level:null, signature:'Составлено по заметкам проекта, не из игры',
-  chars:[
-    ['Flins',6,null],['Columbina',6,'Сигна R1'],['Ineffa',1,'Сигна'],['Nicole',2,'Сигна R1'],
-    ['Zibai',1,'Сигна R1'],['Linnea',2,'Сигна R1'],['Xilonen',2,'Сигна'],
-    ['Sandrone',0,'Сигна Мавуики'],['YaeMiko',1,'Сигна Нефер'],['Odette',2,'Сигна Кадзухи'],
-    ['Varka',6,'Сигна R1'],['Durin',2,'Сигна R1'],['Prune',6,'Skyward Atlas'],
-    ['Skirk',2,'Сигна R1'],['Escoffier',1,'Сигна R1'],['Furina',6,'Фавоний'],['Mona',1,'TTDS R5']
-  ].map(([key,cons,w])=>({ key, cons, level:null, talents:null, weapon: w?{name:w,level:null,ref:null,rarity:null}:null, stats:null, arts:null }))
-};
 
 
 const CH = DATA.chars;               // enka id -> [key,en,ru,element,rarity,skillOrder,icon]
@@ -463,7 +452,15 @@ async function loadUid(uid){
 // ---------- render: account ----------
 function renderAccount(){
   const p = state.profile;
-  if (!p) { $('#profile').innerHTML = ''; $('#roster').innerHTML = ''; $('#sheet').innerHTML = ''; return; }
+  if (!p) {
+    $('#profile').innerHTML = ''; $('#roster').innerHTML = '';
+    $('#sheet').innerHTML = `<div class="card" style="grid-column:1/-1"><h3>Как это работает</h3><ol class="howto">
+      <li><b>Введи UID</b> и нажми «Найти». В игре должна быть открыта витрина персонажей с деталями.</li>
+      <li>Сайт покажет персонажей из витрины: созвездия, оружие, статы, артефакты. Всех персонажей можно загрузить из экспорта базы GO.</li>
+      <li>У кого есть готовые конфиги, стоит счётчик. Открой персонажа и скопируй JSON в Custom Multi-target в GO.</li></ol>
+      <p class="sub" style="margin:12px 0 0">Сейчас в базе ${CONFIGS.length} конфигов на ${new Set(CONFIGS.map(c=>c.char)).size} персонажей, их можно посмотреть во вкладке <button class="alt-link" data-tab="lib" type="button">«Все конфиги»</button>.</p></div>`;
+    return;
+  }
   const n = p.chars.filter(c => cfgFor(c.key).length).length;
   $('#profile').innerHTML = `
     <div style="display:grid;gap:4px;min-width:0">
@@ -475,9 +472,11 @@ function renderAccount(){
         ${p.achievements ? `<span>Достижения <b>${p.achievements}</b></span>` : ''}
         ${p.abyss ? `<span>Бездна <b>${esc(p.abyss)}</b></span>` : ''}
         <span>Персонажей <b>${p.chars.length}</b></span><span>С конфигами <b>${n}</b></span>
+        <button class="alt-link" type="button" id="forget">Забыть аккаунт</button>
       </div>
       ${p.signature ? `<div class="sub">${esc(p.signature)}</div>` : ''}
     </div>`;
+  $('#forget').onclick = () => { try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; renderAccount(); };
   const sorted = [...p.chars].sort((a,b) => (cfgFor(b.key).length>0) - (cfgFor(a.key).length>0));
   $('#roster').innerHTML = sorted.map(c => {
     const i = charInfo(c.key), k = cfgFor(c.key).length;
@@ -625,11 +624,10 @@ function setTab(tab){
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
 $('#open-paste').onclick = () => pastePanel($('#uid').value.trim());
 $('#open-good').onclick = goodPanel;
-$('#load-demo').onclick = () => { panel(''); setProfile(DEMO, false); };
 
 // boot: last loaded account, else the example
 let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
-setProfile(boot && boot.chars ? boot : DEMO, false);
+if (boot && boot.chars) setProfile(boot, false); else renderAccount();
 if (location.hash === '#library') setTab('lib');
 </script>
 

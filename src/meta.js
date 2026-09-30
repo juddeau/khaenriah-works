@@ -81,14 +81,3 @@ const CONFIGS = [
     warnings:['Пассивка требует 4 гидро/крио в отряде GO, собери отряд там же.'],
     estimates:['Parfait 18–20 за ротацию, взято 19.'] },
 ];
-
-// Example account, filled from the project notes. Levels, stats and artifacts are unknown here.
-const DEMO = { source:'demo', uid:'пример', nickname:'Пример аккаунта', level:null, signature:'Составлено по заметкам проекта, не из игры',
-  chars:[
-    ['Flins',6,null],['Columbina',6,'Сигна R1'],['Ineffa',1,'Сигна'],['Nicole',2,'Сигна R1'],
-    ['Zibai',1,'Сигна R1'],['Linnea',2,'Сигна R1'],['Xilonen',2,'Сигна'],
-    ['Sandrone',0,'Сигна Мавуики'],['YaeMiko',1,'Сигна Нефер'],['Odette',2,'Сигна Кадзухи'],
-    ['Varka',6,'Сигна R1'],['Durin',2,'Сигна R1'],['Prune',6,'Skyward Atlas'],
-    ['Skirk',2,'Сигна R1'],['Escoffier',1,'Сигна R1'],['Furina',6,'Фавоний'],['Mona',1,'TTDS R5']
-  ].map(([key,cons,w])=>({ key, cons, level:null, talents:null, weapon: w?{name:w,level:null,ref:null,rarity:null}:null, stats:null, arts:null }))
-};
