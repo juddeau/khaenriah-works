@@ -197,12 +197,19 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 
 <footer>
   <div class="wrap">
-    Пути взяты из исходников Genshin Optimizer, веса = удары за ротацию. Доли лунных реакций 0.6 / 0.3 / 0.05. Данные аккаунта: Enka.Network или экспорт базы GO.
+    <p style="margin:0 0 8px">Пути взяты из исходников Genshin Optimizer, веса = удары за ротацию. Доли лунных реакций 0.6 / 0.3 / 0.05. Данные аккаунта: Enka.Network или экспорт базы GO.</p>
+    <div class="row"><span class="mono">Версия /*BUILD*/</span>·<button class="alt-link" type="button" id="report">Скопировать отчёт для Claude</button><span class="toast" id="report-toast" aria-live="polite"></span></div>
+    <textarea id="report-text" hidden readonly aria-label="Отчёт" style="width:100%;min-height:140px;margin-top:8px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px;font:12px var(--f-mono)"></textarea>
   </div>
 </footer>
 
 <script>
 const DATA = /*DATA*/null;
+const BUILD = '/*BUILD*/';
+const DIAG = [];
+function diag(msg){ DIAG.push(new Date().toISOString().slice(11,19)+' '+msg); }
+window.addEventListener('error', e => diag('JS ошибка: '+e.message+' @'+(e.lineno||'?')));
+window.addEventListener('unhandledrejection', e => diag('JS ошибка (promise): '+(e.reason?.message||e.reason)));
 const FILES = /*FILES*/null;
 /*META*/
 
@@ -334,7 +341,7 @@ function goodPanel(){
   $('#close-panel').onclick = () => panel('');
 }
 function ingest(text, uid){
-  let j; try { j = JSON.parse(text); } catch { return panel(`<div class="notice warn"><h3>Это не JSON</h3><p>Скопируй страницу целиком, начиная с фигурной скобки.</p></div>`); }
+  let j; try { j = JSON.parse(text); } catch { diag('ingest: не JSON, длина '+String(text).length); return panel(`<div class="notice warn"><h3>Это не JSON</h3><p>Скопируй страницу целиком, начиная с фигурной скобки.</p></div>`); }
   if (j.format === 'GOOD' || j.characters) { setProfile(fromGOOD(j)); panel(''); return; }
   if (j.playerInfo) {
     const p = fromEnka(j, uid);
@@ -352,13 +359,14 @@ async function loadUid(uid){
     try {
       const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 9000);
       const r = await fetch(u, {signal: ctl.signal}); clearTimeout(t);
+      diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → HTTP ${r.status}`);
       if (r.status === 400) return panel(`<div class="notice warn"><h3>Неверный UID</h3></div>`);
       if (r.status === 404) return panel(`<div class="notice warn"><h3>Игрок не найден</h3><p>Проверь UID и регион.</p></div>`);
       if (r.status === 424) return pastePanel(uid, 'Enka на обслуживании после патча');
       if (r.status === 429) return pastePanel(uid, 'Enka просит подождать: слишком много запросов');
       if (!r.ok) continue;
       return ingest(await r.text(), uid);
-    } catch {}
+    } catch (err) { diag(`fetch ${u.replace(/\d{9,10}/,'UID')} → ошибка: ${err.name}: ${err.message}`); }
   }
   pastePanel(uid, 'Браузер не пустил запрос к Enka напрямую');
 }
@@ -538,6 +546,19 @@ function setTab(tab){
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
 $('#open-paste').onclick = () => pastePanel($('#uid').value.trim());
 $('#open-good').onclick = goodPanel;
+
+$('#report').onclick = () => {
+  const p = state.profile;
+  const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab,
+    proxy: store.get('proxy') ? 'задан' : 'нет',
+    profile: p ? { source: p.source, hidden: !!p.hidden, showcase: p.showcase, chars: p.chars.map(c => `${c.key} C${c.cons}${c.level?' L'+c.level:''}${c.weapon?' | '+c.weapon.name+(c.ref?'':'')+(c.weapon.ref?' R'+c.weapon.ref:''):''}${c.stats?'':' | без статов'}${c.arts?' | арт '+c.arts.length:''}`),
+      selected: state.sel } : null,
+    log: DIAG };
+  const text = '```json\n' + JSON.stringify(rep, null, 1) + '\n```';
+  const ta = $('#report-text'); ta.value = text;
+  const show = () => { ta.hidden = false; ta.focus(); ta.select(); $('#report-toast').textContent = 'Выделил отчёт, нажми Ctrl+C'; };
+  try { navigator.clipboard.writeText(text).then(() => { $('#report-toast').textContent = 'Скопировано, вставь в тред'; }, show); } catch { show(); }
+};
 
 // boot: last loaded account, else the example
 let boot = null; try { boot = JSON.parse(store.get('lastProfile') || 'null'); } catch {}
