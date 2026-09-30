@@ -283,7 +283,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
   <section id="view-acc">
     <div class="search">
       <h1>Какой артефакт <em>зароллить</em> пером</h1>
-      <p class="sub lead">Сайт считает для каждого 5★ артефакта +20, какую пару саб статов выбрать, с каким шансом он станет лучше и сколько полезных роллов в среднем прибавит на одно перо. Полезные для персонажа статы подсвечены золотом, их можно поменять.</p>
+      <p class="sub lead">Сайт считает для каждого 5★ артефакта +20, какую пару саб статов выбрать, с каким шансом он станет лучше и сколько полезных роллов в среднем прибавит на одно перо. Статы подсвечены золотом по тому, сколько урона они дают именно твоей сборке.</p>
       <div class="ctrl">
         <span>Гарантия</span>
         <div class="seg" id="gseg" role="group" aria-label="Гарантия реролла"></div>
@@ -324,7 +324,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
     <details class="card how" style="margin:24px 0 40px">
       <summary>Как считается и что здесь допущение</summary>
       <ul>
-        <li><b>Полезный ролл</b> = одно максимальное улучшение полезного стата. Крит. шанс 3.9 = 1 ролл, 3.1 = 0.8 ролла. Бесполезные статы не считаются вовсе.</li><li><b>Оценка сборки</b> = сколько полезных роллов на всех артефактах, делённое на идеал. Идеал артефакта: 4 полезных стата на старте и все 5 улучшений в лучший из них, то есть 9 роллов, если полезных статов 4 и больше. Такого не бывает, поэтому шкала мягкая: от 65% топ-уровень, от 55% сильная, от 45% средняя. Шкалу я подобрал примерно, место в Акаше рядом показывает реальное сравнение с другими игроками.</li><li><b>Флэт статы</b> засчитываются, если полезен их процент, по курсу от базовых статов персонажа. У Коломбины с 15 000 базового HP один ролл флэт HP (299) стоит примерно треть ролла HP%.</li>
+        <li><b>Цена ролла</b>: сколько урона даёт одно максимальное улучшение стата при текущих статах сборки. Урон считается как «стат, от которого бьёт персонаж, × (1 + крит. шанс × крит. урон)». Самый выгодный стат стоит 1, остальные дешевле. Например, если защиты уже много, ролл защиты% стоит меньше, чем ролл крита. ВЭ и дополнительное МС урон не дают, поэтому у них постоянная цена 0,6 и 0,5.</li><li><b>Полезные роллы</b> = сумма цен всех роллов на артефакте, то есть сколько это роллов лучшего стата.</li><li><b>Качество артефактов</b> = полезные роллы на всех артефактах, делённые на идеал. Идеал артефакта: 4 лучших стата на старте и все 5 улучшений в самый выгодный. Такого не бывает, поэтому шкала мягкая: от 65% топ-уровень, от 55% сильная, от 45% средняя. Шкалу я подобрал примерно. Это не урон: урон и место среди игроков показывает Акаша.</li>
         <li><b>Реролл</b> (в игре «Перековка» за Пыль просветления, в народе перо): 5★ артефакт +20, выбираешь 2 саб стата. Начальные значения остаются, а 5 улучшений (4, если артефакт начинался с 3 строк) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных рероллов гарантия 3, третья подряд усиленная даёт 4. Цена: цветок и перо стоят 1 перо, часы, кубок и корона 2.</li>
         <li><b>3-статы</b> (на +0 было 3 строки) получают при реролле только 4 улучшения вместо 5, поэтому в списке они всегда ниже 4-статов с тем же вердиктом.</li><li><b>Шанс стать лучше и прирост</b> считаются точно, перебором всех раскладов улучшений, без случайной симуляции. Прирост учитывает, что худший результат можно не оставлять.</li>
         <li><b>Допущение 1</b>: сила каждого улучшения (70, 80, 90 или 100%) при реролле выпадает заново. Так считают существующие калькуляторы, официально это не описано.</li>
@@ -440,7 +440,8 @@ function fromEnka(j, uid){
     return { key, level: +(av.propMap?.['4001']?.val) || null, cons: (av.talentIdList||[]).length,
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
       talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts,
-      base: f[1] ? {hp: f[1], atk: f[4], def: f[7]} : null };
+      base: f[1] ? {hp: f[1], atk: f[4], def: f[7]} : null,
+      fp: f[2000] ? {hp: f[2000], atk: f[2001], def: f[2002], em: f[28] || 0, cr: f[20] || 0, cd: f[22] || 0} : null };
   });
   const pic = p.profilePicture || {};
   const avatarPic = DATA.pfps[pic.id] || (CH[pic.avatarId] ? 'UI_AvatarIcon_Side_' + CH[pic.avatarId][6] : null);
@@ -661,36 +662,58 @@ const VERDICT = pd => pd >= 0.6 ? ['go','Роллить'] : pd >= 0.25 ? ['warn'
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
 const r1 = x => Math.abs(x) < 0.005 ? '0' : (x >= 0 ? '+' : '') + x.toFixed(Math.abs(x) < 0.1 ? 2 : 1).replace('.', ',');
 
-// ---------- weights ----------
-const WDEF = {cr:1, cd:1, atk_:1};
-const PRESETS = [
-  ['Крит + атака', {cr:1, cd:1, atk_:1}], ['Крит + атака + ВЭ', {cr:1, cd:1, atk_:1, er:1}], ['Крит + HP', {cr:1, cd:1, hp_:1}], ['Крит + защита', {cr:1, cd:1, def_:1}],
-  ['Крит + МС', {cr:1, cd:1, em:1}], ['МС', {em:1}], ['HP + ВЭ', {hp_:1, er:1}], ['Защита', {def_:1}],
-];
-const CHAR_W = {Furina:2, Neuvillette:2, Yelan:2, HuTao:2, Nilou:{hp_:1}, AratakiItto:3, Chiori:3, Albedo:3, Noelle:3,
-  Nahida:4, KaedeharaKazuha:5, Sucrose:5, Bennett:6, SangonomiyaKokomi:6, Xilonen:7, Zhongli:{hp_:1}};
-// Flat HP/ATK/DEF follow their % stat, converted by the character's base stat:
-// e.g. with 15000 base HP one flat HP roll (298.75) is worth 298.75 / (5.83% of 15000) = 0.34 of an HP% roll
-const TOGGLE = ['hp_','atk_','def_','em','er','cr','cd'];
+// ---------- weights: price of one roll in damage for this build ----------
+// Damage ~ S × (1 + CR·CD), S = the stat the character scales from. The price of one max roll of a stat is the
+// relative damage it adds at the build's current totals; weights are those prices divided by the best one,
+// so "useful rolls" are counted in rolls of the most valuable stat. ER and extra EM are not damage: fixed 0.6 / 0.5.
+const SCALES = [['atk','Атака'],['hp','HP'],['def','Защита'],['em','МС']];
+const CHAR_CFG = {
+  Linnea:{sc:'def'}, Columbina:{sc:'hp', er:true}, Furina:{sc:'hp', er:true}, Neuvillette:{sc:'hp'}, Yelan:{sc:'hp', er:true}, HuTao:{sc:'hp'},
+  Nilou:{sc:'hp', crit:false}, AratakiItto:{sc:'def'}, Chiori:{sc:'def'}, Albedo:{sc:'def'}, Noelle:{sc:'def'}, Nahida:{sc:'em'},
+  KaedeharaKazuha:{sc:'em', crit:false, er:true}, Sucrose:{sc:'em', crit:false, er:true}, Bennett:{sc:'hp', crit:false, er:true},
+  SangonomiyaKokomi:{sc:'hp', crit:false, er:true}, Xilonen:{sc:'def', crit:false, er:true}, Zhongli:{sc:'hp', crit:false},
+  Escoffier:{sc:'atk', er:true}, RaidenShogun:{sc:'atk', er:true},
+};
+function getCfg(key){
+  let s = null; try { s = JSON.parse(store.get('cfg:'+key) || 'null'); } catch {}
+  return {sc:'atk', crit:true, er:false, em:false, ...(CHAR_CFG[key] || {}), ...(s || {})};
+}
+const setCfg = (key, cfg) => store.set('cfg:'+key, JSON.stringify(cfg));
 const BASE_DEF = {hp:15000, atk:900, def:800};
-function effW(key, base){
-  const w = {...getW(key)}, b = {...BASE_DEF, ...(base || {})};
-  for (const [f, pc] of [['hp','hp_'],['atk','atk_'],['def','def_']]) w[f] = w[pc] ? Math.min(1, MAXV(f) / (MAXV(pc) / 100 * b[f])) : 0;
+function effW(key, c){
+  const cfg = getCfg(key), base = {...BASE_DEF, ...(c?.base || {})};
+  // without final stats (GO base, manual input) assume a typical built character
+  const tot = c?.fp || {hp: base.hp * 2.4, atk: base.atk * 2.3, def: base.def * 2.6, em: 90, cr: 0.65, cd: 1.5};
+  const g = {};
+  if (cfg.sc === 'em') g.em = MAXV('em') / Math.max(50, tot.em);
+  else if (cfg.sc) { const S = tot[cfg.sc] || base[cfg.sc]; g[cfg.sc+'_'] = base[cfg.sc] * MAXV(cfg.sc+'_') / 100 / S; g[cfg.sc] = MAXV(cfg.sc) / S; }
+  if (cfg.crit) {
+    const cr = Math.min(1, tot.cr), M = 1 + cr * tot.cd;
+    g.cr = Math.min(MAXV('cr') / 100, Math.max(0, 1 - cr)) * tot.cd / M;
+    g.cd = cr * MAXV('cd') / 100 / M;
+  }
+  const mx = Math.max(1e-9, ...Object.values(g)), w = {};
+  for (const k in g) w[k] = +(g[k] / mx).toFixed(2);
+  if (cfg.er) w.er = 0.6;
+  if (cfg.em && cfg.sc !== 'em') w.em = 0.5;
+  Object.defineProperty(w, 'guess', {value: !c?.fp});
   return w;
 }
-function getW(key){
-  // stats are either useful (1) or not (0); older saves with ½ read as not useful
-  try { const s = JSON.parse(store.get('w:'+key) || 'null'); if (s) { for (const k in s) s[k] = s[k] >= 1 ? 1 : 0; return s; } } catch {}
-  const d = CHAR_W[key]; if (d == null) return {...WDEF};
-  return typeof d === 'number' ? {...PRESETS[d][1]} : {...d};
+const wcls = v => v >= 0.75 ? 'w1' : v > 0 ? 'w05' : '';
+const wsum = w => SUBK.filter(k => w[k] > 0).sort((a, b) => w[b] - w[a]).map(k => `${SUB[k].n} ${String(w[k].toFixed(2)).replace('.', ',')}`).join(' · ');
+function cfgSummary(key){
+  const cfg = getCfg(key);
+  return [`бьёт от ${({atk:'атаки', hp:'HP', def:'защиты', em:'МС'})[cfg.sc] || '?'}`, cfg.crit ? 'криты' : 'без критов', cfg.er ? 'нужна ВЭ' : '', cfg.em && cfg.sc !== 'em' ? 'нужно МС' : ''].filter(Boolean).join(', ');
 }
-const setW = (key, w) => store.set('w:'+key, JSON.stringify(w));
-const wcls = v => v >= 1 ? 'w1' : v > 0 ? 'w05' : '';
-function weightsUI(key){
-  const w = getW(key);
-  return `<div class="wts">${TOGGLE.map(k => `<button type="button" class="wchip ${wcls(w[k]||0)}" data-w="${k}" data-wkey="${esc(key)}" title="Нажми, чтобы включить или выключить">${esc(SUB[k].n)}</button>`).join('')}</div>
-    <div class="presets">Флэт HP, атака и защита считаются сами, если полезен их процент: по курсу от базовых статов персонажа.</div>
-    <div class="presets">Шаблоны: ${PRESETS.map(([n], i) => `<button type="button" class="alt-link" data-preset="${i}" data-wkey="${esc(key)}">${esc(n)}</button>`).join('')}</div>`;
+function weightsUI(key, c){
+  const cfg = getCfg(key), w = effW(key, c);
+  const chip = (f, label, on) => `<button type="button" class="wchip ${on ? 'w1' : ''}" data-cf="${f}" data-wkey="${esc(key)}">${label}</button>`;
+  return `<div class="presets" style="margin-top:4px">Бьёт от:</div>
+    <div class="wts">${SCALES.map(([k, n]) => `<button type="button" class="wchip ${cfg.sc === k ? 'w1' : ''}" data-sc="${k}" data-wkey="${esc(key)}">${n}</button>`).join('')}</div>
+    <div class="presets">Ещё нужно:</div>
+    <div class="wts">${chip('crit', 'Криты', cfg.crit)}${chip('er', 'ВЭ', cfg.er)}${cfg.sc !== 'em' ? chip('em', 'МС', cfg.em) : ''}</div>
+    <p class="sub" style="margin:10px 0 0">Цена одного максимального ролла для ${c?.fp ? 'твоей сборки' : 'типичной сборки'}: <b style="color:#ffe7a6;font-weight:500">${esc(wsum(w))}</b>.</p>
+    <p class="sub" style="margin:4px 0 0">${c?.fp ? 'Посчитано по итоговым статам из витрины: чем больше у тебя уже защиты или критов, тем дешевле следующий ролл в них. Бафы отряда не учитываются.' : 'Итоговых статов нет (база GO или ручной ввод), поэтому взяты типичные значения, цены примерные.'} ВЭ и дополнительное МС урон не считают, у них постоянная цена 0,6 и 0,5.</p>`;
 }
 
 // ---------- Akasha rankings (through the same Worker, /akasha/<UID>) ----------
@@ -769,7 +792,7 @@ function renderAccount(){
 
   // account-wide: where one Dust buys the most
   const all = [];
-  p.chars.forEach(c => { const w = effW(c.key, c.base); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
+  p.chars.forEach(c => { const w = effW(c.key, c); charModels(c).forEach(({a, m}, idx) => { if (m.ok) all.push({c, a, m, idx, r: bestPair(m, w, state.g)}); }); });
   const tier = r => r.perDust >= 0.6 ? 2 : r.perDust >= 0.25 ? 1 : 0;
   // 4-line starts first within the same verdict: they get 5 enhancements, 3-line starts only 4
   all.sort((x, y) => tier(y.r) - tier(x.r) || (y.m.nEnh - x.m.nEnh) || (y.r.perDust - x.r.perDust));
@@ -778,12 +801,12 @@ function renderAccount(){
       const i = charInfo(t.c.key), [vc, vt] = VERDICT(t.r.perDust);
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el})">${face(t.c.key, 'sm')}
         <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${t.m.nEnh === 4 ? '3-стат · ' : ''}${esc(t.a.set)}</small></span>
-        <span class="pair">Выбрать <b>${esc(pairName(t.m, effW(t.c.key, t.c.base), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
+        <span class="pair">Выбрать <b>${esc(pairName(t.m, effW(t.c.key, t.c), t.r.pair))}</b><br>шанс стать лучше ${pct(t.r.pBetter)}</span>
         <span class="num p">${r1(t.r.perDust)}<small>ролла за перо</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>` :
     (p.chars.length ? `<p class="empty" style="margin-top:12px">Среди артефактов витрины нет 5★ +20, их нельзя роллить.</p>` : '');
   $('#roster').innerHTML = p.chars.length ? p.chars.map(c => {
-    const i = charInfo(c.key), bs = buildScore(c, effW(c.key, c.base));
+    const i = charInfo(c.key), bs = buildScore(c, effW(c.key, c));
     return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`;
   }).join('') : '';
   renderSheet();
@@ -866,7 +889,7 @@ function weaponIcon(wp){
 function renderSheet(){
   const c = prof()?.chars.find(x => x.key === state.sel);
   if (!c) { $('#sheet').innerHTML = ''; return; }
-  const i = charInfo(c.key), w = effW(c.key, c.base), bs = buildScore(c, w), up = upgrades(c, w);
+  const i = charInfo(c.key), w = effW(c.key, c), bs = buildScore(c, w), up = upgrades(c, w);
   const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
     .sort((a, b) => b.r.perDust - a.r.perDust)[0];
   const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
@@ -877,7 +900,6 @@ function renderSheet(){
   else if (best) steps.push('Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.');
   if (weakest && weakest.share < 0.45 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (качество ${Math.round(weakest.share*100)}%) слабее остальных.`);
   if (!steps.length) steps.push('Сборка ровная, срочно менять нечего.');
-  const on = TOGGLE.filter(k => w[k] > 0).map(k => SUB[k].n);
   const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${x.a.icon ? `<img alt="" src="${UI(x.a.icon)}" onerror="this.remove()">` : ''}</span>
         <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
@@ -898,7 +920,7 @@ function renderSheet(){
       <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>качество ${Math.round(weakest.share*100)}%</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
     </div>
     <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
-    <details class="card wbox"><summary><span>Полезные статы: <b>${esc(on.join(', ') || 'не выбраны')}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
+    <details class="card wbox"><summary><span>Цена роллов: <b>${esc(cfgSummary(c.key))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key, c)}</details>
     ${cards ? `<h2 class="sec">Артефакты</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов в витрине.</p>'}
     ${up.html}`;
 }
@@ -921,11 +943,11 @@ function renderManual(){
       ${s.subs.map((x, n) => `<div class="subrow"><select id="m-k${n}" aria-label="Саб стат ${n+1}">${opts(SUBK.map(k => [k, SUB[k].n]), x.k)}</select>
         <input class="inp mono" id="m-v${n}" inputmode="decimal" placeholder="${SUB[x.k].p ? 'напр. 7.8' : 'напр. 42'}" value="${esc(x.v)}" aria-label="Значение ${n+1}"></div>`).join('')}
       <label>Сколько строк было на +0<select id="m-lines">${opts([['auto','Определить по значениям'],['4','4 строки (5 улучшений)'],['3','3 строки (4 улучшения)']], s.lines)}</select></label>
-      <div><h3 style="margin-top:6px">Полезные статы</h3><div id="m-w">${weightsUI(s.char || 'manual')}</div></div>
+      <div><h3 style="margin-top:6px">Полезные статы</h3><div id="m-w">${weightsUI(s.char || 'manual', null)}</div></div>
     </div>
     <div class="card" id="m-out"></div>`;
   $('#mform').addEventListener('input', manualRead);
-  $('#mform').addEventListener('change', e => { manualRead(); if (e.target.id === 'm-char') $('#m-w').innerHTML = weightsUI($('#m-char').value || 'manual'); });
+  $('#mform').addEventListener('change', e => { manualRead(); if (e.target.id === 'm-char') $('#m-w').innerHTML = weightsUI($('#m-char').value || 'manual', null); });
   manualCalc();
 }
 function manualRead(){
@@ -935,7 +957,7 @@ function manualRead(){
   store.set('manual', JSON.stringify(s)); manualCalc();
 }
 function manualCalc(){
-  const s = manualState(), out = $('#m-out'), w = effW(s.char || 'manual');
+  const s = manualState(), out = $('#m-out'), w = effW(s.char || 'manual', null);
   const vals = s.subs.map(x => ({k: x.k, v: parseFloat(String(x.v).replace(',', '.'))}));
   const keys = vals.map(x => x.k);
   let err = '';
@@ -1025,17 +1047,17 @@ function renderCtrl(){
 }
 function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-w],[data-preset],[data-onlyset]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-sc],[data-cf],[data-onlyset]');
   if (!t) return;
   if (t.dataset.onlyset) { state.onlySet = !state.onlySet; renderSheet(); return; }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', t.dataset.g); rerender(); return; }
   if (t.dataset.mode) { state.mode = t.dataset.mode; store.set('mode', state.mode); rerender(); return; }
-  if (t.dataset.w || t.dataset.preset) {
-    const key = t.dataset.wkey; let w = getW(key);
-    if (t.dataset.preset) w = {...PRESETS[+t.dataset.preset][1]};
-    else { w[t.dataset.w] = (w[t.dataset.w] || 0) >= 1 ? 0 : 1; }
-    setW(key, w);
-    if (state.mode === 'manual') { $('#m-w').innerHTML = weightsUI(key); manualCalc(); } else renderAccount();
+  if (t.dataset.sc || t.dataset.cf) {
+    const key = t.dataset.wkey, cfg = getCfg(key);
+    if (t.dataset.sc) cfg.sc = t.dataset.sc; else cfg[t.dataset.cf] = !cfg[t.dataset.cf];
+    setCfg(key, cfg);
+    if (state.mode === 'manual') { $('#m-w').innerHTML = weightsUI(key, null); manualCalc(); }
+    else { renderAccount(); const d = document.querySelector('.wbox'); if (d) d.open = true; }
     return;
   }
   if (t.dataset.key) {
