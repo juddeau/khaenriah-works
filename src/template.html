@@ -190,7 +190,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .todo{margin-top:10px}.todo ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:14px}
 .wbox{margin-top:10px}.wbox summary{display:flex;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;font-size:14px}
 .wbox summary::-webkit-details-marker{display:none}.wbox summary b{color:#ffe7a6;font-weight:500}
-.ra .hd .q{margin-left:auto;white-space:nowrap;font:600 16px var(--f-mono);color:var(--gold)}
+.ra .hd .q small{display:block;font:500 11px var(--f-mono);color:var(--muted);text-align:right}
+.ra .hd .q{margin-left:auto;white-space:nowrap;text-align:right;font:600 16px var(--f-mono);color:var(--gold)}
 
 .aks{margin-top:14px;display:grid;gap:6px}
 .aks h3{margin:0}
@@ -334,7 +335,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
     <details class="card how" style="margin:24px 0 40px">
       <summary>Как это считается</summary>
       <ol class="howto" style="margin-top:10px">
-        <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Список статов по умолчанию взят у Акаши, его можно поменять под свой отряд. Шкала Акаши на артефакт: 350% нормальный, 450 хороший, 550 алмаз, 650 верхний алмаз, 750 единорог.</li>
+        <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Список статов по умолчанию взят у Акаши, его можно поменять под свой отряд. Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Перековка» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново, и не меньше 2 из них попадут в выбранную пару. После 6 обычных рероллов гарантия 3, на третьем усиленном подряд 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
         <li><b>Вердикт</b> по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Эти пороги подобрал я, игра их не задаёт.</li>
@@ -392,8 +393,9 @@ const UI = n => `https://enka.network/ui/${n}.png`;
 // Enka's image store lags behind new patches; Project Amber (the fallback Akasha uses) often has the newer icons
 const AMBR = n => `https://gi.yatta.moe/assets/UI/${n}.png`;
 const withAmbr = names => names.filter(Boolean).flatMap(n => [UI(n), AMBR(n)]);
-// artifact icons are bundled with the site (assets/relics, converted from Genshin Optimizer's assets, MIT)
-const localRelic = n => { const m = /^UI_RelicIcon_(\d+)_(\d)$/.exec(n || ''); return m ? `assets/relics/${m[1]}_${m[2]}.webp` : null; };
+// artifact and weapon icons are bundled with the site (assets/relics, assets/weapons, converted from Genshin Optimizer's assets, MIT)
+const localRelic = n => { const m = /^UI_RelicIcon_(\d+)_(\d)$/.exec(n || ''); if (m) return `assets/relics/${m[1]}_${m[2]}.webp`;
+  return /^UI_EquipIcon_/.test(n || '') ? `assets/weapons/${n.replace(/_Awaken$/, '')}.webp` : null; };
 const imgTag = (names, extra='') => { const s = [...names.map(localRelic).filter(Boolean), ...withAmbr(names)]; return s.length ? `<img alt="" ${extra} src="${s[0]}" data-next="${esc(s.slice(1).join('|'))}" onerror="nextSrc(this)">` : ''; };
 function nextSrc(img){ const rest = (img.dataset.next || '').split('|').filter(Boolean); if (!rest.length) return img.remove(); img.dataset.next = rest.slice(1).join('|'); img.src = rest[0]; }
 function face(key, cls=''){
@@ -470,6 +472,14 @@ function fromEnka(j, uid){
     signature: p.signature || '', achievements: p.finishAchievementNum, abyss: p.towerFloorIndex ? `${p.towerFloorIndex}-${p.towerLevelIndex}` : null,
     hidden: !list.length, showcase: (p.showAvatarInfoList||[]).length, chars };
 }
+// fills set icons, Russian names and weapon icons; also upgrades databases saved by older versions of the page
+function goNorm(p){
+  if (!p) return p;
+  const fix = a => { const s = DATA.sets[a.setKey]; if (s) { a.set = s[1]; a.icon = `UI_RelicIcon_${s[0]}_${({'Цветок':4,'Перо':2,'Часы':5,'Кубок':1,'Корона':3})[a.slot]}`; } };
+  (p.inv || []).forEach(fix);
+  (p.chars || []).forEach(c => { (c.arts || []).forEach(fix); const w = c.weapon && DATA.wkeys[c.weapon.key || String(c.weapon.name).replace(/\s/g, '')]; if (w) Object.assign(c.weapon, {icon: w[0], name: w[1], rarity: w[2]}); });
+  return p;
+}
 function fromGOOD(j){
   const weapons = j.weapons || [];
   // only 5★ pieces matter here: 4★ can't be rerolled and never beat a decent 5★
@@ -478,9 +488,9 @@ function fromGOOD(j){
     icon: DATA.sets[a.setKey] ? `UI_RelicIcon_${DATA.sets[a.setKey][0]}_${({flower:4, plume:2, sands:5, goblet:1, circlet:3})[a.slotKey]}` : null,
     main: {k: a.mainStatKey, v: null}, subs: (a.substats || []).filter(s => s.key && s.value).map(s => ({k: s.key, v: s.value})) }));
   const chars = (j.characters || []).map(c => { const w = weapons.find(x => x.location === c.key);
-    return { key: c.key, level: c.level, cons: c.constellation ?? 0, weapon: w ? {name: splitCamel(w.key), level: w.level, ref: w.refinement} : null,
+    return { key: c.key, level: c.level, cons: c.constellation ?? 0, weapon: w ? {key: w.key, name: splitCamel(w.key), level: w.level, ref: w.refinement} : null,
       arts: inv.filter(a => a.loc === c.key) }; }).filter(c => c.arts.length);
-  return { source:'good', uid:'', nickname:'База Genshin Optimizer', chars, inv, total: (j.artifacts || []).length };
+  return goNorm({ source:'good', uid:'', nickname:'База Genshin Optimizer', chars, inv, total: (j.artifacts || []).length });
 }
 
 
@@ -755,7 +765,8 @@ function buildScore(c, w){
 // rough scale: the ideal (9 useful rolls on every piece) never happens, strong real builds sit around 55-65%
 const GRADE = s => s >= 0.65 ? 'топ-уровень' : s >= 0.55 ? 'сильная' : s >= 0.45 ? 'средняя' : 'слабая';
 // Akasha's own per-artifact RV classes
-const RVGRADE = rv => rv >= 900 ? 'нереальный' : rv >= 750 ? 'единорог' : rv >= 650 ? 'верхний алмаз' : rv >= 550 ? 'алмаз' : rv >= 450 ? 'хороший' : rv >= 350 ? 'нормальный' : 'слабый';
+// own scale: RV as a share of the best possible artifact (4 counted stats, all 5 upgrades into them = 900%)
+const pctOf = x => x.mx ? Math.round(x.u / x.mx * 100) : 0;
 const qTxt = x => `RV ${Math.round(x.u*100)}%`;
 
 function renderAccount(){
@@ -795,7 +806,7 @@ function renderAccount(){
   const els = EL_ORDER.filter(e => byEl[e]);
   if (state.el !== 'all' && !byEl[state.el]) state.el = 'all';
   const chip = c => { const i = charInfo(c.key), bs = buildScore(c, effW(c.key));
-    return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.items.length ? ' · RV '+Math.round(bs.got*100/bs.items.length)+'%' : ''}</small></button>`; };
+    return `<button type="button" class="cchip" aria-pressed="${c.key===state.sel}" data-key="${esc(c.key)}">${face(c.key, 'sm')}${esc(i.ru)} <small>C${c.cons}${bs.max ? ' · '+Math.round(bs.share*100)+'%' : ''}</small></button>`; };
   $('#roster').innerHTML = !p.chars.length ? '' : `${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el==='all'}">Все <small>${p.chars.length}</small></button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el===e}" title="${EL_RU[e]}">${elIcon(e)}<small>${byEl[e].length}</small></button>`).join('')}</div>` : ''}
     ${els.filter(e => state.el === 'all' || state.el === e).map(e => `<div class="elgrp"><div class="elhd">${elIcon(e)}${EL_RU[e]}</div><div class="chars">${byEl[e].map(chip).join('')}</div></div>`).join('')}`;
   renderSheet();
@@ -880,19 +891,19 @@ function renderSheet(){
   const i = charInfo(c.key), w = effW(c.key), bs = buildScore(c, w), up = upgrades(c, w);
   const best = bs.items.map((x, idx) => ({x, idx, r: x.m.ok ? bestPair(x.m, w, state.g) : null})).filter(y => y.r)
     .sort((a, b) => b.r.perDust - a.r.perDust)[0];
-  const weakest = bs.items.length ? bs.items.reduce((a, b) => b.u < a.u ? b : a) : null;
+  const weakest = bs.items.length ? bs.items.reduce((a, b) => b.share < a.share ? b : a) : null;
   const steps = [];
   if (bs.items.length < 5) steps.push(`Надень недостающие артефакты: сейчас ${bs.items.length} из 5.`);
   if (up.best) steps.push(up.best);
   if (best && best.r.perDust >= 0.25) steps.push(`Зароллить ${best.x.a.slot.toLowerCase()} пером: пара «${pairName(best.x.m, w, best.r.pair)}», шанс стать лучше ${pct(best.r.pBetter)}.`);
   else if (best) steps.push('Перья сюда тратить невыгодно: реролл в среднем почти ничего не добавит.');
-  if (weakest && weakest.u < 3.5 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (RV ${Math.round(weakest.u*100)}%, по шкале Акаши ${RVGRADE(weakest.u*100)}).`);
+  if (weakest && weakest.share < 0.5 && weakest !== best?.x) steps.push(`Поискать замену: ${weakest.a.slot.toLowerCase()} (RV ${Math.round(weakest.u*100)}%, это ${pctOf(weakest)}% от лучшего возможного).`);
   if (!steps.length) steps.push('Сборка ровная, срочно менять нечего.');
   const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx===best.idx && best.r.perDust>=0.6 ? 'hot' : ''}" id="art-${idx}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
         <div class="t"><b>${esc(x.a.slot)}${x.a.level!=null ? ` <span class="sub">+${x.a.level}</span>` : ''}</b><small>${esc(fmtStat(x.a.main?.k, 0)[0])} · ${esc(x.a.set)}</small></div>
-        <span class="q" title="${RVGRADE(x.u*100)} по шкале Акаши">${qTxt(x)}</span></div>
-      <div class="meter"><span style="width:${Math.min(100, x.u*100/9).toFixed(1)}%"></span></div>
+        <span class="q" title="RV ${Math.round(x.u*100)}% из ${Math.round(x.mx*100)}% возможных">${pctOf(x)}%<small>${qTxt(x)}</small></span></div>
+      <div class="meter"><span style="width:${Math.min(100, x.share*100).toFixed(1)}%"></span></div>
       ${subLines(x.m, (x.a.subs||[]).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k), w)}
       ${rsBlock(x.m, w)}</article>`).join('');
   const wp = c.weapon;
@@ -903,9 +914,9 @@ function renderSheet(){
       ${akashaBlock(c.key)}
     </section>
     <div class="tiles3">
-      <div class="tile3"><small>RV сборки</small><b>${bs.items.length ? Math.round(bs.got*100).toLocaleString('ru-RU')+'%' : '—'}</b><span>${bs.items.length ? `в среднем ${Math.round(bs.got*100/bs.items.length)}% на артефакт, ${RVGRADE(bs.got*100/bs.items.length)}` : 'нет артефактов'}</span><em>Шкала Акаши на артефакт: 350% нормальный, 450 хороший, 550 алмаз, 650 верхний алмаз, 750 единорог.</em></div>
+      <div class="tile3"><small>Качество артефактов</small><b>${bs.max ? Math.round(bs.share*100)+'%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}% возможных` : 'нет артефактов'}</span><em>Сколько RV набрали артефакты от лучшего возможного. Лучший артефакт: все 4 саб стата полезные и все 5 улучшений ушли в них, это 900% RV.</em></div>
       <div class="tile3"><small>Лучший реролл</small>${best ? `<b>${esc(best.x.a.slot)}</b><span>${r1(best.r.perDust)} RV за перо · ${VERDICT(best.r.perDust)[1].toLowerCase()}</span>` : '<b>—</b><span>нет 5★ +20</span>'}<em>Сколько RV в среднем прибавит одно перо, если выбрать лучшую пару.</em></div>
-      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${qTxt(weakest)}, ${RVGRADE(weakest.u*100)}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
+      <div class="tile3"><small>Слабее всего</small>${weakest ? `<b>${esc(weakest.a.slot)}</b><span>${pctOf(weakest)}% от лучшего, ${qTxt(weakest)}</span>` : '<b>—</b>'}<em>Этот артефакт первым стоит заменить или зароллить.</em></div>
     </div>
     <div class="card todo"><h3>Что делать</h3><ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></div>
     <details class="card wbox"><summary><span>RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
@@ -963,7 +974,7 @@ function manualCalc(){
   const pairRow = (r, n) => `<tr class="${n===0?'top':''}"><td>${esc(pairName(m, w, r.pair))}</td><td class="n">${pct(r.pBetter)}</td><td class="n">${r1(r.eGain)}</td><td class="n">${r1(r.eGain / m.cost)}</td></tr>`;
   out.innerHTML = `<h3>Результат</h3>
     ${subLines(m, vals.map(x => ({k: x.k, value: x.v})), w)}
-    <div class="useful" style="margin-top:10px"><span>RV сейчас <b>${Math.round(cur*100)}%</b>, по шкале Акаши ${RVGRADE(cur*100)}</span></div>
+    <div class="useful" style="margin-top:10px"><span>RV сейчас <b>${Math.round(cur*100)}%</b> из ${Math.round(mx*100)}% возможных, это <b>${mx ? Math.round(cur/mx*100) : 0}%</b> от лучшего</span></div>
     <div class="meter"><span style="width:${Math.min(100, cur*100/9).toFixed(1)}%"></span></div>
     <p class="sub" style="margin:8px 0 0">Восстановлено по значениям: ${m.subs.map(x => `${SUB[x.k].n} ${x.rolls} ${x.rolls===1?'ролл':x.rolls<5?'ролла':'роллов'}`).join(', ')}. Улучшений к перераспределению: ${m.nEnh}.${m.approx ? ' Сумма роллов не сходится с +20, проверь значения или выбери число строк.' : ''}</p>
     ${rsBlock(m, w)}
@@ -1097,7 +1108,7 @@ $('#report').onclick = () => {
 
 // boot: last loaded account (refreshed quietly), guarantee and mode from last visit
 renderCtrl();
-let boot = null; try { state.go = JSON.parse(store.get('goProfile') || 'null'); boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
+let boot = null; try { state.go = goNorm(JSON.parse(store.get('goProfile') || 'null')); boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
 if (state.mode === 'manual') renderManual();
