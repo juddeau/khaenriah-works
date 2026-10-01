@@ -465,6 +465,8 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 #toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #manual.anim .dba,#manual.anim .dbc,#manual.anim .dbw{animation:rise .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 35ms)}
 @media (max-width:600px){#gseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}#gseg button{white-space:normal;display:grid;padding:6px 4px;line-height:1.2}#gseg button small{margin:0}.aedprev{order:2}}
+.ra.picked,.prow.picked,.dba.picked,.dbc.picked,.dbw.picked{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 55%,transparent),0 0 26px -6px color-mix(in srgb,var(--gold) 70%,transparent)}
+.prow.picked{background:color-mix(in srgb,var(--gold) 10%,transparent)}
 </style>
 
 <header class="top">
@@ -1216,6 +1218,9 @@ function flashTo(el){
   if (!el) return;
   el.scrollIntoView({behavior: 'smooth', block: 'start'});
   el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  // a steady highlight too: with animations turned off in the OS (often the case on Windows) the pulse never shows
+  document.querySelectorAll('.picked').forEach(x => { if (x !== el) x.classList.remove('picked'); });
+  el.classList.add('picked'); state.picked = el.id;
 }
 // numbers in tiles run up from zero when a character opens
 function countUp(root){
