@@ -793,27 +793,34 @@ function guessRolls(k, v){
 }
 
 // ---------- roll history from values (GO keeps no history) ----------
-// Every roll is 70/80/90/100% of the max roll, so a value is (sum of tiers) x max/10. For each substat list the roll
-// counts that can give the shown value, then pick the most likely combination: upgrades land on the 4 lines evenly,
-// a +20 piece has 8 rolls (started with 3 lines) or 9 (started with 4, about a quarter of drops).
-const TIER_WAYS = [[1]];   // TIER_WAYS[r][i]: number of tier sequences of r rolls with tier sum 7r+i
-for (let r = 1; r <= 6; r++) { const prev = TIER_WAYS[r - 1], out = new Array(prev.length + 3).fill(0); prev.forEach((c, i) => { for (let t = 0; t < 4; t++) out[i + t] += c; }); TIER_WAYS.push(out); }
-// exact max rolls (the table above is rounded for display); tiers are 70/80/90/100% of these
+// The game's roll values are the 4 tiers in SUB[k].t (e.g. crit rate 2.72 / 3.11 / 3.50 / 3.89, the same table
+// Genshin Optimizer uses); they are not exact 70/80/90/100% of the max, so values are matched against real tier sums.
+// For each substat list the roll counts that can give the shown value, then pick the most likely combination: upgrades
+// land on the 4 lines evenly, a +20 piece has 8 rolls (started with 3 lines) or 9 (started with 4, about a quarter of drops).
+// max rolls for RV (value / max roll, like Akasha)
 const MAXP = {hp: 298.75, atk: 19.45, def: 23.15, hp_: 5.8275, atk_: 5.8275, def_: 7.2875, em: 23.31, er: 6.475, cr: 3.8889, cd: 7.7778};
-function rollOptions(k, v){
-  const mx = MAXP[k], tol = SUB[k].p ? 0.051 : 0.51, out = [];
-  for (let r = 1; r <= 6; r++) {
-    let ways = 0; TIER_WAYS[r].forEach((c, i) => { if (Math.abs((7 * r + i) * mx / 10 - v) <= tol) ways += c; });
-    if (ways) out.push({r, p: ways / 4 ** r});
+const FACT = [1, 1, 2, 6, 24, 120, 720];
+// every multiset of 1..6 rolls: counts per tier, exact sum, number of orders it can come in
+const COMBOS = {};
+for (const k of SUBK) {
+  const list = COMBOS[k] = [], tv = SUB[k].t;
+  for (let r = 1; r <= 6; r++) for (let a = 0; a <= r; a++) for (let b = 0; a + b <= r; b++) for (let c = 0; a + b + c <= r; c++) {
+    const n = [a, b, c, r - a - b - c];
+    list.push({r, n, S: n.reduce((s, x, i) => s + x * tv[i], 0), ways: FACT[r] / n.reduce((m, x) => m * FACT[x], 1)});
   }
-  return out;
 }
-const FACT = [1, 1, 2, 6, 24, 120];
+// the game rounds the shown value; a sum right on .x5 can show either way, so the edge counts
+const subTol = k => SUB[k].p ? 0.05 + 1e-6 : 0.5 + 1e-6;
+const matches = (k, v) => COMBOS[k].filter(c => Math.abs(c.S - v) <= subTol(k));
+function rollOptions(k, v){
+  const by = {};
+  for (const c of matches(k, v)) by[c.r] = (by[c.r] || 0) + c.ways;
+  return Object.entries(by).map(([r, w]) => ({r: +r, p: w / 4 ** r}));
+}
 // odds of the first (kept) roll being tier 7/8/9/10, given r rolls add up to the shown value
 function initTiers(k, v, r){
-  const mx = MAXP[k], tol = SUB[k].p ? 0.051 : 0.51, it = [0, 0, 0, 0];
-  TIER_WAYS[r].forEach((c, i) => { const S = 7 * r + i; if (!c || Math.abs(S * mx / 10 - v) > tol) return;
-    for (let t = 7; t <= 10; t++) { const j = S - t - 7 * (r - 1); if (j >= 0 && j < TIER_WAYS[r - 1].length) it[t - 7] += TIER_WAYS[r - 1][j]; } });
+  const it = [0, 0, 0, 0];
+  for (const c of matches(k, v)) if (c.r === r) c.n.forEach((x, i) => { it[i] += c.ways * x / r; });
   const z = it.reduce((a, b) => a + b, 0);
   return z ? it.map(x => x / z) : null;
 }
@@ -861,7 +868,7 @@ function model(a, lines){
   const h = guessHistory(subsIn, lines === 3 || lines === 4 ? lines : null);
   if (h) return {...base, ok:true, exact:false, approx:false, conf: h.conf, nEnh: h.rs.reduce((t, r) => t + r, 0) - 4,
     subs: subsIn.map((s, i) => { const it = initTiers(s.k, s.v, h.rs[i]);
-      return {k: s.k, value: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * (t + 7) / 10, 0) * MAXV(s.k) : s.v / h.rs[i]}; })};
+      return {k: s.k, value: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * SUB[s.k].t[t], 0) : s.v / h.rs[i]}; })};
   // values no roll combination explains (typo, old data): nearest average roll
   const subs = subsIn.map(s => { const r = guessRolls(s.k, s.v); return {k: s.k, init: s.v / r, value: s.v, rolls: r}; });
   const total = subs.reduce((t, s) => t + s.rolls, 0);
@@ -1302,14 +1309,14 @@ function toast(msg, before){
 }
 
 // ---------- substat values: only sums of real rolls are allowed ----------
-const tierVal = (k, t) => t * MAXP[k] / 10;
+const tierVal = (k, t) => SUB[k].t[t - 7];
 const showSub = (k, v) => SUB[k].p ? (Math.round(v * 10) / 10).toFixed(1) : String(Math.round(v));
-// nearest tier sum (7..60 tenths of the max roll) for a typed value
+// exact sum behind a typed value: the closest real roll combination (fewest rolls on a tie)
 function tierSum(k, v){
   if (!(v > 0)) return 0;
-  let best = 0, d = Infinity;
-  for (let S = 7; S <= 60; S++) { const e = Math.abs(tierVal(k, S) - v); if (e < d) { d = e; best = S; } }
-  return best;
+  let best = null;
+  for (const c of COMBOS[k]) { const d = Math.abs(c.S - v); if (!best || d < best.d - 1e-9) best = {d, S: c.S}; }
+  return best.S;
 }
 function checkArt(d){
   const errs = [], lv = d.level, ups = Math.floor(lv / 4);
@@ -1533,7 +1540,7 @@ function dbAct(act, i, t){
     case 'amain': ed.d.mainStatKey = i; ed.d.substats.forEach(s => { if (KEY_OF[s.key] && KEY_OF[s.key] === KEY_OF[i]) { s.key = ''; s.value = ''; } }); return renderManual();
     case 'alvq': ed.d.level = +i; return renderManual();
     case 'atier': { const s = ed.d.substats[+i], k = KEY_OF[s.key]; if (!k) return;
-      s.value = showSub(k, tierVal(k, tierSum(k, num(s.value)) + +t.dataset.t));
+      s.value = showSub(k, tierSum(k, num(s.value)) + tierVal(k, +t.dataset.t));
       const inp = document.querySelector(`[data-db="asval"][data-i="${i}"]`); if (inp) { inp.value = s.value; inp.classList.remove('pop'); void inp.offsetWidth; inp.classList.add('pop'); }
       return artEditorLive(); }
     case 'aclr': { ed.d.substats[+i].value = ''; const inp = document.querySelector(`[data-db="asval"][data-i="${i}"]`); if (inp) inp.value = ''; return artEditorLive(); }
