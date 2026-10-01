@@ -258,7 +258,7 @@ main.wrap{padding-bottom:56px}
 .useful b{color:var(--fg);font-family:var(--f-mono);font-weight:500}
 .rs{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:13.5px}
 .rs .v1{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.rs .pairl b{color:#ffe7a6}
+.rs .pairl b{color:#ffe7a6}.prow .ppair{color:var(--muted)}.prow .ppair b{color:var(--gold);font-weight:600}
 .rs .g{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .rs .g b{color:var(--fg);font-family:var(--f-mono);font-weight:500}
 .rs .g .cur{color:var(--fg)}
@@ -579,7 +579,7 @@ html{overflow-x:clip}
 .noeq{position:relative;width:24px;height:24px;border-radius:50%;flex:none;border:1.5px dashed color-mix(in srgb,var(--muted) 70%,transparent);background:var(--bg)}
 .noeq::after{content:"";position:absolute;left:4px;right:4px;top:50%;height:1.5px;background:color-mix(in srgb,var(--muted) 80%,transparent);transform:rotate(-45deg)}
 .ownbtn{display:flex;align-items:center;gap:8px;width:100%;min-width:0;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);border-radius:999px;padding:4px 10px 4px 4px;cursor:pointer;font-size:13px;text-align:left;transition:border-color .2s,background-color .2s,transform .15s}
-.ownbtn > span:not(.face):not(.noeq):not(.allc):not(.chev){flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ownbtn > span:not(.face):not(.noeq):not(.allc):not(.chev):not(.sics):not(.scn){flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ownbtn:hover{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));background:color-mix(in srgb,var(--gold) 7%,var(--panel-2))}
 .ownbtn:active{transform:scale(.98)}
 .ownbtn .noeq{width:26px;height:26px}
@@ -672,6 +672,11 @@ html{overflow-x:clip}
 
 /* ---- livelier cards: rarity headers, big icons, namecards ---- */
 .stars{display:block;color:#ffd36b;font-size:13px;letter-spacing:1px;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.dsubs.rv li{display:grid;grid-template-columns:minmax(0,1fr) auto 34px 42px;align-items:center;gap:8px}
+.dsubs.rv li span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dsubs.rv li em{font:500 12px var(--f-mono);color:var(--muted);font-style:normal;text-align:right}
+.dsubs.rv li.use span,.dsubs.rv li.use b{color:var(--ok)}
+.rbar{display:flex;gap:2px;justify-content:flex-end}.rbar u{width:4px;height:12px;border-radius:2px;background:var(--purple);opacity:.85}.use .rbar u{background:var(--ok)}
+.drv{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin:6px 12px 8px}.drv .rvp,.drv .rvu{font:600 11.5px var(--f-mono);padding:2px 8px;border-radius:6px;background:color-mix(in srgb,var(--ok) 22%,var(--panel-2));color:var(--ok)}.drv .rvu{background:var(--panel-2);color:var(--muted)}.drv .rvp.bad{background:color-mix(in srgb,var(--bad) 18%,var(--panel-2));color:var(--bad);font-family:inherit}
 .dba{padding:0;overflow:hidden}.dba > .dsubs,.dba > .ft{margin:0 12px}.dba > .ft{margin-bottom:12px}
 .ahd{position:relative;min-height:118px;padding:12px;background:var(--rar-bg);overflow:hidden;isolation:isolate}
 .ahd::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,14,6,.55),rgba(20,14,6,.05) 70%);z-index:-1}
@@ -701,11 +706,11 @@ html{overflow-x:clip}
 
 /* ---- set filter ---- */
 .setchip{display:inline-flex;align-items:center;gap:4px;max-width:100%}
-.setbtn{width:auto;max-width:280px}.setbtn.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--panel-2))}
+.dbtool .setbtn{width:auto;max-width:min(440px,100%);flex:none}.setbtn .sics{flex:none}.setbtn .scn{flex:none;font:600 12px var(--f-mono);padding:2px 8px;border-radius:999px;background:var(--gold);color:#1b1406}.setchip{flex:0 1 auto;min-width:0}.setbtn.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--panel-2))}
 .sics{display:inline-flex}.sics .aicon{width:26px;height:26px;border-radius:50%;border:2px solid var(--panel-2)}.sics .aicon + .aicon{margin-left:-10px}
 .ib.sx{border-radius:50%;width:30px;height:30px}
 .setbox{width:min(820px,100%);grid-template-rows:auto auto minmax(0,1fr) auto}
-.setgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;overflow:auto;align-content:start;padding:2px}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;overflow:auto;align-content:start;padding:9px 9px 9px 9px;margin:0 -9px}
 .sett{position:relative;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer;text-align:left;font-size:13px;transition:border-color .18s,background-color .18s,transform .15s}
 .sett[hidden]{display:none}
 .sett .aicon{width:40px;height:40px;border-radius:10px}.sett .nm{flex:1;min-width:0;line-height:1.25}
@@ -725,7 +730,7 @@ html{overflow-x:clip}
 @media (max-width:700px){.stiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .stile{padding:14px;border-radius:14px;background:color-mix(in srgb,var(--fg) 4%,transparent);border:1px solid var(--line);display:grid;gap:2px}
 .stile b{font-family:var(--f-display);font-size:28px}.stile small{color:var(--muted);font-size:12.5px}.stile.gold b{color:var(--gold)}.stile.ok b{color:var(--ok)}
-.srows{display:grid;gap:6px}
+.srows{display:grid;gap:6px}.sgrp{margin:10px 0 2px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}.sgrp:first-child{margin-top:0}.stag{display:inline-block;margin-right:6px;padding:0 6px;border-radius:5px;background:var(--panel-2);color:var(--fg);font:600 11px var(--f-mono)}
 .srow2{display:grid;grid-template-columns:24px 48px minmax(0,1.4fr) minmax(0,1.2fr) 80px 110px auto;gap:12px;align-items:center;padding:8px 12px;border-radius:14px;background:color-mix(in srgb,var(--fg) 3%,transparent);border-left:3px solid var(--el);animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 40ms)}
 .srow2 .sn{font:600 13px var(--f-mono);color:var(--muted)}.srow2 .aicon{width:48px;height:48px}
 .srow2 b{display:block}.srow2 small{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -734,7 +739,7 @@ html{overflow-x:clip}
 .sumacts{gap:8px}.sumseg{justify-self:start}
 .sumopen{display:grid;gap:10px}.sumopen h3{margin:0}.sumopen .row{gap:8px;flex-wrap:wrap}.sumopen .inp{flex:1 1 260px}
 
-.fhint{margin:6px 0 0;font-size:13px;color:var(--bad);min-height:0;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s}.fhint.on{opacity:1;transform:none}.fhint.on::before{content:"! ";font-weight:800}
+.fhint{margin:6px 0 0;font-size:13px;color:var(--bad);min-height:0;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s}.fhint.on{opacity:1;transform:none}
 .field.bad{border-color:var(--bad) !important;box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 20%,transparent)}
 .field.shake,.inp.shake{animation:shake .32s}.inp.bad{border-color:var(--bad)}
 @keyframes shake{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
@@ -768,7 +773,7 @@ html{overflow-x:clip}
     </div>
     <div class="hcards">
       <button type="button" class="hcard" data-tab="acc" style="--i:0;--c:var(--gold)"><span class="hi"><img alt="" src="assets/ui/feather.png" onerror="this.remove()"><svg viewBox="0 0 24 24"><path d="M20 4C11 4 6 9 5 19l-1 1"/><path d="M20 4c0 8-5 13-13 14"/><path d="M9 15h5M11 11h5"/></svg></span><b>Реролл</b><small>Какой артефакт роллить, какую пару статов выбрать и какой шанс удачи.</small><span class="go">Открыть →</span></button>
-      <button type="button" class="hcard" data-tab="base" style="--i:1;--c:var(--accent)"><span class="hi">▤</span><b>Своя база</b><small>Артефакты, персонажи и оружие, как в Genshin Optimizer. Только реальные роллы.</small><span class="go">Открыть →</span></button>
+      <button type="button" class="hcard" data-tab="base" style="--i:1;--c:var(--accent)"><span class="hi">▤</span><b>Своя база</b><small>Твои артефакты, персонажи и оружие в одном месте.</small><span class="go">Открыть →</span></button>
       <button type="button" class="hcard" data-tab="lib" style="--i:2;--c:var(--purple)"><span class="hi"><img alt="" src="assets/ui/go.ico" onerror="this.remove()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span><b>Конфиги</b><small>Готовые цели для оптимизатора: удары за ротацию и доли реакций.</small><span class="go">Открыть →</span></button>
       <button type="button" class="hcard" data-tab="about" style="--i:3;--c:var(--ok)"><span class="hi">?</span><b>Как считается</b><small>Что такое RV и прирост, откуда шанс удачи и насколько это точно.</small><span class="go">Открыть →</span></button>
     </div>
@@ -810,7 +815,7 @@ html{overflow-x:clip}
     <div class="about">
       <div class="card">
       <ol class="howto" >
-        <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл. RV артефакта = сумма по саб статам. Разница с GO одна: GO складывает все саб статы, а сайт только полезные для персонажа. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
+        <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл. RV артефакта = сумма по саб статам. В «Своей базе» RV считается по всем саб статам, ровно как «Текущая ценность ролла» в GO; рядом «польза»: только статы, полезные персонажу, на котором артефакт надет. В «Реролле» везде считается только польза, потому что перо нужно тратить на то, что поможет персонажу. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
         <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
@@ -1481,7 +1486,7 @@ function rsBlock(m, w, a){
   const r = bestPair(m, w, state.g), j = judge(m, w, r), vc = j.cls, vt = j.text, cur = useful(m.subs, w);
   return `<div class="rs">
     <div class="v1"><span class="pill ${vc}">${vt}</span><span class="luck"><b>${pct(r.pBetter)}</b> шанс удачи</span></div>
-    <div class="pairl">Выбрать пару: <b>${esc(pairName(m, w, r.pair))}</b></div>
+    <div class="pairl" title="При реролле игра просит выбрать 2 саб стата: улучшения пойдут в них">В реролле выбрать пару: <b>${esc(pairName(m, w, r.pair))}</b></div>
     ${outcomeBar(r)}
     <div class="sub">Реролл стоит ${m.cost} ${m.cost === 1 ? 'перо' : 'пера'} и в среднем прибавит <b>${r1(r.eGain)}</b> RV.</div>
   </div>`;
@@ -1512,7 +1517,7 @@ function renderSheet(){
     <p class="sub" style="margin:0 0 6px">Сверху то, во что выгоднее всего вложить перо. Как это считается, написано в разделе <button type="button" class="alt-link" data-tab="about">«Как считается»</button>.</p>
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
-      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
+      <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small>${y.r && !y.why ? `<small class="ppair">пара: <b>${esc(pairName(y.x.m, w, y.r.pair))}</b></small>` : ''}</span>
       <span class="pl ${y.cls}">${esc(y.st)}</span>
       <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
       <span class="pv">${y.r ? `<b>${r1(y.r.eGain)}</b><small>прирост</small>` : ''}</span></button>`).join('')}
@@ -1659,7 +1664,7 @@ const slIdx = (vals, v) => { const x = num(v); if (!(x > 0)) return 0; let b = 0
 // what still blocks saving, as a card next to the button instead of a red list
 function errBox(errs){
   if (!errs.length) return `<div class="okbox"><span class="ic">✓</span><span>Всё сходится, можно сохранять.</span></div>`;
-  return `<div class="errbox" role="alert"><span class="ic">!</span><div><b>Чтобы сохранить, осталось:</b><ul>${errs.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div></div>`;
+  return `<div class="errbox" role="alert"><div><b>Чтобы сохранить, осталось:</b><ul>${errs.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div></div>`;
 }
 // GO-style roll value of the whole piece: all substats, and the most it can still reach
 function rvPanel(d, chk){
@@ -1813,8 +1818,9 @@ function dbImport(file){
 // ---------- set filter (like the in-game one): pick sets, see how many pieces each has, ✕ resets ----------
 function setBtn(sets){
   if (!sets.length) return `<button type="button" class="ownbtn setbtn" data-db="setf"><span class="allc" aria-hidden="true">✿</span><span>Все сеты</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>`;
-  const nm = sets.length === 1 ? DATA.sets[sets[0]]?.[1] || splitCamel(sets[0]) : `Сетов: ${sets.length}`;
-  return `<span class="setchip"><button type="button" class="ownbtn setbtn on" data-db="setf"><span class="sics">${sets.slice(0, 3).map(s => `<span class="aicon r5">${imgTag([setIcon(s, 'flower')])}</span>`).join('')}</span><span>${esc(nm)}</span></button><button type="button" class="ib sx" data-db="setclr" title="Сбросить фильтр по сету" aria-label="Сбросить фильтр по сету">✕</button></span>`;
+  const n = sets.length, nm = n === 1 ? DATA.sets[sets[0]]?.[1] || splitCamel(sets[0]) : `${n} ${n < 5 ? 'сета' : 'сетов'}`;
+  const cnt = (state.good?.artifacts || []).filter(a => sets.includes(a.setKey)).length;
+  return `<span class="setchip"><button type="button" class="ownbtn setbtn on" data-db="setf" title="${esc(sets.map(k => DATA.sets[k]?.[1] || splitCamel(k)).join(', '))}"><span class="sics">${sets.slice(0, 3).map(s => `<span class="aicon r5">${imgTag([setIcon(s, 'flower')])}</span>`).join('')}</span><span>${esc(nm)}</span><span class="scn">${cnt}</span></button><button type="button" class="ib sx" data-db="setclr" title="Сбросить фильтр по сету" aria-label="Сбросить фильтр по сету">✕</button></span>`;
 }
 function openSets(){
   let m = $('#setm');
@@ -1895,7 +1901,7 @@ function renderManual(){
   const body = mt === 'chars' ? dbChars(g) : mt === 'weps' ? dbWeps(g) : dbArts(g, arts);
   morphInto($('#manual'), `<div class="card dbhead">
       <div class="dbhl"><button type="button" class="dbsw" data-db="dbs" title="Переключить, переименовать или добавить базу"><span class="dbi" aria-hidden="true">${ICON.db}</span><span class="t"><small>База${state.dbs.list.length > 1 ? ` · ${state.dbs.list.length}` : ''}</small><b>${esc(curDb().name)}</b></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>
-        <p class="sub">Артефакты, персонажи и оружие, как в Genshin Optimizer. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере.</p></div>
+        <p class="sub">Твои артефакты, персонажи и оружие. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере.</p></div>
       <div class="row">
         <button type="button" class="btn ghost small" data-db="goimp">Загрузить из GO</button>
         <button type="button" class="btn ghost small" data-db="export"${g.characters.length || g.artifacts.length ? '' : ' disabled'} title="Файл .json в формате GO: резервная копия, перенос в другой браузер или загрузка в Genshin Optimizer">Скачать базу</button>
@@ -1933,6 +1939,21 @@ function morphEl(a, b){
   if (a.tagName === 'SELECT' && document.activeElement !== a && a.value !== b.value) a.value = b.value;
 }
 
+// substats with their rolls and RV, like the GO card: RV counts all substats (the same number GO shows);
+// stats useful for the character wearing the piece are highlighted, with their own RV underneath
+function subsRv(a){
+  const subs = (a.substats || []).filter(s => s.key && s.value && KEY_OF[s.key]);
+  const chk = checkArt({setKey: a.setKey, mainStatKey: a.mainStatKey, level: a.level ?? 0, substats: subs.map(s => ({key: s.key, value: String(s.value)}))});
+  const w = a.location ? effW(a.location) : null;
+  let tot = 0, use = 0, ok = true;
+  const li = subs.map((s, j) => { const k = KEY_OF[s.key], r = chk.rows[j];
+    const good = w && w[k] > 0;
+    if (!r || r.bad) { ok = false; return `<li class="${good ? 'use' : ''}"><span>${esc(SUB[k].n)}</span><b>${esc(fmtSub(k, s.value))}</b><em>—</em></li>`; }
+    const rr = (r.fit || r.opts)[0], rv = exactSum(k, r.v, rr) / MAXV(k) * 100;
+    tot += rv; if (good) use += rv;
+    return `<li class="${good ? 'use' : ''}"><span>${esc(SUB[k].n)}</span><b>${esc(fmtSub(k, s.value))}</b><i class="rbar" title="${rr} ${rollWord(rr)}">${'<u></u>'.repeat(rr)}</i><em>${Math.round(rv)}%</em></li>`; }).join('');
+  return `<ul class="dsubs rv">${li}</ul><div class="drv">${ok ? `<span class="rvp" title="Сумма RV всех саб статов, как «Текущая ценность ролла» в GO">RV ${Math.round(tot)}%</span>` : '<span class="rvp bad">RV не считается: есть странные значения</span>'}${ok && w ? `<span class="rvu" title="Только статы, полезные для ${esc(charInfo(a.location).ru)}">польза ${Math.round(use)}%</span>` : ''}</div>`;
+}
 function artCardDb(a, i, n){
   const setName = DATA.sets[a.setKey]?.[1] || splitCamel(a.setKey || '');
   const loc = a.location ? `<span class="dbloc">${face(a.location, 'xs')}<span>${esc(charInfo(a.location).ru)}</span></span>` : NOEQ('Не экипирован');
@@ -1940,7 +1961,7 @@ function artCardDb(a, i, n){
     <div class="ahd r5"><span class="abig">${imgTag([setIcon(a.setKey, a.slotKey)], 'loading="lazy"')}</span>
       <div class="t"><span class="lv">+${a.level ?? 0}</span><b>${esc(setName)}</b><small>${esc(GSLOT[a.slotKey] || a.slotKey)}</small>
         <span class="mn2">${(() => { const [n, v] = fmtStat(a.mainStatKey, (MAIN5[a.mainStatKey]?.[0] ?? 0) + ((MAIN5[a.mainStatKey]?.[1] ?? 0) - (MAIN5[a.mainStatKey]?.[0] ?? 0)) * (a.level ?? 0) / 20); return `<small>${esc(n)}</small><b>${esc(v)}</b>`; })()}</span>${STARS(a.rarity || 5)}</div></div>
-    <ul class="dsubs">${(a.substats || []).filter(s => s.key && s.value).map(s => { const k = KEY_OF[s.key]; return k ? `<li><span>${esc(SUB[k].n)}</span><b>${esc(fmtSub(k, s.value))}</b></li>` : ''; }).join('')}</ul>
+    ${subsRv(a)}
     <div class="ft">${loc}<span class="acts"><button type="button" class="ib" data-db="aed" data-i="${i}" title="Изменить" aria-label="Изменить">${ICON.edit}</button><button type="button" class="ib del" data-db="adel" data-i="${i}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
   </article>`;
 }
@@ -1961,7 +1982,7 @@ function dbArts(g, arts){
   const list = arts.filter(x => (f.slot === 'all' || x.a.slotKey === f.slot) && (!sets.length || sets.includes(x.a.setKey)) && (f.loc === 'all' || (f.loc === '' ? !x.a.location : x.a.location === f.loc)))
     .sort((x, y) => (y.i === state.lastArt) - (x.i === state.lastArt) || GSLOTS.indexOf(x.a.slotKey) - GSLOTS.indexOf(y.a.slotKey) || (y.a.level ?? 0) - (x.a.level ?? 0));
   const lim = state.alim || 48;
-  return `${state.ed?.kind === 'art' ? artEditor(g) : `<button type="button" class="addbig" data-db="anew">${ICON.plus}<span><b>Добавить артефакт</b><small>любой 5★ сет, слот и саб статы, только значения, которые бывают в игре</small></span></button>`}
+  return `${state.ed?.kind === 'art' ? artEditor(g) : `<button type="button" class="addbig" data-db="anew">${ICON.plus}<span><b>Добавить артефакт</b><small>любой 5★ сет, слот и саб статы</small></span></button>`}
     ${arts.length ? `<div class="dbtool">
       <div class="seg sm">${[['all', 'Все'], ...GSLOTS.map(s => [s, GSLOT[s]])].map(([k, t]) => `<button type="button" data-db="aslot" data-i="${k}" aria-pressed="${f.slot === k}">${t}</button>`).join('')}</div>
       ${setBtn(sets)}
@@ -2357,7 +2378,7 @@ function buildSummary(){
   const all = rerollList(p), ok = all.filter(t => t.j.ok && t.r.perDust >= 0.25);
   return {v: 1, n: p.nickname || '', uid: p.uid || '', g: state.g, d: Date.now(), tot: all.length, ch: p.chars.length, worth: ok.length,
     fe: ok.reduce((s, t) => s + t.m.cost, 0),
-    it: ok.slice(0, 15).map(t => [t.c.key, t.c.cons ?? 0, t.a.slot, t.a.set || '', t.a.icon || '', t.j.cls, t.j.text, Math.round(t.r.pBetter * 100), Math.round(t.r.eGain * 100), pairName(t.m, effW(t.c.key), t.r.pair), t.m.cost])};
+    it: ok.slice(0, 15).map(t => [t.c.key, t.c.cons ?? 0, t.a.slot, t.a.set || '', t.a.icon || '', t.j.cls, t.j.text, Math.round(t.r.pBetter * 100), Math.round(t.r.eGain * 100), pairName(t.m, effW(t.c.key), t.r.pair), t.m.cost, Math.floor(t.j.key / 1000), t.j.critChar ? 1 : 0])};
 }
 const b64u = u8 => { let s = ''; u8.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64u = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
@@ -2391,6 +2412,9 @@ function openSumFile(f){
   r.onload = () => { try { state.sumView = checkSum(JSON.parse(r.result)); state.sumErr = ''; state.sumMine = false; } catch { state.sumErr = 'Это не файл сводки. Нужен файл, скачанный кнопкой «Скачать файл».'; } renderSum(); };
   r.readAsText(f);
 }
+// group of a summary row (the feather order): 4 stats with full / partial / no use, then good 3-stat pieces
+const SGROUP = (cls4, crit) => { const c = crit ? ' · два крита' : '';
+  return {5: `4 стата${c} · вся польза`, 4: `4 стата${c} · часть пользы`, 3: `4 стата${c} · без пользы`, 2: `3 стата${c} · вся польза`}[cls4] || 'Остальное'; };
 const GNAME = {2: 'Обычная реконструкция', 3: 'Высшая реконструкция', 4: 'Объявленная реконструкция'};
 function sumCard(s){
   const date = new Date(s.d).toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
@@ -2399,9 +2423,10 @@ function sumCard(s){
   return `<div class="sumcard" id="sumcard">
     <div class="sch"><span class="slogo">${LOGO_SVG}</span><div><small>Khaenri'ah Works · сводка рероллов</small><h2>${esc(s.n || 'Без имени')}${s.uid ? ` <span class="sub">UID ${esc(s.uid)}</span>` : ''}</h2><span class="sub">${esc(date)} · ${esc(GNAME[s.g] || '')}</span></div></div>
     <div class="stiles">${tile(s.tot, 'артефактов +20 проверено')}${tile(s.worth, 'стоит роллить', 'gold')}${tile(s.fe, s.fe === 1 ? 'перо на всё' : s.fe < 5 && s.fe > 1 ? 'пера на всё' : 'перьев на всё')}${tile(best ? '+' + best + '%' : '—', 'лучший прирост RV', 'ok')}</div>
-    ${s.it.length ? `<div class="srows">${s.it.map((r, n) => { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair, cost] = r, i = charInfo(ck);
-      return `<div class="srow2" style="--el:var(--${i.el});--i:${Math.min(n, 15)}"><span class="sn">${n + 1}</span><span class="aicon r5">${icon ? imgTag([icon]) : ''}</span>
-        <span class="sw"><b>${esc(i.ru)} <span class="sub">C${cons}</span></b><small>${esc(slot)} · ${esc(set)}</small></span>
+    ${s.it.length ? `<div class="srows">${s.it.map((r, n) => { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair, cost, grp, crit] = r, i = charInfo(ck);
+      const head = grp != null && (n === 0 || s.it[n - 1][11] !== grp) ? `<div class="sgrp">${esc(SGROUP(grp, crit))}</div>` : '';
+      return `${head}<div class="srow2" style="--el:var(--${i.el});--i:${Math.min(n, 15)}"><span class="sn">${n + 1}</span><span class="aicon r5">${icon ? imgTag([icon]) : ''}</span>
+        <span class="sw"><b>${esc(i.ru)} <span class="sub">C${cons}</span></b><small>${grp != null ? `<span class="stag">${grp >= 3 ? 4 : 3} стата</span>` : ''}${esc(slot)} · ${esc(set)}</small></span>
         <span class="sp"><small>пара</small><b>${esc(pair)}</b></span><span class="sc"><b>${pb}%</b><small>шанс удачи</small></span><span class="sg"><b>+${gain}%</b><small>прирост · ${cost} ${cost === 1 ? 'перо' : 'пера'}</small></span><span class="pill ${esc(cls)}">${esc(text)}</span></div>`; }).join('')}</div>`
       : '<p class="empty">Сейчас нет реролла, который стоит пера.</p>'}
   </div>`;
@@ -2410,8 +2435,8 @@ function renderSum(){
   const box = $('#sumbox'); if (!box) return;
   const mine = buildSummary(), view = state.sumView && !state.sumMine ? state.sumView : mine;
   state.sumCur = view;
-  box.innerHTML = `${state.sumErr ? `<div class="errbox" role="alert"><span class="ic">!</span><div><b>Не получилось открыть сводку</b><ul><li>${esc(state.sumErr)}</li></ul></div></div>` : ''}
-    ${state.sumView && mine ? `<div class="seg sumseg"><button type="button" data-sum="mine" aria-pressed="${view === mine}">Моя</button><button type="button" data-sum="view" aria-pressed="${view !== mine}">Открытая: ${esc(state.sumView.n || 'без имени')}</button></div>` : ''}
+  box.innerHTML = `${state.sumErr ? `<div class="errbox" role="alert"><div><b>Не получилось открыть сводку</b><ul><li>${esc(state.sumErr)}</li></ul></div></div>` : ''}
+    ${state.sumView ? `<div class="row sumtop">${mine ? `<div class="seg sumseg"><button type="button" data-sum="mine" aria-pressed="${view === mine}">Моя</button><button type="button" data-sum="view" aria-pressed="${view !== mine}">Открытая: ${esc(state.sumView.n || 'без имени')}</button></div>` : ''}<button type="button" class="btn ghost small" data-sum="close" title="Убрать открытую сводку: она не сохраняется и пропадёт из адреса страницы">✕ Закрыть открытую сводку</button></div>` : ''}
     ${view ? sumCard(view) + `<div class="row sumacts"><button type="button" class="btn" data-sum="link">Скопировать ссылку</button><button type="button" class="btn ghost" data-sum="png">Скачать картинку</button><button type="button" class="btn ghost" data-sum="file">Скачать файл</button><span class="sub" id="sumstat"></span></div>`
       : `<div class="card"><p class="empty" style="margin:0">Своей сводки пока нет: загрузи артефакты во вкладке «Реролл» (по UID или файлом GO). А чужую можно открыть ниже.</p></div>`}
     <div class="card sumopen"><h3>Открыть сводку</h3>
@@ -2423,6 +2448,7 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-sum]'); if (!b) return; const s = state.sumCur, st = $('#sumstat');
   if (b.dataset.sum === 'mine') { state.sumMine = true; return renderSum(); }
   if (b.dataset.sum === 'view') { state.sumMine = false; return renderSum(); }
+  if (b.dataset.sum === 'close') { state.sumView = null; state.sumErr = ''; state.sumMine = true; if (location.hash.startsWith('#summary=')) history.replaceState(null, '', '#summary'); return renderSum(); }
   if (!s) return;
   if (b.dataset.sum === 'link') { const url = sumLink(await sumEncode(s));
     try { await navigator.clipboard.writeText(url); toast('Ссылка на сводку скопирована.'); } catch { prompt('Скопируй ссылку:', url); } }
@@ -2449,16 +2475,16 @@ async function sumPng(s, noImg = false){
     const X = 48 + i * 248; rr(X, 170, 232, 104, 16); x.fillStyle = 'rgba(255,255,255,.05)'; x.fill(); x.strokeStyle = 'rgba(255,255,255,.08)'; x.stroke();
     x.fillStyle = cc; x.font = font(700, 36); x.fillText(String(v), X + 20, 222); x.fillStyle = '#9aa6c4'; x.font = font(400, 15); x.fillText(l, X + 20, 252); });
   const load = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
-  for (let n = 0; n < s.it.length; n++) { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair] = s.it[n], i = charInfo(ck), Y = 300 + n * rowH;
+  for (let n = 0; n < s.it.length; n++) { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair, , grp] = s.it[n], i = charInfo(ck), Y = 300 + n * rowH;
     rr(48, Y, W - 96, rowH - 12, 14); x.fillStyle = n % 2 ? 'rgba(255,255,255,.035)' : 'rgba(255,255,255,.06)'; x.fill();
     x.fillStyle = col(i.el); x.fillRect(48, Y + 14, 4, rowH - 40);
     const src = !noImg && localRelic(icon); const im = src && await load(src);
     rr(66, Y + 9, 56, 56, 12); x.fillStyle = '#b98446'; x.fill(); if (im) x.drawImage(im, 66, Y + 9, 56, 56);
     x.fillStyle = '#fff'; x.font = font(700, 19); x.fillText(`${i.ru} C${cons}`, 140, Y + 32);
-    x.fillStyle = '#9aa6c4'; x.font = font(400, 14); x.fillText(`${slot} · ${set}`.slice(0, 40), 140, Y + 54);
-    x.fillStyle = '#9aa6c4'; x.font = font(400, 13); x.fillText('пара', 490, Y + 28); x.fillStyle = col('gold'); let fs = 16; do { x.font = font(600, fs); } while (x.measureText(pair).width > 255 && --fs > 10); x.fillText(pair, 490, Y + 50);
-    x.fillStyle = '#fff'; x.font = font(700, 20); x.fillText(pb + '%', 768, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('шанс удачи', 768, Y + 52);
-    x.fillStyle = col('ok'); x.font = font(700, 20); x.fillText('+' + gain + '%', 862, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('прирост', 862, Y + 52);
+    x.fillStyle = '#9aa6c4'; x.font = font(400, 14); x.fillText(`${grp != null ? (grp >= 3 ? 4 : 3) + ' стата · ' : ''}${slot} · ${set}`.slice(0, 46), 140, Y + 54);
+    x.fillStyle = '#9aa6c4'; x.font = font(400, 13); x.fillText('пара', 490, Y + 28); x.fillStyle = col('gold'); let fs = 16; do { x.font = font(600, fs); } while (x.measureText(pair).width > 238 && --fs > 10); x.fillText(pair, 490, Y + 50);
+    x.fillStyle = '#fff'; x.font = font(700, 20); x.fillText(pb + '%', 742, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('шанс удачи', 742, Y + 52);
+    x.fillStyle = col('ok'); x.font = font(700, 20); x.fillText('+' + gain + '%', 830, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('прирост', 830, Y + 52);
     const pc = cls === 'go' ? col('ok') : col('warn'); x.font = font(700, 13); const tw = x.measureText(text).width + 22;
     rr(W - 64 - tw, Y + 22, tw, 28, 14); x.fillStyle = pc; x.globalAlpha = .18; x.fill(); x.globalAlpha = 1; x.fillStyle = pc; x.fillText(text, W - 64 - tw + 11, Y + 41); }
   if (!s.it.length) { x.fillStyle = '#9aa6c4'; x.font = font(400, 18); x.fillText('Сейчас нет реролла, который стоит пера.', 48, 330); }
