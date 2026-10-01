@@ -1,4 +1,5 @@
 <title>Khaenri'ah Works</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 64 64' aria-hidden='true'%3E%3Cdefs%3E%3ClinearGradient id='f' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f4dc9a'/%3E%3Cstop offset='1' stop-color='%23c99a3e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='url%28%23f%29' stroke-width='2.6'/%3E%3Ccircle cx='32' cy='32' r='21' fill='%230b1020' stroke='%237fb2ff' stroke-width='1.4' stroke-opacity='.6'/%3E%3Cpath d='M32 9 L35.5 28.5 L55 32 L35.5 35.5 L32 55 L28.5 35.5 L9 32 L28.5 28.5Z' fill='url%28%23f%29'/%3E%3Cpath d='M32 18 L33.6 30.4 L46 32 L33.6 33.6 L32 46 L30.4 33.6 L18 32 L30.4 30.4Z' fill='%237fb2ff' opacity='.85'/%3E%3Ccircle cx='32' cy='32' r='2.6' fill='%230b1020'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -697,12 +698,52 @@ html{overflow-x:clip}
 .dbc:hover .ncbg img,.hero:hover .ncbg img{transform:scale(1.04)}
 .hero{position:relative;isolation:isolate;overflow:hidden}
 .hero .ncbg img{opacity:.5}.hero .ncbg::after{background:linear-gradient(90deg,var(--panel) 25%,color-mix(in srgb,var(--panel) 50%,transparent) 65%,color-mix(in srgb,var(--panel) 20%,transparent))}
+
+/* ---- set filter ---- */
+.setchip{display:inline-flex;align-items:center;gap:4px;max-width:100%}
+.setbtn{width:auto;max-width:280px}.setbtn.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--panel-2))}
+.sics{display:inline-flex}.sics .aicon{width:26px;height:26px;border-radius:50%;border:2px solid var(--panel-2)}.sics .aicon + .aicon{margin-left:-10px}
+.ib.sx{border-radius:50%;width:30px;height:30px}
+.setbox{width:min(820px,100%);grid-template-rows:auto auto minmax(0,1fr) auto}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;overflow:auto;align-content:start;padding:2px}
+.sett{position:relative;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer;text-align:left;font-size:13px;transition:border-color .18s,background-color .18s,transform .15s}
+.sett[hidden]{display:none}
+.sett .aicon{width:40px;height:40px;border-radius:10px}.sett .nm{flex:1;min-width:0;line-height:1.25}
+.sett .cnt{font:600 12px var(--f-mono);padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.sett .ck{position:absolute;top:-6px;left:-6px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;background:var(--gold);color:#1b1406;opacity:0;transform:scale(.5);transition:opacity .18s,transform .18s}
+.sett:hover{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.sett.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--panel-2))}.sett.on .ck{opacity:1;transform:none}.sett.on .cnt{background:var(--gold);color:#1b1406}
+.setft{justify-content:flex-end}
+
+/* ---- summary ---- */
+.sumbtn{display:inline-flex;align-items:center;gap:8px}.sumbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
+#sumbox{display:grid;gap:14px;margin-top:6px;padding-bottom:20px}
+.sumcard{position:relative;overflow:hidden;padding:clamp(16px,3vw,28px);border-radius:22px;border:1px solid var(--line);background:radial-gradient(600px 300px at 100% 0,color-mix(in srgb,var(--gold) 14%,transparent),transparent),linear-gradient(160deg,var(--panel),var(--bg));display:grid;gap:18px;animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+.sch{display:flex;gap:14px;align-items:center}.sch small{color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase}.sch h2{margin:2px 0;font-family:var(--f-display);font-size:clamp(22px,4vw,30px)}
+.slogo{width:52px;height:52px;flex:none}.slogo svg{width:100%;height:100%}
+.stiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.stiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stile{padding:14px;border-radius:14px;background:color-mix(in srgb,var(--fg) 4%,transparent);border:1px solid var(--line);display:grid;gap:2px}
+.stile b{font-family:var(--f-display);font-size:28px}.stile small{color:var(--muted);font-size:12.5px}.stile.gold b{color:var(--gold)}.stile.ok b{color:var(--ok)}
+.srows{display:grid;gap:6px}
+.srow2{display:grid;grid-template-columns:24px 48px minmax(0,1.4fr) minmax(0,1.2fr) 80px 110px auto;gap:12px;align-items:center;padding:8px 12px;border-radius:14px;background:color-mix(in srgb,var(--fg) 3%,transparent);border-left:3px solid var(--el);animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 40ms)}
+.srow2 .sn{font:600 13px var(--f-mono);color:var(--muted)}.srow2 .aicon{width:48px;height:48px}
+.srow2 b{display:block}.srow2 small{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow2 .sw b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.srow2 .sp b{color:var(--gold);font-size:13.5px}.srow2 .sg b{color:var(--ok)}
+@media (max-width:760px){.srow2{grid-template-columns:20px 44px minmax(0,1fr) auto}.srow2 .sp,.srow2 .sc{grid-column:3}.srow2 .sg{grid-column:3}.srow2 .pill{grid-column:4;grid-row:1}}
+.sumacts{gap:8px}.sumseg{justify-self:start}
+.sumopen{display:grid;gap:10px}.sumopen h3{margin:0}.sumopen .row{gap:8px;flex-wrap:wrap}.sumopen .inp{flex:1 1 260px}
+
+.fhint{margin:6px 0 0;font-size:13px;color:var(--bad);min-height:0;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s}.fhint.on{opacity:1;transform:none}.fhint.on::before{content:"! ";font-weight:800}
+.field.bad{border-color:var(--bad) !important;box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 20%,transparent)}
+.field.shake,.inp.shake{animation:shake .32s}.inp.bad{border-color:var(--bad)}
+@keyframes shake{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
 </style>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#" data-tab="home" aria-label="На главную">
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="none" stroke="var(--gold)" stroke-width="2"/><circle cx="13" cy="2" r="2" fill="var(--accent)"/><circle cx="22.5" cy="18.5" r="2" fill="var(--gold)"/><circle cx="3.5" cy="18.5" r="2" fill="var(--accent)"/></svg>
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><defs><linearGradient id="lgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc9a"/><stop offset="1" stop-color="#c99a3e"/></linearGradient></defs><circle cx="32" cy="32" r="27" fill="none" stroke="url(#lgb)" stroke-width="2.6"/><circle cx="32" cy="32" r="21" fill="#0b1020" stroke="#7fb2ff" stroke-width="1.4" stroke-opacity=".6"/><path d="M32 9 L35.5 28.5 L55 32 L35.5 35.5 L32 55 L28.5 35.5 L9 32 L28.5 28.5Z" fill="url(#lgb)"/><path d="M32 18 L33.6 30.4 L46 32 L33.6 33.6 L32 46 L30.4 33.6 L18 32 L30.4 30.4Z" fill="#7fb2ff" opacity=".85"/><circle cx="32" cy="32" r="2.6" fill="#0b1020"/></svg>
       <span>Khaenri'ah Works</span>
     </a>
     <nav class="tabs" role="tablist">
@@ -740,12 +781,21 @@ html{overflow-x:clip}
       <div class="ctrl">
         <button type="button" class="srcbtn" id="srcbtn" data-src="open"></button>
         <div class="seg" id="gseg" role="group" aria-label="Вид реконструкции"></div>
+        <button type="button" class="btn ghost sumbtn" data-tab="sum"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5"/></svg>Сводка</button>
       </div>
     </div>
     <div id="profile"></div>
     <div id="bestbox"></div>
     <div id="roster" aria-label="Персонажи"></div>
     <div class="sheet" id="sheet"></div>
+  </section>
+
+  <section id="view-sum" hidden>
+    <div class="search">
+      <h1>Сводка <em>рероллов</em></h1>
+      <p class="sub lead">Короткая выжимка: что роллить пером, какую пару выбрать и чего ждать. Её можно отправить ссылкой, файлом или картинкой, а чужую открыть здесь же.</p>
+    </div>
+    <div id="sumbox"></div>
   </section>
 
   <section id="view-base" hidden>
@@ -782,6 +832,7 @@ html{overflow-x:clip}
         <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
         <button class="btn" type="submit">Загрузить</button>
       </form>
+      <p class="fhint" id="uidhint" aria-live="polite"></p>
       <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
       
       </div>
@@ -1342,6 +1393,8 @@ const pctOf = x => x.mx ? Math.round(x.u / x.mx * 100) : 0;
 const qTxt = x => `RV ${Math.round(x.u*100)}%`;
 
 function renderAccount(){
+  // no UID profile but the base has data: show the base instead of the empty start screen
+  if (state.mode === 'uid' && !state.profile && state.go?.chars?.length) { state.mode = 'go'; store.set('mode', 'go'); }
   const p = prof();
   if (p && !p.chars.some(c => c.key === state.sel)) state.sel = p.chars[0]?.key || null;
   if (!p) {
@@ -1757,6 +1810,38 @@ function dbImport(file){
     state.ed = null; setGood(g); state.mode = 'go'; store.set('mode', 'go'); rerender(); toast(`Загружено в «${curDb().name}»: ${n}`, before); };
   r.readAsText(file);
 }
+// ---------- set filter (like the in-game one): pick sets, see how many pieces each has, ✕ resets ----------
+function setBtn(sets){
+  if (!sets.length) return `<button type="button" class="ownbtn setbtn" data-db="setf"><span class="allc" aria-hidden="true">✿</span><span>Все сеты</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>`;
+  const nm = sets.length === 1 ? DATA.sets[sets[0]]?.[1] || splitCamel(sets[0]) : `Сетов: ${sets.length}`;
+  return `<span class="setchip"><button type="button" class="ownbtn setbtn on" data-db="setf"><span class="sics">${sets.slice(0, 3).map(s => `<span class="aicon r5">${imgTag([setIcon(s, 'flower')])}</span>`).join('')}</span><span>${esc(nm)}</span></button><button type="button" class="ib sx" data-db="setclr" title="Сбросить фильтр по сету" aria-label="Сбросить фильтр по сету">✕</button></span>`;
+}
+function openSets(){
+  let m = $('#setm');
+  if (!m) { m = document.createElement('div'); m.id = 'setm'; m.className = 'pkm'; m.innerHTML = '<div class="pkov"></div><div class="pkbox setbox" role="dialog" aria-modal="true" aria-label="Фильтр по сету"></div>'; document.body.append(m);
+    m.addEventListener('click', e => { if (e.target.classList.contains('pkov') || e.target.closest('[data-sx]')) return closeSets();
+      const b = e.target.closest('[data-s]'); if (b) { const s = state.setSel; s.has(b.dataset.s) ? s.delete(b.dataset.s) : s.add(b.dataset.s); return renderSets(); }
+      if (e.target.closest('[data-sreset]')) { state.setSel.clear(); return renderSets(); }
+      if (e.target.closest('[data-sok]')) { state.af = {...(state.af || {slot: 'all', loc: 'all'}), sets: [...state.setSel]}; state.alim = 48; closeSets(); renderManual(); } });
+    m.addEventListener('input', e => { if (e.target.id === 'setsq') { const q = e.target.value.trim().toLowerCase(); m.querySelectorAll('[data-s]').forEach(b => { b.hidden = !!q && !b.dataset.q.includes(q); }); } });
+  }
+  state.setSel = new Set(state.af?.sets || []);
+  renderSets(); m.hidden = false; requestAnimationFrame(() => m.classList.add('on'));
+}
+function renderSets(){
+  const box = $('#setm .pkbox'), q = $('#setsq')?.value || '';
+  const arts = goodBase().artifacts.filter(a => a.rarity === 5), cnt = {};
+  arts.forEach(a => { cnt[a.setKey] = (cnt[a.setKey] || 0) + 1; });
+  const keys = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || (DATA.sets[a]?.[1] || a).localeCompare(DATA.sets[b]?.[1] || b, 'ru'));
+  const sel = state.setSel, n = sel.size ? arts.filter(a => sel.has(a.setKey)).length : arts.length;
+  box.innerHTML = `<div class="pkh"><h3>Фильтр по сету</h3><button type="button" class="ib" data-sx aria-label="Закрыть">✕</button></div>
+    <input class="inp" id="setsq" placeholder="Поиск сета" autocomplete="off" value="${esc(q)}">
+    <div class="setgrid">${keys.map(k => { const nm = DATA.sets[k]?.[1] || splitCamel(k);
+      return `<button type="button" class="sett${sel.has(k) ? ' on' : ''}" data-s="${esc(k)}" data-q="${esc((nm + ' ' + splitCamel(k)).toLowerCase())}"${q && !(nm + ' ' + splitCamel(k)).toLowerCase().includes(q.toLowerCase()) ? ' hidden' : ''}><span class="aicon r5">${imgTag([setIcon(k, 'flower')], 'loading="lazy"')}</span><span class="nm">${esc(nm)}</span><b class="cnt">${cnt[k]}</b><span class="ck" aria-hidden="true">✓</span></button>`; }).join('') || '<p class="empty">В базе пока нет 5★ артефактов.</p>'}</div>
+    <div class="row setft"><button type="button" class="btn ghost small" data-sreset${sel.size ? '' : ' disabled'}>Сбросить</button><button type="button" class="btn small" data-sok>Показать ${n}</button></div>`;
+}
+function closeSets(){ const m = $('#setm'); if (!m) return; m.classList.remove('on'); setTimeout(() => { if (!m.classList.contains('on')) m.hidden = true; }, 260); }
+addEventListener('keydown', e => { if (e.key === 'Escape' && $('#setm') && !$('#setm').hidden) closeSets(); });
 // ---------- bases window ----------
 function openDbs(){
   let m = $('#dbm');
@@ -1776,7 +1861,9 @@ function openDbs(){
         if (!state.dbs.list.length) state.dbs.list.push({id: 'main', name: 'Основная', t: Date.now()});
         if (state.dbs.cur === id || !state.dbs.list.some(y => y.id === state.dbs.cur)) dbSwitch(state.dbs.list[0].id); else { dbsSave(); rerender(); }
         return renderDbs(); } });
-    const save = i => { const x = state.dbs.list.find(y => y.id === state.dbren), v = i.value.trim(); if (x && v) { x.name = v.slice(0, 40); dbsSave(); if (state.go && x.id === state.dbs.cur) state.go.nickname = x.name; rerender(); } state.dbren = null; renderDbs(); };
+    const save = i => { const x = state.dbs.list.find(y => y.id === state.dbren), v = i.value.trim();
+      if (!v) { i.classList.remove('shake'); void i.offsetWidth; i.classList.add('shake', 'bad'); i.placeholder = 'Название не может быть пустым'; return; }
+      if (x && v) { x.name = v.slice(0, 40); dbsSave(); if (state.go && x.id === state.dbs.cur) state.go.nickname = x.name; rerender(); } state.dbren = null; renderDbs(); };
     m.addEventListener('keydown', e => { if (e.target.id === 'dbname' && e.key === 'Enter') save(e.target); if (e.key === 'Escape' && e.target.id === 'dbname') { state.dbren = null; renderDbs(); e.stopPropagation(); } });
   }
   renderDbs(); m.hidden = false; requestAnimationFrame(() => m.classList.add('on'));
@@ -1809,9 +1896,9 @@ function renderManual(){
   morphInto($('#manual'), `<div class="card dbhead">
       <div class="dbhl"><button type="button" class="dbsw" data-db="dbs" title="Переключить, переименовать или добавить базу"><span class="dbi" aria-hidden="true">${ICON.db}</span><span class="t"><small>База${state.dbs.list.length > 1 ? ` · ${state.dbs.list.length}` : ''}</small><b>${esc(curDb().name)}</b></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>
         <p class="sub">Артефакты, персонажи и оружие, как в Genshin Optimizer. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере.</p></div>
-      <div class="row">${state.go ? '<button type="button" class="btn small" data-db="open">Считать реролл</button>' : ''}
+      <div class="row">
         <button type="button" class="btn ghost small" data-db="goimp">Загрузить из GO</button>
-        <button type="button" class="btn ghost small" data-db="export"${g.characters.length || g.artifacts.length ? '' : ' disabled'}>Скачать для GO</button>
+        <button type="button" class="btn ghost small" data-db="export"${g.characters.length || g.artifacts.length ? '' : ' disabled'} title="Файл .json в формате GO: резервная копия, перенос в другой браузер или загрузка в Genshin Optimizer">Скачать базу</button>
         ${g.characters.length || g.artifacts.length || g.weapons.length ? '<button type="button" class="btn ghost small" data-db="clear">Очистить</button>' : ''}</div>
     </div>
     <div class="dbtabs seg" role="tablist">${tabs.map(([k, t, c]) => `<button type="button" data-db="mt" data-i="${k}" aria-pressed="${mt === k}">${t}<small>${c}</small></button>`).join('')}</div>
@@ -1870,12 +1957,14 @@ const ICON = {
 function dbArts(g, arts){
   const f = state.af || {slot: 'all', loc: 'all'};
   const locs = [...new Set(arts.map(x => x.a.location).filter(Boolean))];
-  const list = arts.filter(x => (f.slot === 'all' || x.a.slotKey === f.slot) && (f.loc === 'all' || (f.loc === '' ? !x.a.location : x.a.location === f.loc)))
+  const sets = f.sets || [];
+  const list = arts.filter(x => (f.slot === 'all' || x.a.slotKey === f.slot) && (!sets.length || sets.includes(x.a.setKey)) && (f.loc === 'all' || (f.loc === '' ? !x.a.location : x.a.location === f.loc)))
     .sort((x, y) => (y.i === state.lastArt) - (x.i === state.lastArt) || GSLOTS.indexOf(x.a.slotKey) - GSLOTS.indexOf(y.a.slotKey) || (y.a.level ?? 0) - (x.a.level ?? 0));
   const lim = state.alim || 48;
   return `${state.ed?.kind === 'art' ? artEditor(g) : `<button type="button" class="addbig" data-db="anew">${ICON.plus}<span><b>Добавить артефакт</b><small>любой 5★ сет, слот и саб статы, только значения, которые бывают в игре</small></span></button>`}
     ${arts.length ? `<div class="dbtool">
       <div class="seg sm">${[['all', 'Все'], ...GSLOTS.map(s => [s, GSLOT[s]])].map(([k, t]) => `<button type="button" data-db="aslot" data-i="${k}" aria-pressed="${f.slot === k}">${t}</button>`).join('')}</div>
+      ${setBtn(sets)}
       ${ownBtn('afown', f.loc === 'all' ? null : f.loc, f.loc === 'all' ? 'Все владельцы' : 'Не экипированы')}
     </div>
     <div class="dbgrid">${list.slice(0, lim).map((x, n) => artCardDb(x.a, x.i, Math.min(n, 12))).join('') || '<p class="empty">Под фильтр ничего не подходит.</p>'}</div>
@@ -1909,12 +1998,12 @@ function artEditor(g){
         <div class="fl"><span class="stp"><i>4</i>Уровень <b class="lvn" id="lvn">+${d.level}</b></span>
           <div class="lvl"><input type="range" min="0" max="20" step="1" value="${d.level}" id="alv" aria-label="Уровень" style="--p:${d.level * 5}%">
           <div class="chips sm">${[0, 4, 8, 12, 16, 20].map(l => `<button type="button" class="chip2" data-db="alvq" data-i="${l}" aria-pressed="${d.level === l}">+${l}</button>`).join('')}</div></div></div>
-        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">ползунок ходит только по значениям из игры, цветные кнопки добавляют следующий ролл</small></span>
+        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">ползунок ходит только по значениям, которые бывают в игре</small></span>
           ${d.substats.map((s, n) => { const k = KEY_OF[s.key], r = chk.rows[n];
             return `<div class="srow${r?.bad && s.value ? ' bad' : ''}${k ? '' : ' off'}" id="srow-${n}">
               <select data-db="askey" data-i="${n}" aria-label="Саб стат ${n + 1}"><option value="">Саб стат ${n + 1}</option>${subsFree().map(x => `<option value="${SUB[x].g}"${s.key === SUB[x].g ? ' selected' : ''}>${esc(SUB[x].n)}</option>`).join('')}</select>
               <input class="inp mono" data-db="asval" data-i="${n}" inputmode="decimal" value="${esc(s.value)}" placeholder="${k ? (SUB[k].p ? '0.0' : '0') : ''}"${k ? '' : ' disabled'} aria-label="Значение ${n + 1}">
-              ${k ? `<div class="nxt"><small>След. ролл</small>${[7, 8, 9, 10].map(t => `<button type="button" class="tier t${t - 7}" data-db="atier" data-i="${n}" data-t="${t}" title="Добавить ролл ${t * 10}% (+${showSub(k, tierVal(k, t))})">${nextVal(k, s.value, t)}</button>`).join('')}<button type="button" class="tier x" data-db="aclr" data-i="${n}" title="Очистить" aria-label="Очистить">✕</button></div>` : '<span></span>'}
+              ${k ? `<div class="nxt"><button type="button" class="tier x" data-db="aclr" data-i="${n}" title="Очистить значение" aria-label="Очистить">✕</button></div>` : '<span></span>'}
               ${k ? (() => { const vals = subVals(k, d.level), j = slIdx(vals, s.value), q = vals.length ? j / vals.length : 0; return `<div class="rslw" style="--p:${q * 100}%;--q:${q}"><input type="range" class="rsl" data-db="asrl" data-i="${n}" min="0" max="${vals.length}" step="1" value="${j}" aria-label="Значение ${n + 1} ползунком" title="Только значения, которые бывают в игре">${rollTicks(k, vals)}<output class="bub">${j ? esc(vals[j - 1]) : '—'}</output></div>`; })() : ''}
               ${k ? `<div class="rst" id="rst-${n}">${rollInfo(r)}</div>` : ''}
             </div>`; }).join('')}</div>
@@ -1930,7 +2019,7 @@ function artEditorLive(){
   const d = state.ed.d, chk = checkArt(d);
   chk.rows.forEach((r, n) => { const el = $('#rst-' + n); if (el) el.innerHTML = rollInfo(r);
     const row = $('#srow-' + n); if (row) row.classList.toggle('bad', !!(r?.bad && d.substats[n].value));
-    const k = KEY_OF[d.substats[n].key]; if (k) document.querySelectorAll(`[data-db="atier"][data-i="${n}"]`).forEach(b => { b.textContent = nextVal(k, d.substats[n].value, +b.dataset.t); }); });
+  });
   $('#aed-errs').innerHTML = errBox(chk.errs);
   $('#aed-rv').innerHTML = rvPanel(d, chk);
   $('#asave').disabled = !!chk.errs.length;
@@ -2066,6 +2155,8 @@ function dbAct(act, i, t){
     case 'pel': state.pel = i; renderManual(); return $('#pq')?.focus();
     case 'pwt': state.pwt = i; renderManual(); return $('#pq')?.focus();
     case 'dbs': return openDbs();
+    case 'setf': return openSets();
+    case 'setclr': state.af = {...(state.af || {slot: 'all', loc: 'all'}), sets: []}; state.alim = 48; return renderManual();
     case 'goimp': state.dbImp = 'cur'; return $('#dbfile').click();
     case 'cequip': { const g = goodBase(), who = i, nm = charInfo(who).ru;
       const items = g.artifacts.map((a, n) => ({a, n})).filter(x => x.a.rarity === 5).sort((x, y) => (x.a.location === who) - (y.a.location === who) || !!x.a.location - !!y.a.location || GSLOTS.indexOf(x.a.slotKey) - GSLOTS.indexOf(y.a.slotKey))
@@ -2253,7 +2344,132 @@ document.addEventListener('click', e => {
     try { navigator.clipboard.writeText(text).then(() => { toast.textContent = 'Скопировано'; setTimeout(()=>toast.textContent='',1800); }, fallback); } catch { fallback(); }
   }
 });
-const ROUTES = {home: '', acc: '#reroll', base: '#base', lib: '#configs', about: '#about'};
+
+// ---------- summary: which artifacts to reroll, shared as a link, a file or a picture ----------
+function rerollList(p){
+  const all = [];
+  (p?.chars || []).forEach(c => { const w = effW(c.key);
+    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); }); });
+  return all.sort((x, y) => y.j.key - x.j.key);
+}
+function buildSummary(){
+  const p = prof(); if (!p?.chars?.length) return null;
+  const all = rerollList(p), ok = all.filter(t => t.j.ok && t.r.perDust >= 0.25);
+  return {v: 1, n: p.nickname || '', uid: p.uid || '', g: state.g, d: Date.now(), tot: all.length, ch: p.chars.length, worth: ok.length,
+    fe: ok.reduce((s, t) => s + t.m.cost, 0),
+    it: ok.slice(0, 15).map(t => [t.c.key, t.c.cons ?? 0, t.a.slot, t.a.set || '', t.a.icon || '', t.j.cls, t.j.text, Math.round(t.r.pBetter * 100), Math.round(t.r.eGain * 100), pairName(t.m, effW(t.c.key), t.r.pair), t.m.cost])};
+}
+const b64u = u8 => { let s = ''; u8.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const unb64u = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+async function sumEncode(o){
+  const raw = new TextEncoder().encode(JSON.stringify(o));
+  if (typeof CompressionStream === 'undefined') return 'j.' + b64u(raw);
+  const z = await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
+  return 'z.' + b64u(new Uint8Array(z));
+}
+async function sumDecode(s){
+  const [kind, data] = [s.slice(0, 2), s.slice(2)];
+  let bytes = unb64u(data);
+  if (kind === 'z.') bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+  else if (kind !== 'j.') throw new Error('kind');
+  return checkSum(JSON.parse(new TextDecoder().decode(bytes)));
+}
+function checkSum(o){
+  if (!o || o.v !== 1 || !Array.isArray(o.it) || typeof o.tot !== 'number') throw new Error('shape');
+  o.it = o.it.filter(r => Array.isArray(r) && r.length >= 11).slice(0, 30); return o;
+}
+const sumLink = code => location.origin + location.pathname + '#summary=' + code;
+async function openSumLink(text, push = true){
+  const m = /#summary=([\w.\-]+)/.exec(String(text || '').trim());
+  if (!m) { state.sumErr = 'В ссылке нет сводки. Она выглядит так: …khaenriah-works/#summary=z.…'; return setTab('sum', push); }
+  try { state.sumView = await sumDecode(m[1]); state.sumErr = ''; state.sumMine = false; }
+  catch { state.sumErr = 'Ссылка повреждена: скорее всего, её скопировали не целиком.'; }
+  setTab('sum', false); if (push) history.pushState(null, '', '#summary=' + m[1]);
+}
+function openSumFile(f){
+  const r = new FileReader();
+  r.onload = () => { try { state.sumView = checkSum(JSON.parse(r.result)); state.sumErr = ''; state.sumMine = false; } catch { state.sumErr = 'Это не файл сводки. Нужен файл, скачанный кнопкой «Скачать файл».'; } renderSum(); };
+  r.readAsText(f);
+}
+const GNAME = {2: 'Обычная реконструкция', 3: 'Высшая реконструкция', 4: 'Объявленная реконструкция'};
+function sumCard(s){
+  const date = new Date(s.d).toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
+  const best = s.it.reduce((m, r) => Math.max(m, r[8]), 0);
+  const tile = (v, l, c = '') => `<div class="stile ${c}"><b>${v}</b><small>${l}</small></div>`;
+  return `<div class="sumcard" id="sumcard">
+    <div class="sch"><span class="slogo">${LOGO_SVG}</span><div><small>Khaenri'ah Works · сводка рероллов</small><h2>${esc(s.n || 'Без имени')}${s.uid ? ` <span class="sub">UID ${esc(s.uid)}</span>` : ''}</h2><span class="sub">${esc(date)} · ${esc(GNAME[s.g] || '')}</span></div></div>
+    <div class="stiles">${tile(s.tot, 'артефактов +20 проверено')}${tile(s.worth, 'стоит роллить', 'gold')}${tile(s.fe, s.fe === 1 ? 'перо на всё' : s.fe < 5 && s.fe > 1 ? 'пера на всё' : 'перьев на всё')}${tile(best ? '+' + best + '%' : '—', 'лучший прирост RV', 'ok')}</div>
+    ${s.it.length ? `<div class="srows">${s.it.map((r, n) => { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair, cost] = r, i = charInfo(ck);
+      return `<div class="srow2" style="--el:var(--${i.el});--i:${Math.min(n, 15)}"><span class="sn">${n + 1}</span><span class="aicon r5">${icon ? imgTag([icon]) : ''}</span>
+        <span class="sw"><b>${esc(i.ru)} <span class="sub">C${cons}</span></b><small>${esc(slot)} · ${esc(set)}</small></span>
+        <span class="sp"><small>пара</small><b>${esc(pair)}</b></span><span class="sc"><b>${pb}%</b><small>шанс удачи</small></span><span class="sg"><b>+${gain}%</b><small>прирост · ${cost} ${cost === 1 ? 'перо' : 'пера'}</small></span><span class="pill ${esc(cls)}">${esc(text)}</span></div>`; }).join('')}</div>`
+      : '<p class="empty">Сейчас нет реролла, который стоит пера.</p>'}
+  </div>`;
+}
+function renderSum(){
+  const box = $('#sumbox'); if (!box) return;
+  const mine = buildSummary(), view = state.sumView && !state.sumMine ? state.sumView : mine;
+  state.sumCur = view;
+  box.innerHTML = `${state.sumErr ? `<div class="errbox" role="alert"><span class="ic">!</span><div><b>Не получилось открыть сводку</b><ul><li>${esc(state.sumErr)}</li></ul></div></div>` : ''}
+    ${state.sumView && mine ? `<div class="seg sumseg"><button type="button" data-sum="mine" aria-pressed="${view === mine}">Моя</button><button type="button" data-sum="view" aria-pressed="${view !== mine}">Открытая: ${esc(state.sumView.n || 'без имени')}</button></div>` : ''}
+    ${view ? sumCard(view) + `<div class="row sumacts"><button type="button" class="btn" data-sum="link">Скопировать ссылку</button><button type="button" class="btn ghost" data-sum="png">Скачать картинку</button><button type="button" class="btn ghost" data-sum="file">Скачать файл</button><span class="sub" id="sumstat"></span></div>`
+      : `<div class="card"><p class="empty" style="margin:0">Своей сводки пока нет: загрузи артефакты во вкладке «Реролл» (по UID или файлом GO). А чужую можно открыть ниже.</p></div>`}
+    <div class="card sumopen"><h3>Открыть сводку</h3>
+      <form class="row" id="sumform"><input class="inp" id="sumlink" placeholder="Вставь ссылку на сводку" autocomplete="off" aria-label="Ссылка на сводку"><button type="submit" class="btn">Открыть</button>
+        <label class="btn ghost" for="sumfile" style="cursor:pointer">Файл сводки</label><input type="file" id="sumfile" accept=".json,application/json" hidden></form>
+      <p class="sub" style="margin:0">Сводка не содержит базу целиком: только список рероллов, ник и дату.</p></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-sum]'); if (!b) return; const s = state.sumCur, st = $('#sumstat');
+  if (b.dataset.sum === 'mine') { state.sumMine = true; return renderSum(); }
+  if (b.dataset.sum === 'view') { state.sumMine = false; return renderSum(); }
+  if (!s) return;
+  if (b.dataset.sum === 'link') { const url = sumLink(await sumEncode(s));
+    try { await navigator.clipboard.writeText(url); toast('Ссылка на сводку скопирована.'); } catch { prompt('Скопируй ссылку:', url); } }
+  if (b.dataset.sum === 'file') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(s)], {type: 'application/json'}));
+    a.download = `rerolls-${(s.n || 'summary').replace(/[^\wа-яё-]+/gi, '_')}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+  if (b.dataset.sum === 'png') { if (st) st.textContent = 'Рисую…'; try { await sumPng(s); if (st) st.textContent = ''; } catch (err) { diag('png: ' + err.message); if (st) st.textContent = 'Не получилось нарисовать картинку.'; } }
+});
+document.addEventListener('submit', e => { if (e.target.id !== 'sumform') return; e.preventDefault(); openSumLink($('#sumlink').value); });
+document.addEventListener('change', e => { if (e.target.id === 'sumfile' && e.target.files?.[0]) { openSumFile(e.target.files[0]); e.target.value = ''; } });
+// the picture is drawn by hand on a canvas (only same-site images, so it can be saved)
+async function sumPng(s, noImg = false){
+  const css = getComputedStyle(document.documentElement), col = n => css.getPropertyValue('--' + n).trim() || '#888';
+  const W = 1080, rowH = 86, H = 330 + Math.max(1, s.it.length) * rowH + 40, c = document.createElement('canvas');
+  c.width = W * 2; c.height = H * 2; const x = c.getContext('2d'); x.scale(2, 2);
+  const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#111a33'); g.addColorStop(1, '#0b0f1c'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  const glow = x.createRadialGradient(W - 120, 40, 10, W - 120, 40, 420); glow.addColorStop(0, 'rgba(233,196,106,.22)'); glow.addColorStop(1, 'rgba(233,196,106,0)'); x.fillStyle = glow; x.fillRect(0, 0, W, H);
+  const font = (w, sz) => `${w} ${sz}px Inter, system-ui, sans-serif`;
+  const rr = (X, Y, w, h, r) => { x.beginPath(); x.roundRect(X, Y, w, h, r); };
+  x.fillStyle = col('gold'); x.font = font(600, 15); x.fillText("KHAENRI'AH WORKS · СВОДКА РЕРОЛЛОВ", 48, 62);
+  x.fillStyle = '#fff'; x.font = font(700, 38); x.fillText(s.n || 'Без имени', 48, 108);
+  x.fillStyle = '#9aa6c4'; x.font = font(400, 17); x.fillText(`${new Date(s.d).toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'})} · ${GNAME[s.g] || ''}${s.uid ? ' · UID ' + s.uid : ''}`, 48, 138);
+  const best = s.it.reduce((m, r) => Math.max(m, r[8]), 0);
+  [[s.tot, 'артефактов проверено', '#fff'], [s.worth, 'стоит роллить', col('gold')], [s.fe, 'перьев на всё', '#fff'], [best ? '+' + best + '%' : '—', 'лучший прирост', col('ok')]].forEach(([v, l, cc], i) => {
+    const X = 48 + i * 248; rr(X, 170, 232, 104, 16); x.fillStyle = 'rgba(255,255,255,.05)'; x.fill(); x.strokeStyle = 'rgba(255,255,255,.08)'; x.stroke();
+    x.fillStyle = cc; x.font = font(700, 36); x.fillText(String(v), X + 20, 222); x.fillStyle = '#9aa6c4'; x.font = font(400, 15); x.fillText(l, X + 20, 252); });
+  const load = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  for (let n = 0; n < s.it.length; n++) { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair] = s.it[n], i = charInfo(ck), Y = 300 + n * rowH;
+    rr(48, Y, W - 96, rowH - 12, 14); x.fillStyle = n % 2 ? 'rgba(255,255,255,.035)' : 'rgba(255,255,255,.06)'; x.fill();
+    x.fillStyle = col(i.el); x.fillRect(48, Y + 14, 4, rowH - 40);
+    const src = !noImg && localRelic(icon); const im = src && await load(src);
+    rr(66, Y + 9, 56, 56, 12); x.fillStyle = '#b98446'; x.fill(); if (im) x.drawImage(im, 66, Y + 9, 56, 56);
+    x.fillStyle = '#fff'; x.font = font(700, 19); x.fillText(`${i.ru} C${cons}`, 140, Y + 32);
+    x.fillStyle = '#9aa6c4'; x.font = font(400, 14); x.fillText(`${slot} · ${set}`.slice(0, 40), 140, Y + 54);
+    x.fillStyle = '#9aa6c4'; x.font = font(400, 13); x.fillText('пара', 490, Y + 28); x.fillStyle = col('gold'); let fs = 16; do { x.font = font(600, fs); } while (x.measureText(pair).width > 255 && --fs > 10); x.fillText(pair, 490, Y + 50);
+    x.fillStyle = '#fff'; x.font = font(700, 20); x.fillText(pb + '%', 768, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('шанс удачи', 768, Y + 52);
+    x.fillStyle = col('ok'); x.font = font(700, 20); x.fillText('+' + gain + '%', 862, Y + 34); x.fillStyle = '#9aa6c4'; x.font = font(400, 12); x.fillText('прирост', 862, Y + 52);
+    const pc = cls === 'go' ? col('ok') : col('warn'); x.font = font(700, 13); const tw = x.measureText(text).width + 22;
+    rr(W - 64 - tw, Y + 22, tw, 28, 14); x.fillStyle = pc; x.globalAlpha = .18; x.fill(); x.globalAlpha = 1; x.fillStyle = pc; x.fillText(text, W - 64 - tw + 11, Y + 41); }
+  if (!s.it.length) { x.fillStyle = '#9aa6c4'; x.font = font(400, 18); x.fillText('Сейчас нет реролла, который стоит пера.', 48, 330); }
+  x.fillStyle = '#5d6889'; x.font = font(400, 13); x.fillText('juddeau.github.io/khaenriah-works', 48, H - 22);
+  let blob; try { blob = await new Promise((res, rej) => { try { c.toBlob(b => b ? res(b) : rej(new Error('toBlob')), 'image/png'); } catch (e) { rej(e); } }); }
+  catch (e) { if (!noImg) return sumPng(s, true); throw e; }   // a browser that will not export pictures drawn from files: draw without icons
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `rerolls-${(s.n || 'summary').replace(/[^\wа-яё-]+/gi, '_')}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+}
+
+const LOGO_SVG = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lgs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc9a"/><stop offset="1" stop-color="#c99a3e"/></linearGradient></defs><circle cx="32" cy="32" r="27" fill="none" stroke="url(#lgs)" stroke-width="2.6"/><circle cx="32" cy="32" r="21" fill="#0b1020" stroke="#7fb2ff" stroke-width="1.4" stroke-opacity=".6"/><path d="M32 9 L35.5 28.5 L55 32 L35.5 35.5 L32 55 L28.5 35.5 L9 32 L28.5 28.5Z" fill="url(#lgs)"/><path d="M32 18 L33.6 30.4 L46 32 L33.6 33.6 L32 46 L30.4 33.6 L18 32 L30.4 30.4Z" fill="#7fb2ff" opacity=".85"/><circle cx="32" cy="32" r="2.6" fill="#0b1020"/></svg>';
+const ROUTES = {home: '', acc: '#reroll', base: '#base', lib: '#configs', about: '#about', sum: '#summary'};
 function setTab(tab, push = true){
   if (!ROUTES.hasOwnProperty(tab)) tab = 'home';
   const changed = state.tab !== tab; state.tab = tab;
@@ -2262,17 +2478,22 @@ function setTab(tab, push = true){
   if (tab === 'base') renderManual();
   if (tab === 'acc') rerender();
   if (tab === 'home') renderHome();
+  if (tab === 'sum') renderSum();
   if (changed) { const v = $('#view-' + tab); v.classList.remove('enter'); void v.offsetWidth; v.classList.add('enter'); scrollTo({top: 0}); closeSrc(); }
-  if (push && location.hash !== ROUTES[tab]) history.pushState(null, '', ROUTES[tab] || location.pathname + location.search);
+  if (push && location.hash !== ROUTES[tab] && !(tab === 'sum' && location.hash.startsWith('#summary='))) history.pushState(null, '', ROUTES[tab] || location.pathname + location.search);
 }
-addEventListener('popstate', () => setTab(Object.keys(ROUTES).find(k => ROUTES[k] === location.hash && location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false));
+addEventListener('popstate', () => location.hash.startsWith('#summary=') ? openSumLink(location.href, false) : setTab(Object.keys(ROUTES).find(k => ROUTES[k] === location.hash && location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false));
 function renderHome(){
   const p = prof() || state.profile || state.go;
   $('#hcont').innerHTML = p ? `<button type="button" class="hcont" data-tab="acc"><span class="dot"></span>Продолжить: <b>${esc(p.nickname)}</b><small>${p.inv ? p.inv.length + ' артефактов' : 'UID ' + esc(p.uid)}</small><span>→</span></button>` : '';
 }
 $('#srcov').addEventListener('click', closeSrc);
 addEventListener('keydown', e => { if (e.key === 'Escape') closeSrc(); });
-$('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
+// UID: digits only, and say what is wrong before anything is sent
+const uidCheck = (v, final) => !v ? (final ? 'Введи UID: 9 или 10 цифр.' : '') : !/^\d+$/.test(v) ? 'В UID только цифры.' : v.length < 9 ? (final ? `Не хватает цифр: ${v.length} из 9–10.` : '') : v.length > 10 ? 'В UID не больше 10 цифр.' : '';
+function uidHint(msg){ const h = $('#uidhint'), f = $('#uid').closest('.field'); h.textContent = msg; h.classList.toggle('on', !!msg); f.classList.toggle('bad', !!msg); if (msg) { f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); } }
+$('#uid').addEventListener('input', e => { const v = e.target.value.replace(/\s/g, ''); const clean = v.replace(/\D/g, ''); if (clean !== e.target.value) e.target.value = clean; uidHint(v !== clean ? 'В UID только цифры.' : uidCheck(clean, false)); });
+$('#uidform').addEventListener('submit', e => { e.preventDefault(); const v = $('#uid').value.trim(), msg = uidCheck(v, true); uidHint(msg); if (!msg) loadUid(v); });
 $('#dbfile').addEventListener('change', e => { const f = e.target.files?.[0]; e.target.value = ''; if (f) dbImport(f); });
 $('#gofile').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
@@ -2309,6 +2530,7 @@ let boot = null; try { const gr = store.get('good:' + curDb().id); if (gr) setGo
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
 if (state.mode === 'go') renderAccount();
-setTab(Object.keys(ROUTES).find(k => ROUTES[k] && ROUTES[k] === location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false);
+if (location.hash.startsWith('#summary=')) openSumLink(location.href, false);
+else setTab(Object.keys(ROUTES).find(k => ROUTES[k] && ROUTES[k] === location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false);
 
 </script>
