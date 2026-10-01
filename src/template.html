@@ -422,8 +422,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .aedh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.aedh h3{margin:0}
 .aedgrid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
 @media (max-width:760px){.aedgrid{grid-template-columns:minmax(0,1fr)}}
-.aedprev{display:grid;gap:6px;justify-items:center;text-align:center;position:sticky;top:76px;padding:14px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
-@media (max-width:760px){.aedprev{position:static}}
+.aedprev{display:grid;gap:6px;justify-items:center;text-align:center;padding:14px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
 .aicon.big{width:110px;height:110px;border-radius:18px}
 .aedprev .mn{font-size:15px}
 #aed-verdict{width:100%;text-align:left}#aed-verdict:empty{display:none}
@@ -444,17 +443,43 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .chips.sm .chip2{padding:4px 10px;font-size:12px}
 .lvl{display:grid;gap:8px}.lvn{color:var(--gold);font-family:var(--f-mono);margin-left:6px}
 .lvl input[type=range]{width:100%;accent-color:var(--gold)}
-.srow{display:grid;grid-template-columns:minmax(0,160px) minmax(0,90px) minmax(0,1fr);gap:6px 10px;align-items:center;padding:8px;border-radius:12px;background:var(--bg)}
-.srow .tiers{grid-column:1/3}.srow .rst{grid-column:3}
-.rslw{position:relative;padding-bottom:16px;min-width:0}
-.ticks{position:absolute;left:0;right:0;top:12px;height:14px;pointer-events:none}
-.ticks i{position:absolute;top:0;width:1px;height:6px;background:color-mix(in srgb,var(--gold) 55%,var(--muted));transform:translateX(-.5px)}
-.ticks b{position:absolute;top:6px;left:50%;transform:translateX(-50%);font:500 9.5px var(--f-mono);color:var(--muted)}
+.srow{display:grid;grid-template-columns:minmax(0,170px) minmax(0,96px) minmax(0,1fr);gap:8px 10px;align-items:center;padding:10px;border-radius:14px;background:var(--bg);border:1px solid transparent;transition:border-color .25s,background-color .25s}
+.srow.off{opacity:.75}.srow.off:hover{opacity:1}
+.srow.bad{border-color:color-mix(in srgb,var(--bad) 55%,transparent);background:color-mix(in srgb,var(--bad) 6%,var(--bg))}
+.srow .rslw,.srow .rst{grid-column:1/-1}
+.nxt{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end}.nxt small{color:var(--muted);font-size:11.5px;margin-right:4px}
+.tier.t0{--tc:#a3a9b8}.tier.t1{--tc:#6ad69a}.tier.t2{--tc:#5fb3f0}.tier.t3{--tc:#c98af5}
+.nxt .tier:not(.x){min-width:46px;color:#10131c;font-weight:700;border-color:transparent;background:var(--tc)}
+.nxt .tier:not(.x):hover{filter:brightness(1.12);background:var(--tc)}
+.bub{position:absolute;bottom:calc(100% - 2px);left:calc(var(--p,0%) + (0.5 - var(--q,0)) * 18px);transform:translate(-50%,4px);padding:2px 8px;border-radius:8px;background:var(--gold);color:#1b1406;font:700 12px var(--f-mono);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s}
+.bub::after{content:"";position:absolute;left:50%;top:100%;border:4px solid transparent;border-top-color:var(--gold);transform:translateX(-50%)}
+.rslw:hover .bub,.rslw:focus-within .bub{opacity:1;transform:translate(-50%,-2px)}
+.rst{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:22px}
+.rcnt{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--panel-2);color:var(--fg)}.rcnt.warn{color:var(--warn)}
+.rchips{display:inline-flex;gap:3px;flex-wrap:wrap}
+.rt{font:600 11.5px var(--f-mono);font-style:normal;padding:2px 6px;border-radius:6px;color:#10131c;animation:popin .25s cubic-bezier(.2,.7,.2,1) both}
+.rt.t0{background:#a3a9b8}.rt.t1{background:#6ad69a}.rt.t2{background:#5fb3f0}.rt.t3{background:#c98af5}
+@keyframes popin{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.rrv{margin-left:auto;font-size:12px;color:var(--muted)}.rrv b{font-family:var(--f-mono);color:var(--gold)}
+.rbad{font-size:12.5px;color:var(--bad)}.rbad::before{content:"✕ "}
+.errbox,.okbox{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;font-size:13.5px;animation:rise .3s cubic-bezier(.2,.7,.2,1) both}
+.errbox{background:linear-gradient(135deg,color-mix(in srgb,var(--bad) 22%,var(--panel)),color-mix(in srgb,var(--bad) 8%,var(--panel)));border:1px solid color-mix(in srgb,var(--bad) 45%,transparent)}
+.errbox ul{margin:4px 0 0;padding-left:18px;color:color-mix(in srgb,var(--fg) 85%,var(--bad))}
+.okbox{background:color-mix(in srgb,var(--ok) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);color:var(--ok);align-items:center}
+.errbox .ic,.okbox .ic{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px}
+.errbox .ic{background:var(--bad);color:#fff}.okbox .ic{background:var(--ok);color:#0b1a12}
+.aedrv{display:grid;gap:6px;width:100%}.aedrv:empty{display:none}
+.aedrv div{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:10px;background:var(--panel-2);font-size:13px}
+.aedrv b{font-family:var(--f-mono);padding:1px 8px;border-radius:7px;background:color-mix(in srgb,var(--gold) 20%,transparent);color:var(--gold)}.aedrv b.mx{background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--ok)}
+.rslw{position:relative;padding:4px 0 10px;min-width:0}
+.ticks{position:absolute;left:0;right:0;top:12px;height:8px;pointer-events:none}
+.ticks i{position:absolute;top:0;width:1px;height:4px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
+.ticks i.st{height:8px;width:2px;background:var(--gold)}
 .rsl{display:block;-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--gold) var(--p,0%),var(--panel-2) var(--p,0%));outline:none;cursor:pointer}
 .rsl::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--gold);transition:transform .15s}
 .rsl::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--gold)}
 .rsl:active::-webkit-slider-thumb{transform:scale(1.2)}
-@media (max-width:600px){.srow{grid-template-columns:minmax(0,1fr) minmax(0,90px)}.srow .rslw,.srow .tiers,.srow .rst{grid-column:1/-1}}
+@media (max-width:600px){.srow{grid-template-columns:minmax(0,1fr) minmax(0,90px)}.srow .nxt{grid-column:1/-1;justify-content:flex-start}}
 .tiers{display:inline-flex;gap:3px;flex-wrap:wrap}
 .tier{border:1px solid var(--line);background:var(--panel-2);color:var(--fg);border-radius:7px;padding:5px 7px;font:500 12px var(--f-mono);cursor:pointer;transition:background-color .15s,transform .12s}
 .tier:hover{background:color-mix(in srgb,var(--gold) 18%,var(--panel-2))}.tier:active{transform:scale(.92)}
@@ -643,6 +668,35 @@ html{overflow-x:clip}
 .hcard:hover::after{transform:translateX(100%)}
 .hhero h1 em{background-size:200% 100%;animation:shimmer 8s ease-in-out infinite alternate}
 @keyframes shimmer{from{background-position:0% 0}to{background-position:100% 0}}
+
+/* ---- livelier cards: rarity headers, big icons, namecards ---- */
+.stars{display:block;color:#ffd36b;font-size:13px;letter-spacing:1px;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.dba{padding:0;overflow:hidden}.dba > .dsubs,.dba > .ft{margin:0 12px}.dba > .ft{margin-bottom:12px}
+.ahd{position:relative;min-height:118px;padding:12px;background:var(--rar-bg);overflow:hidden;isolation:isolate}
+.ahd::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,14,6,.55),rgba(20,14,6,.05) 70%);z-index:-1}
+.abig{position:absolute;right:-6px;bottom:-8px;width:112px;height:112px;z-index:-1;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.abig img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+.dba:hover .abig{transform:scale(1.06) rotate(-3deg)}
+.ahd .t{display:grid;gap:1px;max-width:64%;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.ahd .t b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ahd .t small{color:rgba(255,255,255,.8);font-size:12px}
+.ahd .lv{justify-self:start;font:700 11.5px var(--f-mono);padding:1px 7px;border-radius:999px;background:#c98af5;color:#1d0f2a;margin-bottom:4px;text-shadow:none}
+.mn2{display:grid;margin-top:4px}.mn2 small{font-size:12px}.mn2 b{font-size:20px !important;font-family:var(--f-display)}
+.dbw{padding:0;overflow:hidden}.dbw > .cons,.dbw > .ownbtn{margin:0 12px}.dbw > .ownbtn{margin-bottom:12px;width:auto}
+.whd{position:relative;min-height:96px;padding:12px;background:var(--rar-bg,var(--panel-2));overflow:hidden;isolation:isolate;align-items:flex-start !important}
+.r3{--rar-bg:linear-gradient(165deg,#2b4a6e 0%,#4a7aa8 55%,#6a9ac6 100%)}.r2{--rar-bg:linear-gradient(165deg,#2c5a46 0%,#4a8a6a 100%)}
+.whd::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,20,.55),transparent 75%);z-index:-1}
+.wbig{position:absolute;right:-4px;bottom:-10px;width:100px;height:100px;z-index:-1;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.wbig img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+.dbw:hover .wbig{transform:scale(1.07) rotate(4deg)}
+.whd .t{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);max-width:62%}.whd .t small{color:rgba(255,255,255,.8) !important}
+.whd .acts .ib,.chd .acts .ib{background:rgba(10,12,20,.45);border-color:rgba(255,255,255,.15);color:#fff}
+.chd{position:relative;margin:-12px -12px 0;padding:14px 12px;isolation:isolate;overflow:hidden;border-radius:12px 12px 0 0}
+.ncbg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.ncbg img{width:100%;height:100%;object-fit:cover;object-position:70% 50%;opacity:.55;transition:transform .6s ease}
+.ncbg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--panel) 15%,color-mix(in srgb,var(--panel) 55%,transparent) 60%,transparent)}
+.dbc:hover .ncbg img,.hero:hover .ncbg img{transform:scale(1.04)}
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero .ncbg img{opacity:.5}.hero .ncbg::after{background:linear-gradient(90deg,var(--panel) 25%,color-mix(in srgb,var(--panel) 50%,transparent) 65%,color-mix(in srgb,var(--panel) 20%,transparent))}
 </style>
 
 <header class="top">
@@ -660,6 +714,7 @@ html{overflow-x:clip}
   </div>
 </header>
 
+<input type="file" id="dbfile" accept=".json,application/json" hidden aria-hidden="true">
 <main class="wrap">
   <section id="view-home" class="home" hidden>
     <div class="hbg" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -710,8 +765,7 @@ html{overflow-x:clip}
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
         <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
-        <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
-        <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. Значения сверяются с настоящими роллами игры (та же таблица, что в GO). На 40 000 случайных артефактах с игровыми значениями распознаются все, а число роллов в каждом стате угадано верно в 99,3% случаев (в остальных цифры одинаково подходят под два варианта). Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
+        <li><b>Точность.</b> С UID сайт знает точную историю улучшений, там расчёт точный. Из GO и ручного ввода известны только итоговые цифры, поэтому сайт сам восстанавливает, сколько роллов ушло в каждый стат. Это почти всегда верно, а итоговый совет совпадает с точным примерно в 94% случаев.</li>
       </ol>
       </div>
     </div>
@@ -1421,7 +1475,7 @@ function renderSheet(){
   // entrance animation only when another character (or mode) is opened, not on every re-render
   const sk = state.mode + ':' + c.key, fresh = state.lastSheet !== sk; state.lastSheet = sk;
   $('#sheet').classList.toggle('anim', fresh);
-  $('#sheet').innerHTML = `<section class="hero" style="--el:var(--${i.el})">
+  $('#sheet').innerHTML = `<section class="hero" style="--el:var(--${i.el})">${ncBg(c.key)}
       <div class="who"><span class="avw">${face(c.key, 'lg')}${weaponIcon(wp)}</span>
         <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
         ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
@@ -1549,15 +1603,42 @@ const subVals = (k, level) => { const maxR = 1 + Math.floor(Math.min(20, level) 
   return [...new Set(COMBOS[k].filter(c => c.r <= maxR).map(c => showSub(k, c.S)))].sort((a, b) => a - b); };
 const slIdx = (vals, v) => { const x = num(v); if (!(x > 0)) return 0; let b = 0;
   vals.forEach((y, i) => { if (Math.abs(y - x) < Math.abs(vals[b] - x)) b = i; }); return b + 1; };
+// what still blocks saving, as a card next to the button instead of a red list
+function errBox(errs){
+  if (!errs.length) return `<div class="okbox"><span class="ic">✓</span><span>Всё сходится, можно сохранять.</span></div>`;
+  return `<div class="errbox" role="alert"><span class="ic">!</span><div><b>Чтобы сохранить, осталось:</b><ul>${errs.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div></div>`;
+}
+// GO-style roll value of the whole piece: all substats, and the most it can still reach
+function rvPanel(d, chk){
+  const ok = chk.rows.filter(r => r && !r.bad);
+  if (!ok.length) return '';
+  const cur = ok.reduce((t, r) => t + exactSum(r.k, r.v, (r.fit || r.opts)[0]) / MAXV(r.k), 0) * 100;
+  const left = 5 - Math.floor(Math.min(20, d.level) / 4);   // each upgrade left (or the 4th line opening) can add up to 100%
+  return `<div><span>RV сейчас</span><b>${Math.round(cur)}%</b></div><div><span>Макс. RV</span><b class="mx">${Math.round(cur + Math.max(0, left) * 100)}%</b></div>`;
+}
+// the value after one more roll of tier t (shown on the "next roll" buttons, like GO)
+const nextVal = (k, v, t) => showSub(k, tierSum(k, num(v)) + tierVal(k, t));
+// what the chosen value is made of: roll count, each roll coloured by its strength, and its RV
+function rollInfo(r){
+  if (!r) return '';
+  if (r.bad) return `<span class="rbad">${esc(r.txt)}</span>`;
+  const f = r.fit || r.opts, r0 = f[0], k = r.k;
+  let best = null; for (const c of matches(k, r.v)) if (c.r === r0 && (!best || c.ways > best.ways)) best = c;
+  const chips = best ? [3, 2, 1, 0].flatMap(i => Array(best.n[i]).fill(`<i class="rt t${i}" title="Ролл ${70 + i * 10}%">${showSub(k, SUB[k].t[i])}</i>`)).join('') : '';
+  const rv = Math.round(exactSum(k, r.v, r0) / MAXV(k) * 100);
+  return `<span class="rcnt${r.warn ? ' warn' : ''}">${f.length > 1 ? f.join(' или ') : r0} ${rollWord(f.at(-1))}</span><span class="rchips" title="${f.length > 1 || (best && matches(k, r.v).filter(c => c.r === r0).length > 1) ? 'Один из возможных вариантов' : ''}">${chips}</span><span class="rrv">RV <b>${rv}%</b></span>`;
+}
 // marks under the value slider: where 1, 2, 3... rolls start
 function rollTicks(k, vals){
-  const out = []; for (let r = 1; r <= 6; r++) { const i = vals.indexOf(showSub(k, r * SUB[k].t[0])); if (i < 0) continue;
-    const p = (i + 1) / vals.length * 100; out.push(`<i style="left:calc(${p.toFixed(2)}% + ${((0.5 - p / 100) * 18).toFixed(1)}px)"><b>${r}</b></i>`); }
-  return `<div class="ticks" aria-hidden="true" title="Число роллов">${out.join('')}</div>`;
+  const starts = new Set([1, 2, 3, 4, 5, 6].map(r => vals.indexOf(showSub(k, r * SUB[k].t[0]))));
+  return `<div class="ticks" aria-hidden="true">${vals.map((v, i) => { const p = (i + 1) / vals.length * 100;
+    return `<i class="${starts.has(i) ? 'st' : ''}" style="left:calc(${p.toFixed(2)}% + ${((0.5 - p / 100) * 18).toFixed(1)}px)"></i>`; }).join('')}</div>`;
 }
 function syncSl(n){ const d = state.ed?.d, sl = document.querySelector(`[data-db="asrl"][data-i="${n}"]`); if (!d || !sl) return;
   const k = KEY_OF[d.substats[n].key]; if (!k) return; const vals = subVals(k, d.level), j = slIdx(vals, d.substats[n].value);
-  sl.max = vals.length; sl.value = j; sl.style.setProperty('--p', (vals.length ? j / vals.length * 100 : 0) + '%'); }
+  sl.max = vals.length; sl.value = j; setSl(sl, vals, j); }
+function setSl(sl, vals, j){ const w = sl.parentElement, q = vals.length ? j / vals.length : 0;
+  w.style.setProperty('--p', q * 100 + '%'); w.style.setProperty('--q', q); const b = w.querySelector('.bub'); if (b) b.textContent = j ? vals[j - 1] : '—'; }
 // exact sum behind a typed value: the closest real roll combination (fewest rolls on a tie)
 function tierSum(k, v){
   if (!(v > 0)) return 0;
@@ -1663,6 +1744,19 @@ function filterPick(){ const s = (state.pk.q || '').trim().toLowerCase(); docume
 function closePick(){ const m = $('#pkm'); if (!m) return; m.classList.remove('on'); setTimeout(() => { if (!m.classList.contains('on')) m.hidden = true; }, 260); }
 addEventListener('keydown', e => { if (e.key === 'Escape' && $('#pkm') && !$('#pkm').hidden) closePick(); });
 
+// ---------- loading a GO file straight into a base ----------
+// 'cur' replaces the open base (undo from the toast), 'new' makes a base named after the file
+function dbImport(file){
+  const r = new FileReader();
+  r.onload = () => { let j; try { j = JSON.parse(r.result); } catch { return toast('Это не файл GO: внутри не JSON.'); }
+    if (!(j.format === 'GOOD' || j.characters || j.artifacts)) return toast('В файле нет базы GO (нужен экспорт Database → Download).');
+    const g = goodSlim(j), n = `${g.characters.length} перс., ${g.artifacts.filter(a => a.rarity === 5).length} арт.`;
+    if (state.dbImp === 'new') { dbNew(file.name.replace(/\.json$/i, '').slice(0, 40) || 'Genshin Optimizer ' + dbStamp(), g); renderDbs(); return toast(`Новая база «${curDb().name}»: ${n}`); }
+    const before = JSON.stringify(goodBase()), cur = JSON.parse(before);
+    if ((cur.characters.length || cur.artifacts.length || cur.weapons.length) && !confirm(`Заменить содержимое базы «${curDb().name}» файлом? Вернуть можно кнопкой в уведомлении.`)) return;
+    state.ed = null; setGood(g); state.mode = 'go'; store.set('mode', 'go'); rerender(); toast(`Загружено в «${curDb().name}»: ${n}`, before); };
+  r.readAsText(file);
+}
 // ---------- bases window ----------
 function openDbs(){
   let m = $('#dbm');
@@ -1670,6 +1764,9 @@ function openDbs(){
     m.addEventListener('click', e => { if (e.target.classList.contains('pkov') || e.target.closest('[data-mx]')) return closeDbs();
       const b = e.target.closest('[data-m]'); if (!b) return; const id = b.dataset.id, x = state.dbs.list.find(y => y.id === id);
       if (b.dataset.m === 'pick') { if (id !== state.dbs.cur) { dbSwitch(id); toast(`База «${curDb().name}».`); } return closeDbs(); }
+      if (b.dataset.m === 'save') return save($('#dbname'));
+      if (b.dataset.m === 'cancel') { state.dbren = null; return renderDbs(); }
+      if (b.dataset.m === 'imp') { state.dbImp = 'new'; return $('#dbfile').click(); }
       if (b.dataset.m === 'new') { dbNew('База ' + (state.dbs.list.length + 1)); state.dbren = curDb().id; return renderDbs(); }
       if (b.dataset.m === 'ren') { state.dbren = id; renderDbs(); const i = $('#dbname'); i?.focus(); i?.select(); return; }
       if (b.dataset.m === 'dup' && x) { const g = dbRead(id) || emptyGood(); dbNew(x.name + ' (копия)', g); return renderDbs(); }
@@ -1681,7 +1778,6 @@ function openDbs(){
         return renderDbs(); } });
     const save = i => { const x = state.dbs.list.find(y => y.id === state.dbren), v = i.value.trim(); if (x && v) { x.name = v.slice(0, 40); dbsSave(); if (state.go && x.id === state.dbs.cur) state.go.nickname = x.name; rerender(); } state.dbren = null; renderDbs(); };
     m.addEventListener('keydown', e => { if (e.target.id === 'dbname' && e.key === 'Enter') save(e.target); if (e.key === 'Escape' && e.target.id === 'dbname') { state.dbren = null; renderDbs(); e.stopPropagation(); } });
-    m.addEventListener('focusout', e => { if (e.target.id === 'dbname' && state.dbren) save(e.target); });
   }
   renderDbs(); m.hidden = false; requestAnimationFrame(() => m.classList.add('on'));
 }
@@ -1692,10 +1788,10 @@ function renderDbs(){
   box.innerHTML = `<div class="pkh"><h3>Мои базы</h3><button type="button" class="ib" data-mx aria-label="Закрыть">✕</button></div>
     <p class="sub" style="margin:0">Каждая база хранится отдельно и только в этом браузере. Файл из GO попадает в новую базу, если текущая не пустая.</p>
     <div class="dblist">${state.dbs.list.map(x => `<div class="dbrow${x.id === state.dbs.cur ? ' on' : ''}">
-      ${state.dbren === x.id ? `<input class="inp" id="dbname" value="${esc(x.name)}" maxlength="40" aria-label="Название базы">`
+      ${state.dbren === x.id ? `<input class="inp" id="dbname" value="${esc(x.name)}" maxlength="40" aria-label="Название базы"><button type="button" class="btn small" data-m="save">Сохранить</button><button type="button" class="btn ghost small" data-m="cancel">Отмена</button>`
         : `<button type="button" class="dbpick" data-m="pick" data-id="${x.id}"><span class="rad" aria-hidden="true"></span><span class="nm"><b>${esc(x.name)}</b><small>${cnt(x.id)} · ${when(x.t)}</small></span></button>`}
-      <span class="acts"><button type="button" class="ib" data-m="ren" data-id="${x.id}" title="Переименовать" aria-label="Переименовать">${ICON.edit}</button><button type="button" class="ib" data-m="dup" data-id="${x.id}" title="Копия" aria-label="Сделать копию">⧉</button><button type="button" class="ib del" data-m="del" data-id="${x.id}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>`).join('')}</div>
-    <div class="row"><button type="button" class="btn small" data-m="new">+ Новая база</button></div>`;
+      ${state.dbren === x.id ? '' : `<span class="acts"><button type="button" class="ib" data-m="ren" data-id="${x.id}" title="Переименовать" aria-label="Переименовать">${ICON.edit}</button><button type="button" class="ib" data-m="dup" data-id="${x.id}" title="Копия" aria-label="Сделать копию">⧉</button><button type="button" class="ib del" data-m="del" data-id="${x.id}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span>`}</div>`).join('')}</div>
+    <div class="row"><button type="button" class="btn small" data-m="new">+ Новая база</button><button type="button" class="btn ghost small" data-m="imp">Новая база из файла GO</button></div>`;
   const i = $('#dbname'); if (i) { i.focus(); i.select(); }
 }
 function closeDbs(){ const m = $('#dbm'); if (!m) return; state.dbren = null; m.classList.remove('on'); setTimeout(() => { if (!m.classList.contains('on')) m.hidden = true; }, 260); }
@@ -1714,6 +1810,7 @@ function renderManual(){
       <div class="dbhl"><button type="button" class="dbsw" data-db="dbs" title="Переключить, переименовать или добавить базу"><span class="dbi" aria-hidden="true">${ICON.db}</span><span class="t"><small>База${state.dbs.list.length > 1 ? ` · ${state.dbs.list.length}` : ''}</small><b>${esc(curDb().name)}</b></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>
         <p class="sub">Артефакты, персонажи и оружие, как в Genshin Optimizer. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере.</p></div>
       <div class="row">${state.go ? '<button type="button" class="btn small" data-db="open">Считать реролл</button>' : ''}
+        <button type="button" class="btn ghost small" data-db="goimp">Загрузить из GO</button>
         <button type="button" class="btn ghost small" data-db="export"${g.characters.length || g.artifacts.length ? '' : ' disabled'}>Скачать для GO</button>
         ${g.characters.length || g.artifacts.length || g.weapons.length ? '<button type="button" class="btn ghost small" data-db="clear">Очистить</button>' : ''}</div>
     </div>
@@ -1753,12 +1850,16 @@ function artCardDb(a, i, n){
   const setName = DATA.sets[a.setKey]?.[1] || splitCamel(a.setKey || '');
   const loc = a.location ? `<span class="dbloc">${face(a.location, 'xs')}<span>${esc(charInfo(a.location).ru)}</span></span>` : NOEQ('Не экипирован');
   return `<article class="dba" style="--i:${n}" id="dba-${i}">
-    <div class="hd"><span class="aicon r5">${imgTag([setIcon(a.setKey, a.slotKey)])}</span>
-      <div class="t"><b>${esc(GSLOT[a.slotKey] || a.slotKey)} <span class="sub">+${a.level ?? 0}</span></b><small>${esc(setName)}</small><small class="mn">${esc(mainTxt(a.mainStatKey, a.level ?? 0))}</small></div></div>
+    <div class="ahd r5"><span class="abig">${imgTag([setIcon(a.setKey, a.slotKey)], 'loading="lazy"')}</span>
+      <div class="t"><span class="lv">+${a.level ?? 0}</span><b>${esc(setName)}</b><small>${esc(GSLOT[a.slotKey] || a.slotKey)}</small>
+        <span class="mn2">${(() => { const [n, v] = fmtStat(a.mainStatKey, (MAIN5[a.mainStatKey]?.[0] ?? 0) + ((MAIN5[a.mainStatKey]?.[1] ?? 0) - (MAIN5[a.mainStatKey]?.[0] ?? 0)) * (a.level ?? 0) / 20); return `<small>${esc(n)}</small><b>${esc(v)}</b>`; })()}</span>${STARS(a.rarity || 5)}</div></div>
     <ul class="dsubs">${(a.substats || []).filter(s => s.key && s.value).map(s => { const k = KEY_OF[s.key]; return k ? `<li><span>${esc(SUB[k].n)}</span><b>${esc(fmtSub(k, s.value))}</b></li>` : ''; }).join('')}</ul>
     <div class="ft">${loc}<span class="acts"><button type="button" class="ib" data-db="aed" data-i="${i}" title="Изменить" aria-label="Изменить">${ICON.edit}</button><button type="button" class="ib del" data-db="adel" data-i="${i}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
   </article>`;
 }
+// character namecard as a soft background (Enka / Amber image; simply absent if the card is not there)
+const ncBg = key => { const c = charInfo(key); return c.base ? `<span class="ncbg" aria-hidden="true">${imgTag(['UI_NameCardPic_' + c.base + '_P'], 'loading="lazy"')}</span>` : ''; };
+const STARS = n => `<span class="stars" aria-label="${n}★">${'★'.repeat(n)}</span>`;
 const ICON = {
   db: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>',
   edit: '<svg viewBox="0 0 16 16"><path d="M11 2.5l2.5 2.5L6 12.5H3.5V10z"/></svg>',
@@ -1779,7 +1880,7 @@ function dbArts(g, arts){
     </div>
     <div class="dbgrid">${list.slice(0, lim).map((x, n) => artCardDb(x.a, x.i, Math.min(n, 12))).join('') || '<p class="empty">Под фильтр ничего не подходит.</p>'}</div>
     ${list.length > lim ? `<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn ghost small" data-db="amore">Показать ещё ${Math.min(48, list.length - lim)} из ${list.length - lim}</button></div>` : ''}`
-    : '<p class="empty" style="margin-top:12px">Артефактов пока нет. Добавь первый или загрузи базу GO во вкладке «База GO».</p>'}`;
+    : '<p class="empty" style="margin-top:12px">Артефактов пока нет. Добавь первый или загрузи файл кнопкой «Загрузить из GO».</p>'}`;
 }
 
 function artEditor(g){
@@ -1796,6 +1897,7 @@ function artEditor(g){
         <b>${esc(setName || 'Сет не выбран')}</b>
         <span class="sub">${esc(GSLOT[d.slotKey])} · +${d.level}</span>
         <span class="mn">${d.mainStatKey ? esc(mainTxt(d.mainStatKey, d.level)) : ''}</span>
+        <div id="aed-rv" class="aedrv" data-skip>${rvPanel(d, chk)}</div>
         <div id="aed-verdict" data-skip></div>
       </div>
       <div class="fgrid aedform">
@@ -1807,18 +1909,18 @@ function artEditor(g){
         <div class="fl"><span class="stp"><i>4</i>Уровень <b class="lvn" id="lvn">+${d.level}</b></span>
           <div class="lvl"><input type="range" min="0" max="20" step="1" value="${d.level}" id="alv" aria-label="Уровень" style="--p:${d.level * 5}%">
           <div class="chips sm">${[0, 4, 8, 12, 16, 20].map(l => `<button type="button" class="chip2" data-db="alvq" data-i="${l}" aria-pressed="${d.level === l}">+${l}</button>`).join('')}</div></div></div>
-        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">ползунок ходит только по значениям из игры, кнопки добавляют один ролл</small></span>
+        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">ползунок ходит только по значениям из игры, цветные кнопки добавляют следующий ролл</small></span>
           ${d.substats.map((s, n) => { const k = KEY_OF[s.key], r = chk.rows[n];
-            return `<div class="srow">
-              <select data-db="askey" data-i="${n}" aria-label="Саб стат ${n + 1}"><option value="">—</option>${subsFree().map(x => `<option value="${SUB[x].g}"${s.key === SUB[x].g ? ' selected' : ''}>${esc(SUB[x].n)}</option>`).join('')}</select>
+            return `<div class="srow${r?.bad && s.value ? ' bad' : ''}${k ? '' : ' off'}" id="srow-${n}">
+              <select data-db="askey" data-i="${n}" aria-label="Саб стат ${n + 1}"><option value="">Саб стат ${n + 1}</option>${subsFree().map(x => `<option value="${SUB[x].g}"${s.key === SUB[x].g ? ' selected' : ''}>${esc(SUB[x].n)}</option>`).join('')}</select>
               <input class="inp mono" data-db="asval" data-i="${n}" inputmode="decimal" value="${esc(s.value)}" placeholder="${k ? (SUB[k].p ? '0.0' : '0') : ''}"${k ? '' : ' disabled'} aria-label="Значение ${n + 1}">
-              ${k ? (() => { const vals = subVals(k, d.level), j = slIdx(vals, s.value); return `<div class="rslw"><input type="range" class="rsl" data-db="asrl" data-i="${n}" min="0" max="${vals.length}" step="1" value="${j}" style="--p:${j / vals.length * 100}%" aria-label="Значение ${n + 1} ползунком" title="Только значения, которые бывают в игре">${rollTicks(k, vals)}</div>`; })() : '<span></span>'}
-              <span class="tiers">${k ? [7, 8, 9, 10].map(t => `<button type="button" class="tier" data-db="atier" data-i="${n}" data-t="${t}" title="Ролл ${t * 10}%">+${showSub(k, tierVal(k, t))}</button>`).join('') + `<button type="button" class="tier x" data-db="aclr" data-i="${n}" title="Очистить" aria-label="Очистить">✕</button>` : ''}</span>
-              <span class="rst ${r ? (r.bad ? 'bad' : r.warn ? 'warn' : 'ok') : ''}" id="rst-${n}">${r ? esc(r.txt) : ''}</span>
+              ${k ? `<div class="nxt"><small>След. ролл</small>${[7, 8, 9, 10].map(t => `<button type="button" class="tier t${t - 7}" data-db="atier" data-i="${n}" data-t="${t}" title="Добавить ролл ${t * 10}% (+${showSub(k, tierVal(k, t))})">${nextVal(k, s.value, t)}</button>`).join('')}<button type="button" class="tier x" data-db="aclr" data-i="${n}" title="Очистить" aria-label="Очистить">✕</button></div>` : '<span></span>'}
+              ${k ? (() => { const vals = subVals(k, d.level), j = slIdx(vals, s.value), q = vals.length ? j / vals.length : 0; return `<div class="rslw" style="--p:${q * 100}%;--q:${q}"><input type="range" class="rsl" data-db="asrl" data-i="${n}" min="0" max="${vals.length}" step="1" value="${j}" aria-label="Значение ${n + 1} ползунком" title="Только значения, которые бывают в игре">${rollTicks(k, vals)}<output class="bub">${j ? esc(vals[j - 1]) : '—'}</output></div>`; })() : ''}
+              ${k ? `<div class="rst" id="rst-${n}">${rollInfo(r)}</div>` : ''}
             </div>`; }).join('')}</div>
         <div class="fl"><span class="stp"><i>6</i>Кто носит</span>${ownBtn('aedown', d.location || '', 'Не экипирован')}
           ${owners.length ? '' : '<small class="sub">Персонажей в базе нет: добавь их во вкладке «Персонажи».</small>'}</div>
-        <ul class="errs" id="aed-errs">${chk.errs.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+        <div id="aed-errs" data-skip>${errBox(chk.errs)}</div>
         <div class="row"><button type="button" class="btn" data-db="asave" id="asave"${ok ? '' : ' disabled'}>${d.i == null ? 'Добавить' : 'Сохранить'}</button><button type="button" class="btn ghost" data-db="aclose">Отмена</button></div>
       </div>
     </div></div>`;
@@ -1826,8 +1928,11 @@ function artEditor(g){
 // live parts of the editor that change while typing a value (the inputs themselves are not re-rendered)
 function artEditorLive(){
   const d = state.ed.d, chk = checkArt(d);
-  chk.rows.forEach((r, n) => { const el = $('#rst-' + n); if (el) { el.className = 'rst ' + (r ? (r.bad ? 'bad' : r.warn ? 'warn' : 'ok') : ''); el.textContent = r ? r.txt : ''; } });
-  $('#aed-errs').innerHTML = chk.errs.map(e => `<li>${esc(e)}</li>`).join('');
+  chk.rows.forEach((r, n) => { const el = $('#rst-' + n); if (el) el.innerHTML = rollInfo(r);
+    const row = $('#srow-' + n); if (row) row.classList.toggle('bad', !!(r?.bad && d.substats[n].value));
+    const k = KEY_OF[d.substats[n].key]; if (k) document.querySelectorAll(`[data-db="atier"][data-i="${n}"]`).forEach(b => { b.textContent = nextVal(k, d.substats[n].value, +b.dataset.t); }); });
+  $('#aed-errs').innerHTML = errBox(chk.errs);
+  $('#aed-rv').innerHTML = rvPanel(d, chk);
   $('#asave').disabled = !!chk.errs.length;
   // reroll preview for a finished piece
   const v = $('#aed-verdict');
@@ -1863,12 +1968,12 @@ function dbChars(g){
   return `${picker}
     ${list.length ? `<div class="dbgrid chars">${list.map((c, n) => { const i = charInfo(c.key), w = wOf(c.key), wi = w && wInfo(w.key);
       return `<article class="dbc" style="--el:var(--${i.el});--i:${Math.min(n, 12)}" id="dbc-${esc(c.key)}">
-        <div class="hd">${face(c.key)}<div class="t"><b>${esc(i.ru)}</b><small>ур. ${c.level || 90} · ${cnt(c.key)} ${cnt(c.key) === 1 ? 'артефакт' : cnt(c.key) > 1 && cnt(c.key) < 5 ? 'артефакта' : 'артефактов'}</small>
+        <div class="hd chd">${ncBg(c.key)}${face(c.key)}<div class="t"><b>${esc(i.ru)}</b><small>ур. ${c.level || 90} · ${cnt(c.key)} ${cnt(c.key) === 1 ? 'артефакт' : cnt(c.key) > 1 && cnt(c.key) < 5 ? 'артефакта' : 'артефактов'}</small>
           </div>
           <span class="acts"><button type="button" class="ib del" data-db="cdel" data-i="${esc(c.key)}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
         <div class="cwep">${wi ? `<span class="wbadge r${wi.rar}">${imgTag([wi.icon], 'loading="lazy"')}</span><span><b>${esc(wi.name)}</b><small>R${w.refinement || 1} · ур. ${w.level || 90}</small></span>` : `<span class="wbadge none"><span class="noeq"></span></span><span><b class="sub">Не экипировано</b><small>${DATA.wtype[c.key] ? WTYPE[DATA.wtype[c.key]] : ''}</small></span>`}</div>
         <div class="cons" role="group" aria-label="Созвездия">${[0, 1, 2, 3, 4, 5, 6].map(k => `<button type="button" data-db="ccons" data-i="${esc(c.key)}" data-t="${k}" aria-pressed="${(c.constellation || 0) === k}">C${k}</button>`).join('')}</div>
-        <div class="row"><button type="button" class="btn ghost small" data-db="carts" data-i="${esc(c.key)}">Артефакты</button><button type="button" class="btn ghost small" data-db="cequip" data-i="${esc(c.key)}">Надеть артефакт</button><button type="button" class="btn ghost small" data-db="cweap" data-i="${esc(c.key)}">${w ? 'Сменить оружие' : 'Дать оружие'}</button></div>
+        <div class="row"><button type="button" class="btn ghost small" data-db="carts" data-i="${esc(c.key)}">Артефакты</button><button type="button" class="btn ghost small" data-db="cequip" data-i="${esc(c.key)}">Надеть артефакт</button><button type="button" class="btn ghost small" data-db="cweap" data-i="${esc(c.key)}">${w ? 'Сменить оружие' : 'Надеть оружие'}</button></div>
       </article>`; }).join('')}</div>` : '<p class="empty" style="margin-top:12px">Персонажей пока нет.</p>'}`;
 }
 
@@ -1885,7 +1990,7 @@ function dbWeps(g){
     </div>` : `<button type="button" class="addbig" data-db="wpick">${ICON.plus}<span><b>Добавить оружие</b><small>пробуждение и владелец выбираются в карточке</small></span></button>`;
   return `${picker}
     ${list.length ? `<div class="dbgrid">${list.slice(0, lim).map(({w, i, x}, n) => `<article class="dbw" style="--i:${Math.min(n, 12)}" id="dbw-${i}">
-        <div class="hd"><span class="wbadge r${x.rar}">${imgTag([x.icon], 'loading="lazy"')}</span><div class="t"><b>${esc(x.name)}</b><small>${WTYPE[x.type] || ''} · ${x.rar}★ · ур. ${w.level || 1}</small></div>
+        <div class="hd whd r${x.rar}"><span class="wbig">${imgTag([x.icon], 'loading="lazy"')}</span><div class="t"><b>${esc(x.name)}</b><small>${WTYPE[x.type] || ''} · ур. ${w.level || 1}</small>${STARS(x.rar)}</div>
           <span class="acts"><button type="button" class="ib del" data-db="wdel" data-i="${i}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
         <div class="cons" role="group" aria-label="Пробуждение">${[1, 2, 3, 4, 5].map(r => `<button type="button" data-db="wref" data-i="${i}" data-t="${r}" aria-pressed="${(w.refinement || 1) === r}">R${r}</button>`).join('')}</div>
         ${ownBtn('wown', w.location || '', 'Не экипировано', i)}
@@ -1961,6 +2066,7 @@ function dbAct(act, i, t){
     case 'pel': state.pel = i; renderManual(); return $('#pq')?.focus();
     case 'pwt': state.pwt = i; renderManual(); return $('#pq')?.focus();
     case 'dbs': return openDbs();
+    case 'goimp': state.dbImp = 'cur'; return $('#dbfile').click();
     case 'cequip': { const g = goodBase(), who = i, nm = charInfo(who).ru;
       const items = g.artifacts.map((a, n) => ({a, n})).filter(x => x.a.rarity === 5).sort((x, y) => (x.a.location === who) - (y.a.location === who) || !!x.a.location - !!y.a.location || GSLOTS.indexOf(x.a.slotKey) - GSLOTS.indexOf(y.a.slotKey))
         .map(({a, n}) => { const sn = DATA.sets[a.setKey]?.[1] || splitCamel(a.setKey || '');
@@ -2010,7 +2116,7 @@ $('#manual').addEventListener('input', e => {
   if (t.dataset.db === 'asval' && state.ed?.d) { state.ed.d.substats[+t.dataset.i].value = t.value.trim(); syncSl(+t.dataset.i); return artEditorLive(); }
   if (t.dataset.db === 'asrl' && state.ed?.d) { const n = +t.dataset.i, s = state.ed.d.substats[n], k = KEY_OF[s.key]; if (!k) return;
     const vals = subVals(k, state.ed.d.level), j = +t.value; s.value = j ? vals[j - 1] : '';
-    t.style.setProperty('--p', j / vals.length * 100 + '%');
+    setSl(t, vals, j);
     const inp = document.querySelector(`[data-db="asval"][data-i="${n}"]`); if (inp) inp.value = s.value; return artEditorLive(); }
   if (t.id === 'pq') { const s = t.value.trim().toLowerCase(); document.querySelectorAll('#picker .pch').forEach(b => { b.hidden = !!s && !b.dataset.q.includes(s); }); }
 });
@@ -2167,6 +2273,7 @@ function renderHome(){
 $('#srcov').addEventListener('click', closeSrc);
 addEventListener('keydown', e => { if (e.key === 'Escape') closeSrc(); });
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
+$('#dbfile').addEventListener('change', e => { const f = e.target.files?.[0]; e.target.value = ''; if (f) dbImport(f); });
 $('#gofile').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   $('#gostat').textContent = 'Читаю…';
