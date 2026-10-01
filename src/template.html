@@ -132,13 +132,21 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .toast{font-size:13px;color:var(--ok)}
 
 /* library */
+.cfgbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%}.cfgbar .inp{flex:1 1 220px;width:auto}.cfgbar .elbar{margin:0}
+.filters{flex-direction:column;align-items:stretch;gap:10px}
+.cfgall{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);cursor:pointer}
+.cfghelp{margin:0 0 8px;font-size:12.5px}.hits td.d .hn{color:var(--fg);margin-right:6px}.hits td.d .pill{margin-right:4px}.hits td.d .hp{display:block;font:11px var(--f-mono);color:var(--muted);opacity:.7;margin-top:2px}
+.hits tr.chg .hn{color:var(--warn)}.bar .cfgw{width:76px;flex:none;padding:4px 8px;font-size:12px;margin-left:auto}.cfgw.chg{border-color:var(--warn)}.cfgw.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--panel-2))}
+.cfgwarn{margin:0 0 10px;padding:10px 12px;border-radius:12px;font-size:13px;background:color-mix(in srgb,var(--warn) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--warn) 45%,transparent)}
+.nocfg h3{margin-top:0}.pill.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 50%,transparent)}
+
 .filters{display:flex;gap:6px;flex-wrap:wrap;padding-block:6px 14px}
 .chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .lib{display:grid;gap:22px;padding-bottom:40px}
 .libgrp{display:grid;gap:10px}
 .libgrp > *{min-width:0}
-@media (max-width:600px){.hits tr{display:grid;grid-template-columns:minmax(0,1fr) 120px;column-gap:10px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);padding-block:6px}.hits td{border:0;padding:0}.hits td.p{white-space:normal;overflow-wrap:anywhere}.hits td.d{grid-column:1/-1;grid-row:2;font-size:12px}.hits td.w{width:auto;min-width:0}}
+@media (max-width:600px){.hits tr{display:grid;grid-template-columns:minmax(0,1fr) 120px;column-gap:10px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);padding-block:6px}.hits td{border:0;padding:0}.hits td.p{white-space:normal;overflow-wrap:anywhere}.hits td.d{font-size:12.5px}.hits td.w{width:auto;min-width:0}}
 .libgrp > .head h2{font-family:var(--f-display);font-size:18px;margin:0}
 .howto{display:grid;gap:6px;margin:0;padding-left:20px;color:var(--muted);font-size:14px}
 .howto b{color:var(--fg);font-weight:500}
@@ -777,7 +785,7 @@ html{overflow-x:clip}
     <div class="hcards">
       <button type="button" class="hcard" data-tab="acc" style="--i:0;--c:var(--gold)"><span class="hi"><img alt="" src="assets/ui/feather.png" onerror="this.remove()"><svg viewBox="0 0 24 24"><path d="M20 4C11 4 6 9 5 19l-1 1"/><path d="M20 4c0 8-5 13-13 14"/><path d="M9 15h5M11 11h5"/></svg></span><b>Реролл</b><small>Какой артефакт роллить, какую пару статов выбрать и какой шанс удачи.</small><span class="go">Открыть →</span></button>
       <button type="button" class="hcard" data-tab="base" style="--i:1;--c:var(--accent)"><span class="hi">▤</span><b>Своя база</b><small>Твои артефакты, персонажи и оружие в одном месте.</small><span class="go">Открыть →</span></button>
-      <button type="button" class="hcard" data-tab="lib" style="--i:2;--c:var(--purple)"><span class="hi"><img alt="" src="assets/ui/go.ico" onerror="this.remove()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span><b>Конфиги</b><small>Готовые цели для оптимизатора: удары за ротацию и доли реакций.</small><span class="go">Открыть →</span></button>
+      <button type="button" class="hcard" data-tab="lib" style="--i:2;--c:var(--purple)"><span class="hi"><img alt="" src="assets/ui/go.ico" onerror="this.remove()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span><b>Конфиги</b><small>Конфиги для Genshin Optimizer под твоих персонажей и созвездия.</small><span class="go">Открыть →</span></button>
       <button type="button" class="hcard" data-tab="about" style="--i:3;--c:var(--ok)"><span class="hi">?</span><b>Как считается</b><small>Что такое RV и прирост, откуда шанс удачи и насколько это точно.</small><span class="go">Открыть →</span></button>
     </div>
   </section>
@@ -870,7 +878,7 @@ html{overflow-x:clip}
   </aside>
   <section id="view-lib" hidden>
     <div class="search">
-      <h1>Все конфиги</h1>
+      <h1>Конфиги <em>под тебя</em></h1>
       <p class="sub" style="margin:0" id="libsum"></p>
     </div>
     <div class="filters" id="filters"></div>
@@ -1012,8 +1020,9 @@ function fromGOOD(j){
     main: {k: a.mainStatKey, v: null}, subs: (a.substats || []).filter(s => s.key && s.value).map(s => ({k: s.key, v: s.value})) }));
   const chars = (j.characters || []).map(c => { const w = weapons.find(x => x.location === c.key);
     return { key: c.key, level: c.level, asc: c.ascension ?? null, cons: c.constellation ?? 0, weapon: w ? {key: w.key, name: splitCamel(w.key), level: w.level, asc: w.ascension ?? null, ref: w.refinement} : null,
-      arts: inv.filter(a => a.loc === c.key) }; }).filter(c => c.arts.length);
-  return goNorm({ source:'good', uid:'', nickname:'База Genshin Optimizer', chars, inv, total: (j.artifacts || []).length });
+      arts: inv.filter(a => a.loc === c.key) }; });
+  // the reroll tool needs characters with artifacts; configs need everyone (roster)
+  return goNorm({ source:'good', uid:'', nickname:'База Genshin Optimizer', chars: chars.filter(c => c.arts.length), roster: chars.map(c => ({key: c.key, cons: c.cons})), inv, total: (j.artifacts || []).length });
 }
 
 
@@ -2248,56 +2257,126 @@ $('#manual').addEventListener('input', e => {
 function hl(json){
   return esc(json).replace(/(&quot;[^&]*?&quot;)(\s*:)?|(-?\d+\.?\d*)/g, (m,s,colon,num) => s ? `<span class="${colon?'jk':'js'}">${s}</span>${colon||''}` : `<span class="jn">${num}</span>`);
 }
-function configCard(cfg, me){
-  const i = charInfo(cfg.char);
-  const text = FILES[cfg.file]; const j = JSON.parse(text);
-  const max = Math.max(...j.targets.map(t => t.weight));
-  const rows = j.targets.map(t => {
-    const react = t.path[0] === 'reaction' || /lunar|stellar/i.test(t.path[1]);
-    return `<tr><td class="p">${esc(t.path.join(' · '))}${t.reaction?` <span class="pill">${esc(t.reaction)}</span>`:''}${Object.keys(t.bonusStats||{}).length?` <span class="pill warn">bonusStats</span>`:''}</td>
-      <td class="d">${esc(t.description||'')}</td>
-      <td class="w"><div class="bar"><span class="${react?'re':''}" style="width:${Math.max(2, t.weight/max*100).toFixed(1)}%"></span><b>${+t.weight.toFixed(3)}</b></div></td></tr>`;
+// ---------- configs: picked by the characters and constellations you loaded (UID or the GO base, never mixed) ----------
+// a player's own edits of the hit counts live only in this browser ('cfgw:'+id); the copied JSON carries them
+const cfgEdits = id => { try { const v = JSON.parse(store.get('cfgw:' + id) || 'null'); return Array.isArray(v) ? v : null; } catch { return null; } };
+function cfgJson(cfg){
+  const j = JSON.parse(FILES[cfg.file]), ed = cfgEdits(cfg.id);
+  if (ed) j.targets.forEach((t, n) => { if (typeof ed[n] === 'number' && ed[n] >= 0) t.weight = ed[n]; });
+  return j;
+}
+const cfgText = cfg => cfgEdits(cfg.id) ? JSON.stringify(cfgJson(cfg), null, 1).replace(/\n {2,}/g, ' ').replace(/\n \}/g, ' }') : FILES[cfg.file].trim();
+const CFG_ROLE = c => /Главный/.test(c.role) ? 'dd' : 'sup';
+const isReactRow = t => t.path[0] === 'reaction';
+function configCard(cfg, mine){
+  const i = charInfo(cfg.char), j = cfgJson(cfg), orig = JSON.parse(FILES[cfg.file]), ed = cfgEdits(cfg.id), editing = state.cfgEdit === cfg.id;
+  const max = Math.max(...j.targets.map(t => t.weight), 0.001), ru = CFG_RU[cfg.id] || [];
+  const rows = j.targets.map((t, n) => {
+    const changed = ed && t.weight !== orig.targets[n].weight, react = isReactRow(t);
+    const val = editing ? `<input class="inp mono cfgw${changed ? ' chg' : ''}" data-cw="${cfg.id}" data-n="${n}" inputmode="decimal" value="${+t.weight.toFixed(3)}" aria-label="Сколько раз за ротацию">`
+      : `<b>${+t.weight.toFixed(3)}</b>`;
+    return `<tr class="${changed ? 'chg' : ''}"><td class="d"><span class="hn">${esc(ru[n] || t.description || t.path.join(' · '))}</span>${react ? '<span class="pill">вес реакции</span>' : ''}${Object.keys(t.bonusStats || {}).length ? '<span class="pill warn">бонус в строке</span>' : ''}
+      <small class="hp">${esc(t.path.join(' · '))}</small></td>
+      <td class="w"><div class="bar"><span class="${react ? 're' : ''}" style="width:${Math.max(2, t.weight / max * 100).toFixed(1)}%"></span>${val}</div></td></tr>`;
   }).join('');
-  const team = cfg.team.map(([k,cn]) => {
- const ci = charInfo(k);
-    return `<span class="mate" style="--el:var(--${ci.el})">${face(k,'xs')}${esc(ci.ru)} <small>C${cn}</small></span>`;
-  }).join('');
+  const team = cfg.team.map(([k, cn]) => { const ci = charInfo(k); return `<span class="mate" style="--el:var(--${ci.el})">${face(k, 'xs')}${esc(ci.ru)} <small>C${cn}</small></span>`; }).join('');
   const notes = [...cfg.warnings.map(w => `<li class="w">${esc(w)}</li>`), ...cfg.estimates.map(e => `<li class="e">${esc(e)}</li>`)].join('');
   const open = state.open[cfg.id];
+  const fit = mine == null ? '' : mine === cfg.cons ? `<span class="pill ok">под твои C${mine}</span>` : `<span class="pill warn">собран на C${cfg.cons}, у тебя C${mine}</span>`;
   return `<article class="config" style="--el:var(--${i.el})">
     <header>
       <div class="ttl"><div style="min-width:0"><h4>${esc(i.ru)} · ${esc(cfg.reaction)}</h4><div class="nm">${esc(j.name)}</div></div>
-        <div class="row"><span class="pill">C${cfg.cons}${cfg.weapon?` · ${esc(cfg.weapon)}`:''}</span></div></div>
+        <div class="row">${fit}<span class="pill">C${cfg.cons}${cfg.weapon ? ` · ${esc(cfg.weapon)}` : ''}</span>${ed ? '<span class="pill warn">изменён</span>' : ''}</div></div>
       <div class="sub">${esc(cfg.role)}</div>
     </header>
     <div class="body">
-      <div><h3>Отряд</h3><div class="team">${face(cfg.char,'xs')}<span style="margin-right:4px">+</span>${team}</div></div>
+      <div><h3>Отряд</h3><div class="team">${face(cfg.char, 'xs')}<span style="margin-right:4px">+</span>${team}</div></div>
       <div><h3>Ротация · ${esc(cfg.source)}</h3><div class="rot">${esc(cfg.rotation)}</div></div>
       ${notes ? `<div><h3>Обрати внимание</h3><ul class="notes">${notes}</ul></div>` : ''}
-      <div><h3>Удары за ротацию</h3><div class="scroll"><table class="hits">${rows}</table></div></div>
+      <div><h3>Что и сколько раз попадает за ротацию</h3>
+        <p class="sub cfghelp">Оптимизатор складывает урон всех строк с этими числами и подбирает артефакты под самый большой итог. Строка реакции считается иначе: число срабатываний умножено на долю персонажа в реакции.</p>
+        ${editing ? `<div class="cfgwarn" role="alert"><b>Ты меняешь конфиг.</b> Изменения хранятся только в этом браузере и попадут в скопированный JSON. Конфиг после правок может начать считать неправильно: проверяй результат в GO.</div>` : ''}
+        <div class="scroll"><table class="hits">${rows}</table></div></div>
       <div class="actions">
         <button class="btn small" data-copy="${cfg.id}" type="button">Копировать JSON</button>
-        <button class="btn ghost small" data-toggle="${cfg.id}" type="button">${open?'Скрыть JSON':'Показать JSON'}</button>
+        <button class="btn ghost small" data-toggle="${cfg.id}" type="button">${open ? 'Скрыть JSON' : 'Показать JSON'}</button>
+        <button class="btn ghost small" data-cedit="${cfg.id}" type="button">${editing ? 'Готово' : 'Изменить числа'}</button>
+        ${ed ? `<button class="btn ghost small" data-creset="${cfg.id}" type="button">Вернуть как было</button>` : ''}
         <span class="toast" id="toast-${cfg.id}" aria-live="polite"></span>
       </div>
-      ${open ? `<pre class="json" id="pre-${cfg.id}">${hl(text.trim())}</pre>` : ''}
+      ${open ? `<pre class="json" id="pre-${cfg.id}">${hl(cfgText(cfg))}</pre>` : ''}
     </div>
   </article>`;
 }
 
 // ---------- library ----------
-const TAGS = [['all','Все'],['lunarcharged','Лунный заряд'],['lunarcrystallize','Лунная кристаллизация'],['stellarconduct','Звёздный проводник'],['swirl','Рассеивание'],['freeze','Заморозка']];
-function renderLib(){
-  $('#libsum').textContent = `${CONFIGS.length} конфигов на ${new Set(CONFIGS.map(c=>c.char)).size} персонажей. У каждого указаны отряд, созвездия и ротация, под которые он собран.`;
-  $('#filters').innerHTML = TAGS.map(([k,l]) => `<button class="chip" aria-pressed="${state.filter===k}" data-f="${k}" type="button">${l}</button>`).join('');
-  const list = CONFIGS.filter(c => state.filter === 'all' || c.tag === state.filter);
-  const groups = {}; list.forEach(c => (groups[c.char] ||= []).push(c));
-  $('#lib').innerHTML = Object.entries(groups).map(([k, cs]) => {
-    const i = charInfo(k); const me = state.profile ? owned(k) : null;
-    return `<div class="libgrp" style="--el:var(--${i.el})"><div class="head">${face(k)}<div><h2>${esc(i.ru)}</h2><div class="sub">${cs.length} ${cs.length>1?'конфига':'конфиг'}</div></div></div>
-      ${cs.map(c => configCard(c, me)).join('')}</div>`;
-  }).join('');
+const TAGS = [['all','Все реакции'],['lunarcharged','Лунный заряд'],['lunarcrystallize','Лунная кристаллизация'],['stellarconduct','Звёздный проводник'],['swirl','Рассеивание'],['freeze','Заморозка']];
+const ROLES = [['all', 'Любая роль'], ['dd', 'Главный ДД'], ['sup', 'Саппорт']];
+function cfgState(){
+  const src = {uid: state.profile, go: state.go};
+  let s = state.cfgSrc;
+  if (!src[s]) s = src[state.mode] ? state.mode : src.uid ? 'uid' : src.go ? 'go' : null;
+  state.cfgSrc = s;
+  const P = s ? src[s] : null, F = state.cfgF ||= {tag: 'all', el: 'all', role: 'all', q: '', all: false};
+  const mine = (P?.roster || P?.chars || []).map(c => ({key: c.key, cons: c.cons ?? 0}));
+  const pairs = []; mine.forEach(c => CONFIGS.filter(x => x.char === c.key).forEach(x => pairs.push({c, x, exact: x.cons === c.cons})));
+  return {src, s, P, F, mine, pairs};
 }
+function renderLib(){
+  const {src, s, P, F, mine, pairs} = cfgState();
+  if (!P) {
+    $('#libsum').textContent = 'Здесь появятся конфиги под твоих персонажей и их созвездия.';
+    $('#filters').innerHTML = '';
+    $('#lib').innerHTML = `<div class="card start"><h3>Сначала загрузи персонажей</h3><p class="sub">Сайт покажет только конфиги для тех, кто у тебя есть, и под твои созвездия.</p>
+      <div class="startg"><button type="button" class="hcard" data-src="uid" style="--c:var(--accent)"><span class="hi">#</span><b>По UID</b><small>Персонажи с витрины профиля.</small></button>
+      <button type="button" class="hcard" data-src="go" style="--c:var(--gold)"><span class="hi">⇪</span><b>Файл Genshin Optimizer</b><small>Все персонажи из базы GO.</small></button>
+      <button type="button" class="hcard" data-tab="base" style="--c:var(--purple)"><span class="hi">✎</span><b>Вручную</b><small>Добавь персонажей во вкладке «Своя база».</small></button></div></div>`;
+    return;
+  }
+  const tags = new Set(pairs.map(p => p.x.tag)), els = [...new Set(pairs.map(p => charInfo(p.c.key).el))], other = pairs.filter(p => !p.exact).length;
+  $('#libsum').innerHTML = `Источник: <b>${s === 'uid' ? 'UID ' + esc(P.uid) : 'база ' + esc(P.nickname)}</b> · ${mine.length} перс. · конфигов под тебя: ${pairs.filter(p => p.exact).length}`;
+  $('#filters').innerHTML = `<div class="cfgbar">
+      <div class="seg sm" role="group" aria-label="Чьи данные">${[['uid', 'По UID'], ['go', 'База GO']].map(([k, t]) => `<button type="button" data-csrc="${k}" aria-pressed="${s === k}"${src[k] ? '' : ' disabled title="Ещё не загружено"'}>${t}</button>`).join('')}</div>
+      <input class="inp" id="cfgq" placeholder="Поиск: персонаж или реакция" value="${esc(F.q)}" autocomplete="off" aria-label="Поиск по конфигам">
+    </div>
+    <div class="cfgbar">${TAGS.filter(([k]) => k === 'all' || tags.has(k)).map(([k, l]) => `<button class="chip" aria-pressed="${F.tag === k}" data-cf="tag" data-v="${k}" type="button">${l}</button>`).join('')}</div>
+    <div class="cfgbar">${els.length > 1 ? `<div class="elbar">${['all', ...els].map(e => `<button type="button" class="elbtn" data-cf="el" data-v="${e}" aria-pressed="${F.el === e}" title="${e === 'all' ? 'Все' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e)}</button>`).join('')}</div>` : ''}
+      ${ROLES.map(([k, l]) => `<button class="chip" aria-pressed="${F.role === k}" data-cf="role" data-v="${k}" type="button">${l}</button>`).join('')}
+      ${other ? `<label class="cfgall"><input type="checkbox" id="cfgall"${F.all ? ' checked' : ''}> Показать конфиги на другие созвездия (${other})</label>` : ''}</div>`;
+  renderLibList();
+}
+function renderLibList(){
+  const {P, F, mine, pairs} = cfgState(); if (!P) return;
+  const q = F.q.trim().toLowerCase();
+  const vis = pairs.filter(p => (F.all || p.exact) && (F.tag === 'all' || p.x.tag === F.tag) && (F.el === 'all' || charInfo(p.c.key).el === F.el)
+    && (F.role === 'all' || CFG_ROLE(p.x) === F.role) && (!q || `${charInfo(p.c.key).ru} ${p.c.key} ${p.x.reaction}`.toLowerCase().includes(q)));
+  const groups = {}; vis.forEach(p => (groups[p.c.key] ||= []).push(p));
+  const none = mine.filter(c => !CONFIGS.some(x => x.char === c.key));
+  $('#lib').innerHTML = (Object.entries(groups).map(([k, ps]) => {
+    const i = charInfo(k), c = ps[0].c;
+    return `<div class="libgrp" style="--el:var(--${i.el})"><div class="head">${face(k)}<div><h2>${esc(i.ru)} <span class="sub">C${c.cons}</span></h2><div class="sub">${ps.length} ${ps.length > 1 ? 'конфига' : 'конфиг'}</div></div></div>
+      ${ps.map(p => configCard(p.x, c.cons)).join('')}</div>`;
+  }).join('') || `<p class="empty">${pairs.length ? 'Под эти фильтры конфигов нет.' + (!F.all && pairs.some(p => !p.exact) ? ' Есть конфиги на другие созвездия: включи галочку выше.' : '') : 'Для твоих персонажей конфигов пока нет.'}</p>`)
+    + (none.length ? `<div class="card nocfg"><h3>Пока без конфигов</h3><div class="team">${none.map(c => `<span class="mate miss" style="--el:var(--${charInfo(c.key).el})">${face(c.key, 'xs')}${esc(charInfo(c.key).ru)} <small>C${c.cons}</small></span>`).join('')}</div></div>` : '');
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-csrc],[data-cf],[data-cedit],[data-creset]'); if (!t) return;
+  if (t.dataset.csrc) { state.cfgSrc = t.dataset.csrc; return renderLib(); }
+  if (t.dataset.cf) { state.cfgF[t.dataset.cf] = t.dataset.v; return renderLib(); }
+  if (t.dataset.cedit) { state.cfgEdit = state.cfgEdit === t.dataset.cedit ? null : t.dataset.cedit; return renderLibList(); }
+  if (t.dataset.creset) { if (!confirm('Вернуть исходные числа этого конфига?')) return; try { localStorage.removeItem('cfgw:' + t.dataset.creset); } catch {} state.cfgEdit = null; return renderLibList(); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'cfgq') { state.cfgF.q = e.target.value; return renderLibList(); }
+  const w = e.target.dataset?.cw; if (!w) return;
+  const cfg = CONFIGS.find(c => c.id === w), orig = JSON.parse(FILES[cfg.file]).targets.map(t => t.weight);
+  const cur = cfgEdits(w) || [...orig], v = Number(e.target.value.replace(',', '.'));
+  const bad = !(e.target.value.trim() !== '' && isFinite(v) && v >= 0 && v <= 1000);
+  e.target.classList.toggle('bad', bad); if (bad) return;
+  cur[+e.target.dataset.n] = v; e.target.classList.toggle('chg', v !== orig[+e.target.dataset.n]);
+  if (cur.every((x, n) => x === orig[n])) { try { localStorage.removeItem('cfgw:' + w); } catch {} } else store.set('cfgw:' + w, JSON.stringify(cur));
+});
+document.addEventListener('change', e => { if (e.target.id === 'cfgall') { state.cfgF.all = e.target.checked; renderLibList(); } });
 
 // ---------- events ----------
 function renderCtrl(){
@@ -2339,7 +2418,7 @@ function setPanel(next){
   old.classList.add('closing');
   setTimeout(() => { panelBusy = false; open(false); }, 230);
 }
-function rerender(){ renderCtrl(); renderAccount(); if (state.tab === 'base') renderManual(); }
+function rerender(){ renderCtrl(); renderAccount(); if (state.tab === 'base') renderManual(); if (state.tab === 'lib') renderLib(); }
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-goto],[data-sort],[data-panel],[data-src]');
   if (!t) return;
@@ -2365,10 +2444,9 @@ document.addEventListener('click', e => {
     return;
   }
   if (t.dataset.tab) { e.preventDefault(); setTab(t.dataset.tab); return; }
-  if (t.dataset.f) { state.filter = t.dataset.f; renderLib(); return; }
   if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; renderLib(); return; }
   if (t.dataset.copy) {
-    const cfg = CONFIGS.find(c => c.id === t.dataset.copy); const text = FILES[cfg.file].trim();
+    const cfg = CONFIGS.find(c => c.id === t.dataset.copy); const text = cfgText(cfg);
     const toast = document.getElementById('toast-'+cfg.id);
     const fallback = () => { state.open[cfg.id] = true; renderLib();
       const pre = document.getElementById('pre-'+cfg.id); const r = document.createRange(); r.selectNodeContents(pre);
