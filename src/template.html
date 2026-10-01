@@ -868,7 +868,11 @@ function model(a, lines){
   let nEnh = total - 4;
   if (lines === 4 || lines === 3) nEnh = lines === 4 ? 5 : 4;
   else if (nEnh < 4 || nEnh > 5) nEnh = nEnh < 4 ? 4 : 5;
-  return {...base, ok:true, exact:false, approx:true, conf: 0, subs, nEnh};
+  // say what exactly does not fit, so the value can be checked in the game
+  const odd = subsIn.filter(s => !rollOptions(s.k, s.v).length);
+  const why = odd.length ? odd.map(s => `${SUB[s.k].n} ${fmtSub(s.k, s.v)}`).join(', ') + (odd.length > 1 ? ': таких значений не бывает' : ': такого значения не бывает')
+    : `роллов в сумме выходит ${total}, а у +20 их 8 или 9`;
+  return {...base, ok:true, exact:false, approx:true, conf: 0, subs, nEnh, oddWhy: why};
 }
 
 // "Useful rolls": sum of weight * value / max roll
@@ -1134,8 +1138,8 @@ function outcomeBar(r){
 }
 function accLine(m){
   if (m.exact) return `<div class="acc ok">✓ История роллов из Enka, расчёт точный</div>`;
-  if (m.approx) return `<div class="acc bad">Цифры не сходятся ни с одной историей роллов, проверь значения</div>`;
-  return m.conf >= 0.9 ? `<div class="acc">Роллы восстановлены по цифрам, уверенность ${pct(m.conf)}</div>`
+  if (m.approx) return `<div class="acc bad">Цифры не сходятся с роллами игры (${esc(m.oddWhy || '')}). Проверь значения в игре, расчёт для этого артефакта примерный</div>`;
+  return m.conf >= 0.9 ? `<div class="acc" title="Насколько сайт уверен, что правильно определил, сколько роллов ушло в каждый стат">Роллы восстановлены по цифрам, уверенность ${pct(m.conf)}</div>`
     : `<div class="acc warn">Роллы восстановлены неуверенно (${pct(m.conf)}), шансы могут отличаться</div>`;
 }
 function rsBlock(m, w, a){
