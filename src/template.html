@@ -739,6 +739,8 @@ html{overflow-x:clip}
 .sumacts{gap:8px}.sumseg{justify-self:start}
 .sumopen{display:grid;gap:10px}.sumopen h3{margin:0}.sumopen .row{gap:8px;flex-wrap:wrap}.sumopen .inp{flex:1 1 260px}
 
+.uidhow{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);font-size:13px;display:grid;gap:4px}.uidhow ul{margin:0 0 6px;padding-left:18px;color:var(--muted);display:grid;gap:3px}
+.hload{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;color:var(--muted);font-size:13px}.hload button{border:1px solid var(--line);background:var(--panel-2);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;transition:border-color .2s,transform .15s}.hload button:hover{border-color:var(--gold)}.hload button:active{transform:scale(.97)}
 .fhint{margin:6px 0 0;font-size:13px;color:var(--bad);min-height:0;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s}.fhint.on{opacity:1;transform:none}
 .field.bad{border-color:var(--bad) !important;box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 20%,transparent)}
 .field.shake,.inp.shake{animation:shake .32s}.inp.bad{border-color:var(--bad)}
@@ -769,6 +771,7 @@ html{overflow-x:clip}
       <h1>Khaenri'ah <em>Works</em></h1>
       <p class="lead">Решай, какой артефакт зароллить пером, собирай свою базу артефактов и бери готовые конфиги для Genshin Optimizer.</p>
       <div class="row hcta"><button type="button" class="btn big" data-tab="acc"><span>Найти лучший реролл</span><span class="ar" aria-hidden="true">→</span></button><button type="button" class="btn ghost big" data-tab="base"><span>Своя база</span><span class="ar" aria-hidden="true">→</span></button></div>
+      <div class="hload"><span>Загрузить свои данные:</span><button type="button" data-src="uid"># По UID</button><button type="button" data-src="go">⇪ Файлом GO</button><button type="button" data-tab="base">✎ Вручную</button></div>
       <div id="hcont"></div>
     </div>
     <div class="hcards">
@@ -838,7 +841,15 @@ html{overflow-x:clip}
         <button class="btn" type="submit">Загрузить</button>
       </form>
       <p class="fhint" id="uidhint" aria-live="polite"></p>
-      <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
+      <div class="uidhow"><b>Что загрузится по UID</b>
+        <ul><li>Только персонажи с витрины профиля (до 12), а не весь аккаунт.</li>
+          <li>Их надетые артефакты и оружие. Артефакты из инвентаря не видны: для них нужен файл GO или своя база.</li>
+          <li>Зато история улучшений точная, поэтому расчёт реролла тоже точный.</li></ul>
+        <b>Как подготовить</b>
+        <ul><li>В игре: Меню → Профиль → Витрина персонажей, добавь нужных.</li>
+          <li>Там же включи «Показывать подробности персонажей».</li>
+          <li>После изменений в игре Enka обновляет данные не сразу, обычно через несколько минут.</li></ul>
+        <p class="sub" style="margin:0">Данные по UID и база из GO хранятся отдельно и не смешиваются: переключай их кнопками сверху.</p></div>
       
       </div>
       <div id="ss-go" hidden>
@@ -1901,7 +1912,7 @@ function renderManual(){
   const body = mt === 'chars' ? dbChars(g) : mt === 'weps' ? dbWeps(g) : dbArts(g, arts);
   morphInto($('#manual'), `<div class="card dbhead">
       <div class="dbhl"><button type="button" class="dbsw" data-db="dbs" title="Переключить, переименовать или добавить базу"><span class="dbi" aria-hidden="true">${ICON.db}</span><span class="t"><small>База${state.dbs.list.length > 1 ? ` · ${state.dbs.list.length}` : ''}</small><b>${esc(curDb().name)}</b></span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>
-        <p class="sub">Твои артефакты, персонажи и оружие. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере.</p></div>
+        <p class="sub">Твои артефакты, персонажи и оружие. Всё сразу считается во вкладке «Реролл» и хранится только в этом браузере. Не хочешь вводить руками? <button type="button" class="alt-link" data-src="uid">Загрузи витрину по UID</button> или файл кнопкой «Загрузить из GO».</p></div>
       <div class="row">
         <button type="button" class="btn ghost small" data-db="goimp">Загрузить из GO</button>
         <button type="button" class="btn ghost small" data-db="export"${g.characters.length || g.artifacts.length ? '' : ' disabled'} title="Файл .json в формате GO: резервная копия, перенос в другой браузер или загрузка в Genshin Optimizer">Скачать базу</button>
@@ -2332,7 +2343,7 @@ function rerender(){ renderCtrl(); renderAccount(); if (state.tab === 'base') re
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-goto],[data-sort],[data-panel],[data-src]');
   if (!t) return;
-  if (t.dataset.src) { if (t.dataset.src === 'close') closeSrc(); else openSrc(t.dataset.src === 'open' ? null : t.dataset.src); return; }
+  if (t.dataset.src) { if (t.dataset.src === 'close') closeSrc(); else { if (t.dataset.src !== 'open' && state.tab !== 'acc') setTab('acc'); openSrc(t.dataset.src === 'open' ? null : t.dataset.src); } return; }
   if (t.dataset.goto) { flashTo(document.getElementById(t.dataset.goto)); return; }
   if (t.dataset.panel) { setPanel(state.panel === t.dataset.panel ? null : t.dataset.panel); return; }
   if (t.dataset.sort) { state.csort = t.dataset.sort; store.set('csort', t.dataset.sort); renderAccount(); return; }
