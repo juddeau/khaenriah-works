@@ -131,6 +131,35 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .toast{font-size:13px;color:var(--ok)}
 
+.hq .grade{font-style:normal;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;justify-self:start;background:color-mix(in srgb,var(--gc) 20%,transparent);color:var(--gc)}
+.grade.g5{--gc:var(--ok)}.grade.g4{--gc:#8fd694}.grade.g3{--gc:var(--gold)}.grade.g2{--gc:var(--warn)}.grade.g1{--gc:var(--bad)}
+.gscale{position:relative;display:block;height:6px;margin:6px 0 4px;border-radius:3px;background:linear-gradient(90deg,var(--bad),var(--warn) 35%,var(--gold) 55%,var(--ok))}
+.gscale i{position:absolute;top:-2px;width:1px;height:10px;background:color-mix(in srgb,var(--bg) 70%,transparent)}
+.gscale u{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 0 1px color-mix(in srgb,#fff 40%,transparent)}
+.hqhow{font-size:12px;justify-self:start;margin-top:2px}
+.cstats{margin-top:12px}.csh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:10px}.csh h3{margin:0}.csh .sub{font-size:12.5px}
+.csg{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
+.cs{padding:8px 12px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);display:grid;gap:2px;animation:rise .4s cubic-bezier(.2,.7,.2,1) both}
+.cs small{color:var(--muted);font-size:12px}.cs b{font:600 17px var(--f-mono)}.cs.cr b{color:var(--gold)}
+.akcard{position:relative;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:end;min-width:220px;max-width:300px;padding:12px 16px 12px;border-radius:16px;text-decoration:none;color:var(--fg);overflow:hidden;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),color-mix(in srgb,var(--bg) 80%,transparent));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));transition:transform .2s,border-color .2s,box-shadow .2s}
+.akcard::before{content:"";position:absolute;inset:-40% -20% auto auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--akc,var(--accent)) 35%,transparent),transparent 70%);pointer-events:none}
+.akcard.t1{--akc:var(--gold);border-color:color-mix(in srgb,var(--gold) 55%,var(--line))}.akcard.t5{--akc:var(--gold)}.akcard.t20{--akc:var(--ok)}
+.akcard:hover{transform:translateY(-2px);border-color:var(--akc,var(--accent));box-shadow:0 10px 30px -14px var(--akc,var(--accent))}
+.akh{grid-column:1/-1;display:flex;align-items:center;gap:7px;font:600 13px var(--f-display,inherit);letter-spacing:.04em;color:color-mix(in srgb,var(--fg) 80%,transparent)}
+.akmark{width:9px;height:9px;transform:rotate(45deg);border-radius:2px;background:linear-gradient(135deg,var(--akc,var(--accent)),color-mix(in srgb,var(--akc,var(--accent)) 30%,transparent))}
+.akgo{margin-left:auto;letter-spacing:0;font-size:13px;transition:transform .2s}.akcard:hover .akgo{transform:translate(2px,-2px);color:var(--fg)}
+.akrank{grid-column:1/-1;display:flex;align-items:baseline;gap:8px}.akrank small{font:600 14px var(--f-mono);color:var(--muted)}.akrank b{font:700 30px/1.05 var(--f-mono);color:var(--akc,var(--accent))}
+.akname{grid-column:1/-1;font-size:13px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.akbar{height:4px;border-radius:2px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;align-self:center}.akbar i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,color-mix(in srgb,var(--akc,var(--accent)) 50%,transparent),var(--akc,var(--accent)))}
+.akpos{font:500 11.5px var(--f-mono);color:var(--muted)}
+.akmore{font-size:13px;color:var(--muted)}
+.akmore summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);font-size:12.5px;transition:border-color .2s}
+.akmore summary::-webkit-details-marker{display:none}.akmore summary::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.akmore[open] summary::after{transform:rotate(-135deg) translateY(-1px)}.akmore summary:hover{border-color:var(--accent)}
+.aklist{display:grid;gap:4px;margin-top:8px;padding:8px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line)}
+.aklist a{display:flex;gap:10px;align-items:baseline;color:var(--fg);text-decoration:none;padding:4px 6px;border-radius:8px}.aklist a:hover{background:color-mix(in srgb,var(--accent) 10%,transparent)}.aklist a b{color:var(--gold);font-family:var(--f-mono);white-space:nowrap}.aklist a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:600px){.akcard{max-width:none}}
 /* library */
 .cfgbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%}.cfgbar .inp{flex:1 1 220px;width:auto}.cfgbar .elbar{margin:0}
 .filters{flex-direction:column;align-items:stretch;gap:10px}
@@ -181,13 +210,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .wname{margin-top:4px;font-size:14px}.wname b{color:var(--gold);font-weight:600}
 .akbox{display:grid;gap:6px;justify-items:end}
 @media (max-width:600px){.akbox{justify-items:stretch;width:100%}}
-.akbig{display:grid;grid-template-columns:auto auto;gap:0 12px;align-items:baseline;padding:10px 16px;border-radius:14px;text-decoration:none;color:var(--fg);
-  background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,var(--bg)),var(--bg));border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line))}
-.akbig b{font:600 26px var(--f-mono);color:var(--gold);grid-row:span 2}
-.akbig span{font-size:13px}.akbig small{color:var(--muted);font-size:12px}
-.akbig small:first-child{grid-column:1/-1;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
-.akmore{font-size:13px;color:var(--muted)}.akmore summary{cursor:pointer;text-align:right}
-.akmore a{display:block;color:var(--fg);text-decoration:none;padding:3px 0}.akmore a b{color:var(--gold);font-family:var(--f-mono)}
+
 .akmiss{margin:0;max-width:30ch}
 .tiles3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
 @media (max-width:760px){.tiles3{grid-template-columns:minmax(0,1fr)}}
@@ -779,7 +802,7 @@ html{overflow-x:clip}
       <h1>Khaenri'ah <em>Works</em></h1>
       <p class="lead">Решай, какой артефакт зароллить пером, собирай свою базу артефактов и бери готовые конфиги для Genshin Optimizer.</p>
       <div class="row hcta"><button type="button" class="btn big" data-tab="acc"><span>Найти лучший реролл</span><span class="ar" aria-hidden="true">→</span></button><button type="button" class="btn ghost big" data-tab="base"><span>Своя база</span><span class="ar" aria-hidden="true">→</span></button></div>
-      <div class="hload"><span>Загрузить свои данные:</span><button type="button" data-src="uid"># По UID</button><button type="button" data-src="go">⇪ Файлом GO</button><button type="button" data-tab="base">✎ Вручную</button></div>
+      <div class="hload"><span>Загрузить свои данные:</span><button type="button" data-src="uid">По UID</button><button type="button" data-src="go">Файлом GO</button><button type="button" data-tab="base">Вручную</button></div>
       <div id="hcont"></div>
     </div>
     <div class="hcards">
@@ -826,10 +849,11 @@ html{overflow-x:clip}
     <div class="about">
       <div class="card">
       <ol class="howto" >
-        <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл. RV артефакта = сумма по саб статам. В «Своей базе» RV считается по всем саб статам, ровно как «Текущая ценность ролла» в GO; рядом «польза»: только статы, полезные персонажу, на котором артефакт надет. В «Реролле» везде считается только польза, потому что перо нужно тратить на то, что поможет персонажу. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
+        <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл. RV артефакта = сумма по саб статам. RV считается только по статам, полезным персонажу: перо нужно тратить на то, что ему поможет. Исключение: артефакт в «Своей базе», который ни на ком не надет. Там судить не по кому, поэтому считаются все саб статы, ровно как «Текущая ценность ролла» в GO. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
-        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
-        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Пара выбирается так: если персонажу нужны криты, в паре сначала криты (оба, если они есть в саб статах, иначе тот, что есть), потому что для урона они важнее всего; среди таких пар берётся пара с лучшим приростом. Для персонажей без критов в списке просто пара с лучшим приростом.</li>
+        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с фулл пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и фулл пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Качество артефактов.</b> Это средний RV артефактов персонажа, делённый на недостижимый идеал: все четыре саб стата полезные, и все пять улучшений ушли в них (900% на артефакт). Идеала не бывает, поэтому цифра всегда кажется низкой. Ориентир: от 75% это уровень лучших сборок, 65–75% очень хорошо, 55–65% хорошо, 45–55% средне, ниже слабо. Качество показывает, насколько удачно легли роллы, но не урон: на него влияют ещё основные статы, сеты, оружие и отряд.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Точность.</b> С UID сайт знает точную историю улучшений, там расчёт точный. Из GO и ручного ввода известны только итоговые цифры, поэтому сайт сам восстанавливает, сколько роллов ушло в каждый стат. Это почти всегда верно, а итоговый совет совпадает с точным примерно в 94% случаев.</li>
       </ol>
@@ -986,7 +1010,8 @@ function fromEnka(j, uid){
       ['HP', Math.round(f[2000]||0).toLocaleString('ru-RU')], ['Атака', Math.round(f[2001]||0).toLocaleString('ru-RU')],
       ['Защита', Math.round(f[2002]||0).toLocaleString('ru-RU')], ['МС', Math.round(f[28]||0)],
       ['Крит. шанс', ((f[20]||0)*100).toFixed(1)+'%'], ['Крит. урон', ((f[22]||0)*100).toFixed(1)+'%'],
-      ['ВЭ', ((f[23]||0)*100).toFixed(1)+'%'], [EL_RU[el]+' урон', ((f[dmgIds[el]]||0)*100).toFixed(1)+'%']
+      ['ВЭ', ((f[23]||0)*100).toFixed(1)+'%'], [EL_RU[el]+' урон', ((f[dmgIds[el]]||0)*100).toFixed(1)+'%'],
+      ...(f[30] > 0.001 ? [['Физ. урон', (f[30]*100).toFixed(1)+'%']] : []), ...(f[26] > 0.001 ? [['Бонус лечения', (f[26]*100).toFixed(1)+'%']] : [])
     ] : null;
     return { key, id: av.avatarId, level: +(av.propMap?.['4001']?.val) || null, asc: +(av.propMap?.['1002']?.val) || 0, cons: (av.talentIdList||[]).length,
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
@@ -1028,7 +1053,7 @@ function fromGOOD(j){
 
 // ---------- state ----------
 const prof = () => state.mode === 'go' ? state.go : state.profile;
-const state = { mt: ['arts','chars','weps'].includes(store.get('mt')) ? store.get('mt') : 'arts', good:null, el:'all', go:null, panel:null, csort: ['roll','q','name'].includes(store.get('csort')) ? store.get('csort') : 'roll', profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? 'go' : 'uid' };
+const state = { mt: ['arts','chars','weps'].includes(store.get('mt')) ? store.get('mt') : 'arts', good:null, el:'all', go:null, panel:null, csort: ['roll','name'].includes(store.get('csort')) ? store.get('csort') : 'roll', profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? 'go' : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -1288,9 +1313,13 @@ function spreadOdds(subs, field, n, w, pair, g, target){
 }
 // Reroll: initial values stay, nEnh enhancements are redistributed; by default compared with the artifact itself
 const reshape = (m, w, pair, g, target = useful(m.subs, w)) => spreadOdds(m.subs, 'init', m.nEnh, w, pair, g, target);
+// For characters whose RV counts both crits, crits come first in the pair (the most valuable stats for damage):
+// a pair with both crits beats one with a single crit, which beats one without; RV gain decides only within that.
 function bestPair(m, w, g, target){
-  let best = null;
-  for (const pair of PAIRS) { const r = reshape(m, w, pair, g, target); if (!best || r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)) best = r; }
+  let best = null, bestC = -1;
+  const critChar = w.cr > 0 && w.cd > 0, crits = pair => critChar ? pair.filter(i => m.subs[i].k === 'cr' || m.subs[i].k === 'cd').length : 0;
+  for (const pair of PAIRS) { const r = reshape(m, w, pair, g, target), c = crits(pair);
+    if (!best || c > bestC || (c === bestC && (r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)))) { best = r; bestC = c; } }
   return {...best, perDust: best.eGain / m.cost};
 }
 // Pair label; a useless stat in the pair makes no difference which one it is
@@ -1329,7 +1358,7 @@ function judge(m, w, r){
   if (critChar && !crits) { cls4 = 0; why = 'нет двух критов'; }
   else if (four) cls4 = use === 'full' ? 5 : use === 'part' ? 4 : 3;
   else if (use === 'full') { cls4 = 2; note = 'Хороший 3-стат: роллить можно, но после артефактов с 4 статами.'; }
-  else { cls4 = use === 'part' ? 1 : 0.5; why = critChar ? (use === 'part' ? '3 стата, не вся польза' : '3 стата без пользы') : '3 стата'; }
+  else { cls4 = use === 'part' ? 1 : 0.5; why = critChar ? (use === 'part' ? '3 стата, не фулл польза' : '3 стата без пользы') : '3 стата'; }
   let [cls, text] = why ? ['', 'Не стоит'] : VERDICT(r.perDust);
   if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', 'Можно'];
   if (text === 'Не стоит') note = '';
@@ -1394,9 +1423,14 @@ function akashaBlock(c){
   const fmt = n => Number(n).toLocaleString('ru-RU');
   const topS = x => x.top < 1 ? x.top.toFixed(1).replace('.', ',') : Math.round(x.top);
   const [b, ...rest] = list;
-  return `<div class="akbox"><a class="akbig" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener">
-      <small>Акаша ↗</small><b>топ ${topS(b)}%</b><span>${esc(b.name)}${b.variant ? ' · ' + esc(b.variant) : ''}</span><small>${fmt(b.rank)} из ${fmt(b.of)}</small></a>
-    ${rest.length ? `<details class="akmore"><summary>ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary>${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>топ ${topS(x)}%</b> ${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</a>`).join('')}</details>` : ''}</div>`;
+  const tier = x => x.top <= 1 ? 't1' : x.top <= 5 ? 't5' : x.top <= 20 ? 't20' : '';
+  return `<div class="akbox"><a class="akcard ${tier(b)}" href="https://akasha.cv/leaderboards/${esc(b.id)}" target="_blank" rel="noopener" title="Открыть лидерборд на akasha.cv">
+      <span class="akh"><span class="akmark" aria-hidden="true"></span>Akasha<span class="akgo" aria-hidden="true">↗</span></span>
+      <span class="akrank"><small>Top</small><b>${topS(b)}%</b></span>
+      <span class="akname">${esc(b.name)}${b.variant ? ' · ' + esc(b.variant) : ''}</span>
+      <span class="akbar" aria-hidden="true"><i style="width:${Math.max(2, 100 - b.top).toFixed(1)}%"></i></span>
+      <span class="akpos">${fmt(b.rank)} / ${fmt(b.of)}</span></a>
+    ${rest.length ? `<details class="akmore"><summary>Ещё ${rest.length} ${rest.length === 1 ? 'лидерборд' : rest.length < 5 ? 'лидерборда' : 'лидербордов'}</summary><div class="aklist">${rest.map(x => `<a href="https://akasha.cv/leaderboards/${esc(x.id)}" target="_blank" rel="noopener"><b>Top ${topS(x)}%</b><span>${esc(x.name)}${x.variant ? ' · ' + esc(x.variant) : ''}</span></a>`).join('')}</div></details>` : ''}</div>`;
 }
 
 // ---------- render: reshape by UID ----------
@@ -1410,13 +1444,36 @@ function buildScore(c, w){
   }
   return {got, max, share: max ? got / max : 0, items};
 }
-// rough scale: the ideal (9 useful rolls on every piece) never happens, strong real builds sit around 55-65%
-const GRADE = s => s >= 0.65 ? 'топ-уровень' : s >= 0.55 ? 'сильная' : s >= 0.45 ? 'средняя' : 'слабая';
+// the ideal (9 useful rolls on every piece) never happens: 75% is already a top build, so the words follow real builds, not the ideal
+const GRADES = [[0.75, 'отлично', 'g5'], [0.65, 'очень хорошо', 'g4'], [0.55, 'хорошо', 'g3'], [0.45, 'средне', 'g2'], [0, 'слабо', 'g1']];
+const GRADE = s => GRADES.find(([t]) => s >= t);
+// scale 30..85%: below and above that there is nothing new to read
+const gradeScale = s => { const pos = x => Math.max(0, Math.min(100, (x - 0.3) / 0.55 * 100));
+  return `<span class="gscale" aria-hidden="true">${[0.45, 0.55, 0.65, 0.75].map(t => `<i style="left:${pos(t)}%"></i>`).join('')}<u style="left:${pos(s)}%"></u></span>`; };
 // Akasha's own per-artifact RV classes
 // own scale: RV as a share of the best possible artifact (4 counted stats, all 5 upgrades into them = 900%)
 const pctOf = x => x.mx ? Math.round(x.u / x.mx * 100) : 0;
 const qTxt = x => `RV ${Math.round(x.u*100)}%`;
 
+// character stats: from UID the final in-game numbers (the same Akasha shows, both come from Enka);
+// from the GO base only what the five artifacts give, since the base has no level curves of characters and weapons
+const STAT_ORDER = ['HP', 'HP%', 'Атака', 'Атака%', 'Защита', 'Защита%', 'МС', 'Крит. шанс', 'Крит. урон', 'ВЭ'];
+function artTotals(c){
+  const tot = {};
+  const add = (k, v) => { const p = PROP[k]; if (!p || !(+v)) return; const n = p[0] + (p[1] && FLATPCT.has(p[0]) ? '%' : ''); (tot[n] ||= {n, v: 0, p: p[1]}).v += +v; };
+  (c.arts || []).forEach(a => { const mk = a.main?.k; let mv = a.main?.v;
+    if (mv == null && MAIN5[mk]) { const [lo, hi] = MAIN5[mk]; mv = lo + (hi - lo) * Math.min(20, a.level ?? 20) / 20; }
+    add(mk, mv); (a.subs || []).forEach(x => add(x.k, x.v)); });
+  const rank = n => { const i = STAT_ORDER.indexOf(n); return i < 0 ? 99 : i; };
+  return Object.values(tot).sort((a, b) => rank(a.n) - rank(b.n)).map(x => [x.n, x.p ? x.v.toFixed(1) + '%' : Math.round(x.v).toLocaleString('ru-RU')]);
+}
+function statsStrip(c){
+  const game = state.mode === 'uid' && c.stats?.length, list = game ? c.stats : artTotals(c);
+  if (!list.length) return '';
+  const crit = new Set(['Крит. шанс', 'Крит. урон']);
+  return `<section class="card cstats"><div class="csh"><h3>${game ? 'Характеристики' : 'Статы с артефактов'}</h3><span class="sub">${game ? 'итоговые, как в игре и в Akasha' : 'сумма основных и саб статов пяти артефактов; итоговые статы видны по UID'}</span></div>
+    <div class="csg">${list.map(([n, v]) => `<div class="cs${crit.has(n) ? ' cr' : ''}"><small>${esc(n)}</small><b>${esc(String(v))}</b></div>`).join('')}</div></section>`;
+}
 function renderAccount(){
   // no UID profile but the base has data: show the base instead of the empty start screen
   if (state.mode === 'uid' && !state.profile && state.go?.chars?.length) { state.mode = 'go'; store.set('mode', 'go'); }
@@ -1434,23 +1491,23 @@ function renderAccount(){
 
   // per character: the best feather in the build and the quality, used for sorting and the "best rerolls" panel
   const all = [], stat = {};
-  p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let bestPd = -1, bestGain = 0;
-    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); if (j.ok && r.perDust > bestPd) { bestPd = r.perDust; bestGain = r.eGain; } });
-    stat[c.key] = {share: bs.max ? bs.share : 0, bestPd, bestGain}; });
+  // a character ranks by its best piece, ordered exactly like the "best rerolls" list (feather class first, then gain per feather)
+  p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let best = null;
+    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); if (j.ok && (!best || j.key > best.j.key)) best = {j, r}; });
+    stat[c.key] = {share: bs.max ? bs.share : 0, bestKey: best ? best.j.key : -1, bestPd: best ? best.r.perDust : -1, bestGain: best ? best.r.eGain : 0}; });
   all.sort((x, y) => y.j.key - x.j.key);
-  const top = all.filter(t => t.j.ok && t.r.perDust >= 0.25).slice(0, 8);
+  const top = all.filter(t => t.j.ok && t.r.perDust >= 0.25).slice(0, 12);
   const ak = state.mode + ':' + (p.uid || p.total || '') + ':' + p.chars.length, freshAcc = state.lastAcct !== ak; state.lastAcct = ak;
   if (!state.sel || freshAcc && !p.chars.some(c => c.key === state.sel)) state.panel = 'chars';
   const cur = p.chars.find(c => c.key === state.sel);
-  const SORTS = [['roll', 'выгода реролла'], ['q', 'качество'], ['name', 'имя']];
-  const sorted = [...p.chars].sort(state.csort === 'q' ? (x, y) => stat[y.key].share - stat[x.key].share
-    : state.csort === 'name' ? (x, y) => charInfo(x.key).ru.localeCompare(charInfo(y.key).ru, 'ru')
-    : (x, y) => stat[y.key].bestPd - stat[x.key].bestPd);
+  const SORTS = [['roll', 'выгода реролла'], ['name', 'имя']];
+  const sorted = [...p.chars].sort(state.csort === 'name' ? (x, y) => charInfo(x.key).ru.localeCompare(charInfo(y.key).ru, 'ru')
+    : (x, y) => stat[y.key].bestKey - stat[x.key].bestKey);
   const els = EL_ORDER.filter(e => p.chars.some(c => charInfo(c.key).el === e));
   if (state.el !== 'all' && !els.includes(state.el)) state.el = 'all';
   const card = (c, n) => { const i = charInfo(c.key), st = stat[c.key], [vc] = st.bestPd >= 0 ? VERDICT(st.bestPd) : [''];
     return `<button type="button" class="pc" aria-pressed="${c.key === state.sel}" data-key="${esc(c.key)}" style="--el:var(--${i.el});--i:${n}">
-      ${face(c.key, 'sm')}<span class="pcn"><b>${esc(i.ru)}</b><small>C${c.cons} · качество ${Math.round(st.share * 100)}%</small></span>
+      ${face(c.key, 'sm')}<span class="pcn"><b>${esc(i.ru)}</b><small>C${c.cons}</small></span>
       <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestGain)}<small>прирост</small>` : '<small>нечего<br>роллить</small>'}</span></button>`; };
   const charsPanel = `<div class="drawer" id="drawer-chars">
       <div class="dtools"><div class="seg sm">${SORTS.map(([k, t]) => `<button type="button" data-sort="${k}" aria-pressed="${(state.csort || 'roll') === k}">${t}</button>`).join('')}</div>
@@ -1534,7 +1591,7 @@ function renderSheet(){
   const order = [...rows].sort((a, b) => b.rank - a.rank);
   const best = order[0]?.r && !order[0].why ? order[0] : null;
   const table = `<div class="card pieces" style="--i:2"><h3>Какие артефакты роллить</h3>
-    <p class="sub" style="margin:0 0 6px">Сверху то, во что выгоднее всего вложить перо. Как это считается, написано в разделе <button type="button" class="alt-link" data-tab="about">«Как считается»</button>.</p>
+    <p class="sub" style="margin:0 0 6px">Чем выше артефакт в этом списке, тем выгоднее вложить в него перо. Как это считается, написано в разделе <button type="button" class="alt-link" data-tab="about">«Как считается»</button>.</p>
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
       <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small>${y.r && !y.why ? `<small class="ppair">пара: <b>${esc(pairName(y.x.m, w, y.r.pair))}</b></small>` : ''}</span>
@@ -1558,8 +1615,9 @@ function renderSheet(){
         <div style="min-width:0"><h2>${esc(i.ru)}</h2><div class="sub">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}</div>
         ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
       <div class="hstats">${akashaBlock(c)}
-        <div class="hq" title="RV артефактов от лучшего возможного: все 4 саб стата полезные и все улучшения ушли в них"><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100) + '%' : '—'}</b><span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}%` : 'нет артефактов'}</span></div></div>
+        <div class="hq" title="RV артефактов от недостижимого идеала: все 4 саб стата полезные и все улучшения ушли в них. 75% и выше уже уровень лучших сборок."><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100) + '%' : '—'}</b>${bs.max ? `<em class="grade ${GRADE(bs.share)[2]}">${GRADE(bs.share)[1]}</em>${gradeScale(bs.share)}` : ''}<span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}%` : 'нет артефактов'}</span><button type="button" class="alt-link hqhow" data-tab="about">что это значит</button></div></div>
     </section>
+    ${statsStrip(c)}
     ${table}
     <details class="card wbox"><summary><span>RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
     ${cards ? `<h2 class="sec">Подробно по каждому</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов.</p>'}`;
@@ -1959,8 +2017,8 @@ function morphEl(a, b){
   if (a.tagName === 'SELECT' && document.activeElement !== a && a.value !== b.value) a.value = b.value;
 }
 
-// substats with their rolls and RV, like the GO card: RV counts all substats (the same number GO shows);
-// stats useful for the character wearing the piece are highlighted, with their own RV underneath
+// substats with their rolls and RV of each line; the piece's RV counts only stats useful for the character wearing it
+// (an unequipped piece has nobody to judge by, so all its substats count, the same number GO shows)
 function subsRv(a){
   const subs = (a.substats || []).filter(s => s.key && s.value && KEY_OF[s.key]);
   const chk = checkArt({setKey: a.setKey, mainStatKey: a.mainStatKey, level: a.level ?? 0, substats: subs.map(s => ({key: s.key, value: String(s.value)}))});
@@ -1972,7 +2030,8 @@ function subsRv(a){
     const rr = (r.fit || r.opts)[0], rv = exactSum(k, r.v, rr) / MAXV(k) * 100;
     tot += rv; if (good) use += rv;
     return `<li class="${good ? 'use' : ''}"><span>${esc(SUB[k].n)}</span><b>${esc(fmtSub(k, s.value))}</b><i class="rbar" title="${rr} ${rollWord(rr)}">${'<u></u>'.repeat(rr)}</i><em>${Math.round(rv)}%</em></li>`; }).join('');
-  return `<ul class="dsubs rv">${li}</ul><div class="drv">${ok ? `<span class="rvp" title="Сумма RV всех саб статов, как «Текущая ценность ролла» в GO">RV ${Math.round(tot)}%</span>` : '<span class="rvp bad">RV не считается: есть странные значения</span>'}${ok && w ? `<span class="rvu" title="Только статы, полезные для ${esc(charInfo(a.location).ru)}">польза ${Math.round(use)}%</span>` : ''}</div>`;
+  const rv = w ? use : tot, who = w ? esc(charInfo(a.location).ru) : '';
+  return `<ul class="dsubs rv">${li}</ul><div class="drv">${ok ? `<span class="rvp" title="${w ? `Только статы, полезные для ${who}` : 'Артефакт не надет, поэтому считаются все саб статы'}">RV ${Math.round(rv)}%</span>` : '<span class="rvp bad">RV не считается: есть странные значения</span>'}</div>`;
 }
 function artCardDb(a, i, n){
   const setName = DATA.sets[a.setKey]?.[1] || splitCamel(a.setKey || '');
@@ -2294,7 +2353,7 @@ function configCard(cfg, mine){
       <div><h3>Ротация · ${esc(cfg.source)}</h3><div class="rot">${esc(cfg.rotation)}</div></div>
       ${notes ? `<div><h3>Обрати внимание</h3><ul class="notes">${notes}</ul></div>` : ''}
       <div><h3>Что и сколько раз попадает за ротацию</h3>
-        <p class="sub cfghelp">Оптимизатор складывает урон всех строк с этими числами и подбирает артефакты под самый большой итог. Строка реакции считается иначе: число срабатываний умножено на долю персонажа в реакции.</p>
+        <p class="sub cfghelp">Оптимайзер складывает урон всех строк с этими числами и подбирает артефакты под самый большой итог. Строка реакции считается иначе: число срабатываний умножено на долю персонажа в реакции.</p>
         ${editing ? `<div class="cfgwarn" role="alert"><b>Ты меняешь конфиг.</b> Изменения хранятся только в этом браузере и попадут в скопированный JSON. Конфиг после правок может начать считать неправильно: проверяй результат в GO.</div>` : ''}
         <div class="scroll"><table class="hits">${rows}</table></div></div>
       <div class="actions">
@@ -2503,7 +2562,7 @@ function openSumFile(f){
 }
 // group of a summary row (the feather order): 4 stats with full / partial / no use, then good 3-stat pieces
 const SGROUP = (cls4, crit) => { const c = crit ? ' · два крита' : '';
-  return {5: `4 стата${c} · вся польза`, 4: `4 стата${c} · часть пользы`, 3: `4 стата${c} · без пользы`, 2: `3 стата${c} · вся польза`}[cls4] || 'Остальное'; };
+  return {5: `4 стата${c} · фулл польза`, 4: `4 стата${c} · часть пользы`, 3: `4 стата${c} · без пользы`, 2: `3 стата${c} · фулл польза`}[cls4] || 'Остальное'; };
 const GNAME = {2: 'Обычная реконструкция', 3: 'Высшая реконструкция', 4: 'Объявленная реконструкция'};
 function sumCard(s){
   const date = new Date(s.d).toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
