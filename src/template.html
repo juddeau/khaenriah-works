@@ -160,6 +160,54 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .aklist{display:grid;gap:4px;margin-top:8px;padding:8px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line)}
 .aklist a{display:flex;gap:10px;align-items:baseline;color:var(--fg);text-decoration:none;padding:4px 6px;border-radius:8px}.aklist a:hover{background:color-mix(in srgb,var(--accent) 10%,transparent)}.aklist a b{color:var(--gold);font-family:var(--f-mono);white-space:nowrap}.aklist a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:600px){.akcard{max-width:none}}
+.cfgsp{flex:1}
+.cfgbar .cfbtn{width:auto;flex:none}.cfgbar .cfbtn.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--panel-2))}.cfbtn .allc svg{width:13px;height:13px;fill:currentColor}.cfel{display:inline-flex;flex:none}.cfel .elic{width:18px;height:18px}
+.pill.mine{color:var(--purple);border-color:color-mix(in srgb,var(--purple) 50%,transparent)}
+.btn.danger{color:var(--bad)}.btn.danger:hover{border-color:var(--bad)}
+.lib{gap:10px}
+.cgrp{border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden;animation:rise .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 40ms);transition:border-color .2s}
+.cgrp.open{border-color:color-mix(in srgb,var(--el) 45%,var(--line))}
+.cgh{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px;border:0;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 12%,transparent),transparent 55%);color:var(--fg);cursor:pointer;text-align:left;font:inherit}
+.cgh:hover{background:linear-gradient(90deg,color-mix(in srgb,var(--el) 20%,transparent),transparent 60%)}
+.cgt{flex:1;min-width:0;display:grid}.cgt b{font-size:16px}.cgt small{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cgc{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--panel-2);border:1px solid var(--line);color:var(--muted);transition:transform .3s cubic-bezier(.2,.7,.2,1),color .2s}
+.cgc svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cgrp.open .cgc{transform:rotate(180deg);color:var(--fg)}
+.cgb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.2,1)}.cgrp.open .cgb{grid-template-rows:1fr}
+.cgi{overflow:hidden;min-height:0;display:grid;gap:12px;visibility:hidden;transition:visibility 0s .35s}.cgrp.open .cgi{visibility:visible;transition:none}.cgrp.open .cgi{padding:4px 12px 12px}
+@media (prefers-reduced-motion:reduce){.cgb,.cgc{transition:none}}
+.cffbox{width:min(560px,100%);grid-template-rows:auto minmax(0,1fr) auto}
+.cffbody{display:grid;gap:14px;overflow:auto;padding:2px}
+.cffs{display:grid;gap:6px}.cffs > span{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.cffel{margin:0}.elbtn.big{position:relative;width:46px;height:46px}.elbtn.big .elic{width:24px;height:24px}.elbtn.big small{position:absolute;top:-6px;right:-6px;min-width:18px;padding:0 5px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font:600 10.5px var(--f-mono);color:var(--muted)}
+.cffl{display:grid;gap:8px;padding:10px 12px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line)}.cffn{font-size:13px;color:var(--muted)}.cffn b{color:var(--fg)}
+.cffch{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.cffa{display:inline-flex;animation:rise .3s both}
+.pkm.ced{z-index:55}
+.ced .cedbox{width:min(980px,100%);max-height:min(92vh,1000px);grid-template-rows:auto minmax(0,1fr) auto}
+.cedbody{overflow:auto;display:grid;gap:16px;padding:2px 4px 2px 2px;align-content:start}
+.cedwarn{padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.5;border:1.5px solid color-mix(in srgb,var(--warn) 70%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--warn) 22%,var(--panel)),color-mix(in srgb,var(--bad) 10%,var(--panel)));box-shadow:0 0 0 4px color-mix(in srgb,var(--warn) 10%,transparent)}
+.cedwarn b{display:block;font-size:16px;color:var(--warn);margin-bottom:2px}
+.cedsec{display:grid;gap:10px;padding:14px;border-radius:14px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 40%,var(--panel))}
+.cedsec h4{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.cedg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.cedf{display:grid;gap:5px;min-width:0}.cedf > span{font-size:12.5px;color:var(--muted)}.cedf.wide{grid-column:1/-1}.cedf .ownbtn{width:100%}.cedf textarea{resize:vertical;min-height:60px}
+.seg.cons{flex-wrap:wrap}
+.cedhint{margin:0;font-size:12.5px}
+.cedteam{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.cedtm{display:flex;gap:6px;align-items:center}.cedtm .ownbtn{flex:1}.cedtm select{width:74px;flex:none}
+.cedadd{border-style:dashed;color:var(--muted)}
+.cedrows{display:grid;gap:10px}
+.cedr{display:grid;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);animation:rise .3s both}
+.cedrh{display:flex;gap:8px;align-items:center}.cedrh .inp{flex:1;min-width:0}.cedn{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:600 12px var(--f-mono);background:var(--panel-2);color:var(--muted)}
+.cedra{display:flex;gap:4px;flex:none}.cedra .ib{width:30px;height:30px}
+.cedrg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}.cedrg label{display:grid;gap:4px;min-width:0}.cedrg label > span{font-size:12px;color:var(--muted)}
+.cedrg.adv{padding-top:4px;border-top:1px dashed var(--line);grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.cedrx{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted)}.cedrx .inp{width:120px}.cedrx select.inp{width:auto}
+.cedadv{justify-self:start;font-size:12.5px}
+.cedbs{grid-column:1/-1;display:grid;gap:6px}.cedbs > span{font-size:12px;color:var(--muted)}.cedbsr{display:flex;gap:6px}.cedbsr .inp{flex:1;min-width:0}.cedbs .btn{justify-self:start}
+.cedaddr{margin-top:2px}
+.cedft{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:10px;border-top:1px solid var(--line)}
+@media (max-width:600px){.cedrh{flex-wrap:wrap}.cedrh .inp{flex:1 1 calc(100% - 40px)}.cedra{margin-left:auto}.ced .cedbox{max-height:94vh}.cedft .cfgsp{display:none}.cedft .btn{flex:1 1 40%}}
 /* library */
 .cfgbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%}.cfgbar .inp{flex:1 1 220px;width:auto}.cfgbar .elbar{margin:0}
 .filters{flex-direction:column;align-items:stretch;gap:10px}
@@ -2317,125 +2365,361 @@ function hl(json){
   return esc(json).replace(/(&quot;[^&]*?&quot;)(\s*:)?|(-?\d+\.?\d*)/g, (m,s,colon,num) => s ? `<span class="${colon?'jk':'js'}">${s}</span>${colon||''}` : `<span class="jn">${num}</span>`);
 }
 // ---------- configs: picked by the characters and constellations you loaded (UID or the GO base, never mixed) ----------
-// a player's own edits of the hit counts live only in this browser ('cfgw:'+id); the copied JSON carries them
-const cfgEdits = id => { try { const v = JSON.parse(store.get('cfgw:' + id) || 'null'); return Array.isArray(v) ? v : null; } catch { return null; } };
-function cfgJson(cfg){
-  const j = JSON.parse(FILES[cfg.file]), ed = cfgEdits(cfg.id);
-  if (ed) j.targets.forEach((t, n) => { if (typeof ed[n] === 'number' && ed[n] >= 0) t.weight = ed[n]; });
-  return j;
+// A config here is a "draft": the site's notes (character, constellation, team, rotation...) plus rows (the GO targets).
+// Built-in configs come from configs/*.json; a player's edit of one is kept as 'cfgo:'+id, own configs as 'mycfgs'.
+// Everything lives only in this browser; GO gets a plain {name, targets} JSON.
+const CFG_CATS = [['normal', 'Обычная атака'], ['charged', 'Заряженная атака'], ['plunging', 'Атака в падении'], ['skill', 'Навык (E)'], ['burst', 'Взрыв стихии (Q)'],
+  ['passive1', 'Пассивка 1 (A1)'], ['passive2', 'Пассивка 2 (A4)'], ['passive3', 'Пассивка 3'], ['lockedPassive', 'Особая пассивка'],
+  ...[1, 2, 3, 4, 5, 6].map(n => ['constellation' + n, 'Созвездие ' + n]), ['reaction', 'Реакция'], ['other', 'Другое: союзник или свой ключ']];
+const CAT_RU = Object.fromEntries(CFG_CATS);
+const HITMODES = [['avgHit', 'Средний (с учётом шанса крита)'], ['hit', 'Без крита'], ['critHit', 'Всегда крит']];
+const AMPS = [['', 'Нет'], ['vaporize', 'Пар'], ['melt', 'Таяние'], ['spread', 'Разрастание'], ['aggravate', 'Обострение']];
+const BONUS_KEYS = ['atk_', 'atk', 'hp_', 'hp', 'def_', 'def', 'eleMas', 'critRate_', 'critDMG_', 'enerRech_', 'dmg_', 'all_dmg_', 'normal_dmg_', 'charged_dmg_', 'skill_dmg_', 'burst_dmg_', 'heal_'];
+const CFG_ROLE = d => /Главный/i.test(d.role) ? 'dd' : 'sup';
+const deep = o => JSON.parse(JSON.stringify(o));
+const num2 = v => { const x = Number(String(v).replace(',', '.').trim()); return String(v).trim() !== '' && isFinite(x) ? x : NaN; };
+const myCfgs = () => { try { const v = JSON.parse(store.get('mycfgs') || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
+const saveMyCfgs = list => store.set('mycfgs', JSON.stringify(list));
+function draftFromBuiltin(c){
+  const j = JSON.parse(FILES[c.file]), ru = CFG_RU[c.id] || [];
+  const d = {id: c.id, char: c.char, cons: c.cons, weapon: c.weapon || '', reaction: c.reaction, role: c.role, team: c.team.map(x => [...x]), rotation: c.rotation,
+    source: c.source, warnings: [...c.warnings], estimates: [...c.estimates], name: j.name,
+    rows: j.targets.map((t, n) => ({label: ru[n] || t.description || '', path: [...t.path], weight: t.weight, hitMode: t.hitMode || 'avgHit', reaction: t.reaction || '', bonusStats: {...(t.bonusStats || {})}, desc: t.description || ''}))};
+  // the first version of editing kept only the numbers ('cfgw:'+id)
+  let w = null; try { w = JSON.parse(store.get('cfgw:' + c.id) || 'null'); } catch {}
+  if (Array.isArray(w)) { d.rows.forEach((r, n) => { if (typeof w[n] === 'number') r.weight = w[n]; }); d.edited = true; }
+  return d;
 }
-const cfgText = cfg => cfgEdits(cfg.id) ? JSON.stringify(cfgJson(cfg), null, 1).replace(/\n {2,}/g, ' ').replace(/\n \}/g, ' }') : FILES[cfg.file].trim();
-const CFG_ROLE = c => /Главный/.test(c.role) ? 'dd' : 'sup';
-const isReactRow = t => t.path[0] === 'reaction';
-function configCard(cfg, mine){
-  const i = charInfo(cfg.char), j = cfgJson(cfg), orig = JSON.parse(FILES[cfg.file]), ed = cfgEdits(cfg.id), editing = state.cfgEdit === cfg.id;
-  const max = Math.max(...j.targets.map(t => t.weight), 0.001), ru = CFG_RU[cfg.id] || [];
-  const rows = j.targets.map((t, n) => {
-    const changed = ed && t.weight !== orig.targets[n].weight, react = isReactRow(t);
-    const val = editing ? `<input class="inp mono cfgw${changed ? ' chg' : ''}" data-cw="${cfg.id}" data-n="${n}" inputmode="decimal" value="${+t.weight.toFixed(3)}" aria-label="Сколько раз за ротацию">`
-      : `<b>${+t.weight.toFixed(3)}</b>`;
-    return `<tr class="${changed ? 'chg' : ''}"><td class="d"><span class="hn">${esc(ru[n] || t.description || t.path.join(' · '))}</span>${react ? '<span class="pill">вес реакции</span>' : ''}${Object.keys(t.bonusStats || {}).length ? '<span class="pill warn">бонус в строке</span>' : ''}
-      <small class="hp">${esc(t.path.join(' · '))}</small></td>
-      <td class="w"><div class="bar"><span class="${react ? 're' : ''}" style="width:${Math.max(2, t.weight / max * 100).toFixed(1)}%"></span>${val}</div></td></tr>`;
-  }).join('');
-  const team = cfg.team.map(([k, cn]) => { const ci = charInfo(k); return `<span class="mate" style="--el:var(--${ci.el})">${face(k, 'xs')}${esc(ci.ru)} <small>C${cn}</small></span>`; }).join('');
-  const notes = [...cfg.warnings.map(w => `<li class="w">${esc(w)}</li>`), ...cfg.estimates.map(e => `<li class="e">${esc(e)}</li>`)].join('');
-  const open = state.open[cfg.id];
-  const fit = mine == null ? '' : mine === cfg.cons ? `<span class="pill ok">под твои C${mine}</span>` : `<span class="pill warn">собран на C${cfg.cons}, у тебя C${mine}</span>`;
+function cfgAll(){
+  const out = CONFIGS.map(c => { let o = null; try { o = JSON.parse(store.get('cfgo:' + c.id) || 'null'); } catch {}
+    return o && Array.isArray(o.rows) ? {...o, id: c.id, builtin: true, edited: true} : {...draftFromBuiltin(c), builtin: true}; });
+  return out.concat(myCfgs().filter(d => d && d.id && Array.isArray(d.rows)).map(d => ({...d, custom: true})));
+}
+const cfgById = id => cfgAll().find(d => d.id === id);
+const pristine = d => d.builtin && !d.edited;
+function cfgGo(d){
+  if (pristine(d)) return JSON.parse(FILES[CONFIGS.find(c => c.id === d.id).file]);
+  return {name: d.name, targets: d.rows.map(r => ({weight: r.weight, path: r.path, hitMode: r.hitMode || 'avgHit', ...(r.reaction ? {reaction: r.reaction} : {}), bonusStats: r.bonusStats || {}, description: r.label || r.desc || ''}))};
+}
+// same one-target-per-line layout as the files in the repo
+const goText = j => `{"name":${JSON.stringify(j.name)},"targets":[\n${j.targets.map(t => JSON.stringify(t)).join(',\n')}\n]}`;
+const cfgText = d => pristine(d) ? FILES[CONFIGS.find(c => c.id === d.id).file].trim() : goText(cfgGo(d));
+const slug = s => String(s || 'config').replace(/[^\wа-яё-]+/gi, '_').replace(/^_+|_+$/g, '').slice(0, 60) || 'config';
+function saveFile(name, text){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type: 'application/json'})); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+
+function configCard(d, mine){
+  const i = charInfo(d.char), max = Math.max(...d.rows.map(r => r.weight), 0.001);
+  const rows = d.rows.map(r => { const react = r.path[0] === 'reaction';
+    return `<tr><td class="d"><span class="hn">${esc(r.label || r.desc || r.path.join(' · '))}</span>${react ? '<span class="pill">вес реакции</span>' : ''}${r.reaction ? `<span class="pill">${esc((AMPS.find(a => a[0] === r.reaction) || [, r.reaction])[1])}</span>` : ''}${Object.keys(r.bonusStats || {}).length ? '<span class="pill warn">бонус в строке</span>' : ''}${r.hitMode && r.hitMode !== 'avgHit' ? `<span class="pill">${r.hitMode === 'critHit' ? 'всегда крит' : 'без крита'}</span>` : ''}
+      <small class="hp">${esc(r.path.join(' · '))}</small></td>
+      <td class="w"><div class="bar"><span class="${react ? 're' : ''}" style="width:${Math.max(2, r.weight / max * 100).toFixed(1)}%"></span><b>${+(+r.weight).toFixed(3)}</b></div></td></tr>`; }).join('');
+  const team = (d.team || []).map(([k, cn]) => { const ci = charInfo(k); return `<span class="mate" style="--el:var(--${ci.el})">${face(k, 'xs')}${esc(ci.ru)} <small>C${cn}</small></span>`; }).join('');
+  const notes = [...(d.warnings || []).map(w => `<li class="w">${esc(w)}</li>`), ...(d.estimates || []).map(e => `<li class="e">${esc(e)}</li>`)].join('');
+  const open = state.open[d.id];
+  const fit = mine == null ? '' : mine === d.cons ? `<span class="pill ok">под твои C${mine}</span>` : `<span class="pill warn">собран на C${d.cons}, у тебя C${mine}</span>`;
   return `<article class="config" style="--el:var(--${i.el})">
     <header>
-      <div class="ttl"><div style="min-width:0"><h4>${esc(i.ru)} · ${esc(cfg.reaction)}</h4><div class="nm">${esc(j.name)}</div></div>
-        <div class="row">${fit}<span class="pill">C${cfg.cons}${cfg.weapon ? ` · ${esc(cfg.weapon)}` : ''}</span>${ed ? '<span class="pill warn">изменён</span>' : ''}</div></div>
-      <div class="sub">${esc(cfg.role)}</div>
+      <div class="ttl"><div style="min-width:0"><h4>${esc(i.ru)} · ${esc(d.reaction || 'без реакции')}</h4><div class="nm">${esc(d.name)}</div></div>
+        <div class="row">${fit}<span class="pill">C${d.cons}${d.weapon ? ` · ${esc(d.weapon)}` : ''}</span>${d.custom ? '<span class="pill mine">мой</span>' : d.edited ? '<span class="pill warn">изменён тобой</span>' : ''}</div></div>
+      ${d.role ? `<div class="sub">${esc(d.role)}</div>` : ''}
     </header>
     <div class="body">
-      <div><h3>Отряд</h3><div class="team">${face(cfg.char, 'xs')}<span style="margin-right:4px">+</span>${team}</div></div>
-      <div><h3>Ротация · ${esc(cfg.source)}</h3><div class="rot">${esc(cfg.rotation)}</div></div>
+      ${team ? `<div><h3>Отряд</h3><div class="team">${face(d.char, 'xs')}<span style="margin-right:4px">+</span>${team}</div></div>` : ''}
+      ${d.rotation ? `<div><h3>Ротация${d.source ? ' · ' + esc(d.source) : ''}</h3><div class="rot">${esc(d.rotation)}</div></div>` : ''}
       ${notes ? `<div><h3>Обрати внимание</h3><ul class="notes">${notes}</ul></div>` : ''}
       <div><h3>Что и сколько раз попадает за ротацию</h3>
         <p class="sub cfghelp">Оптимайзер складывает урон всех строк с этими числами и подбирает артефакты под самый большой итог. Строка реакции считается иначе: число срабатываний умножено на долю персонажа в реакции.</p>
-        ${editing ? `<div class="cfgwarn" role="alert"><b>Ты меняешь конфиг.</b> Изменения хранятся только в этом браузере и попадут в скопированный JSON. Конфиг после правок может начать считать неправильно: проверяй результат в GO.</div>` : ''}
         <div class="scroll"><table class="hits">${rows}</table></div></div>
       <div class="actions">
-        <button class="btn small" data-copy="${cfg.id}" type="button">Копировать JSON</button>
-        <button class="btn ghost small" data-toggle="${cfg.id}" type="button">${open ? 'Скрыть JSON' : 'Показать JSON'}</button>
-        <button class="btn ghost small" data-cedit="${cfg.id}" type="button">${editing ? 'Готово' : 'Изменить числа'}</button>
-        ${ed ? `<button class="btn ghost small" data-creset="${cfg.id}" type="button">Вернуть как было</button>` : ''}
-        <span class="toast" id="toast-${cfg.id}" aria-live="polite"></span>
+        <button class="btn small" data-copy="${esc(d.id)}" type="button">Копировать JSON</button>
+        <button class="btn ghost small" data-toggle="${esc(d.id)}" type="button">${open ? 'Скрыть JSON' : 'Показать JSON'}</button>
+        <button class="btn ghost small" data-cdl="${esc(d.id)}" type="button">Скачать</button>
+        <button class="btn ghost small" data-cedit="${esc(d.id)}" type="button">Изменить</button>
+        ${d.edited ? `<button class="btn ghost small" data-creset="${esc(d.id)}" type="button">Вернуть исходный</button>` : ''}
+        ${d.custom ? `<button class="btn ghost small danger" data-cdel="${esc(d.id)}" type="button">Удалить</button>` : ''}
+        <span class="toast" id="toast-${esc(d.id)}" aria-live="polite"></span>
       </div>
-      ${open ? `<pre class="json" id="pre-${cfg.id}">${hl(cfgText(cfg))}</pre>` : ''}
+      ${open ? `<pre class="json" id="pre-${esc(d.id)}">${hl(cfgText(d))}</pre>` : ''}
     </div>
   </article>`;
 }
 
 // ---------- library ----------
-const TAGS = [['all','Все реакции'],['lunarcharged','Лунный заряд'],['lunarcrystallize','Лунная кристаллизация'],['stellarconduct','Звёздный проводник'],['swirl','Рассеивание'],['freeze','Заморозка']];
-const ROLES = [['all', 'Любая роль'], ['dd', 'Главный ДД'], ['sup', 'Саппорт']];
 function cfgState(){
   const src = {uid: state.profile, go: state.go};
   let s = state.cfgSrc;
   if (!src[s]) s = src[state.mode] ? state.mode : src.uid ? 'uid' : src.go ? 'go' : null;
   state.cfgSrc = s;
-  const P = s ? src[s] : null, F = state.cfgF ||= {tag: 'all', el: 'all', role: 'all', q: '', all: false};
+  const P = s ? src[s] : null, F = state.cfgF ||= {q: '', el: 'all', sort: 'name', all: false};
   const mine = (P?.roster || P?.chars || []).map(c => ({key: c.key, cons: c.cons ?? 0}));
-  const pairs = []; mine.forEach(c => CONFIGS.filter(x => x.char === c.key).forEach(x => pairs.push({c, x, exact: x.cons === c.cons})));
-  return {src, s, P, F, mine, pairs};
+  const all = cfgAll(), have = new Set(mine.map(c => c.key));
+  const pairs = [];
+  mine.forEach(c => all.filter(x => x.char === c.key).forEach(x => pairs.push({c, x, exact: x.cons === c.cons})));
+  // own configs always show, even for someone not in the loaded data
+  all.filter(x => x.custom && !have.has(x.char)).forEach(x => pairs.push({c: {key: x.char, cons: null}, x, exact: true}));
+  return {src, s, P, F, mine, pairs, all};
 }
+const cfgPass = (p, F, withEl = true) => (F.all || p.exact) && (!withEl || F.el === 'all' || charInfo(p.c.key).el === F.el)
+  && (!F.q.trim() || `${charInfo(p.c.key).ru} ${charInfo(p.c.key).en} ${p.c.key}`.toLowerCase().includes(F.q.trim().toLowerCase()));
 function renderLib(){
   const {src, s, P, F, mine, pairs} = cfgState();
-  if (!P) {
-    $('#libsum').textContent = 'Здесь появятся конфиги под твоих персонажей и их созвездия.';
-    $('#filters').innerHTML = '';
-    $('#lib').innerHTML = `<div class="card start"><h3>Сначала загрузи персонажей</h3><p class="sub">Сайт покажет только конфиги для тех, кто у тебя есть, и под твои созвездия.</p>
-      <div class="startg"><button type="button" class="hcard" data-src="uid" style="--c:var(--accent)"><span class="hi">#</span><b>По UID</b><small>Персонажи с витрины профиля.</small></button>
-      <button type="button" class="hcard" data-src="go" style="--c:var(--gold)"><span class="hi">⇪</span><b>Файл Genshin Optimizer</b><small>Все персонажи из базы GO.</small></button>
-      <button type="button" class="hcard" data-tab="base" style="--c:var(--purple)"><span class="hi">✎</span><b>Вручную</b><small>Добавь персонажей во вкладке «Своя база».</small></button></div></div>`;
-    return;
-  }
-  const tags = new Set(pairs.map(p => p.x.tag)), els = [...new Set(pairs.map(p => charInfo(p.c.key).el))], other = pairs.filter(p => !p.exact).length;
-  $('#libsum').innerHTML = `Источник: <b>${s === 'uid' ? 'UID ' + esc(P.uid) : 'база ' + esc(P.nickname)}</b> · ${mine.length} перс. · конфигов под тебя: ${pairs.filter(p => p.exact).length}`;
+  const active = (F.q.trim() ? 1 : 0) + (F.el !== 'all' ? 1 : 0) + (F.all ? 1 : 0);
+  $('#libsum').innerHTML = P ? `Источник: <b>${s === 'uid' ? 'UID ' + esc(P.uid) : 'база ' + esc(P.nickname)}</b> · ${mine.length} перс. · конфигов под тебя: ${pairs.filter(p => p.exact && p.c.cons != null).length}`
+    : 'Здесь появятся конфиги под твоих персонажей и их созвездия.';
   $('#filters').innerHTML = `<div class="cfgbar">
-      <div class="seg sm" role="group" aria-label="Чьи данные">${[['uid', 'По UID'], ['go', 'База GO']].map(([k, t]) => `<button type="button" data-csrc="${k}" aria-pressed="${s === k}"${src[k] ? '' : ' disabled title="Ещё не загружено"'}>${t}</button>`).join('')}</div>
-      <input class="inp" id="cfgq" placeholder="Поиск: персонаж или реакция" value="${esc(F.q)}" autocomplete="off" aria-label="Поиск по конфигам">
-    </div>
-    <div class="cfgbar">${TAGS.filter(([k]) => k === 'all' || tags.has(k)).map(([k, l]) => `<button class="chip" aria-pressed="${F.tag === k}" data-cf="tag" data-v="${k}" type="button">${l}</button>`).join('')}</div>
-    <div class="cfgbar">${els.length > 1 ? `<div class="elbar">${['all', ...els].map(e => `<button type="button" class="elbtn" data-cf="el" data-v="${e}" aria-pressed="${F.el === e}" title="${e === 'all' ? 'Все' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e)}</button>`).join('')}</div>` : ''}
-      ${ROLES.map(([k, l]) => `<button class="chip" aria-pressed="${F.role === k}" data-cf="role" data-v="${k}" type="button">${l}</button>`).join('')}
-      ${other ? `<label class="cfgall"><input type="checkbox" id="cfgall"${F.all ? ' checked' : ''}> Показать конфиги на другие созвездия (${other})</label>` : ''}</div>`;
+      ${P ? `<div class="seg sm" role="group" aria-label="Чьи данные">${[['uid', 'По UID'], ['go', 'База GO']].map(([k, t]) => `<button type="button" data-csrc="${k}" aria-pressed="${s === k}"${src[k] ? '' : ' disabled title="Ещё не загружено"'}>${t}</button>`).join('')}</div>
+      <button type="button" class="ownbtn cfbtn${active ? ' on' : ''}" data-cflt><span class="allc" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2.5 3.5h11l-4.2 5v4l-2.6 1.2V8.5z"/></svg></span><span>Фильтр${active ? ` · ${active}` : ''}</span>${F.el !== 'all' ? `<span class="cfel">${elIcon(F.el)}</span>` : ''}</button>
+      ${active ? `<button type="button" class="ib sx" data-cfclr title="Сбросить фильтр" aria-label="Сбросить фильтр">✕</button>` : ''}` : ''}
+      <span class="cfgsp"></span>
+      <button type="button" class="btn small" data-cnew>Создать конфиг</button>
+      <label class="btn ghost small" for="cfgfile" style="cursor:pointer" title="Файл конфига с этого сайта или цель Custom multi-target, скачанная из GO">Загрузить .json</label><input type="file" id="cfgfile" accept=".json,application/json" hidden>
+    </div>`;
   renderLibList();
 }
 function renderLibList(){
-  const {P, F, mine, pairs} = cfgState(); if (!P) return;
-  const q = F.q.trim().toLowerCase();
-  const vis = pairs.filter(p => (F.all || p.exact) && (F.tag === 'all' || p.x.tag === F.tag) && (F.el === 'all' || charInfo(p.c.key).el === F.el)
-    && (F.role === 'all' || CFG_ROLE(p.x) === F.role) && (!q || `${charInfo(p.c.key).ru} ${p.c.key} ${p.x.reaction}`.toLowerCase().includes(q)));
-  const groups = {}; vis.forEach(p => (groups[p.c.key] ||= []).push(p));
-  const none = mine.filter(c => !CONFIGS.some(x => x.char === c.key));
-  $('#lib').innerHTML = (Object.entries(groups).map(([k, ps]) => {
-    const i = charInfo(k), c = ps[0].c;
-    return `<div class="libgrp" style="--el:var(--${i.el})"><div class="head">${face(k)}<div><h2>${esc(i.ru)} <span class="sub">C${c.cons}</span></h2><div class="sub">${ps.length} ${ps.length > 1 ? 'конфига' : 'конфиг'}</div></div></div>
-      ${ps.map(p => configCard(p.x, c.cons)).join('')}</div>`;
-  }).join('') || `<p class="empty">${pairs.length ? 'Под эти фильтры конфигов нет.' + (!F.all && pairs.some(p => !p.exact) ? ' Есть конфиги на другие созвездия: включи галочку выше.' : '') : 'Для твоих персонажей конфигов пока нет.'}</p>`)
+  const {P, F, pairs} = cfgState();
+  const vis = pairs.filter(p => cfgPass(p, F));
+  const groups = {}; vis.forEach(p => (groups[p.c.key] ||= {c: p.c, ps: []}).ps.push(p));
+  const keys = Object.keys(groups).sort((a, b) => (F.sort === 'el' ? EL_ORDER.indexOf(charInfo(a).el) - EL_ORDER.indexOf(charInfo(b).el) : 0) || charInfo(a).ru.localeCompare(charInfo(b).ru, 'ru'));
+  const none = (P ? cfgState().mine : []).filter(c => !pairs.some(p => p.c.key === c.key));
+  const word = n => n % 10 === 1 && n % 100 !== 11 ? 'конфиг' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'конфига' : 'конфигов';
+  const empty = !P ? `<div class="card start"><h3>Сначала загрузи персонажей</h3><p class="sub">Сайт покажет только конфиги для тех, кто у тебя есть, и под твои созвездия. Свой конфиг можно создать и без этого.</p>
+      <div class="startg"><button type="button" class="hcard" data-src="uid" style="--c:var(--accent)"><span class="hi">#</span><b>По UID</b><small>Персонажи с витрины профиля.</small></button>
+      <button type="button" class="hcard" data-src="go" style="--c:var(--gold)"><span class="hi">⇪</span><b>Файл Genshin Optimizer</b><small>Все персонажи из базы GO.</small></button>
+      <button type="button" class="hcard" data-tab="base" style="--c:var(--purple)"><span class="hi">✎</span><b>Вручную</b><small>Добавь персонажей во вкладке «Своя база».</small></button></div></div>` : '';
+  $('#lib').innerHTML = empty + (keys.map((k, n) => { const {c, ps} = groups[k], i = charInfo(k), open = !!state.cfgOpen?.[k];
+    const tags = [ps.some(p => p.x.custom) ? '<span class="pill mine">мой</span>' : '', ps.some(p => p.x.edited) ? '<span class="pill warn">изменён</span>' : '', c.cons == null ? '<span class="pill">нет в данных</span>' : ''].join('');
+    return `<div class="cgrp${open ? ' open' : ''}" style="--el:var(--${i.el});--i:${Math.min(n, 12)}">
+      <button type="button" class="cgh" data-cg="${esc(k)}" aria-expanded="${open}">${face(k, 'sm')}<span class="cgt"><b>${esc(i.ru)}${c.cons != null ? ` <span class="sub">C${c.cons}</span>` : ''}</b><small>${ps.length} ${word(ps.length)}${ps[0] ? ' · ' + esc([...new Set(ps.map(p => p.x.reaction).filter(Boolean))].join(', ')) : ''}</small></span>${tags}<span class="cgc" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button>
+      <div class="cgb"><div class="cgi">${open ? ps.map(p => configCard(p.x, p.c.cons)).join('') : ''}</div></div></div>`; }).join('')
+    || (P ? `<p class="empty">${pairs.length ? 'Под этот фильтр конфигов нет.' + (!F.all && pairs.some(p => !p.exact) ? ' Есть конфиги на другие созвездия: включи их в фильтре.' : '') : 'Для твоих персонажей конфигов пока нет. Можно создать свой.'}</p>` : ''))
     + (none.length ? `<div class="card nocfg"><h3>Пока без конфигов</h3><div class="team">${none.map(c => `<span class="mate miss" style="--el:var(--${charInfo(c.key).el})">${face(c.key, 'xs')}${esc(charInfo(c.key).ru)} <small>C${c.cons}</small></span>`).join('')}</div></div>` : '');
 }
+function toggleGroup(k){
+  state.cfgOpen ||= {}; const g = document.querySelector(`.cgrp [data-cg="${CSS.escape(k)}"]`)?.closest('.cgrp');
+  const open = !state.cfgOpen[k]; state.cfgOpen[k] = open;
+  if (!g) return renderLibList();
+  const {pairs} = cfgState();
+  if (open) g.querySelector('.cgi').innerHTML = pairs.filter(p => p.c.key === k && cfgPass(p, state.cfgF)).map(p => configCard(p.x, p.c.cons)).join('');
+  g.classList.toggle('open', open); g.querySelector('.cgh').setAttribute('aria-expanded', open);
+}
+
+// filter window, built like the character picker
+function openCfgFilter(){
+  state.cff = deep(state.cfgF);
+  let m = $('#cffm');
+  if (!m) { m = document.createElement('div'); m.id = 'cffm'; m.className = 'pkm'; m.innerHTML = '<div class="pkov"></div><div class="pkbox cffbox" role="dialog" aria-modal="true" aria-label="Фильтр конфигов"></div>'; document.body.append(m);
+    m.addEventListener('click', e => { if (e.target.classList.contains('pkov') || e.target.closest('[data-cfx]')) return closeModal(m);
+      const el = e.target.closest('[data-cfe]'); if (el) { state.cff.el = el.dataset.cfe; return renderCfgFilter(); }
+      const so = e.target.closest('[data-cfs]'); if (so) { state.cff.sort = so.dataset.cfs; return renderCfgFilter(); }
+      if (e.target.closest('[data-cfreset]')) { state.cff = {q: '', el: 'all', sort: 'name', all: false}; return renderCfgFilter(); }
+      if (e.target.closest('[data-cfok]')) { state.cfgF = deep(state.cff); closeModal(m); renderLib(); } });
+    m.addEventListener('input', e => { if (e.target.id === 'cffq') { state.cff.q = e.target.value; renderCfgFilter(true); } });
+    m.addEventListener('change', e => { if (e.target.id === 'cffall') { state.cff.all = e.target.checked; renderCfgFilter(); } });
+  }
+  renderCfgFilter(); m.hidden = false; requestAnimationFrame(() => m.classList.add('on'));
+  setTimeout(() => $('#cffq')?.focus({preventScroll: true}), 60);
+}
+function renderCfgFilter(fromInput){
+  const {pairs} = cfgState(), f = state.cff, m = $('#cffm');
+  const els = EL_ORDER.filter(e => pairs.some(p => charInfo(p.c.key).el === e && cfgPass(p, {...f, el: 'all', q: ''})));
+  const vis = pairs.filter(p => cfgPass(p, f)), chars = [...new Set(vis.map(p => p.c.key))], other = pairs.filter(p => !p.exact).length;
+  const count = e => new Set(pairs.filter(p => cfgPass(p, {...f, el: e})).map(p => p.c.key)).size;
+  const body = `<div class="cffl"><span class="cffn">Найдено: <b>${chars.length}</b> перс., ${vis.length} конф.</span><div class="cffch">${chars.slice(0, 14).map(k => `<span class="cffa" title="${esc(charInfo(k).ru)}">${face(k, 'xs')}</span>`).join('')}${chars.length > 14 ? `<span class="sub">+${chars.length - 14}</span>` : ''}</div></div>`;
+  if (fromInput && m.querySelector('.cffl')) { m.querySelector('.cffl').outerHTML = body; m.querySelector('[data-cfok]').textContent = `Показать ${chars.length}`; return; }
+  m.querySelector('.pkbox').innerHTML = `<div class="pkh"><h3>Фильтр конфигов</h3><button type="button" class="ib" data-cfx aria-label="Закрыть">✕</button></div>
+    <div class="cffbody">
+      <label class="cffs"><span>Имя</span><input class="inp" id="cffq" placeholder="Например, Скирк" autocomplete="off" value="${esc(f.q)}"></label>
+      <div class="cffs"><span>Стихия</span><div class="elbar cffel">${['all', ...els].map(e => `<button type="button" class="elbtn${e === 'all' ? '' : ' big'}" data-cfe="${e}" aria-pressed="${f.el === e}" title="${e === 'all' ? 'Все' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e) + `<small>${count(e)}</small>`}</button>`).join('')}</div></div>
+      <div class="cffs"><span>Порядок</span><div class="seg sm">${[['name', 'По имени'], ['el', 'По стихии']].map(([k, t]) => `<button type="button" data-cfs="${k}" aria-pressed="${f.sort === k}">${t}</button>`).join('')}</div></div>
+      ${other ? `<label class="cfgall"><input type="checkbox" id="cffall"${f.all ? ' checked' : ''}> Показывать конфиги на другие созвездия (${other})</label>` : ''}
+      ${body}
+    </div>
+    <div class="row setft"><button type="button" class="btn ghost small" data-cfreset>Сбросить</button><button type="button" class="btn small" data-cfok>Показать ${chars.length}</button></div>`;
+}
+function closeModal(m){ m.classList.remove('on'); setTimeout(() => { if (!m.classList.contains('on')) m.hidden = true; }, 260); }
+
+// ---------- config editor: change any part of a config, or build a new one without touching JSON ----------
+function newDraft(char){ return {id: '', char: char || '', cons: 0, weapon: '', reaction: '', role: '', team: [], rotation: '', source: '', warnings: [], estimates: [], name: '',
+  rows: [{label: '', path: ['normal', '0'], weight: 1, hitMode: 'avgHit', reaction: '', bonusStats: {}, desc: ''}]}; }
+function openCfgEditor(d, mode){
+  state.ced = {d: deep(d), mode, src: d.id || null, adv: {}};
+  let m = $('#cedm');
+  if (!m) { m = document.createElement('div'); m.id = 'cedm'; m.className = 'pkm ced'; m.innerHTML = '<div class="pkov"></div><div class="pkbox cedbox" role="dialog" aria-modal="true" aria-label="Редактор конфига"></div>'; document.body.append(m); wireCed(m); }
+  renderCed(); m.hidden = false; requestAnimationFrame(() => m.classList.add('on'));
+}
+function cedErrors(d){
+  const e = [];
+  if (!d.char) e.push('Выбери персонажа.');
+  if (!String(d.name).trim()) e.push('Впиши название конфига: так он будет называться в GO.');
+  if (!d.rows.length) e.push('Добавь хотя бы один удар.');
+  d.rows.forEach((r, n) => { const at = `Строка ${n + 1}`;
+    if (!String(r.path[0] || '').trim()) e.push(`${at}: выбери, что это за удар.`);
+    if (!String(r.path.slice(1).join('.')).trim()) e.push(`${at}: впиши ключ удара в GO.`);
+    if (!(typeof r.weight === 'number' && isFinite(r.weight) && r.weight >= 0)) e.push(`${at}: число раз должно быть числом от 0.`);
+    Object.entries(r.bonusStats || {}).forEach(([k, v]) => { if (!k.trim() || !(typeof v === 'number' && isFinite(v))) e.push(`${at}: доп. стат заполнен не до конца.`); }); });
+  if (d.rows.length && d.rows.every(r => !(r.weight > 0))) e.push('Хотя бы у одной строки число раз должно быть больше 0.');
+  return [...new Set(e)];
+}
+function keyHints(cat){ const s = new Set(); CONFIGS.forEach(c => JSON.parse(FILES[c.file]).targets.forEach(t => { if (t.path[0] === cat) s.add(t.path.slice(1).join('.')); }));
+  if (cat === 'reaction') ['lunarcharged', 'lunarcrystallize', 'lunarbloom'].forEach(k => s.add(k));
+  if (cat === 'normal') ['0', '1', '2', '3', '4'].forEach(k => s.add(k)); if (cat === 'charged') ['dmg'].forEach(k => s.add(k)); if (cat === 'plunging') ['dmg', 'low', 'high'].forEach(k => s.add(k));
+  return [...s]; }
+function cedRow(r, n, len){
+  const cat = CAT_RU[r.path[0]] && r.path[0] !== 'other' ? r.path[0] : 'other', key = r.path.slice(1).join('.'), adv = state.ced.adv[n], react = r.path[0] === 'reaction';
+  const bs = Object.entries(r.bonusStats || {});
+  return `<div class="cedr" data-r="${n}">
+    <div class="cedrh"><span class="cedn">${n + 1}</span><input class="inp" data-cr="label" value="${esc(r.label)}" placeholder="Подпись, например «Обычная атака 1»" aria-label="Подпись строки">
+      <span class="cedra"><button type="button" class="ib" data-crup ${n ? '' : 'disabled'} title="Выше" aria-label="Выше">↑</button><button type="button" class="ib" data-crdown ${n < len - 1 ? '' : 'disabled'} title="Ниже" aria-label="Ниже">↓</button><button type="button" class="ib" data-crcopy title="Копия строки" aria-label="Копия строки">⧉</button><button type="button" class="ib del" data-crdel title="Удалить строку" aria-label="Удалить строку">✕</button></span></div>
+    <div class="cedrg">
+      <label><span>Что это</span><select class="inp" data-cr="cat">${CFG_CATS.map(([k, t]) => `<option value="${k}"${k === cat ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+      ${cat === 'other' ? `<label><span>Свой раздел</span><input class="inp mono" data-cr="cat2" value="${esc(r.path[0] === 'other' ? '' : r.path[0])}" placeholder="например nicole"></label>` : ''}
+      <label><span>Ключ удара в GO</span><input class="inp mono" data-cr="key" value="${esc(key)}" list="ckl-${n}" placeholder="например na1"><datalist id="ckl-${n}">${keyHints(cat === 'other' ? r.path[0] : cat).map(k => `<option value="${esc(k)}">`).join('')}</datalist></label>
+      <label><span>${react ? 'Вес (раз × доля)' : 'Раз за ротацию'}</span><input class="inp mono" data-cr="weight" inputmode="decimal" value="${esc(String(r.weight))}"></label>
+    </div>
+    ${react ? `<div class="cedrx"><span>Помощник:</span><input class="inp mono" data-cr="rn" inputmode="decimal" placeholder="срабатываний" value="${esc(r.rn ?? '')}"><span>×</span><select class="inp" data-cr="rs">${[['0.6', 'доля 0.6 (главный)'], ['0.3', 'доля 0.3 (второй)'], ['0.05', 'доля 0.05 (3-й и 4-й)'], ['1', '1 (без доли)']].map(([v, t]) => `<option value="${v}"${String(r.rs ?? '0.6') === v ? ' selected' : ''}>${t}</option>`).join('')}</select><span class="sub">вес посчитается сам</span></div>` : ''}
+    <button type="button" class="alt-link cedadv" data-cradv>${adv ? 'Скрыть дополнительное' : 'Дополнительно: тип удара, реакция усиления, доп. статы'}${!adv && (r.hitMode !== 'avgHit' || r.reaction || bs.length) ? ' · заполнено' : ''}</button>
+    ${adv ? `<div class="cedrg adv">
+      <label><span>Тип удара</span><select class="inp" data-cr="hitMode">${HITMODES.map(([k, t]) => `<option value="${k}"${k === (r.hitMode || 'avgHit') ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+      <label><span>Реакция усиления</span><select class="inp" data-cr="amp">${AMPS.map(([k, t]) => `<option value="${k}"${k === (r.reaction || '') ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+      <div class="cedbs"><span>Доп. статы только для этой строки</span>${bs.map(([k, v], j) => `<div class="cedbsr"><input class="inp mono" data-cb="k" data-j="${j}" value="${esc(k)}" list="cbk" placeholder="стат"><input class="inp mono" data-cb="v" data-j="${j}" inputmode="decimal" value="${esc(String(v))}" placeholder="значение"><button type="button" class="ib del" data-cbdel="${j}" aria-label="Убрать стат">✕</button></div>`).join('')}<button type="button" class="btn ghost small" data-cbadd>+ Стат</button></div>
+    </div>` : ''}
+  </div>`;
+}
+function renderCed(){
+  const {d, mode} = state.ced, m = $('#cedm'), box = m.querySelector('.pkbox'), sc = m.querySelector('.cedbody')?.scrollTop || 0;
+  const i = d.char ? charInfo(d.char) : null, errs = cedErrors(d);
+  const title = mode === 'new' ? 'Новый конфиг' : `Изменить: ${i ? i.ru : ''}`;
+  box.innerHTML = `<div class="pkh"><h3>${esc(title)}</h3><button type="button" class="ib" data-cex aria-label="Закрыть">✕</button></div>
+    <div class="cedbody">
+      <div class="cedwarn" role="alert"><b>${mode === 'new' ? 'Ты собираешь конфиг сам.' : 'Ты меняешь данные конфига.'}</b> Сайт проверяет только, что всё заполнено, но не может знать, правильно ли GO посчитает такой конфиг. После сохранения обязательно сверь результат в Genshin Optimizer: удары, числа и переключатели.${state.ced.src && cfgById(state.ced.src)?.builtin ? ' Исходный конфиг всегда можно вернуть кнопкой «Вернуть исходный».' : ''}</div>
+      <section class="cedsec"><h4>Персонаж</h4>
+        <div class="cedg">
+          <div class="cedf"><span>Для кого</span><button type="button" class="ownbtn" data-cechar>${i ? face(d.char, 'xs') + `<span>${esc(i.ru)}</span>` : '<span class="allc" aria-hidden="true">+</span><span>Выбрать персонажа</span>'}</button></div>
+          <div class="cedf"><span>Созвездие</span><div class="seg sm cons">${[0, 1, 2, 3, 4, 5, 6].map(c => `<button type="button" data-cecons="${c}" aria-pressed="${d.cons === c}">C${c}</button>`).join('')}</div></div>
+          <label class="cedf"><span>Оружие</span><input class="inp" data-ce="weapon" value="${esc(d.weapon)}" placeholder="например Сигна R1"></label>
+          <label class="cedf"><span>Роль</span><input class="inp" data-ce="role" value="${esc(d.role)}" list="crl" placeholder="например Главный ДД"><datalist id="crl"><option value="Главный ДД"><option value="Саб-ДД вне поля"><option value="Саппорт"><option value="Саппорт вне поля"></datalist></label>
+          <label class="cedf"><span>Реакция или отряд</span><input class="inp" data-ce="reaction" value="${esc(d.reaction)}" list="crr" placeholder="например Лунный заряд"><datalist id="crr">${[...new Set(CONFIGS.map(c => c.reaction))].map(r => `<option value="${esc(r)}">`).join('')}</datalist></label>
+        </div></section>
+      <section class="cedsec"><h4>Отряд</h4><div class="cedteam">${[0, 1, 2].map(n => { const t = d.team[n];
+        return t ? `<div class="cedtm" style="--el:var(--${charInfo(t[0]).el})"><button type="button" class="ownbtn" data-cetm="${n}">${face(t[0], 'xs')}<span>${esc(charInfo(t[0]).ru)}</span></button><select class="inp" data-cetc="${n}" aria-label="Созвездие">${[0, 1, 2, 3, 4, 5, 6].map(c => `<option value="${c}"${t[1] === c ? ' selected' : ''}>C${c}</option>`).join('')}</select><button type="button" class="ib del" data-cetx="${n}" aria-label="Убрать">✕</button></div>`
+          : `<button type="button" class="ownbtn cedadd" data-cetm="${n}"><span class="allc" aria-hidden="true">+</span><span>Добавить</span></button>`; }).join('')}</div></section>
+      <section class="cedsec"><h4>Для GO</h4><div class="cedg">
+        <label class="cedf wide"><span>Название конфига</span><input class="inp" data-ce="name" value="${esc(d.name)}" placeholder="например Flins Lunar-Charged | 3E 3Q 22N"></label>
+        <label class="cedf wide"><span>Ротация</span><input class="inp mono" data-ce="rotation" value="${esc(d.rotation)}" placeholder="например E N2 E Q N4"></label>
+        <label class="cedf"><span>Источник</span><input class="inp" data-ce="source" value="${esc(d.source)}" placeholder="например KQM или свой тест"></label>
+      </div></section>
+      <section class="cedsec"><h4>Что и сколько раз попадает за ротацию</h4>
+        <p class="sub cedhint">Каждая строка: какой удар и сколько раз он попадает за ротацию. «Ключ удара» это внутреннее имя удара в GO. Проще всего собрать цель в GO (Optimize → Custom multi-target), скачать её и загрузить сюда кнопкой «Загрузить .json»: ключи подтянутся сами, останется подписать строки.</p>
+        <div class="cedrows">${d.rows.map((r, n) => cedRow(r, n, d.rows.length)).join('')}</div>
+        <datalist id="cbk">${BONUS_KEYS.map(k => `<option value="${k}">`).join('')}</datalist>
+        <button type="button" class="addbig cedaddr" data-craddr>${ICON.plus}<span><b>Добавить удар</b><small>новая строка в конце</small></span></button></section>
+      <section class="cedsec"><h4>Заметки</h4><div class="cedg">
+        <label class="cedf wide"><span>Обрати внимание (каждая строка отдельно)</span><textarea class="inp" data-ce="warnings" rows="3" placeholder="например Николь ульт не жмёт">${esc((d.warnings || []).join('\n'))}</textarea></label>
+        <label class="cedf wide"><span>Оценки (что посчитано примерно)</span><textarea class="inp" data-ce="estimates" rows="2">${esc((d.estimates || []).join('\n'))}</textarea></label>
+      </div></section>
+      <div id="cederr">${cedErrHtml(errs)}</div>
+    </div>
+    <div class="cedft"><button type="button" class="btn ghost small" data-cex>Отмена</button><span class="cfgsp"></span>
+      <button type="button" class="btn ghost small" data-cego>Скачать для GO</button><button type="button" class="btn ghost small" data-cecopy>Копировать для GO</button>
+      <button type="button" class="btn ghost small" data-cesite title="Файл со всеми полями: его можно загрузить обратно на сайт">Скачать для сайта</button>
+      <button type="button" class="btn small" data-cesave${errs.length ? ' disabled' : ''}>Сохранить</button></div>`;
+  const b = m.querySelector('.cedbody'); if (b) b.scrollTop = sc;
+}
+const cedErrHtml = errs => errs.length ? `<div class="errbox" role="alert"><div><b>Чтобы сохранить, осталось:</b><ul>${errs.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div></div>` : '<div class="okbox"><span class="ic">✓</span><span>Всё заполнено. Не забудь проверить конфиг в GO.</span></div>';
+function cedLive(){ const errs = cedErrors(state.ced.d); $('#cederr').innerHTML = cedErrHtml(errs); $('#cedm [data-cesave]').disabled = !!errs.length; }
+function wireCed(m){
+  m.addEventListener('click', e => {
+    const t = e.target, d = state.ced?.d; if (!d) return;
+    if (t.classList.contains('pkov') || t.closest('[data-cex]')) { if (state.ced.dirty && !confirm('Закрыть без сохранения?')) return; return closeModal(m); }
+    const row = t.closest('[data-r]'), n = row ? +row.dataset.r : -1;
+    const keys = ALL_CHARS.map(c => c.key);
+    if (t.closest('[data-cechar]')) return pickChar({title: 'Для кого конфиг', keys, current: d.char || null, onPick: k => { if (k) { d.char = k; state.ced.dirty = true; renderCed(); } }});
+    const tm = t.closest('[data-cetm]'); if (tm) { const j = +tm.dataset.cetm; return pickChar({title: 'Персонаж в отряде', keys: keys.filter(k => k !== d.char), current: d.team[j]?.[0] || null, onPick: k => { if (!k) return; d.team = d.team.filter(Boolean); if (d.team[j]) d.team[j][0] = k; else d.team.push([k, 0]); state.ced.dirty = true; renderCed(); }}); }
+    const tx = t.closest('[data-cetx]'); if (tx) { d.team.splice(+tx.dataset.cetx, 1); state.ced.dirty = true; return renderCed(); }
+    const cs = t.closest('[data-cecons]'); if (cs) { d.cons = +cs.dataset.cecons; state.ced.dirty = true; return renderCed(); }
+    if (t.closest('[data-craddr]')) { const last = d.rows.at(-1); d.rows.push({label: '', path: [last?.path[0] || 'normal', ''], weight: 1, hitMode: 'avgHit', reaction: '', bonusStats: {}, desc: ''}); state.ced.dirty = true; renderCed(); return m.querySelector('.cedr:last-child [data-cr=label]')?.focus(); }
+    if (t.closest('[data-crdel]')) { if (d.rows.length > 1 || confirm('Удалить последнюю строку?')) { d.rows.splice(n, 1); state.ced.adv = {}; state.ced.dirty = true; renderCed(); } return; }
+    if (t.closest('[data-crcopy]')) { d.rows.splice(n + 1, 0, deep(d.rows[n])); state.ced.adv = {}; state.ced.dirty = true; return renderCed(); }
+    if (t.closest('[data-crup]') || t.closest('[data-crdown]')) { const k = t.closest('[data-crup]') ? n - 1 : n + 1; [d.rows[n], d.rows[k]] = [d.rows[k], d.rows[n]]; state.ced.adv = {}; state.ced.dirty = true; return renderCed(); }
+    if (t.closest('[data-cradv]')) { state.ced.adv[n] = !state.ced.adv[n]; return renderCed(); }
+    if (t.closest('[data-cbadd]')) { const r = d.rows[n]; let k = ''; while (k in r.bonusStats) k += ' '; r.bonusStats[k] = 0; state.ced.dirty = true; return renderCed(); }
+    const bd = t.closest('[data-cbdel]'); if (bd) { const r = d.rows[n], k = Object.keys(r.bonusStats)[+bd.dataset.cbdel]; delete r.bonusStats[k]; state.ced.dirty = true; return renderCed(); }
+    if (t.closest('[data-cego]')) return saveFile(slug(d.name) + '.json', goText(cfgGo(d)));
+    if (t.closest('[data-cesite]')) return saveFile(slug(d.name) + '.khaenriah.json', JSON.stringify({khaenriah: 'config', v: 1, ...cleanDraft(d)}, null, 1));
+    if (t.closest('[data-cecopy]')) { const txt = goText(cfgGo(d)); try { navigator.clipboard.writeText(txt).then(() => toast('JSON для GO скопирован.'), () => prompt('Скопируй JSON:', txt)); } catch { prompt('Скопируй JSON:', txt); } return; }
+    if (t.closest('[data-cesave]')) return cedSave();
+  });
+  m.addEventListener('input', e => {
+    const t = e.target, d = state.ced?.d; if (!d) return; state.ced.dirty = true;
+    if (t.dataset.ce) { const f = t.dataset.ce; d[f] = f === 'warnings' || f === 'estimates' ? t.value.split('\n').map(x => x.trim()).filter(Boolean) : t.value; return cedLive(); }
+    const row = t.closest('[data-r]'); if (!row) return; const r = d.rows[+row.dataset.r];
+    const f = t.dataset.cr;
+    if (f === 'label') r.label = t.value;
+    if (f === 'key') r.path = [r.path[0], ...t.value.trim().split('.').filter(x => x !== '')], r.path.length < 2 && r.path.push('');
+    if (f === 'cat2') r.path[0] = t.value.trim();
+    if (f === 'weight') { const v = num2(t.value); r.weight = isNaN(v) ? NaN : v; t.classList.toggle('bad', !(v >= 0)); }
+    if (f === 'rn' || f === 'rs') { if (f === 'rn') r.rn = t.value; else r.rs = t.value; const a = num2(r.rn ?? ''), s = Number(r.rs ?? 0.6);
+      if (a >= 0) { r.weight = Math.round(a * s * 10000) / 10000; const w = row.querySelector('[data-cr=weight]'); if (w) { w.value = r.weight; w.classList.remove('bad'); } } }
+    if (t.dataset.cb) { const keys = Object.keys(r.bonusStats), j = +t.dataset.j, ent = keys.map(k => [k, r.bonusStats[k]]);
+      if (t.dataset.cb === 'k') ent[j][0] = t.value; else { const v = num2(t.value); ent[j][1] = isNaN(v) ? NaN : v; t.classList.toggle('bad', isNaN(v)); }
+      r.bonusStats = Object.fromEntries(ent); }
+    cedLive();
+  });
+  m.addEventListener('change', e => {
+    const t = e.target, d = state.ced?.d; if (!d) return; state.ced.dirty = true;
+    const cn = t.dataset.cetc; if (cn != null) { d.team[+cn][1] = +t.value; return; }
+    const row = t.closest('[data-r]'); if (!row) return; const r = d.rows[+row.dataset.r], f = t.dataset.cr;
+    if (f === 'cat') { r.path[0] = t.value === 'other' ? '' : t.value; if (r.path.length < 2) r.path.push(''); return renderCed(); }
+    if (f === 'hitMode') r.hitMode = t.value;
+    if (f === 'amp') r.reaction = t.value;
+    if (f === 'rs') { r.rs = t.value; t.dispatchEvent(new Event('input', {bubbles: true})); }
+    cedLive();
+  });
+}
+const cleanDraft = d => { const {char, cons, weapon, reaction, role, team, rotation, source, warnings, estimates, name, rows} = d;
+  return deep({char, cons, weapon, reaction, role, team, rotation, source, warnings, estimates, name, rows: rows.map(({label, path, weight, hitMode, reaction, bonusStats, desc}) => ({label, path, weight, hitMode, reaction, bonusStats, desc}))}); };
+function cedSave(){
+  const {d, mode, src} = state.ced; if (cedErrors(d).length) return cedLive();
+  const clean = cleanDraft(d), old = src && cfgById(src);
+  if (mode === 'edit' && old?.builtin) { store.set('cfgo:' + src, JSON.stringify(clean)); try { localStorage.removeItem('cfgw:' + src); } catch {} }
+  else { const list = myCfgs(), id = mode === 'edit' && old?.custom ? src : 'my-' + Date.now().toString(36); const k = list.findIndex(x => x.id === id);
+    if (k >= 0) list[k] = {...clean, id}; else list.push({...clean, id}); saveMyCfgs(list); }
+  (state.cfgOpen ||= {})[d.char] = true; state.ced.dirty = false;
+  closeModal($('#cedm')); renderLib(); toast(mode === 'new' ? 'Конфиг сохранён. Проверь его в GO.' : 'Изменения сохранены. Проверь конфиг в GO.');
+}
+// a site file (all fields) or a GO custom multi-target ({name, targets}) opens in the editor as a new config
+function importCfg(file){
+  const r = new FileReader();
+  r.onload = () => { let j; try { j = JSON.parse(r.result); } catch { return toast('Это не JSON-файл.'); }
+    let d = null;
+    if (j && j.khaenriah === 'config' && Array.isArray(j.rows)) d = {...newDraft(), ...j};
+    else if (j && Array.isArray(j.targets)) { const nm = String(j.name || ''), lo = nm.toLowerCase();
+      const guess = ALL_CHARS.find(c => c.en && lo.startsWith(c.en.toLowerCase())) || ALL_CHARS.find(c => c.en && lo.includes(c.en.toLowerCase()));
+      d = {...newDraft(guess?.key), name: nm, rows: j.targets.filter(t => t && Array.isArray(t.path)).map(t => ({label: String(t.description || ''), path: t.path.map(String), weight: +t.weight || 0, hitMode: t.hitMode || 'avgHit', reaction: t.reaction || '', bonusStats: t.bonusStats && typeof t.bonusStats === 'object' ? t.bonusStats : {}, desc: String(t.description || '')}))}; }
+    if (!d || !d.rows.length) return toast('В файле нет конфига: нужен файл с этого сайта или цель Custom multi-target из GO.');
+    d.cons = [0, 1, 2, 3, 4, 5, 6].includes(+d.cons) ? +d.cons : 0; d.team = Array.isArray(d.team) ? d.team.filter(t => Array.isArray(t) && t[0]).slice(0, 3).map(t => [String(t[0]), +t[1] || 0]) : [];
+    ['weapon', 'reaction', 'role', 'rotation', 'source', 'name', 'char'].forEach(k => { d[k] = String(d[k] ?? ''); });
+    ['warnings', 'estimates'].forEach(k => { d[k] = Array.isArray(d[k]) ? d[k].map(String) : []; });
+    d.rows = d.rows.map(x => ({label: String(x.label ?? ''), path: (Array.isArray(x.path) ? x.path : ['normal', '']).map(String), weight: +x.weight || 0, hitMode: ['avgHit', 'hit', 'critHit'].includes(x.hitMode) ? x.hitMode : 'avgHit', reaction: String(x.reaction || ''), bonusStats: x.bonusStats && typeof x.bonusStats === 'object' ? Object.fromEntries(Object.entries(x.bonusStats).map(([k, v]) => [k, +v])) : {}, desc: String(x.desc ?? '')}));
+    openCfgEditor(d, 'new'); state.ced.dirty = true;
+    toast(d.char ? 'Конфиг загружен: проверь поля и сохрани.' : 'Конфиг загружен: выбери персонажа и сохрани.'); };
+  r.readAsText(file);
+}
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-csrc],[data-cf],[data-cedit],[data-creset]'); if (!t) return;
+  const t = e.target.closest('[data-csrc],[data-cflt],[data-cfclr],[data-cg],[data-cedit],[data-creset],[data-cdel],[data-cdl],[data-cnew]'); if (!t) return;
   if (t.dataset.csrc) { state.cfgSrc = t.dataset.csrc; return renderLib(); }
-  if (t.dataset.cf) { state.cfgF[t.dataset.cf] = t.dataset.v; return renderLib(); }
-  if (t.dataset.cedit) { state.cfgEdit = state.cfgEdit === t.dataset.cedit ? null : t.dataset.cedit; return renderLibList(); }
-  if (t.dataset.creset) { if (!confirm('Вернуть исходные числа этого конфига?')) return; try { localStorage.removeItem('cfgw:' + t.dataset.creset); } catch {} state.cfgEdit = null; return renderLibList(); }
+  if (t.hasAttribute('data-cflt')) return openCfgFilter();
+  if (t.hasAttribute('data-cfclr')) { state.cfgF = {q: '', el: 'all', sort: state.cfgF?.sort || 'name', all: false}; return renderLib(); }
+  if (t.dataset.cg) return toggleGroup(t.dataset.cg);
+  if (t.hasAttribute('data-cnew')) return openCfgEditor(newDraft(), 'new');
+  if (t.dataset.cedit) { const d = cfgById(t.dataset.cedit); if (d) openCfgEditor(d, 'edit'); return; }
+  if (t.dataset.cdl) { const d = cfgById(t.dataset.cdl); if (d) saveFile(slug(d.name) + '.json', cfgText(d)); return; }
+  if (t.dataset.creset) { if (!confirm('Вернуть исходный конфиг? Твои правки удалятся.')) return; try { localStorage.removeItem('cfgo:' + t.dataset.creset); localStorage.removeItem('cfgw:' + t.dataset.creset); } catch {} renderLib(); return toast('Конфиг возвращён к исходному.'); }
+  if (t.dataset.cdel) { if (!confirm('Удалить этот конфиг? Его нельзя будет вернуть.')) return; saveMyCfgs(myCfgs().filter(x => x.id !== t.dataset.cdel)); renderLib(); return toast('Конфиг удалён.'); }
 });
-document.addEventListener('input', e => {
-  if (e.target.id === 'cfgq') { state.cfgF.q = e.target.value; return renderLibList(); }
-  const w = e.target.dataset?.cw; if (!w) return;
-  const cfg = CONFIGS.find(c => c.id === w), orig = JSON.parse(FILES[cfg.file]).targets.map(t => t.weight);
-  const cur = cfgEdits(w) || [...orig], v = Number(e.target.value.replace(',', '.'));
-  const bad = !(e.target.value.trim() !== '' && isFinite(v) && v >= 0 && v <= 1000);
-  e.target.classList.toggle('bad', bad); if (bad) return;
-  cur[+e.target.dataset.n] = v; e.target.classList.toggle('chg', v !== orig[+e.target.dataset.n]);
-  if (cur.every((x, n) => x === orig[n])) { try { localStorage.removeItem('cfgw:' + w); } catch {} } else store.set('cfgw:' + w, JSON.stringify(cur));
-});
-document.addEventListener('change', e => { if (e.target.id === 'cfgall') { state.cfgF.all = e.target.checked; renderLibList(); } });
+document.addEventListener('change', e => { if (e.target.id === 'cfgfile' && e.target.files?.[0]) { importCfg(e.target.files[0]); e.target.value = ''; } });
+addEventListener('keydown', e => { if (e.key !== 'Escape') return; if ($('#pkm') && !$('#pkm').hidden) return; const f = $('#cffm'); if (f && !f.hidden) return closeModal(f); const c = $('#cedm'); if (c && !c.hidden && (!state.ced?.dirty || confirm('Закрыть без сохранения?'))) closeModal(c); });
 
 // ---------- events ----------
 function renderCtrl(){
@@ -2503,11 +2787,11 @@ document.addEventListener('click', e => {
     return;
   }
   if (t.dataset.tab) { e.preventDefault(); setTab(t.dataset.tab); return; }
-  if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; renderLib(); return; }
+  if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; const d = cfgById(t.dataset.toggle); if (d) { (state.cfgOpen ||= {})[d.char] = false; toggleGroup(d.char); } return; }
   if (t.dataset.copy) {
-    const cfg = CONFIGS.find(c => c.id === t.dataset.copy); const text = cfgText(cfg);
+    const cfg = cfgById(t.dataset.copy); if (!cfg) return; const text = cfgText(cfg);
     const toast = document.getElementById('toast-'+cfg.id);
-    const fallback = () => { state.open[cfg.id] = true; renderLib();
+    const fallback = () => { state.open[cfg.id] = true; toggleGroup(cfg.char); toggleGroup(cfg.char);
       const pre = document.getElementById('pre-'+cfg.id); const r = document.createRange(); r.selectNodeContents(pre);
       const s = getSelection(); s.removeAllRanges(); s.addRange(r); const tt = document.getElementById('toast-'+cfg.id); if (tt) tt.textContent = 'Выделил JSON, нажми Ctrl+C'; };
     try { navigator.clipboard.writeText(text).then(() => { toast.textContent = 'Скопировано'; setTimeout(()=>toast.textContent='',1800); }, fallback); } catch { fallback(); }
