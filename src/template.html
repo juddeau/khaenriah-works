@@ -325,9 +325,10 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .pick{display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;text-align:left;min-width:0;transition:border-color .18s ease,background-color .18s ease,transform .18s ease}
 .pick:hover{border-color:color-mix(in srgb,var(--fg) 30%,var(--line))}.pick:active{transform:scale(.98)}
 .pick.on{border-color:var(--gold);background:var(--panel-2)}
-.pick span:not(.bi){display:grid;min-width:0}.pick small{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.pick span:not(.bi):not(.chev){display:grid;min-width:0}.pick small{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 .pick b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pick em{margin-left:auto;font:500 13px var(--f-mono);color:var(--muted);font-style:normal;white-space:nowrap}
+.pick em{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font:500 13px var(--f-mono);color:var(--muted);font-style:normal;white-space:nowrap;line-height:1}
+.pick em .chev{margin-left:0}
 .pick .bi{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--panel-2);color:var(--gold);font-size:18px;flex:none}
 .drawer{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 70%,var(--bg))}
 @keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -375,7 +376,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .prow.flash{animation:flash 1s ease-out}
 .why.soft{color:var(--muted);background:color-mix(in srgb,var(--fg) 5%,transparent)}
 /* ---- own database (Вручную) ---- */
-#mode-manual .manual{display:block}
+#view-base .manual{display:block;padding-top:24px}
 .dbhead{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .dbhead h3{margin:0 0 4px}.dbhead p{margin:0;max-width:62ch}
 .dbtabs{margin:14px 0 12px}
@@ -467,43 +468,164 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 @media (max-width:600px){#gseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}#gseg button{white-space:normal;display:grid;padding:6px 4px;line-height:1.2}#gseg button small{margin:0}.aedprev{order:2}}
 .ra.picked,.prow.picked,.dba.picked,.dbc.picked,.dbw.picked{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 55%,transparent),0 0 26px -6px color-mix(in srgb,var(--gold) 70%,transparent)}
 .prow.picked{background:color-mix(in srgb,var(--gold) 10%,transparent)}
+/* ---- navigation, home, side sheet ---- */
+a.brand{color:var(--fg);text-decoration:none;border-radius:10px;padding:4px 6px;margin-left:-6px;transition:background-color .2s}
+a.brand:hover{background:var(--panel-2)}a.brand:hover svg{transform:rotate(60deg)}a.brand svg{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+@media (max-width:640px){.tabs{margin-left:0;width:100%;overflow-x:auto;scrollbar-width:none;gap:2px}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;padding:6px 9px;font-size:14px}}
+main > section.enter{animation:fadein .35s ease both}
+.home{position:relative;padding:clamp(28px,6vw,72px) 0 48px;isolation:isolate}
+html{overflow-x:clip}
+.hbg{position:absolute;top:-40px;left:calc(50% - 50vw);width:100vw;height:560px;z-index:-1;overflow:hidden;pointer-events:none;mask-image:linear-gradient(#000 55%,transparent)}
+.hbg i{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(70px);opacity:.38;animation:drift 18s ease-in-out infinite alternate}
+.hbg i:nth-child(1){background:var(--accent);left:-80px;top:-60px}
+.hbg i:nth-child(2){background:var(--gold);right:-60px;top:40px;width:360px;height:360px;opacity:.28;animation-duration:22s}
+.hbg i:nth-child(3){background:var(--purple);left:38%;top:160px;width:300px;height:300px;opacity:.25;animation-duration:26s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,40px) scale(1.15)}}
+.hhero{display:grid;gap:16px;justify-items:start;max-width:760px}
+.hhero > *{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}.hhero > *:nth-child(2){animation-delay:.06s}.hhero > *:nth-child(3){animation-delay:.12s}.hhero > *:nth-child(4){animation-delay:.18s}.hhero > *:nth-child(5){animation-delay:.24s}
+.eyebrow{margin:0;font:600 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.hhero h1{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,68px);line-height:1.02;letter-spacing:-.01em}
+.hhero h1 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hhero .lead{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:56ch}
+.btn.big{padding:13px 22px;font-size:15px;border-radius:12px}
+.hcta{gap:10px}
+.hcont{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;font-size:14px;transition:border-color .2s,transform .2s}
+.hcont:hover{border-color:var(--ok);transform:translateX(2px)}.hcont small{color:var(--muted)}.hcont span:last-child{color:var(--ok)}
+.hcont .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:ping 2s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 60%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+.hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:clamp(32px,6vw,64px)}
+.hcard{position:relative;display:grid;gap:8px;align-content:start;text-align:left;padding:18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 10%,var(--panel)),var(--panel) 60%);color:var(--fg);cursor:pointer;overflow:hidden;transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s;animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.3s + var(--i,0) * 70ms)}
+.hcard:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 60%,var(--line));box-shadow:0 18px 40px -20px color-mix(in srgb,var(--c) 60%,transparent)}
+.hcard .hi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,var(--panel-2))}
+.hcard b{font-family:var(--f-display);font-size:17px;font-weight:600}
+.hcard small{color:var(--muted);font-size:13px;line-height:1.45}
+.hcard .go{font-size:13px;color:var(--c);margin-top:4px;transition:transform .2s}.hcard:hover .go{transform:translateX(4px)}
+.start{margin-top:16px;display:grid;gap:10px}.start h3,.start p{margin:0}
+.startg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.startg .hcard{animation-delay:calc(var(--i,0) * 60ms)}
+/* source button + sheet */
+.srcbtn{display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;text-align:left;min-width:0;max-width:100%;transition:border-color .2s,background-color .2s}
+.srcbtn:hover{border-color:var(--gold)}
+.srcbtn .si{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--panel-2);color:var(--gold);font:700 11px var(--f-mono);flex:none}
+.srcbtn .st{display:grid;min-width:0}.srcbtn .st small{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.srcbtn .st b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+.srcbtn .sa{color:var(--accent);font-size:13px;white-space:nowrap;margin-left:6px}
+.srcov{position:fixed;inset:0;z-index:40;background:rgba(5,8,16,.55);backdrop-filter:blur(2px);opacity:0;transition:opacity .3s}
+.srcov.on{opacity:1}
+.srcsheet{position:fixed;top:0;right:0;bottom:0;z-index:41;width:min(460px,100vw);background:var(--bg);border-left:1px solid var(--line);box-shadow:-24px 0 60px -20px rgba(0,0,0,.7);display:flex;flex-direction:column;transform:translateX(105%);transition:transform .34s cubic-bezier(.2,.7,.2,1);visibility:hidden}
+.srcsheet.on{transform:none;visibility:visible}
+.ssh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px}.ssh h3{margin:0;font-family:var(--f-display);font-size:17px}
+.ssseg{margin:0 18px;display:grid;grid-template-columns:1fr 1fr}
+.ssbody{padding:16px 18px 24px;overflow:auto;display:grid;gap:14px;align-content:start}
+.ssbody .sbox{display:flex;gap:8px}.ssbody .sbox .field{flex:1}
+.sslink{border:1px dashed var(--line);background:none;color:var(--muted);border-radius:12px;padding:12px;cursor:pointer;text-align:left;font-size:14px;transition:border-color .2s,color .2s}
+.sslink:hover{color:var(--fg);border-color:var(--purple)}.sslink b{color:var(--purple)}
+@media (max-width:600px){.ctrl{display:grid}.srcbtn{width:100%}}
+/* about */
+.about{display:grid;gap:14px;padding-bottom:40px}
+.gloss dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;margin:12px 0 0}
+.gloss dt{font-weight:600;color:var(--gold)}.gloss dd{margin:0;color:var(--muted)}
+@media (max-width:600px){.gloss dl{grid-template-columns:minmax(0,1fr)}.gloss dd{margin-bottom:6px}}
+.about .howto li{margin-bottom:10px}
 </style>
 
 <header class="top">
   <div class="wrap">
-    <div class="brand">
+    <a class="brand" href="#" data-tab="home" aria-label="На главную">
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="none" stroke="var(--gold)" stroke-width="2"/><circle cx="13" cy="2" r="2" fill="var(--accent)"/><circle cx="22.5" cy="18.5" r="2" fill="var(--gold)"/><circle cx="3.5" cy="18.5" r="2" fill="var(--accent)"/></svg>
-      Khaenri'ah Works
-    </div>
+      <span>Khaenri'ah Works</span>
+    </a>
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tab-acc" aria-selected="true" data-tab="acc">Реролл</button>
-      <button class="tab" role="tab" id="tab-lib" aria-selected="false" data-tab="lib">Все конфиги</button>
+      <button class="tab" role="tab" id="tab-acc" aria-selected="false" data-tab="acc">Реролл</button>
+      <button class="tab" role="tab" id="tab-base" aria-selected="false" data-tab="base">Своя база</button>
+      <button class="tab" role="tab" id="tab-lib" aria-selected="false" data-tab="lib">Конфиги</button>
+      <button class="tab" role="tab" id="tab-about" aria-selected="false" data-tab="about">Как считается</button>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <section id="view-acc">
+  <section id="view-home" class="home" hidden>
+    <div class="hbg" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="hhero">
+      <p class="eyebrow">Genshin Impact · инструменты</p>
+      <h1>Khaenri'ah <em>Works</em></h1>
+      <p class="lead">Решай, какой артефакт зароллить пером, собирай свою базу артефактов и бери готовые конфиги для Genshin Optimizer.</p>
+      <div class="row hcta"><button type="button" class="btn big" data-tab="acc">Найти лучший реролл</button><button type="button" class="btn ghost big" data-tab="base">Своя база</button></div>
+      <div id="hcont"></div>
+    </div>
+    <div class="hcards">
+      <button type="button" class="hcard" data-tab="acc" style="--i:0;--c:var(--gold)"><span class="hi">✦</span><b>Реролл</b><small>Какой артефакт роллить, какую пару статов выбрать и какой шанс удачи.</small><span class="go">Открыть →</span></button>
+      <button type="button" class="hcard" data-tab="base" style="--i:1;--c:var(--accent)"><span class="hi">▤</span><b>Своя база</b><small>Артефакты, персонажи и оружие, как в Genshin Optimizer. Только реальные роллы.</small><span class="go">Открыть →</span></button>
+      <button type="button" class="hcard" data-tab="lib" style="--i:2;--c:var(--purple)"><span class="hi">⚙</span><b>Конфиги</b><small>Готовые цели для оптимизатора: удары за ротацию и доли реакций.</small><span class="go">Открыть →</span></button>
+      <button type="button" class="hcard" data-tab="about" style="--i:3;--c:var(--ok)"><span class="hi">?</span><b>Как считается</b><small>Что такое RV и прирост, откуда шанс удачи и насколько это точно.</small><span class="go">Открыть →</span></button>
+    </div>
+  </section>
+
+  <section id="view-acc" hidden>
     <div class="search">
       <h1>Какой артефакт <em>зароллить</em> пером</h1>
-      <p class="sub lead">Для каждого 5★ артефакта +20 сайт считает RV, как Акаша, и показывает, какую пару статов выбрать при реролле, с каким шансом RV вырастет и сколько в среднем прибавит одно перо. Статы, которые считаются в RV, подсвечены золотом.</p>
+      <p class="sub lead">Сайт перебирает все исходы реролла и показывает, какую пару статов выбрать и какой шанс, что артефакт станет лучше.</p>
       <div class="ctrl">
-        <span>Реконструкция</span>
+        <button type="button" class="srcbtn" id="srcbtn" data-src="open"></button>
         <div class="seg" id="gseg" role="group" aria-label="Вид реконструкции"></div>
-        <span>Данные</span>
-        <div class="seg" id="mseg" role="group" aria-label="Источник данных"></div>
       </div>
     </div>
+    <div id="profile"></div>
+    <div id="bestbox"></div>
+    <div id="roster" aria-label="Персонажи"></div>
+    <div class="sheet" id="sheet"></div>
+  </section>
 
-    <div id="mode-uid">
-      <div id="uidbox">
+  <section id="view-base" hidden>
+    <div class="manual" id="manual"></div>
+  </section>
+
+  <section id="view-about" hidden>
+    <div class="search">
+      <h1>Как <em>считается</em></h1>
+      <p class="sub lead">Всё про расчёты в одном месте: что значат цифры на карточках и насколько им можно верить.</p>
+    </div>
+    <div class="about">
+      <div class="card gloss">
+        <h3>Словарик</h3>
+        <dl>
+          <dt>RV</dt><dd>Сумма полезных роллов артефакта, как в Акаше. Каждый ролл считается как «значение ÷ максимальный ролл»: крит шанс 3,9 = 100%, 3,1 = 80%. Полезные статы свои у каждого персонажа, их можно поменять.</dd>
+          <dt>Шанс удачи</dt><dd>Вероятность, что после реролла RV артефакта станет выше, чем сейчас.</dd>
+          <dt>Прирост</dt><dd>На сколько в среднем вырастет RV за один реролл. Худший исход в игре можно не оставлять, поэтому прирост не бывает меньше нуля.</dd>
+          <dt>Порядок</dt><dd>Список «Какие артефакты роллить» и «Лучшие рероллы» сортируются по приросту на одно перо: реролл цветка и пера стоит 1 перо, остальных слотов 2.</dd>
+          <dt>Качество</dt><dd>RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные, и все улучшения ушли в них).</dd>
+        </dl>
+      </div>
+      <div class="card"><h3>Подробно</h3>
+      <ol class="howto" >
+        <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Полезные статы по умолчанию заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
+        <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
+        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
+        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
+        <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
+        <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. Значения сверяются с настоящими роллами игры (та же таблица, что в GO). На 40 000 случайных артефактах с игровыми значениями распознаются все, а число роллов в каждом стате угадано верно в 99,3% случаев (в остальных цифры одинаково подходят под два варианта). Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <div class="srcov" id="srcov" hidden></div>
+  <aside class="srcsheet" id="srcsheet" aria-label="Источник данных" aria-hidden="true">
+    <div class="ssh"><h3>Откуда брать артефакты</h3><button type="button" class="ib" data-src="close" aria-label="Закрыть">✕</button></div>
+    <div class="seg ssseg" id="mseg" role="group" aria-label="Источник данных"></div>
+    <div class="ssbody">
+      <div id="srcstate"></div>
+      <div id="ss-uid">
       <form class="sbox" id="uidform" autocomplete="off">
         <label class="field" for="uid"><span>UID</span><input id="uid" inputmode="numeric" maxlength="10" placeholder="700000000" aria-label="UID"></label>
         <button class="btn" type="submit">Загрузить</button>
       </form>
       <p class="sub" style="margin:8px 0 0">Артефакты берутся из витрины персонажей через Enka.Network, вместе с точной историей улучшений. В игре у витрины должно быть включено «Показывать детали».</p>
+      
       </div>
-      <div id="gobox" hidden>
+      <div id="ss-go" hidden>
         <div class="card fgrid godrop" id="godrop">
           <h3>База из Genshin Optimizer</h3>
           <ol class="gosteps"><li>Открой Genshin Optimizer, раздел <b>Database</b>.</li><li>Нажми <b>Download</b>: скачается файл .json.</li><li>Перетащи файл сюда или выбери его кнопкой.</li></ol>
@@ -513,32 +635,12 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
             <textarea id="gopaste" class="inp mono" style="min-height:100px;margin-top:8px" placeholder='{"format":"GOOD", ...}' aria-label="Экспорт GO"></textarea>
             <div class="row" style="margin-top:8px"><button class="btn small" type="button" id="goparse">Загрузить</button></div></details>
         </div>
+      
       </div>
       <div id="panel"></div>
-      <div id="profile"></div>
-      <div id="bestbox"></div>
-      <div id="roster" aria-label="Персонажи"></div>
-      <div class="sheet" id="sheet"></div>
+      <button type="button" class="sslink" data-tab="base">Ввести артефакты самому → <b>Своя база</b></button>
     </div>
-
-    <div id="mode-manual" hidden>
-      <div class="manual" id="manual"></div>
-    </div>
-
-    <details class="card how" style="margin:24px 0 40px">
-      <summary>Как это считается</summary>
-      <ol class="howto" style="margin-top:10px">
-        <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Полезные статы по умолчанию заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
-        <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
-        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
-        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Кандидатам по приросту на одно перо: от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
-        <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
-        <li><b>Допущения.</b> Сила каждого нового улучшения (70, 80, 90 или 100%) при реролле выпадает заново, так считают существующие калькуляторы. Гарантию я считаю как «случайная раскладка, в которой в паре не меньше N улучшений». Официально ни то, ни другое не описано.</li>
-        <li><b>Точность данных.</b> С UID сайт знает точную историю улучшений артефакта, там расчёт точный. GO и ручной ввод дают только цифры, поэтому сайт восстанавливает, сколько роллов ушло в каждый стат: перебирает все варианты и берёт самый вероятный. На 40 000 случайных артефактах так угадано верно в 99% случаев, а уверенность сайт пишет на каждом артефакте. Силу самого первого ролла по цифрам не узнать, поэтому шансы усредняются по всем вариантам. Вердикт при этом совпадает с точным расчётом в 94% случаев, а шанс «стать лучше» отличается в среднем на 4 процентных пункта.</li>
-      </ol>
-    </details>
-  </section>
-
+  </aside>
   <section id="view-lib" hidden>
     <div class="search">
       <h1>Все конфиги</h1>
@@ -690,7 +792,7 @@ function fromGOOD(j){
 
 // ---------- state ----------
 const prof = () => state.mode === 'go' ? state.go : state.profile;
-const state = { mt: ['arts','chars','weps'].includes(store.get('mt')) ? store.get('mt') : 'arts', good:null, el:'all', go:null, panel:null, csort: ['roll','q','name'].includes(store.get('csort')) ? store.get('csort') : 'roll', profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? store.get('mode') : 'uid' };
+const state = { mt: ['arts','chars','weps'].includes(store.get('mt')) ? store.get('mt') : 'arts', good:null, el:'all', go:null, panel:null, csort: ['roll','q','name'].includes(store.get('csort')) ? store.get('csort') : 'roll', profile:null, sel:null, tab:'acc', filter:'all', open:{}, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, mode: ['manual','go'].includes(store.get('mode')) ? 'go' : 'uid' };
 const cfgFor = key => CONFIGS.filter(c => c.char === key);
 const owned = key => state.profile?.chars.find(c => c.key === key);
 
@@ -699,7 +801,7 @@ function setProfile(p, remember=true){
   const keep = state.sel && p.chars.some(c => c.key === state.sel);
   if (!keep) state.sel = p.chars[0]?.key || null;
   if (remember && p.source !== 'demo') store.set('lastProfile', JSON.stringify(p));
-  renderAccount();
+  renderCtrl(); renderAccount();
 }
 
 // ---------- panels (paste / GOOD / errors) ----------
@@ -722,12 +824,12 @@ function ingest(text, uid){
   if (j.format === 'GOOD' || j.characters) {
     setGood(goodSlim(j));
     if (!state.go.chars.some(c => c.key === state.sel)) state.sel = state.go.chars[0]?.key || null;
-    state.mode = 'go'; store.set('mode', 'go'); panel(''); rerender(); return;
+    state.mode = 'go'; store.set('mode', 'go'); panel(''); rerender(); closeSrc(); return;
   }
   if (j.playerInfo) {
     const p = fromEnka(j, uid);
     panel(p.hidden ? `<div class="notice warn"><h3>Витрина закрыта</h3><p>Enka видит профиль, но детали персонажей скрыты. В игре: Профиль → Витрина персонажей → включи «Показывать детали», подожди пару минут.</p></div>` : '');
-    setProfile(p); return;
+    setProfile(p); if (!p.hidden) closeSrc(); return;
   }
   panel(`<div class="notice warn"><h3>Не узнал формат</h3><p>Нужен ответ Enka (есть поле playerInfo) или экспорт GO (format: GOOD).</p></div>`);
 }
@@ -1075,25 +1177,19 @@ function renderAccount(){
   if (p && !p.chars.some(c => c.key === state.sel)) state.sel = p.chars[0]?.key || null;
   if (!p) {
     $('#profile').innerHTML = ''; $('#bestbox').innerHTML = ''; $('#roster').innerHTML = '';
-    if (state.mode === 'go') { $('#sheet').innerHTML = ''; return; }
-    $('#sheet').innerHTML = `<div class="card" style="margin-top:16px"><h3>С чего начать</h3><ol class="howto">
-      <li><b>Введи UID</b>: сайт возьмёт артефакты персонажей из витрины и покажет, куда выгоднее всего потратить перья.</li>
-      <li><b>Не хочешь выкладывать витрину?</b> Переключись на «Вручную» и добавь артефакты сам, как в Genshin Optimizer.</li>
-      <li>Выбери вид реконструкции: обычная (2 улучшения в пару), высшая (3) или объявленная (4).</li></ol></div>`;
+    $('#sheet').innerHTML = `<div class="card start"><h3>С чего начать</h3><p class="sub">Сайту нужны твои артефакты. Выбери, откуда их взять:</p>
+      <div class="startg"><button type="button" class="hcard" data-src="uid" style="--c:var(--accent)"><span class="hi">#</span><b>По UID</b><small>Витрина персонажей через Enka. Точная история улучшений.</small></button>
+      <button type="button" class="hcard" data-src="go" style="--c:var(--gold)"><span class="hi">⇪</span><b>Файл Genshin Optimizer</b><small>Вся база сразу: все персонажи и артефакты.</small></button>
+      <button type="button" class="hcard" data-tab="base" style="--c:var(--purple)"><span class="hi">✎</span><b>Вручную</b><small>Добавь артефакты сам во вкладке «Своя база».</small></button></div></div>`;
     return;
   }
-  $('#profile').innerHTML = `<div class="acct"><b>${esc(p.nickname)}</b>${p.uid ? `<span class="sub mono">UID ${esc(p.uid)}</span>` : ''}<span class="sub">${p.chars.length} перс.${p.inv ? ` с 5★ артефактами · ${p.inv.length} артефактов 5★` : ''}</span><span class="sp"></span>
-    ${p.uid ? `<button class="btn ghost small" type="button" id="refresh">Обновить</button>` : ''}${state.mode === 'go' ? `<button class="btn ghost small" type="button" id="newbase">${state.goUpload ? 'Скрыть загрузку' : 'Загрузить новую'}</button>` : ''}<button class="btn ghost small" type="button" id="forget">Забыть</button></div>
-    ${state.mode === 'go' ? `<p class="sub goacc">GO не хранит историю роллов, поэтому сайт восстанавливает её по цифрам. На 40 000 случайных артефактах число роллов в каждом стате угадано верно в 99% случаев, а где сайт не уверен, он это пишет.</p>` : ''}`;
-  if ($('#refresh')) $('#refresh').onclick = () => loadUid(String(p.uid));
-  if ($('#newbase')) $('#newbase').onclick = () => { state.goUpload = !state.goUpload; renderCtrl(); renderAccount(); };
-  $('#forget').onclick = () => { if (state.mode === 'go') { if (!confirm('Убрать базу из этого браузера? Вместе с ней пропадут и правки из вкладки «Вручную».')) return; state.go = null; state.good = null; try { localStorage.removeItem('goProfile'); localStorage.removeItem('goodRaw'); } catch {} return renderAccount(); } try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} renderAccount(); };
+  $('#profile').innerHTML = '';
 
   // per character: the best feather in the build and the quality, used for sorting and the "best rerolls" panel
   const all = [], stat = {};
-  p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let bestPd = -1;
-    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); if (j.ok) bestPd = Math.max(bestPd, r.perDust); });
-    stat[c.key] = {share: bs.max ? bs.share : 0, bestPd}; });
+  p.chars.forEach(c => { const w = effW(c.key), bs = buildScore(c, w); let bestPd = -1, bestGain = 0;
+    charModels(c).forEach(({a, m}, idx) => { if (!m.ok) return; const r = bestPair(m, w, state.g), j = judge(m, w, r); all.push({c, a, m, idx, r, j}); if (j.ok && r.perDust > bestPd) { bestPd = r.perDust; bestGain = r.eGain; } });
+    stat[c.key] = {share: bs.max ? bs.share : 0, bestPd, bestGain}; });
   all.sort((x, y) => y.j.key - x.j.key);
   const top = all.filter(t => t.j.ok && t.r.perDust >= 0.25).slice(0, 8);
   const ak = state.mode + ':' + (p.uid || p.total || '') + ':' + p.chars.length, freshAcc = state.lastAcct !== ak; state.lastAcct = ak;
@@ -1108,7 +1204,7 @@ function renderAccount(){
   const card = (c, n) => { const i = charInfo(c.key), st = stat[c.key], [vc] = st.bestPd >= 0 ? VERDICT(st.bestPd) : [''];
     return `<button type="button" class="pc" aria-pressed="${c.key === state.sel}" data-key="${esc(c.key)}" style="--el:var(--${i.el});--i:${n}">
       ${face(c.key, 'sm')}<span class="pcn"><b>${esc(i.ru)}</b><small>C${c.cons} · качество ${Math.round(st.share * 100)}%</small></span>
-      <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestPd)}<small>за перо</small>` : '<small>нечего<br>роллить</small>'}</span></button>`; };
+      <span class="pcr ${vc}">${st.bestPd >= 0 ? `${r1(st.bestGain)}<small>прирост</small>` : '<small>нечего<br>роллить</small>'}</span></button>`; };
   const charsPanel = `<div class="drawer" id="drawer-chars">
       <div class="dtools"><div class="seg sm">${SORTS.map(([k, t]) => `<button type="button" data-sort="${k}" aria-pressed="${(state.csort || 'roll') === k}">${t}</button>`).join('')}</div>
         ${els.length > 1 ? `<div class="elbar"><button type="button" class="elbtn" data-el="all" aria-pressed="${state.el === 'all'}">Все</button>${els.map(e => `<button type="button" class="elbtn" data-el="${e}" aria-pressed="${state.el === e}" title="${EL_RU[e]}">${elIcon(e)}</button>`).join('')}</div>` : ''}</div>
@@ -1118,7 +1214,7 @@ function renderAccount(){
       return `<button type="button" class="brow" data-key="${esc(t.c.key)}" data-jump="${t.idx}" style="--el:var(--${i.el});--i:${n}">${face(t.c.key, 'sm')}
         <span class="n"><b>${esc(i.ru)} · ${esc(t.a.slot)}</b><small>${esc(t.j.tag)} · ${esc(t.a.set)}</small></span>
         <span class="pair">Пара <b>${esc(pairName(t.m, effW(t.c.key), t.r.pair))}</b><br>шанс удачи ${pct(t.r.pBetter)}</span>
-        <span class="num p">${r1(t.r.perDust)}<small>RV за перо</small></span>
+        <span class="num p">${r1(t.r.eGain)}<small>прирост</small></span>
         <span class="pill ${vc}">${vt}</span></button>`; }).join('')}</div>`
     : `<p class="empty">${all.length ? 'Сейчас нет реролла, который стоит пера: нужен артефакт +20 с двумя критами (лучше 4 стата) и прирост от +25% RV.' : 'Нет 5★ +20, их нельзя роллить.'}</p>`}</div>`;
   $('#bestbox').classList.toggle('anim', freshAcc);
@@ -1161,14 +1257,11 @@ function rsBlock(m, w, a){
     return `<div class="rs"><span class="sub">${esc(m.why)}</span></div>`;
   }
   const r = bestPair(m, w, state.g), j = judge(m, w, r), vc = j.cls, vt = j.text, cur = useful(m.subs, w);
-  const other = [2,3,4].filter(g => g !== state.g).map(g => `${RECON[g].toLowerCase()}: <b>${r1(bestPair(m, w, g).perDust)}</b>`).join(' · ');
   return `<div class="rs">
     <div class="v1"><span class="pill ${vc}">${vt}</span><span class="luck"><b>${pct(r.pBetter)}</b> шанс удачи</span></div>
-    <div class="pairl">Пара: <b>${esc(pairName(m, w, r.pair))}</b> <span class="sub">· ${r1(r.perDust)} RV за перо</span></div>
+    <div class="pairl">Выбрать пару: <b>${esc(pairName(m, w, r.pair))}</b></div>
     ${outcomeBar(r)}
-    <div class="sub">Сейчас RV ${Math.round(cur * 100)}%, после реролла в среднем ${Math.round(r.eNew * 100)}%.${r.eNew < cur ? ` Худший исход можно не оставлять, поэтому перо в среднем даёт ${r1(r.perDust)}.` : ''}</div>
-    <div class="sub">RV за перо, другие реконструкции: ${other}${m.nEnh === 4 ? '. У 3-стата при реролле всего 4 улучшения' : ''}</div>
-    ${accLine(m)}
+    <div class="sub">Реролл стоит ${m.cost} ${m.cost === 1 ? 'перо' : 'пера'} и в среднем прибавит <b>${r1(r.eGain)}</b> RV.</div>
   </div>`;
 }
 const subsOf = a => (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
@@ -1194,13 +1287,13 @@ function renderSheet(){
   const order = [...rows].sort((a, b) => b.rank - a.rank);
   const best = order[0]?.r && !order[0].why ? order[0] : null;
   const table = `<div class="card pieces" style="--i:2"><h3>Какие артефакты роллить</h3>
-    <p class="sub" style="margin:0 0 6px">Порядок: 4 стата с двумя критами и полной пользой (все остальные статы нужны персонажу), потом с частичной, потом без пользы, потом хорошие 3-статы. Крит в основном стате короны считается. Шанс удачи: вероятность, что после реролла RV станет выше. Вид реконструкции меняется сверху.</p>
+    <p class="sub" style="margin:0 0 6px">Сверху то, во что выгоднее всего вложить перо. Как это считается, написано в разделе <button type="button" class="alt-link" data-tab="about">«Как считается»</button>.</p>
     ${order.map(y => `<button type="button" class="prow ${y.cls}" data-goto="art-${y.idx}">
       <span class="aicon r${y.x.a.rarity || 5}">${imgTag([y.x.a.icon])}</span>
       <span class="pn"><b>${esc(y.x.a.slot)}</b><small>${esc([y.tag || startTxt(y.start), y.x.a.set].filter(Boolean).join(' · '))}</small></span>
       <span class="pl ${y.cls}">${esc(y.st)}</span>
       <span class="pv">${y.r ? `<b>${pct(y.r.pBetter)}</b><small>шанс удачи</small>` : `<small>${y.x.a.level != null ? '+' + y.x.a.level : ''}</small>`}</span>
-      <span class="pv">${y.r ? `<b>${r1(y.r.perDust)}</b><small>RV за перо</small>` : ''}</span></button>`).join('')}
+      <span class="pv">${y.r ? `<b>${r1(y.r.eGain)}</b><small>прирост</small>` : ''}</span></button>`).join('')}
   </div>`;
   const cards = bs.items.map((x, idx) => `<article class="ra ${best && idx === best.idx && best.r.perDust >= 0.6 ? 'hot' : ''}" id="art-${idx}" style="--i:${idx + 4}">
       <div class="hd"><span class="aicon r${x.a.rarity||5}">${imgTag([x.a.icon])}</span>
@@ -1517,7 +1610,7 @@ function dbAct(act, i, t){
   const ed = state.ed;
   switch (act) {
     case 'mt': state.mt = i; state.ed = null; store.set('mt', i); return renderManual();
-    case 'open': state.mode = 'go'; store.set('mode', 'go'); state.goUpload = false; return rerender();
+    case 'open': state.mode = 'go'; store.set('mode', 'go'); return setTab('acc');
     case 'export': {
       const blob = new Blob([JSON.stringify(goodBase(), null, 1)], {type: 'application/json'});
       const u = URL.createObjectURL(blob), a = document.createElement('a');
@@ -1659,9 +1752,28 @@ function renderLib(){
 // ---------- events ----------
 function renderCtrl(){
   $('#gseg').innerHTML = [2,3,4].map(g => `<button type="button" data-g="${g}" aria-pressed="${state.g===g}">${RECON[g]}<small>${g} улучшения</small></button>`).join('');
-  $('#mseg').innerHTML = [['uid','По UID'],['go','База GO'],['manual','Вручную']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
-  $('#mode-uid').hidden = state.mode === 'manual'; $('#mode-manual').hidden = state.mode !== 'manual';
-  $('#uidbox').hidden = state.mode !== 'uid'; $('#gobox').hidden = state.mode !== 'go' || (!!state.go && !state.goUpload);
+  $('#mseg').innerHTML = [['uid','По UID'],['go','Genshin Optimizer']].map(([m, t]) => `<button type="button" data-mode="${m}" aria-pressed="${state.mode===m}">${t}</button>`).join('');
+  $('#ss-uid').hidden = state.mode !== 'uid'; $('#ss-go').hidden = state.mode !== 'go';
+  const p = prof();
+  $('#srcbtn').innerHTML = `<span class="si">${state.mode === 'uid' ? 'UID' : 'GO'}</span><span class="st"><small>Данные</small><b>${p ? esc(state.mode === 'uid' ? `${p.nickname} · UID ${p.uid}` : `${p.nickname} · ${p.inv?.length || 0} арт.`) : 'Выбрать источник'}</b></span><span class="sa">Сменить ›</span>`;
+  const P = state.mode === 'uid' ? state.profile : state.go;
+  $('#srcstate').innerHTML = P ? `<div class="notice srcnow"><p>Сейчас: <b>${esc(P.nickname)}</b>${P.uid ? ` · UID ${esc(P.uid)}` : ''} · ${P.chars.length} перс.${P.inv ? ` · ${P.inv.length} артефактов 5★` : ''}.${state.mode === 'go' ? ' Новый файл заменит эту базу.' : ''}</p>
+    <div class="row">${P.uid ? '<button type="button" class="btn ghost small" id="ss-refresh">Обновить</button>' : ''}${state.mode === 'go' ? '<button type="button" class="btn ghost small" data-tab="base">Править базу</button>' : ''}<button type="button" class="btn ghost small" id="ss-forget">Забыть</button></div></div>` : '';
+  if ($('#ss-refresh')) $('#ss-refresh').onclick = () => loadUid(String(P.uid));
+  if ($('#ss-forget')) $('#ss-forget').onclick = forgetData;
+}
+function forgetData(){ if (state.mode === 'go') { if (!confirm('Убрать базу из этого браузера? Вместе с ней пропадут и правки из «Своей базы».')) return; state.go = null; state.good = null; try { localStorage.removeItem('goProfile'); localStorage.removeItem('goodRaw'); } catch {} return rerender(); } try { localStorage.removeItem('lastProfile'); } catch {} state.profile = null; state.sel = null; state.akasha = null; try { localStorage.removeItem('akasha'); } catch {} rerender(); }
+// side sheet with the data sources (UID / GO file)
+function openSrc(mode){
+  if (mode) { state.mode = mode; store.set('mode', mode); rerender(); }
+  $('#srcov').hidden = false; $('#srcsheet').setAttribute('aria-hidden', 'false');
+  requestAnimationFrame(() => { $('#srcov').classList.add('on'); $('#srcsheet').classList.add('on'); });
+  setTimeout(() => (state.mode === 'uid' ? $('#uid') : $('#gofile').previousElementSibling)?.focus({preventScroll: true}), 320);
+}
+function closeSrc(){
+  if (!$('#srcsheet').classList.contains('on')) return;
+  $('#srcov').classList.remove('on'); $('#srcsheet').classList.remove('on'); $('#srcsheet').setAttribute('aria-hidden', 'true');
+  setTimeout(() => { if (!$('#srcsheet').classList.contains('on')) $('#srcov').hidden = true; }, 320);
 }
 // drawer under «Персонаж» / «Лучшие рероллы»: folds away before the state changes, unfolds after
 const CHEV = '<span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span>';
@@ -1677,10 +1789,11 @@ function setPanel(next){
   old.classList.add('closing');
   setTimeout(() => { panelBusy = false; open(false); }, 230);
 }
-function rerender(){ renderCtrl(); if (state.mode === 'manual') renderManual(); else renderAccount(); }
+function rerender(){ renderCtrl(); renderAccount(); if (state.tab === 'base') renderManual(); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-goto],[data-sort],[data-panel]');
+  const t = e.target.closest('[data-key],[data-copy],[data-toggle],[data-tab],[data-f],[data-g],[data-mode],[data-rv],[data-rvreset],[data-el],[data-goto],[data-sort],[data-panel],[data-src]');
   if (!t) return;
+  if (t.dataset.src) { if (t.dataset.src === 'close') closeSrc(); else openSrc(t.dataset.src === 'open' ? null : t.dataset.src); return; }
   if (t.dataset.goto) { flashTo(document.getElementById(t.dataset.goto)); return; }
   if (t.dataset.panel) { setPanel(state.panel === t.dataset.panel ? null : t.dataset.panel); return; }
   if (t.dataset.sort) { state.csort = t.dataset.sort; store.set('csort', t.dataset.sort); renderAccount(); return; }
@@ -1691,7 +1804,7 @@ document.addEventListener('click', e => {
     const key = t.dataset.wkey || t.dataset.rvreset;
     if (t.dataset.rvreset) { try { localStorage.removeItem('rv:'+key); } catch {} }
     else { const l = rvList(key), k = t.dataset.rv; store.set('rv:'+key, JSON.stringify(l.includes(k) ? l.filter(x => x !== k) : [...l, k])); }
-    if (state.mode === 'manual') renderManual();
+    if (state.tab === 'base') renderManual();
     else { renderAccount(); const d = document.querySelector('.wbox'); if (d) d.open = true; }
     return;
   }
@@ -1701,7 +1814,7 @@ document.addEventListener('click', e => {
     if (t.dataset.jump != null) flashTo(document.getElementById('art-' + t.dataset.jump));
     return;
   }
-  if (t.dataset.tab) { setTab(t.dataset.tab); return; }
+  if (t.dataset.tab) { e.preventDefault(); setTab(t.dataset.tab); return; }
   if (t.dataset.f) { state.filter = t.dataset.f; renderLib(); return; }
   if (t.dataset.toggle) { state.open[t.dataset.toggle] = !state.open[t.dataset.toggle]; renderLib(); return; }
   if (t.dataset.copy) {
@@ -1713,12 +1826,25 @@ document.addEventListener('click', e => {
     try { navigator.clipboard.writeText(text).then(() => { toast.textContent = 'Скопировано'; setTimeout(()=>toast.textContent='',1800); }, fallback); } catch { fallback(); }
   }
 });
-function setTab(tab){
-  state.tab = tab;
-  $('#tab-acc').setAttribute('aria-selected', tab==='acc'); $('#tab-lib').setAttribute('aria-selected', tab==='lib');
-  $('#view-acc').hidden = tab !== 'acc'; $('#view-lib').hidden = tab !== 'lib';
+const ROUTES = {home: '', acc: '#reroll', base: '#base', lib: '#configs', about: '#about'};
+function setTab(tab, push = true){
+  if (!ROUTES.hasOwnProperty(tab)) tab = 'home';
+  const changed = state.tab !== tab; state.tab = tab;
+  for (const k of Object.keys(ROUTES)) { $('#view-' + k).hidden = k !== tab; $('#tab-' + k)?.setAttribute('aria-selected', k === tab); }
   if (tab === 'lib') renderLib();
+  if (tab === 'base') renderManual();
+  if (tab === 'acc') rerender();
+  if (tab === 'home') renderHome();
+  if (changed) { const v = $('#view-' + tab); v.classList.remove('enter'); void v.offsetWidth; v.classList.add('enter'); scrollTo({top: 0}); closeSrc(); }
+  if (push && location.hash !== ROUTES[tab]) history.pushState(null, '', ROUTES[tab] || location.pathname + location.search);
 }
+addEventListener('popstate', () => setTab(Object.keys(ROUTES).find(k => ROUTES[k] === location.hash && location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false));
+function renderHome(){
+  const p = prof() || state.profile || state.go;
+  $('#hcont').innerHTML = p ? `<button type="button" class="hcont" data-tab="acc"><span class="dot"></span>Продолжить: <b>${esc(p.nickname)}</b><small>${p.inv ? p.inv.length + ' артефактов' : 'UID ' + esc(p.uid)}</small><span>→</span></button>` : '';
+}
+$('#srcov').addEventListener('click', closeSrc);
+addEventListener('keydown', e => { if (e.key === 'Escape') closeSrc(); });
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); loadUid($('#uid').value.trim()); });
 $('#gofile').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
@@ -1738,8 +1864,10 @@ $('#report').onclick = () => {
   const p = state.profile;
   const rep = { version: BUILD, page: location.href, ua: navigator.userAgent, screen: innerWidth+'x'+innerHeight, tab: state.tab, mode: state.mode, g: state.g,
     profile: p ? { source: p.source, hidden: !!p.hidden, chars: p.chars.map(c => `${c.key} C${c.cons} | арт ${c.arts?.length||0}, с историей ${(c.arts||[]).filter(a => a.rolls).length}`), selected: state.sel } : null,
-    manual: state.mode === 'manual' ? {tab: state.mt, editing: state.ed?.kind || null} : undefined,
-    go: state.go ? {chars: state.go.chars.length, inv: state.go.inv.length, total: state.go.total} : null,
+    base: state.tab === 'base' ? {tab: state.mt, editing: state.ed?.kind || null} : undefined,
+    go: state.go ? {chars: state.go.chars.length, inv: state.go.inv.length, total: state.go.total, raw: !!state.good, weapons: state.good?.weapons?.length ?? null,
+      wsample: (state.good?.weapons || []).filter(w => w.location).slice(0, 5).map(w => [w.key, w.location, !!DATA.wkeys[w.key]]),
+      cw: state.go.chars.slice(0, 8).map(c => [c.key, c.weapon ? c.weapon.key || c.weapon.name : null, c.weapon?.icon || null])} : null,
     log: DIAG };
   const text = '```json\n' + JSON.stringify(rep, null, 1) + '\n```';
   const ta = $('#report-text'); ta.value = text;
@@ -1752,8 +1880,7 @@ renderCtrl();
 let boot = null; try { const gr = store.get('goodRaw'); if (gr) setGood(JSON.parse(gr)); else state.go = goNorm(JSON.parse(store.get('goProfile') || 'null')); boot = JSON.parse(store.get('lastProfile') || 'null'); state.akasha = JSON.parse(store.get('akasha') || 'null'); } catch {}
 if (boot && boot.chars) { setProfile(boot, false); if (boot.uid && boot.source === 'enka') { $('#uid').value = boot.uid; loadUid(String(boot.uid), true); } }
 else renderAccount();
-if (state.mode === 'manual') renderManual();
 if (state.mode === 'go') renderAccount();
-if (location.hash === '#library') setTab('lib');
+setTab(Object.keys(ROUTES).find(k => ROUTES[k] && ROUTES[k] === location.hash) || (location.hash === '#library' ? 'lib' : 'home'), false);
 
 </script>
