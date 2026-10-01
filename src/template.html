@@ -18,7 +18,7 @@ body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body);margin:0}
 button,input,textarea{font:inherit;color:inherit}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:16px}
+.wrap{max-width:1360px;margin:0 auto;padding-inline:16px}
 
 /* top bar */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -237,6 +237,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 .wchip.w05{color:#f3dca0;border-color:color-mix(in srgb,var(--gold) 35%,var(--line));background:color-mix(in srgb,var(--gold) 6%,var(--bg))}
 .presets{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:13px;color:var(--muted);align-items:center}
 .ras{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+@media (min-width:1200px){.ras{grid-template-columns:repeat(5,minmax(0,1fr))}}
+main.wrap{padding-bottom:56px}
 .ra{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px;display:grid;gap:10px;align-content:start;min-width:0;scroll-margin-top:80px}
 .ra.hot{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 25%,transparent),0 0 24px -8px rgba(240,200,110,.5)}
 .ra > *{min-width:0}
@@ -264,6 +266,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;paddin
 @media (max-width:860px){.manual{grid-template-columns:minmax(0,1fr)}}
 .fgrid{display:grid;gap:10px}
 .fgrid label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.fgrid label.btn{display:inline-flex;align-items:center;color:var(--accent-ink);font-size:14px;gap:6px}
 select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--fg);font:inherit;min-width:0;width:100%}
 .subrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:8px}
 .pairs{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
@@ -390,6 +393,7 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .dbtool select{width:auto;min-width:170px}.dbtool .inp{flex:1 1 220px;width:auto}
 .dbtool .elbar{margin:0}
 .dbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:10px}
+.dbbody > * + *{margin-top:14px}
 .dba,.dbc,.dbw{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px;display:grid;gap:10px;align-content:start;min-width:0;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .dba:hover,.dbc:hover,.dbw:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--fg) 22%,var(--line));box-shadow:0 10px 26px -14px rgba(0,0,0,.7)}
 .dbc{border-top:3px solid color-mix(in srgb,var(--el) 70%,var(--line))}
@@ -440,8 +444,13 @@ select,.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 .chips.sm .chip2{padding:4px 10px;font-size:12px}
 .lvl{display:grid;gap:8px}.lvn{color:var(--gold);font-family:var(--f-mono);margin-left:6px}
 .lvl input[type=range]{width:100%;accent-color:var(--gold)}
-.srow{display:grid;grid-template-columns:minmax(0,150px) minmax(0,90px) auto minmax(0,1fr);gap:6px;align-items:center}
-@media (max-width:600px){.srow{grid-template-columns:minmax(0,1fr) minmax(0,90px)}.srow .tiers{grid-column:1/-1}.srow .rst{grid-column:1/-1}}
+.srow{display:grid;grid-template-columns:minmax(0,160px) minmax(0,90px) minmax(0,1fr);gap:6px 10px;align-items:center;padding:8px;border-radius:12px;background:var(--bg)}
+.srow .tiers{grid-column:1/3}.srow .rst{grid-column:3}
+.rsl{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--gold) var(--p,0%),var(--panel-2) var(--p,0%));outline:none;cursor:pointer}
+.rsl::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--gold);transition:transform .15s}
+.rsl::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--gold)}
+.rsl:active::-webkit-slider-thumb{transform:scale(1.2)}
+@media (max-width:600px){.srow{grid-template-columns:minmax(0,1fr) minmax(0,90px)}.srow .rsl,.srow .tiers,.srow .rst{grid-column:1/-1}}
 .tiers{display:inline-flex;gap:3px;flex-wrap:wrap}
 .tier{border:1px solid var(--line);background:var(--panel-2);color:var(--fg);border-radius:7px;padding:5px 7px;font:500 12px var(--f-mono);cursor:pointer;transition:background-color .15s,transform .12s}
 .tier:hover{background:color-mix(in srgb,var(--gold) 18%,var(--panel-2))}.tier:active{transform:scale(.92)}
@@ -489,6 +498,14 @@ html{overflow-x:clip}
 .hhero .lead{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:56ch}
 .btn.big{padding:13px 22px;font-size:15px;border-radius:12px}
 .hcta{gap:10px}
+.hcta .btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s}
+.hcta .btn .ar{display:inline-block;width:0;opacity:0;transform:translateX(-6px);transition:width .25s,opacity .25s,transform .25s}
+.hcta .btn:hover{transform:translateY(-2px)}.hcta .btn:hover .ar{width:1em;opacity:1;transform:none}
+.hcta .btn:not(.ghost){box-shadow:0 8px 24px -12px var(--accent)}
+.hcta .btn:not(.ghost):hover{box-shadow:0 14px 32px -12px var(--accent)}
+.hcta .btn:not(.ghost)::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.5s ease-in-out 1.2s infinite}
+.hcta .btn.ghost:hover{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+@keyframes sheen{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 .hcont{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;font-size:14px;transition:border-color .2s,transform .2s}
 .hcont:hover{border-color:var(--ok);transform:translateX(2px)}.hcont small{color:var(--muted)}.hcont span:last-child{color:var(--ok)}
 .hcont .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:ping 2s ease-out infinite}
@@ -523,10 +540,7 @@ html{overflow-x:clip}
 @media (max-width:600px){.ctrl{display:grid}.srcbtn{width:100%}}
 /* about */
 .about{display:grid;gap:14px;padding-bottom:40px}
-.gloss dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;margin:12px 0 0}
-.gloss dt{font-weight:600;color:var(--gold)}.gloss dd{margin:0;color:var(--muted)}
-@media (max-width:600px){.gloss dl{grid-template-columns:minmax(0,1fr)}.gloss dd{margin-bottom:6px}}
-.about .howto li{margin-bottom:10px}
+.about .howto{font-size:15px;line-height:1.65;max-width:86ch;gap:4px}.about .howto li{margin-bottom:12px}
 
 /* ---- owner button, "not equipped", character picker modal ---- */
 .face.xs{box-shadow:none}
@@ -624,7 +638,7 @@ html{overflow-x:clip}
       <p class="eyebrow">Genshin Impact · инструменты</p>
       <h1>Khaenri'ah <em>Works</em></h1>
       <p class="lead">Решай, какой артефакт зароллить пером, собирай свою базу артефактов и бери готовые конфиги для Genshin Optimizer.</p>
-      <div class="row hcta"><button type="button" class="btn big" data-tab="acc">Найти лучший реролл</button><button type="button" class="btn ghost big" data-tab="base">Своя база</button></div>
+      <div class="row hcta"><button type="button" class="btn big" data-tab="acc"><span>Найти лучший реролл</span><span class="ar" aria-hidden="true">→</span></button><button type="button" class="btn ghost big" data-tab="base"><span>Своя база</span><span class="ar" aria-hidden="true">→</span></button></div>
       <div id="hcont"></div>
     </div>
     <div class="hcards">
@@ -657,22 +671,12 @@ html{overflow-x:clip}
   <section id="view-about" hidden>
     <div class="search">
       <h1>Как <em>считается</em></h1>
-      <p class="sub lead">Всё про расчёты в одном месте: что значат цифры на карточках и насколько им можно верить.</p>
+      <p class="sub lead">Что значат цифры на карточках и насколько им можно верить.</p>
     </div>
     <div class="about">
-      <div class="card gloss">
-        <h3>Словарик</h3>
-        <dl>
-          <dt>RV</dt><dd>Сумма полезных роллов артефакта, как в Акаше. Каждый ролл считается как «значение ÷ максимальный ролл»: крит шанс 3,9 = 100%, 3,1 = 80%. Полезные статы свои у каждого персонажа, их можно поменять.</dd>
-          <dt>Шанс удачи</dt><dd>Вероятность, что после реролла RV артефакта станет выше, чем сейчас.</dd>
-          <dt>Прирост</dt><dd>На сколько в среднем вырастет RV за один реролл. Худший исход в игре можно не оставлять, поэтому прирост не бывает меньше нуля.</dd>
-          <dt>Порядок</dt><dd>Список «Какие артефакты роллить» и «Лучшие рероллы» сортируются по приросту на одно перо: реролл цветка и пера стоит 1 перо, остальных слотов 2.</dd>
-          <dt>Качество</dt><dd>RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные, и все улучшения ушли в них).</dd>
-        </dl>
-      </div>
-      <div class="card"><h3>Подробно</h3>
+      <div class="card">
       <ol class="howto" >
-        <li><b>RV как в Акаше.</b> Каждый ролл стата из списка персонажа считается как «значение ÷ максимальный ролл»: крит. шанс 3,9 = 100%, 3,1 = 80%. RV артефакта = сумма. Полезные статы по умолчанию заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Качество = RV артефакта ÷ лучший возможный RV (обычно 900%: все 4 саб стата полезные и все 5 улучшений в них).</li>
+        <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл, ровно как в Genshin Optimizer. RV артефакта = сумма по саб статам. Разница с GO одна: GO складывает все саб статы, а сайт только полезные для персонажа. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Для каждого артефакта выбирается пара с лучшим приростом.</li>
         <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с полной пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и полной пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
@@ -993,6 +997,12 @@ function rollOptions(k, v){
   return Object.entries(by).map(([r, w]) => ({r: +r, p: w / 4 ** r}));
 }
 // odds of the first (kept) roll being tier 7/8/9/10, given r rolls add up to the shown value
+// the shown value is rounded (HP% 5.3 is really 5.25 = a 90% roll); RV uses the real sum of the rolls, like GO
+function exactSum(k, v, r){
+  let S = 0, W = 0;
+  for (const c of matches(k, v)) if (c.r === r) { S += c.S * c.ways; W += c.ways; }
+  return W ? S / W : v;
+}
 function initTiers(k, v, r){
   const it = [0, 0, 0, 0];
   for (const c of matches(k, v)) if (c.r === r) c.n.forEach((x, i) => { it[i] += c.ways * x / r; });
@@ -1043,7 +1053,7 @@ function model(a, lines){
   const h = guessHistory(subsIn, lines === 3 || lines === 4 ? lines : null);
   if (h) return {...base, ok:true, exact:false, approx:false, conf: h.conf, nEnh: h.rs.reduce((t, r) => t + r, 0) - 4,
     subs: subsIn.map((s, i) => { const it = initTiers(s.k, s.v, h.rs[i]);
-      return {k: s.k, value: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * SUB[s.k].t[t], 0) : s.v / h.rs[i]}; })};
+      return {k: s.k, value: exactSum(s.k, s.v, h.rs[i]), shown: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * SUB[s.k].t[t], 0) : s.v / h.rs[i]}; })};
   // values no roll combination explains (typo, old data): nearest average roll
   const subs = subsIn.map(s => { const r = guessRolls(s.k, s.v); return {k: s.k, init: s.v / r, value: s.v, rolls: r}; });
   const total = subs.reduce((t, s) => t + s.rolls, 0);
@@ -1303,7 +1313,7 @@ function subLines(m, subs, w){
   return `<div class="sl">${subs.map(s => {
     const ms = m?.ok ? m.subs.find(x => x.k === s.k) : null, n = ms?.rolls;
     const dots = n ? `<span class="dots">${(ms.tiers || Array(n).fill(0)).map(t => `<i style="--o:${t ? 0.4 + t*0.15 : 0.8}"></i>`).join('')}</span>` : '<span></span>';
-    return `<div class="${wcls(w[s.k]||0)}"><span>${esc(SUB[s.k].n)}</span>${dots}<span class="v">${fmtSub(s.k, s.value)}</span></div>`;
+    return `<div class="${wcls(w[s.k]||0)}"><span>${esc(SUB[s.k].n)}</span>${dots}<span class="v">${fmtSub(s.k, s.shown ?? s.value)}</span></div>`;
   }).join('')}</div>`;
 }
 const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? b : c;
@@ -1477,6 +1487,14 @@ function toast(msg, before){
 // ---------- substat values: only sums of real rolls are allowed ----------
 const tierVal = (k, t) => SUB[k].t[t - 7];
 const showSub = (k, v) => SUB[k].p ? (Math.round(v * 10) / 10).toFixed(1) : String(Math.round(v));
+// every value a substat can show at this level (1 roll up to 1 + upgrades), for the value slider
+const subVals = (k, level) => { const maxR = 1 + Math.floor(Math.min(20, level) / 4);
+  return [...new Set(COMBOS[k].filter(c => c.r <= maxR).map(c => showSub(k, c.S)))].sort((a, b) => a - b); };
+const slIdx = (vals, v) => { const x = num(v); if (!(x > 0)) return 0; let b = 0;
+  vals.forEach((y, i) => { if (Math.abs(y - x) < Math.abs(vals[b] - x)) b = i; }); return b + 1; };
+function syncSl(n){ const d = state.ed?.d, sl = document.querySelector(`[data-db="asrl"][data-i="${n}"]`); if (!d || !sl) return;
+  const k = KEY_OF[d.substats[n].key]; if (!k) return; const vals = subVals(k, d.level), j = slIdx(vals, d.substats[n].value);
+  sl.max = vals.length; sl.value = j; sl.style.setProperty('--p', (vals.length ? j / vals.length * 100 : 0) + '%'); }
 // exact sum behind a typed value: the closest real roll combination (fewest rolls on a tie)
 function tierSum(k, v){
   if (!(v > 0)) return 0;
@@ -1568,11 +1586,11 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && $('#pkm') && !$('#p
 
 // ---------- render ----------
 function blankArt(){ return {i: null, setKey: state.lastSet || '', slotKey: 'flower', level: 20, mainStatKey: 'hp', location: '', lock: false,
-  substats: [{key:'critRate_', value:''}, {key:'critDMG_', value:''}, {key:'', value:''}, {key:'', value:''}]}; }
+  substats: [{key:'', value:''}, {key:'', value:''}, {key:'', value:''}, {key:'', value:''}]}; }
 function renderManual(){
   const g = goodBase(), mt = state.mt || 'arts';
   const arts = g.artifacts.map((a, i) => ({a, i})).filter(x => x.a.rarity === 5);
-  const tabs = [['arts', 'Артефакты', arts.length], ['chars', 'Персонажи', g.characters.length], ['weps', 'Оружие', g.weapons.length]];
+  const tabs = [['arts', 'Артефакты', arts.length], ['chars', 'Персонажи', g.characters.length], ['weps', 'Оружие', g.weapons.filter(w => wInfo(w.key).rar > 1).length]];
   const fresh = state.lastMt !== mt; state.lastMt = mt; $('#manual').classList.toggle('anim', fresh);
   const body = mt === 'chars' ? dbChars(g) : mt === 'weps' ? dbWeps(g) : dbArts(g, arts);
   $('#manual').innerHTML = `<div class="card dbhead">
@@ -1643,11 +1661,12 @@ function artEditor(g){
         <div class="fl"><span class="stp"><i>4</i>Уровень <b class="lvn" id="lvn">+${d.level}</b></span>
           <div class="lvl"><input type="range" min="0" max="20" step="1" value="${d.level}" id="alv" aria-label="Уровень" style="--p:${d.level * 5}%">
           <div class="chips sm">${[0, 4, 8, 12, 16, 20].map(l => `<button type="button" class="chip2" data-db="alvq" data-i="${l}" aria-pressed="${d.level === l}">+${l}</button>`).join('')}</div></div></div>
-        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">кнопки добавляют один ролл нужной силы</small></span>
+        <div class="fl"><span class="stp"><i>5</i>Саб статы <small class="sub">ползунок ходит только по значениям из игры, кнопки добавляют один ролл</small></span>
           ${d.substats.map((s, n) => { const k = KEY_OF[s.key], r = chk.rows[n];
             return `<div class="srow">
               <select data-db="askey" data-i="${n}" aria-label="Саб стат ${n + 1}"><option value="">—</option>${subsFree().map(x => `<option value="${SUB[x].g}"${s.key === SUB[x].g ? ' selected' : ''}>${esc(SUB[x].n)}</option>`).join('')}</select>
               <input class="inp mono" data-db="asval" data-i="${n}" inputmode="decimal" value="${esc(s.value)}" placeholder="${k ? (SUB[k].p ? '0.0' : '0') : ''}"${k ? '' : ' disabled'} aria-label="Значение ${n + 1}">
+              ${k ? (() => { const vals = subVals(k, d.level), j = slIdx(vals, s.value); return `<input type="range" class="rsl" data-db="asrl" data-i="${n}" min="0" max="${vals.length}" step="1" value="${j}" style="--p:${j / vals.length * 100}%" aria-label="Значение ${n + 1} ползунком" title="Только значения, которые бывают в игре">`; })() : '<span></span>'}
               <span class="tiers">${k ? [7, 8, 9, 10].map(t => `<button type="button" class="tier" data-db="atier" data-i="${n}" data-t="${t}" title="Ролл ${t * 10}%">+${showSub(k, tierVal(k, t))}</button>`).join('') + `<button type="button" class="tier x" data-db="aclr" data-i="${n}" title="Очистить" aria-label="Очистить">✕</button>` : ''}</span>
               <span class="rst ${r ? (r.bad ? 'bad' : r.warn ? 'warn' : 'ok') : ''}" id="rst-${n}">${r ? esc(r.txt) : ''}</span>
             </div>`; }).join('')}</div>
@@ -1685,7 +1704,8 @@ function artEditorWire(){
 function dbChars(g){
   const have = new Set(g.characters.map(c => c.key));
   const cnt = k => g.artifacts.filter(a => a.location === k && a.rarity === 5).length;
-  const wOf = k => g.weapons.find(w => w.location === k);
+  // GO gives every character a weapon; a 1★ starter at its default is shown as "not equipped"
+  const wOf = k => g.weapons.find(w => w.location === k && wInfo(w.key).rar > 1);
   const list = [...g.characters].sort((a, b) => charInfo(a.key).ru.localeCompare(charInfo(b.key).ru, 'ru'));
   const picker = state.ed?.kind === 'cpick' ? `<div class="card picker" id="picker">
       <div class="aedh"><h3>Добавить персонажа</h3><button type="button" class="ib" data-db="pclose" aria-label="Закрыть">✕</button></div>
@@ -1699,7 +1719,7 @@ function dbChars(g){
         <div class="hd">${face(c.key)}<div class="t"><b>${esc(i.ru)}</b><small>ур. ${c.level || 90} · ${cnt(c.key)} ${cnt(c.key) === 1 ? 'артефакт' : cnt(c.key) > 1 && cnt(c.key) < 5 ? 'артефакта' : 'артефактов'}</small>
           </div>
           <span class="acts"><button type="button" class="ib del" data-db="cdel" data-i="${esc(c.key)}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
-        <div class="cwep">${wi ? `<span class="wbadge r${wi.rar}">${imgTag([wi.icon], 'loading="lazy"')}</span><span><b>${esc(wi.name)}</b><small>R${w.refinement || 1} · ур. ${w.level || 90}</small></span>` : `<span class="wbadge none">${SLOTSVG.sword}</span><span><b class="sub">Без оружия</b><small>${DATA.wtype[c.key] ? WTYPE[DATA.wtype[c.key]] : ''}</small></span>`}</div>
+        <div class="cwep">${wi ? `<span class="wbadge r${wi.rar}">${imgTag([wi.icon], 'loading="lazy"')}</span><span><b>${esc(wi.name)}</b><small>R${w.refinement || 1} · ур. ${w.level || 90}</small></span>` : `<span class="wbadge none"><span class="noeq"></span></span><span><b class="sub">Не экипировано</b><small>${DATA.wtype[c.key] ? WTYPE[DATA.wtype[c.key]] : ''}</small></span>`}</div>
         <div class="cons" role="group" aria-label="Созвездия">${[0, 1, 2, 3, 4, 5, 6].map(k => `<button type="button" data-db="ccons" data-i="${esc(c.key)}" data-t="${k}" aria-pressed="${(c.constellation || 0) === k}">C${k}</button>`).join('')}</div>
         <div class="row"><button type="button" class="btn ghost small" data-db="carts" data-i="${esc(c.key)}">Артефакты</button><button type="button" class="btn ghost small" data-db="anewfor" data-i="${esc(c.key)}">+ Артефакт</button><button type="button" class="btn ghost small" data-db="wpickfor" data-i="${esc(c.key)}">${w ? 'Сменить оружие' : '+ Оружие'}</button></div>
       </article>`; }).join('')}</div>` : '<p class="empty" style="margin-top:12px">Персонажей пока нет.</p>'}`;
@@ -1707,7 +1727,7 @@ function dbChars(g){
 
 function dbWeps(g){
   const owners = g.characters.map(c => c.key).sort((a, b) => charInfo(a).ru.localeCompare(charInfo(b).ru, 'ru'));
-  const list = g.weapons.map((w, i) => ({w, i, x: wInfo(w.key)})).sort((a, b) => b.x.rar - a.x.rar || !!b.w.location - !!a.w.location || a.x.name.localeCompare(b.x.name, 'ru'));
+  const list = g.weapons.map((w, i) => ({w, i, x: wInfo(w.key)})).filter(y => y.x.rar > 1).sort((a, b) => b.x.rar - a.x.rar || !!b.w.location - !!a.w.location || a.x.name.localeCompare(b.x.name, 'ru'));
   const lim = state.wlim || 48;
   const all = Object.keys(DATA.wkeys).map(wInfo).filter(x => x.rar >= 3).sort((a, b) => b.rar - a.rar || a.name.localeCompare(b.name, 'ru'));
   const picker = state.ed?.kind === 'wpick' ? `<div class="card picker" id="picker">
@@ -1756,8 +1776,8 @@ function dbAct(act, i, t){
     case 'atier': { const s = ed.d.substats[+i], k = KEY_OF[s.key]; if (!k) return;
       s.value = showSub(k, tierSum(k, num(s.value)) + tierVal(k, +t.dataset.t));
       const inp = document.querySelector(`[data-db="asval"][data-i="${i}"]`); if (inp) { inp.value = s.value; inp.classList.remove('pop'); void inp.offsetWidth; inp.classList.add('pop'); }
-      return artEditorLive(); }
-    case 'aclr': { ed.d.substats[+i].value = ''; const inp = document.querySelector(`[data-db="asval"][data-i="${i}"]`); if (inp) inp.value = ''; return artEditorLive(); }
+      syncSl(+i); return artEditorLive(); }
+    case 'aclr': { ed.d.substats[+i].value = ''; const inp = document.querySelector(`[data-db="asval"][data-i="${i}"]`); if (inp) inp.value = ''; syncSl(+i); return artEditorLive(); }
     case 'asave': {
       const d = ed.d; if (checkArt(d).errs.length) return;
       let moved = null;
@@ -1818,7 +1838,11 @@ $('#manual').addEventListener('change', e => {
 });
 $('#manual').addEventListener('input', e => {
   const t = e.target;
-  if (t.dataset.db === 'asval' && state.ed?.d) { state.ed.d.substats[+t.dataset.i].value = t.value.trim(); return artEditorLive(); }
+  if (t.dataset.db === 'asval' && state.ed?.d) { state.ed.d.substats[+t.dataset.i].value = t.value.trim(); syncSl(+t.dataset.i); return artEditorLive(); }
+  if (t.dataset.db === 'asrl' && state.ed?.d) { const n = +t.dataset.i, s = state.ed.d.substats[n], k = KEY_OF[s.key]; if (!k) return;
+    const vals = subVals(k, state.ed.d.level), j = +t.value; s.value = j ? vals[j - 1] : '';
+    t.style.setProperty('--p', j / vals.length * 100 + '%');
+    const inp = document.querySelector(`[data-db="asval"][data-i="${n}"]`); if (inp) inp.value = s.value; return artEditorLive(); }
   if (t.id === 'pq') { const s = t.value.trim().toLowerCase(); document.querySelectorAll('#picker .pch').forEach(b => { b.hidden = !!s && !b.dataset.q.includes(s); }); }
 });
 
