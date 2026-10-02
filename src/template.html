@@ -904,8 +904,8 @@ html{overflow-x:clip}
       <ol class="howto" >
         <li><b>RV (Roll Value), ценность ролла.</b> Каждый ролл саб стата считается как «значение ÷ самый сильный ролл этого стата у 5★»: HP% 5,3 из 5,8 = 90%, крит. шанс 3,9 = 100%, два ролла HP 568 = 190%. Берётся настоящее значение без игрового округления (5,3 на самом деле 5,25), поэтому выходят ровные 70, 80, 90 или 100% за ролл. RV артефакта = сумма по саб статам. RV считается только по статам, полезным персонажу: перо нужно тратить на то, что ему поможет. Исключение: артефакт в «Своей базе», который ни на ком не надет. Там судить не по кому, поэтому считаются все саб статы, ровно как «Текущая ценность ролла» в GO. Полезные статы заданы для каждого персонажа, их можно поменять под свой отряд (изменения хранятся только в твоём браузере). Лучший возможный RV у 5★ обычно 900%: 9 роллов по 100% (4 начальных и 5 улучшений), и «Качество» = RV ÷ этот максимум.</li>
         <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
-        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Пара выбирается так: если персонажу нужны криты, в паре сначала криты (оба, если они есть в саб статах, иначе тот, что есть), потому что для урона они важнее всего; среди таких пар берётся пара с лучшим приростом. Для персонажей без критов в списке просто пара с лучшим приростом.</li>
-        <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с фулл пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и фулл пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
+        <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. После реролла игра даёт оставить старый артефакт (перо всё равно тратится), поэтому худший исход ничего не отнимает и прирост не бывает отрицательным. Гарантия на выбранную пару считается так, как её описывают гайды: улучшения падают случайно, и только когда оставшихся улучшений ровно столько, сколько ещё не хватает до гарантии, они идут в пару. Без истории роллов (GO, ручной ввод) сайт считает все подходящие истории и складывает их по вероятности. Пара выбирается так: если персонажу нужны криты, в паре сначала криты (оба, если они есть в саб статах, иначе тот, что есть), потому что для урона они важнее всего; среди таких пар берётся пара с лучшим приростом. Для персонажей без критов в списке просто пара с лучшим приростом.</li>
+        <li><b>Вердикт и очередь на перья.</b> Перья редкие, поэтому все артефакты всех персонажей стоят в одной очереди по приросту на одно перо (прирост ÷ цена реролла). Для персонажей с критами в списке RV артефакт без двух критов (крит в основном стате короны считается) и 3-стат без фулл пользы сразу «Не стоит», шанс всё равно показан. Подпись «4 стата · два крита · фулл польза» и т. п. показывает класс артефакта, но на место в очереди не влияет. От +60% RV на перо «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
         <li><b>Качество артефактов.</b> Это средний RV артефактов персонажа, делённый на недостижимый идеал: все четыре саб стата полезные, и все пять улучшений ушли в них (900% на артефакт). Идеала не бывает, поэтому цифра всегда кажется низкой. Ориентир: от 85% превосходно (такое встречается очень редко), 75–85% отлично, это уровень лучших сборок, 65–75% очень хорошо, 55–65% хорошо, 45–55% средне, ниже слабо. Качество показывает, насколько удачно легли роллы, но не урон: на него влияют ещё основные статы, сеты, оружие и отряд.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Характеристики персонажа.</b> Сайт считает их сам по таблицам игры (из Genshin Optimizer): база персонажа и оружия по уровню и возвышению, саб стат и пассивка оружия, основные и саб статы артефактов, бонусы 2 предметов. По UID результат сверяется с игрой: если число не совпало, значит есть эффект, который сайт пока не считает (пассивка таланта или созвездия). Бафы отряда и условные эффекты не входят, как и на экране персонажа в игре.</li>
@@ -1270,7 +1270,10 @@ function guessHistory(subsIn, lines, level = 20){
   if (!hyps.length) return null;
   hyps.sort((x, y) => y.lk - x.lk);
   const pL = hyps.filter(h => h.L === hyps[0].L).reduce((t, h) => t + h.lk, 0) / Z;
-  return {rs: hyps[0].rs, conf: hyps[0].lk / Z, L: hyps[0].L, confL: pL};
+  // every history that fits, with its probability (enough of them to cover 99.9%), so the odds can be mixed over all of them
+  const all = []; let cum = 0;
+  for (const h of hyps) { all.push({rs: h.rs, p: h.lk / Z}); cum += h.lk / Z; if (cum >= 0.999) break; }
+  return {rs: hyps[0].rs, conf: hyps[0].lk / Z, L: hyps[0].L, confL: pL, all};
 }
 
 // Artifact -> reshape model: 4 substats with initial value, current value and roll count; nEnh enhancements to redistribute
@@ -1294,9 +1297,10 @@ function model(a, lines){
   }
   if (subsIn.length !== 4) return {...base, ok:false, why: subsIn.length ? 'Нужно 4 саб стата' : 'Нет саб статов'};
   const h = guessHistory(subsIn, lines === 3 || lines === 4 ? lines : null);
-  if (h) return {...base, ok:true, exact:false, approx:false, conf: h.conf, nEnh: h.rs.reduce((t, r) => t + r, 0) - 4,
-    subs: subsIn.map((s, i) => { const it = initTiers(s.k, s.v, h.rs[i]);
-      return {k: s.k, value: exactSum(s.k, s.v, h.rs[i]), shown: s.v, rolls: h.rs[i], it, init: it ? it.reduce((a, p, t) => a + p * SUB[s.k].t[t], 0) : s.v / h.rs[i]}; })};
+  const subsFor = rs => subsIn.map((s, i) => { const it = initTiers(s.k, s.v, rs[i]);
+      return {k: s.k, value: exactSum(s.k, s.v, rs[i]), shown: s.v, rolls: rs[i], it, init: it ? it.reduce((a, p, t) => a + p * SUB[s.k].t[t], 0) : s.v / rs[i]}; });
+  if (h) return {...base, ok:true, exact:false, approx:false, conf: h.conf, nEnh: h.rs.reduce((t, r) => t + r, 0) - 4, subs: subsFor(h.rs),
+    alts: h.all.map(x => ({p: x.p, nEnh: x.rs.reduce((t, r) => t + r, 0) - 4, subs: subsFor(x.rs)}))};
   // values no roll combination explains (typo, old data): nearest average roll
   const subs = subsIn.map(s => { const r = guessRolls(s.k, s.v); return {k: s.k, init: s.v / r, value: s.v, rolls: r}; });
   const total = subs.reduce((t, s) => t + s.rolls, 0);
@@ -1321,14 +1325,38 @@ function maxUseful(w, main){
 // Exact reshape outcome for one pair: enumerate every order of enhancements (4^n), keep those meeting the guarantee,
 // then convolve roll tiers (70..100%) in 1/200-roll units. Weights are rounded to 1/20.
 const PAIRS = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+// How the game gives the pair its guaranteed enhancements. C, as Icy Veins describes it: "it rolls randomly until the final
+// 2 substat rolls" (the guarantee kicks in only when the remaining rolls are all needed). A and B are kept for comparison:
+// A = orders missing the guarantee are thrown out, B = the guaranteed ones go first.
+const GMODE = 'C';
 const RS_CACHE = new Map();
 // Shared engine: n enhancements land uniformly on the 4 substats (with the pair guarantee when pair is given),
 // each at a random tier; returns odds of beating `target` useful rolls and the expected gain over it
-function spreadOdds(subs, field, n, w, pair, g, target){
-  const key = JSON.stringify([subs.map(s => [s.k, +s[field].toFixed(3), field === 'init' && s.it ? s.it.map(x => +x.toFixed(4)) : 0]), field, n, SUBK.map(k => +(w[k]||0).toFixed(3)), pair, g, +target.toFixed(3)]);
+function spreadOdds(subs, field, n, w, pair, g, target, gm = GMODE){
+  const key = JSON.stringify([subs.map(s => [s.k, +s[field].toFixed(3), field === 'init' && s.it ? s.it.map(x => +x.toFixed(4)) : 0]), field, n, SUBK.map(k => +(w[k]||0).toFixed(3)), pair, g, +target.toFixed(3), gm]);
   if (RS_CACHE.has(key)) return RS_CACHE.get(key);
   const comps = new Map(); let tot = 0;
-  for (let s = 0; s < 4 ** n; s++) {
+  if (pair && gm === 'C') {
+    // C: every enhancement is random until only as many are left as the guarantee still needs; those go to the pair
+    const walk = (j, c, hit, p) => {
+      if (j === n) { const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + p); return; }
+      const forced = g - hit >= n - j;
+      for (let i = 0; i < 4; i++) { const inPair = i === pair[0] || i === pair[1];
+        if (forced && !inPair) continue;
+        c[i]++; walk(j + 1, c, hit + (inPair ? 1 : 0), p * (forced ? 1 / 2 : 1 / 4)); c[i]--; }
+    };
+    walk(0, [0,0,0,0], 0, 1); tot = 1;
+  } else if (pair && gm === 'B') {
+    // B: the g guaranteed enhancements go to the pair first (each to one of the two at random), the rest anywhere
+    const k = Math.min(g, n);
+    for (let s = 0; s < 2 ** k * 4 ** (n - k); s++) {
+      let x = s; const c = [0,0,0,0];
+      for (let j = 0; j < k; j++) { c[pair[x & 1]]++; x >>= 1; }
+      for (let j = k; j < n; j++) { c[x & 3]++; x >>= 2; }
+      const ck = c.join(''); comps.set(ck, (comps.get(ck) || 0) + 1); tot++;
+    }
+  } else for (let s = 0; s < 4 ** n; s++) {
+    // A: every enhancement lands anywhere; orders that miss the guarantee are thrown out
     let x = s, hit = 0; const c = [0,0,0,0];
     for (let j = 0; j < n; j++) { const i = x & 3; x >>= 2; c[i]++; if (pair && (i === pair[0] || i === pair[1])) hit++; }
     if (pair && hit < g) continue;
@@ -1343,7 +1371,7 @@ function spreadOdds(subs, field, n, w, pair, g, target){
     const out = new Array(dist0.length + 10 * mul[i]).fill(0);
     dist0.forEach((p, u) => { if (p) s.it.forEach((q, t) => { out[u + (t + 7) * mul[i]] += p * q; }); });
     dist0 = out; });
-  let pBetter = 0, pWorse = 0, eGain = 0, eNew = 0;
+  let pBetter = 0, pWorse = 0, eUp = 0, eNew = 0;
   for (const [ck, cnt] of comps) {
     let dist = dist0;
     ck.split('').forEach((cn, i) => {
@@ -1359,22 +1387,31 @@ function spreadOdds(subs, field, n, w, pair, g, target){
       if (!p) return;
       const val = base + u / 200, q = p * wgt;
       eNew += q * val;
-      if (val > target + 0.025) { pBetter += q; eGain += q * (val - target); }
+      if (val > target + 0.025) { pBetter += q; eUp += q * (val - target); }
       else if (val < target - 0.025) pWorse += q;
     });
   }
-  const res = {pair, pBetter, pWorse, eGain, eNew, cur: target};
+  // after a reroll the game lets you keep the old piece (the feather is spent anyway), so a worse result costs nothing:
+  // eGain = the average gain where losses count as zero; eDelta keeps the plain average change for reference
+  const res = {pair, pBetter, pWorse, eUp, eGain: eUp, eDelta: eNew - target, eNew, cur: target};
   RS_CACHE.set(key, res);
   return res;
 }
 // Reroll: initial values stay, nEnh enhancements are redistributed; by default compared with the artifact itself
-const reshape = (m, w, pair, g, target = useful(m.subs, w)) => spreadOdds(m.subs, 'init', m.nEnh, w, pair, g, target);
+// Without roll history (GO, by hand) every history that fits the values is computed and mixed by its probability
+function reshape(m, w, pair, g){
+  const alts = m.alts?.length > 1 ? m.alts : [{p: 1, subs: m.subs, nEnh: m.nEnh}];
+  const out = {pair, pBetter: 0, pWorse: 0, eUp: 0, eGain: 0, eDelta: 0, eNew: 0, cur: 0}, Z = alts.reduce((t, a) => t + a.p, 0);
+  for (const a of alts) { const r = spreadOdds(a.subs, 'init', a.nEnh, w, pair, g, useful(a.subs, w));
+    for (const k of ['pBetter', 'pWorse', 'eUp', 'eGain', 'eDelta', 'eNew', 'cur']) out[k] += r[k] * a.p / Z; }
+  return out;
+}
 // For characters whose RV counts both crits, crits come first in the pair (the most valuable stats for damage):
 // a pair with both crits beats one with a single crit, which beats one without; RV gain decides only within that.
 function bestPair(m, w, g, target){
   let best = null, bestC = -1;
   const critChar = w.cr > 0 && w.cd > 0, crits = pair => critChar ? pair.filter(i => m.subs[i].k === 'cr' || m.subs[i].k === 'cd').length : 0;
-  for (const pair of PAIRS) { const r = reshape(m, w, pair, g, target), c = crits(pair);
+  for (const pair of PAIRS) { const r = reshape(m, w, pair, g), c = crits(pair);
     if (!best || c > bestC || (c === bestC && (r.eGain > best.eGain + 1e-9 || (Math.abs(r.eGain-best.eGain) < 1e-9 && r.pBetter > best.pBetter)))) { best = r; bestC = c; } }
   return {...best, perDust: best.eGain / m.cost};
 }
@@ -1419,8 +1456,9 @@ function judge(m, w, r){
   if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', 'Можно'];
   if (text === 'Не стоит') note = '';
   const tierN = why ? 0 : r.perDust >= 0.6 ? 3 : r.perDust >= 0.25 ? 2 : 1;
-  const tag = four ? '4 стата' : '3 стата';
-  return {cls, text, why, note, ok: !why, extra, critChar, tag, key: cls4 * 1000 + tierN * 100 + r.perDust};
+  // the feather queue: average change per feather, losses included; the stat class is shown as a label only
+  const tag = why ? (four ? '4 стата' : '3 стата') : SGROUP(cls4, critChar && crits);
+  return {cls, text, why, note, ok: !why, extra, critChar, tag, cls4, key: (why ? 0 : 1000) + r.perDust};
 }
 const pct = x => x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : Math.round(x*100)+'%';
 // gains are shown in RV percent: 1 max roll = 100%
@@ -1541,7 +1579,16 @@ function subExact(a, k, v){
   const o = rollOptions(sk, +v); if (!o.length) return +v;
   return exactSum(sk, +v, o.sort((x, y) => y.p - x.p)[0].r);
 }
-const SRC = {char: 'Персонаж', asc: 'Возвышение', wep: 'Оружие', wpas: 'Пассивка оружия', arts: 'Артефакты', set: 'Бонус 2 предметов'};
+const SRC = {char: 'Персонаж', asc: 'Возвышение', wep: 'Оружие', wpas: 'Пассивка оружия', arts: 'Артефакты', set: 'Бонус 2 предметов', cpas: 'Пассивка персонажа'};
+// passives GO's tables don't carry as plain stats; each returns [stat, value] pairs from the stats without them
+const PANEL_W = {
+  EngulfingLightning: (s, r) => [['atk_', Math.min([0.8, 0.9, 1, 1.1, 1.2][r - 1], [0.28, 0.35, 0.42, 0.49, 0.56][r - 1] * (s.enerRech_ - 1))]],
+  StaffOfHoma: (s, r, b) => [['atk', [0.008, 0.01, 0.012, 0.014, 0.016][r - 1] * s.hp]],
+};
+const PANEL_C = {
+  RaidenShogun: s => [['electro_dmg_', 0.4 * Math.max(0, s.enerRech_ - 1)]],
+  Xingqiu: () => [['hydro_dmg_', 0.2]],
+};
 function calcStats(c){
   const ch = GO.ch[c.key];
   if (!ch) return {ok: false, why: 'Этого персонажа ещё нет в таблицах игры (Genshin Optimizer).'};
@@ -1575,9 +1622,13 @@ function calcStats(c){
   Object.entries(sets).forEach(([k, n]) => { if (n >= 2) Object.entries(GO.s2[k] || {}).forEach(([s, v]) => add(s, v, 'set')); });
   const sum = k => Object.values(P[k] || {}).reduce((t, v) => t + v, 0);
   const base = {hp: B.hp.char, atk: B.atk.char + (B.atk.wep || 0), def: B.def.char};
-  const tot = {hp: base.hp * (1 + sum('hp_')) + sum('hp'), atk: base.atk * (1 + sum('atk_')) + sum('atk'), def: base.def * (1 + sum('def_')) + sum('def'),
+  const totals = () => { const o = {hp: base.hp * (1 + sum('hp_')) + sum('hp'), atk: base.atk * (1 + sum('atk_')) + sum('atk'), def: base.def * (1 + sum('def_')) + sum('def'),
     eleMas: sum('eleMas'), critRate_: 0.05 + sum('critRate_'), critDMG_: 0.5 + sum('critDMG_'), enerRech_: 1 + sum('enerRech_'), heal_: sum('heal_')};
-  ['physical', ...EL_ORDER].forEach(e => { tot[e + '_dmg_'] = sum(e + '_dmg_'); });
+    ['physical', ...EL_ORDER].forEach(e => { o[e + '_dmg_'] = sum(e + '_dmg_'); }); return o; };
+  let tot = totals();
+  // always-on passives that show on the character screen, some convert one stat into another (checked against the game by UID)
+  const ref = Math.min(5, Math.max(1, w?.ref || 1)), conv = [...(PANEL_W[wk]?.(tot, ref, base) || []).map(x => [...x, 'wpas']), ...(PANEL_C[c.key]?.(tot, c.cons || 0, base) || []).map(x => [...x, 'cpas'])];
+  if (conv.length) { conv.forEach(([k, v, src]) => add(k, v, src)); tot = totals(); }
   return {ok: true, el: ch.el, lv, asc, base, B, P, tot, sets, notes};
 }
 // the same numbers the game shows (Enka's fightPropMap), for the check against our own calculation
@@ -1590,7 +1641,8 @@ function gameStats(c){
 }
 const fmtS = (k, v) => isPct(k) ? (v * 100).toFixed(1) + '%' : Math.round(v).toLocaleString('ru-RU');
 // a value "matches" when the game screen would show the same number
-const sameS = (k, a, b) => fmtS(k, a) === fmtS(k, b);
+// the game stores 32-bit numbers, so a value right on a rounding edge may show either way: compare with a tiny tolerance
+const sameS = (k, a, b) => Math.abs(a - b) <= (isPct(k) ? 0.0002 : Math.max(0.5, Math.abs(b) * 1e-4));
 function statRows(st){
   const el = st.el, rows = [['hp', 'HP'], ['atk', 'Атака'], ['def', 'Защита'], ['eleMas', 'МС'], ['critRate_', 'Крит. шанс'], ['critDMG_', 'Крит. урон'], ['enerRech_', 'ВЭ'], [el + '_dmg_', EL_RU[el] + ' урон']];
   if (st.tot.physical_dmg_ > 0.0005) rows.push(['physical_dmg_', 'Физ. урон']);
@@ -2920,7 +2972,7 @@ function buildSummary(){
   const all = rerollList(p), ok = all.filter(t => t.j.ok && t.r.perDust >= 0.25);
   return {v: 1, n: p.nickname || '', uid: p.uid || '', g: state.g, d: Date.now(), tot: all.length, ch: p.chars.length, worth: ok.length,
     fe: ok.reduce((s, t) => s + t.m.cost, 0),
-    it: ok.slice(0, 15).map(t => [t.c.key, t.c.cons ?? 0, t.a.slot, t.a.set || '', t.a.icon || '', t.j.cls, t.j.text, Math.round(t.r.pBetter * 100), Math.round(t.r.eGain * 100), pairName(t.m, effW(t.c.key), t.r.pair), t.m.cost, Math.floor(t.j.key / 1000), t.j.critChar ? 1 : 0])};
+    it: ok.slice(0, 15).map(t => [t.c.key, t.c.cons ?? 0, t.a.slot, t.a.set || '', t.a.icon || '', t.j.cls, t.j.text, Math.round(t.r.pBetter * 100), Math.round(t.r.eGain * 100), pairName(t.m, effW(t.c.key), t.r.pair), t.m.cost, t.j.cls4, t.j.critChar ? 1 : 0])};
 }
 const b64u = u8 => { let s = ''; u8.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64u = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
@@ -2966,9 +3018,9 @@ function sumCard(s){
     <div class="sch"><span class="slogo">${LOGO_SVG}</span><div><small>Khaenri'ah Works · сводка рероллов</small><h2>${esc(s.n || 'Без имени')}${s.uid ? ` <span class="sub">UID ${esc(s.uid)}</span>` : ''}</h2><span class="sub">${esc(date)} · ${esc(GNAME[s.g] || '')}</span></div></div>
     <div class="stiles">${tile(s.tot, 'артефактов +20 проверено')}${tile(s.worth, 'стоит роллить', 'gold')}${tile(s.fe, s.fe === 1 ? 'перо на всё' : s.fe < 5 && s.fe > 1 ? 'пера на всё' : 'перьев на всё')}${tile(best ? '+' + best + '%' : '—', 'лучший прирост RV', 'ok')}</div>
     ${s.it.length ? `<div class="srows">${s.it.map((r, n) => { const [ck, cons, slot, set, icon, cls, text, pb, gain, pair, cost, grp, crit] = r, i = charInfo(ck);
-      const head = grp != null && (n === 0 || s.it[n - 1][11] !== grp) ? `<div class="sgrp">${esc(SGROUP(grp, crit))}</div>` : '';
+      const head = '';
       return `${head}<div class="srow2" style="--el:var(--${i.el});--i:${Math.min(n, 15)}"><span class="sn">${n + 1}</span><span class="aicon r5">${icon ? imgTag([icon]) : ''}</span>
-        <span class="sw"><b>${esc(i.ru)} <span class="sub">C${cons}</span></b><small>${grp != null ? `<span class="stag">${grp >= 3 ? 4 : 3} стата</span>` : ''}${esc(slot)} · ${esc(set)}</small></span>
+        <span class="sw"><b>${esc(i.ru)} <span class="sub">C${cons}</span></b><small>${grp != null ? `<span class="stag">${esc(SGROUP(grp, crit))}</span>` : ''}${esc(slot)} · ${esc(set)}</small></span>
         <span class="sp"><small>пара</small><b>${esc(pair)}</b></span><span class="sc"><b>${pb}%</b><small>шанс удачи</small></span><span class="sg"><b>+${gain}%</b><small>прирост · ${cost} ${cost === 1 ? 'перо' : 'пера'}</small></span><span class="pill ${esc(cls)}">${esc(text)}</span></div>`; }).join('')}</div>`
       : '<p class="empty">Сейчас нет реролла, который стоит пера.</p>'}
   </div>`;
