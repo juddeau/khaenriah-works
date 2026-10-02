@@ -138,6 +138,11 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .gscale u{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 0 1px color-mix(in srgb,#fff 40%,transparent)}
 .hqhow{font-size:12px;justify-self:start;margin-top:2px}
 .hstatrow{flex-basis:100%;display:grid;gap:8px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);position:relative}.csh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}.csh small{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.csh .sub{font-size:12px}
+.scheck{font-size:13px;padding:8px 12px;border-radius:10px;border:1px solid var(--line)}.scheck.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}.scheck.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))}
+.cs.off{border-color:color-mix(in srgb,var(--warn) 55%,var(--line))}.cs em{font-style:normal;font-size:11px;color:var(--warn)}
+.howbox summary{cursor:pointer;color:var(--muted);font-size:13px;width:max-content}.howb{display:grid;gap:6px;margin-top:8px}.howb .sub{margin:0;font-size:12px}
+.howr{display:grid;grid-template-columns:110px 1fr;gap:2px 10px;font-size:13px;padding:6px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}.howr b{grid-row:span 3}.howr span{font-family:var(--f-mono);font-size:12px}
+@media(max-width:560px){.howr{grid-template-columns:1fr}.howr b{grid-row:auto}}
 .csg{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
 .cs{padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);display:grid;gap:2px;animation:rise .4s cubic-bezier(.2,.7,.2,1) both}
 .cs small{color:var(--muted);font-size:12px}.cs b{font:600 17px var(--f-mono)}.cs.cr b{color:var(--gold)}
@@ -903,6 +908,7 @@ html{overflow-x:clip}
         <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с фулл пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и фулл пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
         <li><b>Качество артефактов.</b> Это средний RV артефактов персонажа, делённый на недостижимый идеал: все четыре саб стата полезные, и все пять улучшений ушли в них (900% на артефакт). Идеала не бывает, поэтому цифра всегда кажется низкой. Ориентир: от 85% превосходно (такое встречается очень редко), 75–85% отлично, это уровень лучших сборок, 65–75% очень хорошо, 55–65% хорошо, 45–55% средне, ниже слабо. Качество показывает, насколько удачно легли роллы, но не урон: на него влияют ещё основные статы, сеты, оружие и отряд.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
+        <li><b>Характеристики персонажа.</b> Сайт считает их сам по таблицам игры (из Genshin Optimizer): база персонажа и оружия по уровню и возвышению, саб стат и пассивка оружия, основные и саб статы артефактов, бонусы 2 предметов. По UID результат сверяется с игрой: если число не совпало, значит есть эффект, который сайт пока не считает (пассивка таланта или созвездия). Бафы отряда и условные эффекты не входят, как и на экране персонажа в игре.</li>
         <li><b>Точность.</b> С UID сайт знает точную историю улучшений, там расчёт точный. Из GO и ручного ввода известны только итоговые цифры, поэтому сайт сам восстанавливает, сколько роллов ушло в каждый стат. Это почти всегда верно, а итоговый совет совпадает с точным примерно в 94% случаев.</li>
       </ol>
       </div>
@@ -969,6 +975,7 @@ html{overflow-x:clip}
 
 <script>
 const DATA = /*DATA*/null;
+const GO = /*GO*/null;
 const BUILD = '/*BUILD*/';
 const DEFAULT_PROXY = '/*PROXY*/';  // own Cloudflare Worker (proxy/worker.js); empty = manual paste only
 const DIAG = [];
@@ -1041,7 +1048,8 @@ function fromEnka(j, uid){
     const key = c ? c[0] : 'Unknown'+av.avatarId;
     const eq = av.equipList || [];
     const w = eq.find(e => e.flat && e.flat.itemType === 'ITEM_WEAPON');
-    const weapon = w ? { name: LOC(w.flat.nameTextMapHash) || 'Оружие '+w.itemId, level: w.weapon?.level ?? null,
+    const wkey = w ? WICON[String(w.flat.icon || '').replace(/_Awaken$/, '')] : null;
+    const weapon = w ? { key: wkey, name: LOC(w.flat.nameTextMapHash) || DATA.wkeys[wkey]?.[1] || 'Оружие '+w.itemId, level: w.weapon?.level ?? null,
       ref: (Object.values(w.weapon?.affixMap || {})[0] ?? 0) + 1, rarity: w.flat.rankLevel,
       icon: DATA.weapons[w.itemId] || w.flat.icon, baseIcon: w.flat.icon, asc: w.weapon?.promoteLevel ?? null,
       stats: (w.flat.weaponStats || []).map(s => ({k:s.appendPropId, v:s.statValue})) } : null;
@@ -1065,7 +1073,7 @@ function fromEnka(j, uid){
       talents: c ? c[5].map(id => av.skillLevelMap?.[id] ?? null) : null,
       talentBonus: c ? c[5].map(id => (av.proudSkillExtraLevelMap || {})[(c[9]||{})[id]] || 0) : null, weapon, stats, arts,
       base: f[1] ? {hp: f[1], atk: f[4], def: f[7]} : null,
-      fp: f[2000] ? {hp: f[2000], atk: f[2001], def: f[2002], em: f[28] || 0, cr: f[20] || 0, cd: f[22] || 0, er: f[23] || 1,
+      fp: f[2000] ? {hp: f[2000], atk: f[2001], def: f[2002], em: f[28] || 0, cr: f[20] || 0, cd: f[22] || 0, er: f[23] || 1, heal: f[26] || 0,
         dmg: Object.fromEntries(Object.entries({...dmgIds, physical: 30}).map(([k, id]) => [k, f[id] || 0]))} : null };
   });
   const pic = p.profilePicture || {};
@@ -1503,24 +1511,130 @@ const gradeScale = s => { const pos = x => Math.max(0, Math.min(100, (x - 0.3) /
 const pctOf = x => x.mx ? Math.round(x.u / x.mx * 100) : 0;
 const qTxt = x => `RV ${Math.round(x.u*100)}%`;
 
-// character stats: from UID the final in-game numbers (the same Akasha shows, both come from Enka);
-// from the GO base only what the five artifacts give, since the base has no level curves of characters and weapons
-const STAT_ORDER = ['HP', 'HP%', 'Атака', 'Атака%', 'Защита', 'Защита%', 'МС', 'Крит. шанс', 'Крит. урон', 'ВЭ'];
-function artTotals(c){
-  const tot = {};
-  const add = (k, v) => { const p = PROP[k]; if (!p || !(+v)) return; const n = p[0] + (p[1] && FLATPCT.has(p[0]) ? '%' : ''); (tot[n] ||= {n, v: 0, p: p[1]}).v += +v; };
-  (c.arts || []).forEach(a => { const mk = a.main?.k; let mv = a.main?.v;
-    if (mv == null && MAIN5[mk]) { const [lo, hi] = MAIN5[mk]; mv = lo + (hi - lo) * Math.min(20, a.level ?? 20) / 20; }
-    add(mk, mv); (a.subs || []).forEach(x => add(x.k, x.v)); });
-  const rank = n => { const i = STAT_ORDER.indexOf(n); return i < 0 ? 99 : i; };
-  return Object.values(tot).sort((a, b) => rank(a.n) - rank(b.n)).map(x => [x.n, x.p ? x.v.toFixed(1) + '%' : Math.round(x.v).toLocaleString('ru-RU')]);
+// ---------- exact character stats ----------
+// Game tables (level curves, ascension, weapons, artifact main stats, 2-piece sets) come from Genshin Optimizer (MIT),
+// extracted by tools/extract_go.py at the commit in GO.src. Same formulas as the game's character screen:
+// base = curve × level + ascension; HP/ATK/DEF = base × (1 + %) + flat; crit 5% / 50% and ER 100% are the starting values.
+const E2G = {FIGHT_PROP_HP:'hp', FIGHT_PROP_HP_PERCENT:'hp_', FIGHT_PROP_ATTACK:'atk', FIGHT_PROP_ATTACK_PERCENT:'atk_', FIGHT_PROP_DEFENSE:'def',
+  FIGHT_PROP_DEFENSE_PERCENT:'def_', FIGHT_PROP_ELEMENT_MASTERY:'eleMas', FIGHT_PROP_CHARGE_EFFICIENCY:'enerRech_', FIGHT_PROP_CRITICAL:'critRate_',
+  FIGHT_PROP_CRITICAL_HURT:'critDMG_', FIGHT_PROP_HEAL_ADD:'heal_', FIGHT_PROP_PHYSICAL_ADD_HURT:'physical_dmg_', FIGHT_PROP_FIRE_ADD_HURT:'pyro_dmg_',
+  FIGHT_PROP_WATER_ADD_HURT:'hydro_dmg_', FIGHT_PROP_WIND_ADD_HURT:'anemo_dmg_', FIGHT_PROP_ELEC_ADD_HURT:'electro_dmg_', FIGHT_PROP_GRASS_ADD_HURT:'dendro_dmg_',
+  FIGHT_PROP_ICE_ADD_HURT:'cryo_dmg_', FIGHT_PROP_ROCK_ADD_HURT:'geo_dmg_'};
+const gk = k => E2G[k] || k;
+const isPct = k => !['hp', 'atk', 'def', 'eleMas'].includes(k);
+// artifact main stat in display units (percent stats in %), exact for every level like the game, not a straight line
+function mainV(k, lv = 20, rar = 5){
+  const g = gk(k), t = GO.am[rar]?.[g]; if (!t) return null;
+  const v = t[Math.max(0, Math.min(t.length - 1, lv ?? 20))];
+  return isPct(g) ? v * 100 : v;
+}
+const ascOf = lv => lv > 80 ? 6 : lv > 70 ? 5 : lv > 60 ? 4 : lv > 50 ? 3 : lv > 40 ? 2 : lv > 20 ? 1 : 0;
+const curveAt = ([b, cn], lv) => b * GO.cv[cn][lv];
+const SETNUM = Object.fromEntries(Object.entries(DATA.sets).map(([k, v]) => [String(v[0]), k]));
+const WICON = Object.fromEntries(Object.entries(DATA.wkeys).map(([k, v]) => [v[0], k]));
+const setKeyOf = a => a.setKey || SETNUM[(String(a.icon || '').match(/RelicIcon_(\d+)_/) || [])[1]] || null;
+// exact substat value: Enka gives every roll; a GO or hand-made piece gives the rounded value, so take the roll sum it rounds from
+function subExact(a, k, v){
+  const sk = KEY_OF[k]; if (!sk) return +v;
+  if (Array.isArray(a.rolls) && (a.rarity || 5) === 5) { const r = a.rolls.map(affix).filter(x => x && x.k === sk); if (r.length) return r.reduce((t, x) => t + x.v, 0); }
+  if ((a.rarity || 5) !== 5) return +v;
+  const o = rollOptions(sk, +v); if (!o.length) return +v;
+  return exactSum(sk, +v, o.sort((x, y) => y.p - x.p)[0].r);
+}
+const SRC = {char: 'Персонаж', asc: 'Возвышение', wep: 'Оружие', wpas: 'Пассивка оружия', arts: 'Артефакты', set: 'Бонус 2 предметов'};
+function calcStats(c){
+  const ch = GO.ch[c.key];
+  if (!ch) return {ok: false, why: 'Этого персонажа ещё нет в таблицах игры (Genshin Optimizer).'};
+  const lv = Math.min(100, Math.max(1, c.level || 90)), asc = c.asc ?? ascOf(lv), notes = [];
+  if (!c.level) notes.push('Уровень персонажа не указан, взят 90.');
+  const P = {}, add = (k, v, src) => { if (!v) return; (P[k] ||= {})[src] = (P[k][src] || 0) + v; };
+  const B = {hp: {}, atk: {}, def: {}};
+  ['hp', 'atk', 'def'].forEach((s, i) => { B[s].char = curveAt(ch.lv[i], lv) + (ch.asc[s]?.[asc] || 0); });
+  Object.entries(ch.asc).forEach(([k, arr]) => { if (!B[k]) add(k, arr[asc], 'asc'); });
+  const w = c.weapon, wk = w && (w.key || WICON[String(w.baseIcon || w.icon || '').replace(/_Awaken$/, '')]), wd = wk && GO.we[wk];
+  if (!w) notes.push('Оружие не надето, его статы не учтены.');
+  if (w && !wd) notes.push(`Оружия «${w.name || wk}» нет в таблицах, его статы не учтены.`);
+  if (wd) {
+    const wl = Math.min(90, Math.max(1, w.level || 90)), wa = w.asc ?? ascOf(wl), ref = Math.min(5, Math.max(1, w.ref || 1));
+    if (!w.level) notes.push('Уровень оружия не указан, взят 90.');
+    B.atk.wep = curveAt(wd.atk, wl) + (wd.asc[wa] || 0);
+    if (wd.sub) add(wd.sub[0], curveAt(wd.sub.slice(1), wl), 'wep');
+    Object.entries(wd.ref).forEach(([k, arr]) => add(k, arr[ref], 'wpas'));
+  }
+  const sets = {};
+  (c.arts || []).forEach(a => {
+    const rar = a.rarity || 5, mk = gk(a.main?.k), lvA = a.level ?? 20;
+    const mv = GO.am[rar]?.[mk]?.[Math.min(20, lvA)];
+    if (mv != null) add(mk, mv, 'arts');
+    const rolls = Array.isArray(a.rolls) && rar === 5 ? a.rolls.map(affix) : null;
+    // Enka lists every roll: add them one by one (exact); otherwise the shown values
+    if (rolls?.length && rolls.every(Boolean)) rolls.forEach(r => { const g = SUB[r.k].g; add(g, isPct(g) ? r.v / 100 : r.v, 'arts'); });
+    else (a.subs || []).forEach(s => { const g = gk(s.k), v = subExact(a, s.k, s.v); add(g, isPct(g) ? v / 100 : v, 'arts'); });
+    const sk = setKeyOf(a); if (sk) sets[sk] = (sets[sk] || 0) + 1;
+  });
+  Object.entries(sets).forEach(([k, n]) => { if (n >= 2) Object.entries(GO.s2[k] || {}).forEach(([s, v]) => add(s, v, 'set')); });
+  const sum = k => Object.values(P[k] || {}).reduce((t, v) => t + v, 0);
+  const base = {hp: B.hp.char, atk: B.atk.char + (B.atk.wep || 0), def: B.def.char};
+  const tot = {hp: base.hp * (1 + sum('hp_')) + sum('hp'), atk: base.atk * (1 + sum('atk_')) + sum('atk'), def: base.def * (1 + sum('def_')) + sum('def'),
+    eleMas: sum('eleMas'), critRate_: 0.05 + sum('critRate_'), critDMG_: 0.5 + sum('critDMG_'), enerRech_: 1 + sum('enerRech_'), heal_: sum('heal_')};
+  ['physical', ...EL_ORDER].forEach(e => { tot[e + '_dmg_'] = sum(e + '_dmg_'); });
+  return {ok: true, el: ch.el, lv, asc, base, B, P, tot, sets, notes};
+}
+// the same numbers the game shows (Enka's fightPropMap), for the check against our own calculation
+function gameStats(c){
+  const f = c.fp; if (!f) return null;
+  const g = {hp: f.hp, atk: f.atk, def: f.def, eleMas: f.em, critRate_: f.cr, critDMG_: f.cd, enerRech_: f.er, heal_: f.heal || 0};
+  Object.entries(f.dmg || {}).forEach(([e, v]) => { g[e + '_dmg_'] = v; });
+  if (c.base) Object.assign(g, {baseHp: c.base.hp, baseAtk: c.base.atk, baseDef: c.base.def});
+  return g;
+}
+const fmtS = (k, v) => isPct(k) ? (v * 100).toFixed(1) + '%' : Math.round(v).toLocaleString('ru-RU');
+// a value "matches" when the game screen would show the same number
+const sameS = (k, a, b) => fmtS(k, a) === fmtS(k, b);
+function statRows(st){
+  const el = st.el, rows = [['hp', 'HP'], ['atk', 'Атака'], ['def', 'Защита'], ['eleMas', 'МС'], ['critRate_', 'Крит. шанс'], ['critDMG_', 'Крит. урон'], ['enerRech_', 'ВЭ'], [el + '_dmg_', EL_RU[el] + ' урон']];
+  if (st.tot.physical_dmg_ > 0.0005) rows.push(['physical_dmg_', 'Физ. урон']);
+  if (st.tot.heal_ > 0.0005) rows.push(['heal_', 'Бонус лечения']);
+  return rows;
+}
+// "how it is counted": every source of a stat with its share
+function howRows(st){
+  const n = (k, v) => fmtS(k, v);
+  const parts = k => Object.entries(st.P[k] || {}).map(([s, v]) => `${SRC[s]} ${n(k, v)}`).join(' + ');
+  const flat = (k, nm) => { const b = st.base[k], pc = Object.values(st.P[k + '_'] || {}).reduce((t, v) => t + v, 0), fl = Object.values(st.P[k] || {}).reduce((t, v) => t + v, 0);
+    const bp = k === 'atk' && st.B.atk.wep ? ` (персонаж ${n(k, st.B.atk.char)} + оружие ${n(k, st.B.atk.wep)})` : '';
+    return [nm, `база ${n(k, b)}${bp} × (1 + ${(pc * 100).toFixed(1)}%) + ${n(k, fl)}`, pc ? 'проценты: ' + parts(k + '_') : '', fl ? 'плюс: ' + parts(k) : ''].filter(Boolean); };
+  const startV = {critRate_: 0.05, critDMG_: 0.5, enerRech_: 1};
+  const other = statRows(st).filter(([k]) => !['hp', 'atk', 'def'].includes(k)).map(([k, nm]) => [nm, [startV[k] ? `старт ${n(k, startV[k])}` : '', parts(k)].filter(Boolean).join(' + ') || n(k, 0)]);
+  return [flat('hp', 'HP'), flat('atk', 'Атака'), flat('def', 'Защита'), ...other];
 }
 function statsStrip(c){
-  const game = state.mode === 'uid' && c.stats?.length, list = game ? c.stats : artTotals(c);
-  if (!list.length) return '';
-  const crit = new Set(['Крит. шанс', 'Крит. урон']);
-  return `<div class="hstatrow"><div class="csh"><small>${game ? 'Характеристики' : 'Статы с артефактов'}</small><span class="sub">${game ? 'итоговые, как в игре и в Akasha' : 'только артефакты: итоговые статы пока видны по UID'}</span></div>
-    <div class="csg">${list.map(([n, v]) => `<div class="cs${crit.has(n) ? ' cr' : ''}"><small>${esc(n)}</small><b>${esc(String(v))}</b></div>`).join('')}</div></div>`;
+  const st = calcStats(c), game = state.mode === 'uid' ? gameStats(c) : null;
+  if (!st.ok && !game) return `<div class="hstatrow"><div class="csh"><small>Характеристики</small><span class="sub">${esc(st.why)}</span></div></div>`;
+  const rows = st.ok ? statRows(st) : [];
+  let cells, head, sub, check = '';
+  if (game && st.ok) {
+    const keys = [...rows.map(r => r[0]), 'baseHp', 'baseAtk', 'baseDef'].filter(k => game[k] != null);
+    const mine = k => k === 'baseHp' ? st.base.hp : k === 'baseAtk' ? st.base.atk : k === 'baseDef' ? st.base.def : st.tot[k];
+    const unit = k => k.startsWith('base') ? 'hp' : k;
+    const bad = keys.filter(k => !sameS(unit(k), mine(k), game[k]));
+    cells = rows.map(([k, nm]) => { const ok = sameS(k, st.tot[k], game[k]);
+      return `<div class="cs${/^crit/.test(k) ? ' cr' : ''}${ok ? '' : ' off'}"><small>${esc(nm)}</small><b>${fmtS(k, game[k])}</b>${ok ? '' : `<em>сайт: ${fmtS(k, st.tot[k])}</em>`}</div>`; }).join('');
+    head = 'Характеристики'; sub = 'из игры, через Enka';
+    check = `<div class="scheck ${bad.length ? 'warn' : 'ok'}">${bad.length ? `Сверка с игрой: ${keys.length - bad.length} из ${keys.length} совпали. Расхождение даёт эффект, который сайт пока не считает: пассивка оружия, таланта или созвездия.` : `Сверка с игрой: все ${keys.length} чисел совпали с расчётом сайта.`}</div>`;
+  } else if (game) {
+    cells = (c.stats || []).map(([n, v]) => `<div class="cs"><small>${esc(n)}</small><b>${esc(String(v))}</b></div>`).join('');
+    head = 'Характеристики'; sub = 'из игры, через Enka';
+  } else {
+    cells = rows.map(([k, nm]) => `<div class="cs${/^crit/.test(k) ? ' cr' : ''}"><small>${esc(nm)}</small><b>${fmtS(k, st.tot[k])}</b></div>`).join('');
+    head = 'Характеристики'; sub = 'посчитаны сайтом по таблицам игры: как на экране персонажа, без бафов отряда';
+  }
+  const how = st.ok ? `<details class="howbox"><summary>Как посчитано</summary><div class="howb">
+      <p class="sub">Персонаж ур. ${st.lv}, возвышение ${st.asc}${c.weapon ? `, оружие ${esc(c.weapon.name || '')} ур. ${c.weapon.level || 90} R${c.weapon.ref || 1}` : ''}. Таблицы игры из Genshin Optimizer, версия <span class="mono">${esc(GO.src.commit.slice(0, 7))}</span>.</p>
+      ${howRows(st).map(([nm, ...p]) => `<div class="howr"><b>${esc(nm)}</b>${p.map(x => `<span>${esc(x)}</span>`).join('')}</div>`).join('')}
+      ${st.notes.map(x => `<p class="sub">${esc(x)}</p>`).join('')}</div></details>` : '';
+  return `<div class="hstatrow"><div class="csh"><small>${head}</small><span class="sub">${sub}</span></div>
+    <div class="csg">${cells}</div>${check}${how}</div>`;
 }
 function renderAccount(){
   // no UID profile but the base has data: show the base instead of the empty start screen
@@ -1696,11 +1810,8 @@ const SLOT_ICON = {flower:4, plume:2, sands:5, goblet:1, circlet:3};
 const ELEDMG = ['pyro','hydro','electro','cryo','anemo','geo','dendro'].map(e => e + '_dmg_');
 const MAINS = {flower:['hp'], plume:['atk'], sands:['hp_','atk_','def_','eleMas','enerRech_'],
   goblet:['hp_','atk_','def_','eleMas',...ELEDMG,'physical_dmg_'], circlet:['critRate_','critDMG_','hp_','atk_','def_','eleMas','heal_']};
-// 5★ main stat at +0 and +20, the game's table is linear between them
-const MAIN5 = {hp:[717,4780], atk:[47,311], hp_:[7,46.6], atk_:[7,46.6], def_:[8.7,58.3], eleMas:[28,186.5], enerRech_:[7.8,51.8],
-  critRate_:[4.7,31.1], critDMG_:[9.3,62.2], heal_:[5.4,35.9], physical_dmg_:[8.7,58.3]};
-ELEDMG.forEach(k => { MAIN5[k] = [7,46.6]; });
-const mainTxt = (k, lv) => { const [a, b] = MAIN5[k] || [0, 0]; const [n, v] = fmtStat(k, a + (b - a) * lv / 20); return `${n} ${v}`; };
+// main stat text at a level, from the game's exact table (mainV)
+const mainTxt = (k, lv) => { const [n, v] = fmtStat(k, mainV(k, lv) ?? 0); return `${n} ${v}`; };
 // sets that drop as 5★ (list from Genshin Optimizer's data), newest first
 const EDIT_SETS = Object.entries(DATA.sets).filter(([k]) => DATA.set5.includes(k)).sort((a, b) => b[1][0] - a[1][0]);
 const setIcon = (setKey, slotKey) => DATA.sets[setKey] ? `UI_RelicIcon_${DATA.sets[setKey][0]}_${SLOT_ICON[slotKey] || 4}` : null;
@@ -2087,7 +2198,7 @@ function artCardDb(a, i, n){
   return `<article class="dba" style="--i:${n}" id="dba-${i}">
     <div class="ahd r5"><span class="abig">${imgTag([setIcon(a.setKey, a.slotKey)], 'loading="lazy"')}</span>
       <div class="t"><span class="lv">+${a.level ?? 0}</span><b>${esc(setName)}</b><small>${esc(GSLOT[a.slotKey] || a.slotKey)}</small>
-        <span class="mn2">${(() => { const [n, v] = fmtStat(a.mainStatKey, (MAIN5[a.mainStatKey]?.[0] ?? 0) + ((MAIN5[a.mainStatKey]?.[1] ?? 0) - (MAIN5[a.mainStatKey]?.[0] ?? 0)) * (a.level ?? 0) / 20); return `<small>${esc(n)}</small><b>${esc(v)}</b>`; })()}</span>${STARS(a.rarity || 5)}</div></div>
+        <span class="mn2">${(() => { const [n, v] = fmtStat(a.mainStatKey, mainV(a.mainStatKey, a.level ?? 0) ?? 0); return `<small>${esc(n)}</small><b>${esc(v)}</b>`; })()}</span>${STARS(a.rarity || 5)}</div></div>
     ${subsRv(a)}
     <div class="ft">${loc}<span class="acts"><button type="button" class="ib" data-db="aed" data-i="${i}" title="Изменить" aria-label="Изменить">${ICON.edit}</button><button type="button" class="ib del" data-db="adel" data-i="${i}" title="Удалить" aria-label="Удалить">${ICON.del}</button></span></div>
   </article>`;
@@ -2142,7 +2253,7 @@ function artEditor(g){
           <div class="setpick"><input class="inp" id="setq" data-keep placeholder="Поиск сета" autocomplete="off" aria-label="Поиск сета">
             <div class="sets" id="sets">${EDIT_SETS.map(([k, v]) => `<button type="button" class="setb" data-db="aset" data-i="${esc(k)}" data-q="${esc((v[1] + ' ' + splitCamel(k)).toLowerCase())}" aria-pressed="${d.setKey === k}"><span class="aicon r5">${imgTag([setIcon(k, 'flower')], 'loading="lazy"')}</span><span>${esc(v[1])}</span></button>`).join('')}</div></div></div>
         <div class="fl"><span class="stp"><i>2</i>Слот</span><div class="slots">${GSLOTS.map(s => `<button type="button" class="slott" data-db="aslotk" data-i="${s}" aria-pressed="${d.slotKey === s}"><span class="sg">${d.setKey ? imgTag([setIcon(d.setKey, s)]) : SLOTSVG[s]}</span><span>${GSLOT[s]}</span></button>`).join('')}</div></div>
-        <div class="fl"><span class="stp"><i>3</i>Основной стат</span><div class="mains">${mains.map(k => { const [n, v] = fmtStat(k, (MAIN5[k][0] + (MAIN5[k][1] - MAIN5[k][0]) * d.level / 20)); return `<button type="button" class="maint" data-db="amain" data-i="${k}" aria-pressed="${d.mainStatKey === k}"><b>${esc(n)}</b><small>${esc(v)}</small></button>`; }).join('')}</div></div>
+        <div class="fl"><span class="stp"><i>3</i>Основной стат</span><div class="mains">${mains.map(k => { const [n, v] = fmtStat(k, mainV(k, d.level) ?? 0); return `<button type="button" class="maint" data-db="amain" data-i="${k}" aria-pressed="${d.mainStatKey === k}"><b>${esc(n)}</b><small>${esc(v)}</small></button>`; }).join('')}</div></div>
         <div class="fl"><span class="stp"><i>4</i>Уровень <b class="lvn" id="lvn">+${d.level}</b></span>
           <div class="lvl"><input type="range" min="0" max="20" step="1" value="${d.level}" id="alv" aria-label="Уровень" style="--p:${d.level * 5}%">
           <div class="chips sm">${[0, 4, 8, 12, 16, 20].map(l => `<button type="button" class="chip2" data-db="alvq" data-i="${l}" aria-pressed="${d.level === l}">+${l}</button>`).join('')}</div></div></div>
