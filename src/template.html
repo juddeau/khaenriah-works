@@ -132,14 +132,14 @@ pre.json{margin:0;background:var(--bg);border:1px solid var(--line);border-radiu
 .toast{font-size:13px;color:var(--ok)}
 
 .hq .grade{font-style:normal;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;justify-self:start;background:color-mix(in srgb,var(--gc) 20%,transparent);color:var(--gc)}
-.grade.g5{--gc:var(--ok)}.grade.g4{--gc:#8fd694}.grade.g3{--gc:var(--gold)}.grade.g2{--gc:var(--warn)}.grade.g1{--gc:var(--bad)}
-.gscale{position:relative;display:block;height:6px;margin:6px 0 4px;border-radius:3px;background:linear-gradient(90deg,var(--bad),var(--warn) 35%,var(--gold) 55%,var(--ok))}
+.grade.g6{--gc:var(--gold);box-shadow:0 0 12px -2px color-mix(in srgb,var(--gold) 60%,transparent)}.grade.g5{--gc:var(--ok)}.grade.g4{--gc:#8fd694}.grade.g3{--gc:var(--gold)}.grade.g2{--gc:var(--warn)}.grade.g1{--gc:var(--bad)}
+.gscale{position:relative;display:block;height:6px;margin:6px 0 4px;border-radius:3px;background:linear-gradient(90deg,var(--bad),var(--warn) 30%,var(--gold) 50%,var(--ok) 75%,#ffe7a6)}
 .gscale i{position:absolute;top:-2px;width:1px;height:10px;background:color-mix(in srgb,var(--bg) 70%,transparent)}
 .gscale u{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 0 1px color-mix(in srgb,#fff 40%,transparent)}
 .hqhow{font-size:12px;justify-self:start;margin-top:2px}
-.cstats{margin-top:12px}.csh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:10px}.csh h3{margin:0}.csh .sub{font-size:12.5px}
+.hstatrow{flex-basis:100%;display:grid;gap:8px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);position:relative}.csh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}.csh small{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.csh .sub{font-size:12px}
 .csg{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
-.cs{padding:8px 12px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);display:grid;gap:2px;animation:rise .4s cubic-bezier(.2,.7,.2,1) both}
+.cs{padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);display:grid;gap:2px;animation:rise .4s cubic-bezier(.2,.7,.2,1) both}
 .cs small{color:var(--muted);font-size:12px}.cs b{font:600 17px var(--f-mono)}.cs.cr b{color:var(--gold)}
 .akcard{position:relative;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:end;min-width:220px;max-width:300px;padding:12px 16px 12px;border-radius:16px;text-decoration:none;color:var(--fg);overflow:hidden;
   background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),color-mix(in srgb,var(--bg) 80%,transparent));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));transition:transform .2s,border-color .2s,box-shadow .2s}
@@ -901,7 +901,7 @@ html{overflow-x:clip}
         <li><b>Что делает перо.</b> Реролл (в игре «Реконструкция артефактов» за Пыль просветления) работает только на 5★ +20. Ты выбираешь 2 саб стата. Начальные значения всех 4 статов остаются, а 5 улучшений (у 3-статов 4) раздаются заново. Обычная реконструкция гарантирует выбранной паре не меньше 2 улучшений. Счётчик «Священное трактование» копится с каждой реконструкцией: после 6 обычных (12 перьев) доступна высшая реконструкция, не меньше 3 улучшений, а после 18 перьев объявленная, не меньше 4. Цена: цветок и перо 1 перо, часы, кубок и корона 2.</li>
         <li><b>Шанс и прирост.</b> Сайт перебирает все возможные исходы реролла, без случайной симуляции, и считает шанс, что RV станет выше, и сколько RV прибавится в среднем. Худший результат можно не оставлять, поэтому прирост не бывает отрицательным. Пара выбирается так: если персонажу нужны криты, в паре сначала криты (оба, если они есть в саб статах, иначе тот, что есть), потому что для урона они важнее всего; среди таких пар берётся пара с лучшим приростом. Для персонажей без критов в списке просто пара с лучшим приростом.</li>
         <li><b>Вердикт.</b> Перья редкие. Для персонажей с критами в списке RV: сначала артефакты +20 с 4 статами и двумя критами (крит в основном стате короны считается): с фулл пользой (все остальные статы в списке персонажа), потом с частичной, потом без пользы; затем 3-статы с двумя критами и фулл пользой (не выше «Можно»). 3-статы с бесполезными статами и всё без двух критов сразу «Не стоит», шанс всё равно показан. Дальше решает прирост на одно перо (прирост ÷ цена реролла): от +60% RV «Роллить», от +25% «Можно», ниже «Не стоит». Пороги подобрал я, игра их не задаёт.</li>
-        <li><b>Качество артефактов.</b> Это средний RV артефактов персонажа, делённый на недостижимый идеал: все четыре саб стата полезные, и все пять улучшений ушли в них (900% на артефакт). Идеала не бывает, поэтому цифра всегда кажется низкой. Ориентир: от 75% это уровень лучших сборок, 65–75% очень хорошо, 55–65% хорошо, 45–55% средне, ниже слабо. Качество показывает, насколько удачно легли роллы, но не урон: на него влияют ещё основные статы, сеты, оружие и отряд.</li>
+        <li><b>Качество артефактов.</b> Это средний RV артефактов персонажа, делённый на недостижимый идеал: все четыре саб стата полезные, и все пять улучшений ушли в них (900% на артефакт). Идеала не бывает, поэтому цифра всегда кажется низкой. Ориентир: от 85% превосходно (такое встречается очень редко), 75–85% отлично, это уровень лучших сборок, 65–75% очень хорошо, 55–65% хорошо, 45–55% средне, ниже слабо. Качество показывает, насколько удачно легли роллы, но не урон: на него влияют ещё основные статы, сеты, оружие и отряд.</li>
         <li><b>Что не учитывается.</b> RV не считает урон: не знает твоих итоговых статов, бафов отряда и того, что криты у тебя уже в перекосе. Поэтому состав полезных статов стоит подправить под себя, например убрать МС, если в твоей пачке оно не нужно.</li>
         <li><b>Точность.</b> С UID сайт знает точную историю улучшений, там расчёт точный. Из GO и ручного ввода известны только итоговые цифры, поэтому сайт сам восстанавливает, сколько роллов ушло в каждый стат. Это почти всегда верно, а итоговый совет совпадает с точным примерно в 94% случаев.</li>
       </ol>
@@ -1493,11 +1493,11 @@ function buildScore(c, w){
   return {got, max, share: max ? got / max : 0, items};
 }
 // the ideal (9 useful rolls on every piece) never happens: 75% is already a top build, so the words follow real builds, not the ideal
-const GRADES = [[0.75, 'отлично', 'g5'], [0.65, 'очень хорошо', 'g4'], [0.55, 'хорошо', 'g3'], [0.45, 'средне', 'g2'], [0, 'слабо', 'g1']];
+const GRADES = [[0.85, 'превосходно', 'g6'], [0.75, 'отлично', 'g5'], [0.65, 'очень хорошо', 'g4'], [0.55, 'хорошо', 'g3'], [0.45, 'средне', 'g2'], [0, 'слабо', 'g1']];
 const GRADE = s => GRADES.find(([t]) => s >= t);
-// scale 30..85%: below and above that there is nothing new to read
-const gradeScale = s => { const pos = x => Math.max(0, Math.min(100, (x - 0.3) / 0.55 * 100));
-  return `<span class="gscale" aria-hidden="true">${[0.45, 0.55, 0.65, 0.75].map(t => `<i style="left:${pos(t)}%"></i>`).join('')}<u style="left:${pos(s)}%"></u></span>`; };
+// scale 30..95%: below and above that there is nothing new to read
+const gradeScale = s => { const pos = x => Math.max(0, Math.min(100, (x - 0.3) / 0.65 * 100));
+  return `<span class="gscale" aria-hidden="true">${[0.45, 0.55, 0.65, 0.75, 0.85].map(t => `<i style="left:${pos(t)}%"></i>`).join('')}<u style="left:${pos(s)}%"></u></span>`; };
 // Akasha's own per-artifact RV classes
 // own scale: RV as a share of the best possible artifact (4 counted stats, all 5 upgrades into them = 900%)
 const pctOf = x => x.mx ? Math.round(x.u / x.mx * 100) : 0;
@@ -1519,8 +1519,8 @@ function statsStrip(c){
   const game = state.mode === 'uid' && c.stats?.length, list = game ? c.stats : artTotals(c);
   if (!list.length) return '';
   const crit = new Set(['Крит. шанс', 'Крит. урон']);
-  return `<section class="card cstats"><div class="csh"><h3>${game ? 'Характеристики' : 'Статы с артефактов'}</h3><span class="sub">${game ? 'итоговые, как в игре и в Akasha' : 'сумма основных и саб статов пяти артефактов; итоговые статы видны по UID'}</span></div>
-    <div class="csg">${list.map(([n, v]) => `<div class="cs${crit.has(n) ? ' cr' : ''}"><small>${esc(n)}</small><b>${esc(String(v))}</b></div>`).join('')}</div></section>`;
+  return `<div class="hstatrow"><div class="csh"><small>${game ? 'Характеристики' : 'Статы с артефактов'}</small><span class="sub">${game ? 'итоговые, как в игре и в Akasha' : 'только артефакты: итоговые статы пока видны по UID'}</span></div>
+    <div class="csg">${list.map(([n, v]) => `<div class="cs${crit.has(n) ? ' cr' : ''}"><small>${esc(n)}</small><b>${esc(String(v))}</b></div>`).join('')}</div></div>`;
 }
 function renderAccount(){
   // no UID profile but the base has data: show the base instead of the empty start screen
@@ -1664,8 +1664,8 @@ function renderSheet(){
         ${wp ? `<div class="wname">${esc(wp.name)}${wp.ref ? ` <b>R${wp.ref}</b>` : ''}${wp.level ? ` <span class="sub">ур. ${wp.level}</span>` : ''}</div>` : ''}</div></div>
       <div class="hstats">${akashaBlock(c)}
         <div class="hq" title="RV артефактов от недостижимого идеала: все 4 саб стата полезные и все улучшения ушли в них. 75% и выше уже уровень лучших сборок."><small>Качество артефактов</small><b ${bs.max ? `data-count="${Math.round(bs.share*100)}"` : ''}>${bs.max ? Math.round(bs.share*100) + '%' : '—'}</b>${bs.max ? `<em class="grade ${GRADE(bs.share)[2]}">${GRADE(bs.share)[1]}</em>${gradeScale(bs.share)}` : ''}<span>${bs.items.length ? `средний RV ${Math.round(bs.got*100/bs.items.length)}% из ${Math.round(bs.max*100/bs.items.length)}%` : 'нет артефактов'}</span><button type="button" class="alt-link hqhow" data-tab="about">что это значит</button></div></div>
+      ${statsStrip(c)}
     </section>
-    ${statsStrip(c)}
     ${table}
     <details class="card wbox"><summary><span>RV считает: <b>${esc(SUBK.filter(k => w[k] > 0).map(k => SUB[k].n).join(', '))}</b></span><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
     ${cards ? `<h2 class="sec">Подробно по каждому</h2><div class="ras">${cards}</div>` : '<p class="empty">У персонажа нет артефактов.</p>'}`;
@@ -2480,7 +2480,7 @@ function renderLibList(){
   const {P, F, pairs} = cfgState();
   const vis = pairs.filter(p => cfgPass(p, F));
   const groups = {}; vis.forEach(p => (groups[p.c.key] ||= {c: p.c, ps: []}).ps.push(p));
-  const keys = Object.keys(groups).sort((a, b) => (F.sort === 'el' ? EL_ORDER.indexOf(charInfo(a).el) - EL_ORDER.indexOf(charInfo(b).el) : 0) || charInfo(a).ru.localeCompare(charInfo(b).ru, 'ru'));
+  const keys = Object.keys(groups).sort((a, b) => charInfo(a).ru.localeCompare(charInfo(b).ru, 'ru'));
   const none = (P ? cfgState().mine : []).filter(c => !pairs.some(p => p.c.key === c.key));
   const word = n => n % 10 === 1 && n % 100 !== 11 ? 'конфиг' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'конфига' : 'конфигов';
   const empty = !P ? `<div class="card start"><h3>Сначала загрузи персонажей</h3><p class="sub">Сайт покажет только конфиги для тех, кто у тебя есть, и под твои созвездия. Свой конфиг можно создать и без этого.</p>
@@ -2531,7 +2531,6 @@ function renderCfgFilter(fromInput){
     <div class="cffbody">
       <label class="cffs"><span>Имя</span><input class="inp" id="cffq" placeholder="Например, Скирк" autocomplete="off" value="${esc(f.q)}"></label>
       <div class="cffs"><span>Стихия</span><div class="elbar cffel">${['all', ...els].map(e => `<button type="button" class="elbtn${e === 'all' ? '' : ' big'}" data-cfe="${e}" aria-pressed="${f.el === e}" title="${e === 'all' ? 'Все' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e) + `<small>${count(e)}</small>`}</button>`).join('')}</div></div>
-      <div class="cffs"><span>Порядок</span><div class="seg sm">${[['name', 'По имени'], ['el', 'По стихии']].map(([k, t]) => `<button type="button" data-cfs="${k}" aria-pressed="${f.sort === k}">${t}</button>`).join('')}</div></div>
       ${other ? `<label class="cfgall"><input type="checkbox" id="cffall"${f.all ? ' checked' : ''}> Показывать конфиги на другие созвездия (${other})</label>` : ''}
       ${body}
     </div>
