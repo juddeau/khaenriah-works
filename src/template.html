@@ -179,16 +179,35 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 .elb .elic{width:18px;height:18px;margin:0}
 .elb[aria-pressed="true"]{border-color:var(--accent);background:var(--panel-2);color:var(--fg)}
 #fopen{margin-left:auto;font-size:13px}
-.chars{display:grid;gap:10px}
-.ch{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*35ms);transition:border-color .2s}
+.chars{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));grid-auto-flow:dense}
+.chars>.ch,.chars>.empty{grid-column:1 / -1}
+.cc{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:radial-gradient(160px 110px at 50% 0%,color-mix(in srgb,var(--el) 22%,transparent),transparent 75%),var(--panel);
+  border:1px solid var(--line);border-radius:18px;padding:16px 12px 14px;cursor:pointer;color:inherit;transition:transform .2s,border-color .2s,box-shadow .2s;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*35ms)}
+.cc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--el) 55%,var(--line));box-shadow:0 12px 28px -18px var(--el)}
+.cc.hasgo{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.cc.on{border-color:var(--el);box-shadow:0 0 0 1px var(--el),0 14px 30px -16px var(--el)}
+.cc.on::after{content:'';position:absolute;left:50%;bottom:-8px;width:14px;height:14px;background:var(--panel);border-right:1px solid var(--el);border-bottom:1px solid var(--el);transform:translateX(-50%) rotate(45deg)}
+.cc.dim .ccf .face{filter:saturate(.45);opacity:.75}
+.ccf{position:relative;margin-bottom:2px}
+.ccf .face.lg{width:68px;height:68px;font-size:24px}
+.bdg{position:absolute;right:-4px;top:-2px;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:700;padding:0 6px;border:2px solid var(--bg)}
+.bdg.go{background:var(--gold);color:#1b1406}.bdg.warn{background:var(--warn);color:#1b1406}
+.cc>b{font-size:15.5px;line-height:1.2}
+.cc>small{color:var(--muted);font-size:12px;margin-top:-4px}
+.cc .minis{display:flex;gap:4px;justify-content:center;margin:4px 0 2px}
+.cc .mi{width:30px;height:30px;border-radius:8px}
+.ccs{font-size:12.5px;font-weight:600;line-height:1.3}
+.ccs.go{color:var(--gold)}.ccs.warn{color:var(--warn)}.ccs.none{color:var(--muted);font-weight:400}
+.pclose{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);cursor:pointer;font-size:14px}
+.pclose:hover{color:var(--fg);border-color:var(--el)}
+.chh .sum{display:grid;gap:2px;text-align:right}
+.ch{background:var(--panel);border:1px solid var(--el);border-radius:18px;overflow:hidden;animation:rise .3s ease both}
 .ch.open{border-color:color-mix(in srgb,var(--el) 50%,var(--line))}
-.chh{display:flex;align-items:center;gap:14px;width:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 12%,transparent),transparent 45%);border:0;padding:10px 16px;cursor:pointer;text-align:left;color:inherit}
-.chh:hover{background:linear-gradient(90deg,color-mix(in srgb,var(--el) 20%,transparent),transparent 60%)}
+.chh{display:flex;align-items:center;gap:14px;width:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 16%,transparent),transparent 55%);padding:12px 16px}
 .chh .face.lg{width:52px;height:52px;font-size:18px}
 .chn{min-width:150px;flex:0 1 230px}
 .chn b{display:block;font-size:16px}
 .chn .meta{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.minis{display:flex;gap:6px;flex:1}
 .mi{width:34px;height:34px;border-radius:9px;background:linear-gradient(165deg,#7a5230,#b98446 55%,#d9a25a);overflow:hidden;display:grid;place-items:center;border:2px solid transparent;opacity:.55}
 .mi img{width:100%;height:100%;object-fit:contain}
 .mi.v-go{border-color:var(--gold);opacity:1;box-shadow:0 0 10px -2px var(--gold)}.mi.v-warn{border-color:var(--warn);opacity:1}.mi.v-lock{filter:grayscale(1);opacity:.35}
@@ -225,7 +244,7 @@ footer .wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-con
 @media (max-width:640px){
   .q{grid-template-columns:36px minmax(0,1fr) 70px;gap:8px 12px;padding:12px}
   .q .qf{display:none}
-  .chh{flex-wrap:wrap;gap:10px 12px;padding:10px 12px}.chn{flex:1;min-width:0}.minis{order:4;flex-basis:100%}.chh .sum{order:2}.chev{order:3}.opts .seg button{white-space:nowrap;font-size:12.5px;padding:6px 8px}
+  .chars{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cc{padding:12px 8px}.cc .mi{width:24px;height:24px;border-radius:6px}.cc .minis{gap:3px}.ccf .face.lg{width:56px;height:56px}.chh{flex-wrap:wrap;gap:8px 12px}.chn{flex:1;min-width:0}.chh .sum{order:4;flex-basis:100%;text-align:left}.opts .seg button{white-space:nowrap;font-size:12.5px;padding:6px 8px}
   #fopen{margin-left:0}.fsearch{flex-basis:100%}
   .arts{grid-template-columns:minmax(0,1fr)}
   .start{padding-top:30px}
@@ -289,7 +308,7 @@ footer .wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-con
       <div><h4>Как выбирается вердикт</h4>
         <ul>
           <li><b>Роллить</b>: в среднем +60% RV и больше на одно перо.</li>
-          <li><b>Можно</b>: от +25% RV на перо.</li>
+          <li><b>Во вторую очередь</b>: от +25% RV на перо. Тоже выгодно, но после артефактов с вердиктом «Роллить».</li>
           <li><b>Не стоит</b>: меньше, или у артефакта нет двух критов (для персонажей, которым нужны криты), или он выпал с 3 статами и не все его статы полезны.</li>
         </ul>
         <p>Средний прирост считается с учётом того, что неудачу можно не брать. Очередь «Куда потратить перья» отсортирована по приросту на одно перо. Пороги выбраны нами и могут поменяться.</p></div>
@@ -655,7 +674,7 @@ function pairName(m, w, pair){
   if (!(w[a] > 0)) return 'любые два (полезных нет)';
   return `${SUB[a].n} + ${w[b] > 0 ? SUB[b].n : 'любой бесполезный'}`;
 }
-const VERDICT = pd => pd >= 0.6 ? ['go','Роллить'] : pd >= 0.25 ? ['warn','Можно'] : ['','Не стоит'];
+const VERDICT = pd => pd >= 0.6 ? ['go','Роллить'] : pd >= 0.25 ? ['warn','2-я очередь'] : ['','Не стоит'];
 // how many substats the piece had at +0: from Enka's history, or guessed from the values (any level)
 function startOf(a, m){
   if (m?.ok) return {n: m.nEnh === 5 ? 4 : 3, sure: m.exact || m.conf >= 0.9};
@@ -687,7 +706,7 @@ function judge(m, w, r){
   else if (use === 'full') { cls4 = 2; note = 'Хороший 3-стат: роллить можно, но после артефактов с 4 статами.'; }
   else { cls4 = use === 'part' ? 1 : 0.5; why = critChar ? (use === 'part' ? '3 стата, не фулл польза' : '3 стата без пользы') : '3 стата'; }
   let [cls, text] = why ? ['', 'Не стоит'] : VERDICT(r.perDust);
-  if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', 'Можно'];
+  if (cls4 === 2 && cls === 'go') [cls, text] = ['warn', '2-я очередь'];
   if (text === 'Не стоит') note = '';
   const tierN = why ? 0 : r.perDust >= 0.6 ? 3 : r.perDust >= 0.25 ? 2 : 1;
   // the feather queue: average change per feather, losses included; the stat class is shown as a label only
@@ -802,18 +821,26 @@ function weightsUI(key){
 }
 function charCard(ch, n){
   const c = ch.c, i = charInfo(c.key), useful = SUBK.filter(k => ch.w[k] > 0).map(k => SUB[k].n);
-  const sum = [ch.go ? `<span class="pill go">Роллить: ${ch.go}</span>` : '', ch.maybe ? `<span class="pill warn">Можно: ${ch.maybe}</span>` : ''].join('') || '<span class="pill no">Нечего роллить</span>';
-  const open = state.openC.has(c.key);
-  // mini icons: one per piece, framed by its verdict, so the card says a lot even when closed
+  const open = state.openC.has(c.key), good = ch.arts.filter(x => x.can && x.j.ok && x.r.perDust >= 0.25);
+  const slots = xs => xs.map(x => x.a.slot.toLowerCase()).join(', ');
+  const go = good.filter(x => x.j.cls === 'go'), later = good.filter(x => x.j.cls !== 'go');
+  const status = go.length ? `<span class="ccs go">Роллить: ${slots(go)}</span>${later.length ? `<span class="ccs warn">Потом: ${slots(later)}</span>` : ''}`
+    : later.length ? `<span class="ccs warn">Во 2-ю очередь: ${slots(later)}</span>` : '<span class="ccs none">Нечего роллить</span>';
+  // one icon per piece, framed by its verdict
   const mini = ch.arts.map(x => { const v = !x.can ? 'lock' : x.j.ok && x.r.perDust >= 0.25 ? (x.j.cls === 'go' ? 'go' : 'warn') : 'no';
-    return `<span class="mi v-${v}" title="${esc(x.a.slot)}: ${{go: 'роллить', warn: 'можно', no: 'не стоит', lock: 'нельзя'}[v]}">${imgTag([x.a.icon])}</span>`; }).join('');
-  return `<section class="ch ${open ? 'open' : ''}" style="--el:var(--${i.el});--i:${Math.min(n, 8)}" id="c-${esc(c.key)}" data-el="${i.el}" data-name="${esc((i.ru + ' ' + i.en).toLowerCase())}" data-good="${ch.go + ch.maybe}">
-    <button type="button" class="chh" data-open="${esc(c.key)}" aria-expanded="${open}">${face(c.key, 'lg')}
-      <span class="chn"><b>${esc(i.ru)}</b><span class="meta">C${c.cons}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</span></span>
-      <span class="minis">${mini}</span><span class="sum">${sum}</span><span class="chev" aria-hidden="true">›</span></button>
-    ${open ? `<div class="chb">
+    return `<span class="mi v-${v}" title="${esc(x.a.slot)}: ${{go: 'роллить', warn: 'во вторую очередь', no: 'не стоит', lock: 'нельзя'}[v]}">${imgTag([x.a.icon])}</span>`; }).join('');
+  const attrs = `data-el="${i.el}" data-name="${esc((i.ru + ' ' + i.en).toLowerCase())}" data-good="${good.length}"`;
+  const card = `<button type="button" class="cc ${open ? 'on' : ''} ${good.length ? '' : 'dim'} ${go.length ? 'hasgo' : ''}" id="c-${esc(c.key)}" ${attrs} data-open="${esc(c.key)}" aria-expanded="${open}" style="--el:var(--${i.el});--i:${Math.min(n, 12)}">
+      <span class="ccf">${face(c.key, 'lg')}${good.length ? `<span class="bdg ${go.length ? 'go' : 'warn'}">${good.length}</span>` : ''}</span>
+      <b>${esc(i.ru)}</b><small>C${c.cons}${c.weapon ? ` · R${c.weapon.ref}` : ''}</small>
+      <span class="minis">${mini}</span>${status}</button>`;
+  if (!open) return card;
+  return card + `<section class="ch open" id="p-${esc(c.key)}" ${attrs} style="--el:var(--${i.el})">
+    <div class="chh">${face(c.key, 'lg')}<span class="chn"><b>${esc(i.ru)}</b><span class="meta">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</span></span>
+      <span class="sum">${status}</span><button type="button" class="pclose" data-open="${esc(c.key)}" aria-label="Свернуть">✕</button></div>
+    <div class="chb">
       <details class="useful" ${state.openW === c.key ? 'open' : ''}><summary>Полезные статы: <b>${esc(useful.join(', ') || 'нет')}</b><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
-      ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}</div>` : ''}
+      ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}</div>
   </section>`;
 }
 function queueRow(x, n){
@@ -837,8 +864,8 @@ function filterBar(A){
 }
 function applyFilter(){
   const q = state.fq.trim().toLowerCase(); let shown = 0;
-  document.querySelectorAll('.chars .ch').forEach(el => { const ok = (!q || el.dataset.name.includes(q)) && (state.fshow === 'all' || +el.dataset.good > 0) && (state.fel === 'all' || el.dataset.el === state.fel);
-    el.hidden = !ok; if (ok) shown++; });
+  document.querySelectorAll('.chars .cc, .chars .ch').forEach(el => { const ok = (!q || el.dataset.name.includes(q)) && (state.fshow === 'all' || +el.dataset.good > 0) && (state.fel === 'all' || el.dataset.el === state.fel);
+    el.hidden = !ok; if (ok && el.classList.contains('cc')) shown++; });
   const e = $('#fempty'); if (e) e.hidden = shown > 0;
 }
 
@@ -860,10 +887,10 @@ function render(){
       <span>${state.g === 2 ? 'Обычный: в выбранную пару уйдёт минимум 2 улучшения.' : state.g === 3 ? 'Высший: игра даёт его на 6-м и 12-м потраченном пере, минимум 3 улучшения в пару.' : 'Объявленный: на 18-м пере, минимум 4 улучшения в пару.'}</span></div>
     <div class="sec"><h2>Куда потратить перья</h2><p>Иди по порядку: сначала шаг 1, потом 2. Нажми на шаг, чтобы открыть артефакт.</p></div>
     ${A.queue.length ? `<div class="queue">
-        ${group(goQ, 0, 'go', 'Советуем роллить', `${feathers(cost(goQ))} на ${goQ.length} ${plural(goQ.length, 'артефакт', 'артефакта', 'артефактов')}`)}
-        ${group(mayQ, goQ.length, 'warn', 'Можно, если перья лишние', `польза меньше, ${feathers(cost(mayQ))}`)}</div>`
+        ${group(goQ, 0, 'go', 'Роллить в первую очередь', `${feathers(cost(goQ))} на ${goQ.length} ${plural(goQ.length, 'артефакт', 'артефакта', 'артефактов')}`)}
+        ${group(mayQ, goQ.length, 'warn', 'Во вторую очередь', `польза меньше, чем у первой очереди · ${feathers(cost(mayQ))}`)}</div>`
       : `<p class="empty">${A.can ? 'Сейчас нет артефакта, в который стоит вкладывать перо: у тех, что можно рероллить, прирост меньше +25% RV на перо или нет двух критов.' : 'Ни один артефакт пока нельзя рероллить: нужны 5★, прокачанные до +20.'}</p>`}
-    <div class="sec"><h2>Все артефакты по персонажам</h2><p>Нажми на персонажа, чтобы раскрыть его артефакты. Рамка у значка показывает вердикт.</p></div>
+    <div class="sec"><h2>Все артефакты по персонажам</h2><p>Нажми на карточку, чтобы раскрыть артефакты. Рамка у значка показывает вердикт: золотая роллить, оранжевая во вторую очередь.</p></div>
     ${filterBar(A)}
     <div class="chars">${A.chars.map(charCard).join('')}<p class="empty" id="fempty" hidden>Никто не подходит под фильтр.</p></div>`;
   applyFilter();
@@ -936,7 +963,7 @@ document.addEventListener('click', e => {
   if (t.dataset.rvreset) { try { localStorage.removeItem('rv:' + t.dataset.rvreset); } catch {} state.openW = t.dataset.rvreset; return keepScroll(t); }
 });
 // re-render without the page jumping: keep the clicked character's card where it was
-function keepScroll(t){ const id = t.closest('.ch')?.id || t.closest('.fbar') && 'fbar', y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
+function keepScroll(t){ const id = (t.closest('.pclose') ? 'c-' + t.dataset.open : t.closest('.cc,.ch')?.id) || t.closest('.fbar') && 'fbar', y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
   render(); const el = id && document.getElementById(id); if (el) scrollBy(0, el.getBoundingClientRect().top - y0); }
 
 $('#report').onclick = () => {
