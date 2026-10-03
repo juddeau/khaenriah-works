@@ -146,30 +146,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 .acc{font-size:11.5px;color:var(--muted)}
 .acc.ok{color:var(--ok)}.acc.warn{color:var(--warn)}
 
-/* feather plan */
-.queue{display:grid;gap:18px}
-.qg{display:grid;gap:8px;position:relative;padding-left:22px}
-.qg::before{content:'';position:absolute;left:7px;top:34px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--gc),transparent)}
-.qg.go{--gc:var(--gold)}.qg.warn{--gc:var(--warn)}
-.qgh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-left:-22px}
-.qgh b{font-size:14px;color:var(--gc);text-transform:uppercase;letter-spacing:.06em}
-.qgh b::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gc);margin-right:8px;box-shadow:0 0 10px var(--gc)}
-.qgh span{color:var(--muted);font-size:13px}
-.q{position:relative;display:grid;grid-template-columns:40px minmax(0,1.3fr) minmax(0,1.2fr) 140px 80px;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 16px;text-align:left;cursor:pointer;width:100%;
-  transition:border-color .2s,transform .2s,background .2s;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*45ms)}
-.q:hover{transform:translateX(3px);border-color:color-mix(in srgb,var(--gc) 55%,var(--line));background:color-mix(in srgb,var(--gc) 5%,var(--panel))}
-.qn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:15px;color:#1b1406;background:var(--gc);box-shadow:0 0 0 4px var(--bg),0 0 16px -2px var(--gc)}
-.qa{display:flex;align-items:center;gap:10px;min-width:0}
-.qa .aicon{width:44px;height:44px}
-.qt{min-width:0}.qt b{display:block;font-size:15px}.qt small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qc{display:grid;gap:2px;min-width:0}
-.qc small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-.qc b{font-size:14.5px;color:#ffe7a6;font-weight:600}
-.qp b{font-family:var(--f-display);font-size:20px;color:var(--ok)}
-.qf b{color:var(--fg);font-weight:500}
-
 /* character list with filters */
-.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .fsearch{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 12px;flex:0 1 240px}
 .fsearch:focus-within{border-color:var(--accent)}
 .fsearch svg{width:16px;height:16px;fill:none;stroke:var(--muted);stroke-width:2;flex:none}
@@ -179,32 +156,29 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 .elb .elic{width:18px;height:18px;margin:0}
 .elb[aria-pressed="true"]{border-color:var(--accent);background:var(--panel-2);color:var(--fg)}
 #fopen{margin-left:auto;font-size:13px}
-.chars{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));grid-auto-flow:dense}
-.chars>.ch,.chars>.empty{grid-column:1 / -1}
-.cc{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:radial-gradient(160px 110px at 50% 0%,color-mix(in srgb,var(--el) 22%,transparent),transparent 75%),var(--panel);
-  border:1px solid var(--line);border-radius:18px;padding:16px 12px 14px;cursor:pointer;color:inherit;transition:transform .2s,border-color .2s,box-shadow .2s;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*35ms)}
-.cc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--el) 55%,var(--line));box-shadow:0 12px 28px -18px var(--el)}
-.cc.hasgo{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
-.cc.on{border-color:var(--el);box-shadow:0 0 0 1px var(--el),0 14px 30px -16px var(--el)}
-.cc.on::after{content:'';position:absolute;left:50%;bottom:-8px;width:14px;height:14px;background:var(--panel);border-right:1px solid var(--el);border-bottom:1px solid var(--el);transform:translateX(-50%) rotate(45deg)}
-.cc.dim .ccf .face{filter:saturate(.45);opacity:.75}
-.ccf{position:relative;margin-bottom:2px}
-.ccf .face.lg{width:68px;height:68px;font-size:24px}
-.bdg{position:absolute;right:-4px;top:-2px;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:700;padding:0 6px;border:2px solid var(--bg)}
-.bdg.go{background:var(--gold);color:#1b1406}.bdg.warn{background:var(--warn);color:#1b1406}
-.cc>b{font-size:15.5px;line-height:1.2}
-.cc>small{color:var(--muted);font-size:12px;margin-top:-4px}
-.cc .minis{display:flex;gap:4px;justify-content:center;margin:4px 0 2px}
-.cc .mi{width:30px;height:30px;border-radius:8px}
-.ccs{font-size:12.5px;font-weight:600;line-height:1.3}
-.ccs.go{color:var(--gold)}.ccs.warn{color:var(--warn)}.ccs.none{color:var(--muted);font-weight:400}
-.pclose{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);cursor:pointer;font-size:14px}
-.pclose:hover{color:var(--fg);border-color:var(--el)}
-.chh .sum{display:grid;gap:2px;text-align:right}
-.ch{background:var(--panel);border:1px solid var(--el);border-radius:18px;overflow:hidden;animation:rise .3s ease both}
-.ch.open{border-color:color-mix(in srgb,var(--el) 50%,var(--line))}
-.chh{display:flex;align-items:center;gap:14px;width:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 16%,transparent),transparent 55%);padding:12px 16px}
+
 .chh .face.lg{width:52px;height:52px;font-size:18px}
+.chars{display:grid;gap:10px}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*35ms);transition:border-color .2s,box-shadow .2s}
+.ch:hover{border-color:color-mix(in srgb,var(--el) 40%,var(--line))}
+.ch.open{border-color:color-mix(in srgb,var(--el) 60%,var(--line));box-shadow:0 14px 34px -22px var(--el)}
+.chh{display:flex;align-items:center;gap:18px;width:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 14%,transparent),transparent 40%);border:0;padding:12px 18px;cursor:pointer;text-align:left;color:inherit}
+.ch.dim .chh .face{filter:saturate(.5);opacity:.75}
+.pcs{display:flex;gap:8px}
+.pc{display:grid;justify-items:center;gap:3px;width:52px}
+.pc .mi{width:44px;height:44px;border-radius:11px;background:linear-gradient(165deg,#7a5230,#b98446 55%,#d9a25a);overflow:hidden;display:grid;place-items:center;border:2px solid transparent;opacity:.5;transition:transform .2s}
+.pc .mi img{width:100%;height:100%;object-fit:contain}
+.pc small{font-size:11px;color:var(--muted);white-space:nowrap}
+.pc.v-go .mi{border-color:var(--gold);opacity:1;box-shadow:0 0 12px -2px var(--gold)}.pc.v-go small{color:var(--ok);font-weight:700;font-size:12px}
+.pc.v-warn .mi{border-color:var(--warn);opacity:1}.pc.v-warn small{color:var(--ok);font-weight:600;font-size:12px}
+.pc.v-lock .mi{filter:grayscale(1);opacity:.3}
+.ch:hover .pc.v-go .mi,.ch:hover .pc.v-warn .mi{transform:translateY(-2px)}
+.st{flex:1;display:grid;gap:1px;justify-items:end;text-align:right;min-width:150px}
+.st b{font-size:14.5px}.st b.go{color:var(--gold)}.st b.warn{color:var(--warn)}.st b.none{color:var(--muted);font-weight:500}
+.st small{color:var(--muted);font-size:12.5px}
+.frow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fbar{display:grid;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:14px;position:sticky;top:58px;z-index:3;box-shadow:0 10px 24px -18px #000}
+.fl{color:var(--muted);font-size:12.5px}
 .chn{min-width:150px;flex:0 1 230px}
 .chn b{display:block;font-size:16px}
 .chn .meta{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -240,11 +214,8 @@ footer .wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-con
 @media (max-width:1100px){.arts{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:900px){
 }
-@media (max-width:900px){.q{grid-template-columns:36px minmax(0,1fr) 96px 70px}.q .qc:not(.qp):not(.qf){grid-column:2 / -1;order:5}}
 @media (max-width:640px){
-  .q{grid-template-columns:36px minmax(0,1fr) 70px;gap:8px 12px;padding:12px}
-  .q .qf{display:none}
-  .chars{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cc{padding:12px 8px}.cc .mi{width:24px;height:24px;border-radius:6px}.cc .minis{gap:3px}.ccf .face.lg{width:56px;height:56px}.chh{flex-wrap:wrap;gap:8px 12px}.chn{flex:1;min-width:0}.chh .sum{order:4;flex-basis:100%;text-align:left}.opts .seg button{white-space:nowrap;font-size:12.5px;padding:6px 8px}
+  .chh{flex-wrap:wrap;gap:10px 12px;padding:12px}.chn{flex:1;min-width:0}.st{order:2}.chev{order:3}.pcs{order:4;flex-basis:100%;justify-content:space-between}.pc{width:auto;flex:1}.chh .face.lg{width:46px;height:46px}.frow{gap:8px}.fl{flex-basis:100%;margin-bottom:-4px}.fbar{position:static}.opts .seg button{white-space:nowrap;font-size:12.5px;padding:6px 8px}
   #fopen{margin-left:0}.fsearch{flex-basis:100%}
   .arts{grid-template-columns:minmax(0,1fr)}
   .start{padding-top:30px}
@@ -731,7 +702,7 @@ const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 
 const subsOf = a => (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
 
 // ---------- state ----------
-const state = { profile: null, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, openC: new Set(), fq: '', fshow: 'all', fel: 'all' };
+const state = { profile: null, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, openC: new Set(), fq: '', fshow: 'all', fel: 'all', fsort: 'roll' };
 const GNAME = {2: 'Обычный', 3: 'Высший', 4: 'Объявленный'};
 const feathers = n => `${n} ${plural(n, 'перо', 'пера', 'перьев')}`;
 const SLOT_IX = a => SLOT_ORDER.indexOf(a.slot);
@@ -824,23 +795,21 @@ function charCard(ch, n){
   const open = state.openC.has(c.key), good = ch.arts.filter(x => x.can && x.j.ok && x.r.perDust >= 0.25);
   const slots = xs => xs.map(x => x.a.slot.toLowerCase()).join(', ');
   const go = good.filter(x => x.j.cls === 'go'), later = good.filter(x => x.j.cls !== 'go');
-  const status = go.length ? `<span class="ccs go">Роллить: ${slots(go)}</span>${later.length ? `<span class="ccs warn">Потом: ${slots(later)}</span>` : ''}`
-    : later.length ? `<span class="ccs warn">Во 2-ю очередь: ${slots(later)}</span>` : '<span class="ccs none">Нечего роллить</span>';
-  // one icon per piece, framed by its verdict
-  const mini = ch.arts.map(x => { const v = !x.can ? 'lock' : x.j.ok && x.r.perDust >= 0.25 ? (x.j.cls === 'go' ? 'go' : 'warn') : 'no';
-    return `<span class="mi v-${v}" title="${esc(x.a.slot)}: ${{go: 'роллить', warn: 'во вторую очередь', no: 'не стоит', lock: 'нельзя'}[v]}">${imgTag([x.a.icon])}</span>`; }).join('');
-  const attrs = `data-el="${i.el}" data-name="${esc((i.ru + ' ' + i.en).toLowerCase())}" data-good="${good.length}"`;
-  const card = `<button type="button" class="cc ${open ? 'on' : ''} ${good.length ? '' : 'dim'} ${go.length ? 'hasgo' : ''}" id="c-${esc(c.key)}" ${attrs} data-open="${esc(c.key)}" aria-expanded="${open}" style="--el:var(--${i.el});--i:${Math.min(n, 12)}">
-      <span class="ccf">${face(c.key, 'lg')}${good.length ? `<span class="bdg ${go.length ? 'go' : 'warn'}">${good.length}</span>` : ''}</span>
-      <b>${esc(i.ru)}</b><small>C${c.cons}${c.weapon ? ` · R${c.weapon.ref}` : ''}</small>
-      <span class="minis">${mini}</span>${status}</button>`;
-  if (!open) return card;
-  return card + `<section class="ch open" id="p-${esc(c.key)}" ${attrs} style="--el:var(--${i.el})">
-    <div class="chh">${face(c.key, 'lg')}<span class="chn"><b>${esc(i.ru)}</b><span class="meta">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</span></span>
-      <span class="sum">${status}</span><button type="button" class="pclose" data-open="${esc(c.key)}" aria-label="Свернуть">✕</button></div>
-    <div class="chb">
+  const cost = good.reduce((t, x) => t + x.m.cost, 0);
+  const status = go.length ? `<b class="go">Роллить: ${slots(go)}</b>${later.length ? `<small>во 2-ю очередь: ${slots(later)}</small>` : ''}<small>${feathers(cost)}</small>`
+    : later.length ? `<b class="warn">2-я очередь: ${slots(later)}</b><small>${feathers(cost)}</small>` : `<b class="none">Нечего роллить</b>`;
+  // every piece at a glance: icon framed by its verdict, the chance under it when a reroll makes sense
+  const pieces = ch.arts.map(x => { const v = !x.can ? 'lock' : x.j.ok && x.r.perDust >= 0.25 ? (x.j.cls === 'go' ? 'go' : 'warn') : 'no';
+    const under = v === 'go' || v === 'warn' ? pct(x.r.pBetter) : v === 'lock' ? 'нельзя' : '—';
+    return `<span class="pc v-${v}" title="${esc(x.a.slot)}: ${{go: 'роллить', warn: 'во вторую очередь', no: 'не стоит', lock: 'нельзя'}[v]}${v === 'go' || v === 'warn' ? `, шанс улучшения ${pct(x.r.pBetter)}` : ''}"><span class="mi">${imgTag([x.a.icon])}</span><small>${under}</small></span>`; }).join('');
+  return `<section class="ch ${open ? 'open' : ''} ${good.length ? '' : 'dim'}" style="--el:var(--${i.el});--i:${Math.min(n, 12)}" id="c-${esc(c.key)}" data-el="${i.el}" data-name="${esc((i.ru + ' ' + i.en).toLowerCase())}" data-good="${good.length}">
+    <button type="button" class="chh" data-open="${esc(c.key)}" aria-expanded="${open}">${face(c.key, 'lg')}
+      <span class="chn"><b>${esc(i.ru)}</b><span class="meta">C${c.cons}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</span></span>
+      <span class="pcs">${pieces}</span>
+      <span class="st">${status}</span><span class="chev" aria-hidden="true">›</span></button>
+    ${open ? `<div class="chb">
       <details class="useful" ${state.openW === c.key ? 'open' : ''}><summary>Полезные статы: <b>${esc(useful.join(', ') || 'нет')}</b><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
-      ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}</div>
+      ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}</div>` : ''}
   </section>`;
 }
 function queueRow(x, n){
@@ -853,19 +822,10 @@ function queueRow(x, n){
     <span class="qc qf"><small>цена</small><b>${feathers(x.m.cost)}</b></span>
   </button>`;
 }
-function filterBar(A){
-  const els = EL_ORDER.filter(e => A.chars.some(ch => charInfo(ch.c.key).el === e));
-  return `<div class="fbar" id="fbar">
-    <label class="fsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="fq" type="search" placeholder="Найти персонажа" value="${esc(state.fq)}" aria-label="Найти персонажа"></label>
-    <div class="seg" role="group" aria-label="Какие персонажи">${[['all', 'Все'], ['good', 'Есть что роллить']].map(([k, t]) => `<button type="button" data-fshow="${k}" aria-pressed="${state.fshow === k}">${t}</button>`).join('')}</div>
-    ${els.length > 1 ? `<div class="els">${['all', ...els].map(e => `<button type="button" class="elb" data-fel="${e}" aria-pressed="${state.fel === e}" title="${e === 'all' ? 'Все стихии' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e)}</button>`).join('')}</div>` : ''}
-    <button type="button" class="alt-link" id="fopen">${A.chars.every(ch => state.openC.has(ch.c.key)) ? 'Свернуть всех' : 'Раскрыть всех'}</button>
-  </div>`;
-}
 function applyFilter(){
   const q = state.fq.trim().toLowerCase(); let shown = 0;
-  document.querySelectorAll('.chars .cc, .chars .ch').forEach(el => { const ok = (!q || el.dataset.name.includes(q)) && (state.fshow === 'all' || +el.dataset.good > 0) && (state.fel === 'all' || el.dataset.el === state.fel);
-    el.hidden = !ok; if (ok && el.classList.contains('cc')) shown++; });
+  document.querySelectorAll('.chars .ch').forEach(el => { const ok = (!q || el.dataset.name.includes(q)) && (state.fshow === 'all' || +el.dataset.good > 0) && (state.fel === 'all' || el.dataset.el === state.fel);
+    el.hidden = !ok; if (ok) shown++; });
   const e = $('#fempty'); if (e) e.hidden = shown > 0;
 }
 
@@ -878,22 +838,28 @@ function render(){
     <button type="button" class="btn ghost small" id="refresh">Обновить</button>`;
   $('#uid').value = p.uid || '';
   if (p.hidden || !p.chars.length) { box.innerHTML = `<div class="notice warn"><h3>${p.hidden ? 'Детали витрины закрыты' : 'Витрина пустая'}</h3><p>В игре: Профиль → Витрина персонажей. Поставь туда персонажей и включи «Показывать детали», потом подожди пару минут и нажми «Обновить».</p></div>`; return; }
-  const A = analyse(p), goQ = A.queue.filter(x => x.j.cls === 'go'), mayQ = A.queue.filter(x => x.j.cls !== 'go');
-  const cost = xs => xs.reduce((t, x) => t + x.m.cost, 0);
-  const group = (xs, from, cls, title, note) => xs.length ? `<div class="qg ${cls}"><div class="qgh"><b>${title}</b><span>${note}</span></div>${xs.map((x, k) => queueRow(x, from + k)).join('')}</div>` : '';
+  const A = analyse(p);
+  const chars = state.fsort === 'name' ? [...A.chars].sort((x, y) => charInfo(x.c.key).ru.localeCompare(charInfo(y.c.key).ru, 'ru')) : A.chars;
   box.innerHTML = `
-    <div class="opts">Какой реролл у тебя сейчас:
-      <div class="seg" role="group" aria-label="Вид реролла">${[2, 3, 4].map(g => `<button type="button" data-g="${g}" aria-pressed="${state.g === g}">${GNAME[g]} · ${g}</button>`).join('')}</div>
-      <span>${state.g === 2 ? 'Обычный: в выбранную пару уйдёт минимум 2 улучшения.' : state.g === 3 ? 'Высший: игра даёт его на 6-м и 12-м потраченном пере, минимум 3 улучшения в пару.' : 'Объявленный: на 18-м пере, минимум 4 улучшения в пару.'}</span></div>
-    <div class="sec"><h2>Куда потратить перья</h2><p>Иди по порядку: сначала шаг 1, потом 2. Нажми на шаг, чтобы открыть артефакт.</p></div>
-    ${A.queue.length ? `<div class="queue">
-        ${group(goQ, 0, 'go', 'Роллить в первую очередь', `${feathers(cost(goQ))} на ${goQ.length} ${plural(goQ.length, 'артефакт', 'артефакта', 'артефактов')}`)}
-        ${group(mayQ, goQ.length, 'warn', 'Во вторую очередь', `польза меньше, чем у первой очереди · ${feathers(cost(mayQ))}`)}</div>`
-      : `<p class="empty">${A.can ? 'Сейчас нет артефакта, в который стоит вкладывать перо: у тех, что можно рероллить, прирост меньше +25% RV на перо или нет двух критов.' : 'Ни один артефакт пока нельзя рероллить: нужны 5★, прокачанные до +20.'}</p>`}
-    <div class="sec"><h2>Все артефакты по персонажам</h2><p>Нажми на карточку, чтобы раскрыть артефакты. Рамка у значка показывает вердикт: золотая роллить, оранжевая во вторую очередь.</p></div>
+    <div class="sec"><h2>Твои артефакты</h2><p>У каждого персонажа видно все 5 артефактов: золотая рамка значит роллить, оранжевая во вторую очередь, под значком шанс улучшения. Нажми на персонажа, чтобы увидеть саб статы и какую пару выбрать.</p></div>
     ${filterBar(A)}
-    <div class="chars">${A.chars.map(charCard).join('')}<p class="empty" id="fempty" hidden>Никто не подходит под фильтр.</p></div>`;
+    <div class="chars">${chars.map(charCard).join('')}<p class="empty" id="fempty" hidden>Никто не подходит под фильтр.</p></div>`;
   applyFilter();
+}
+function filterBar(A){
+  const els = EL_ORDER.filter(e => A.chars.some(ch => charInfo(ch.c.key).el === e));
+  return `<div class="fbar" id="fbar">
+    <div class="frow">
+      <label class="fsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="fq" type="search" placeholder="Найти персонажа" value="${esc(state.fq)}" aria-label="Найти персонажа"></label>
+      <div class="seg" role="group" aria-label="Какие персонажи">${[['all', 'Все'], ['good', 'Есть что роллить']].map(([k, t]) => `<button type="button" data-fshow="${k}" aria-pressed="${state.fshow === k}">${t}</button>`).join('')}</div>
+      ${els.length > 1 ? `<div class="els">${['all', ...els].map(e => `<button type="button" class="elb" data-fel="${e}" aria-pressed="${state.fel === e}" title="${e === 'all' ? 'Все стихии' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e)}</button>`).join('')}</div>` : ''}
+    </div>
+    <div class="frow">
+      <span class="fl">Сортировка</span><div class="seg" role="group" aria-label="Сортировка">${[['roll', 'по выгоде'], ['name', 'по имени']].map(([k, t]) => `<button type="button" data-fsort="${k}" aria-pressed="${state.fsort === k}">${t}</button>`).join('')}</div>
+      <span class="fl">Мой реролл</span><div class="seg" role="group" aria-label="Вид реролла">${[2, 3, 4].map(g => `<button type="button" data-g="${g}" aria-pressed="${state.g === g}" title="${{2: 'минимум 2 улучшения в выбранную пару', 3: 'минимум 3 улучшения в пару: игра даёт его на 6-м и 12-м потраченном пере', 4: 'минимум 4 улучшения в пару: игра даёт его на 18-м пере'}[g]}">${GNAME[g]}</button>`).join('')}</div>
+      <button type="button" class="alt-link" id="fopen">${A.chars.some(ch => state.openC.has(ch.c.key)) ? 'Свернуть всех' : 'Раскрыть всех'}</button>
+    </div>
+  </div>`;
 }
 
 // ---------- loading ----------
@@ -947,13 +913,14 @@ $('#uid').addEventListener('input', e => { const clean = e.target.value.replace(
 document.addEventListener('input', e => { if (e.target.id === 'fq') { state.fq = e.target.value; applyFilter(); } });
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); const v = $('#uid').value.trim(), msg = uidCheck(v, true); uidHint(msg); if (!msg) loadUid(v); });
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-g],[data-goto],[data-open],[data-fshow],[data-fel],#fopen,[data-rv],[data-rvreset],#refresh');
+  const t = e.target.closest('[data-g],[data-goto],[data-open],[data-fshow],[data-fel],[data-fsort],#fopen,[data-rv],[data-rvreset],#refresh');
   if (!t) return;
   if (t.id === 'refresh' && state.profile?.uid) return loadUid(String(state.profile.uid));
   if (t.dataset.open) { const k = t.dataset.open; state.openC.has(k) ? state.openC.delete(k) : state.openC.add(k); return keepScroll(t); }
   if (t.dataset.fshow) { state.fshow = t.dataset.fshow; document.querySelectorAll('[data-fshow]').forEach(b => b.setAttribute('aria-pressed', b === t)); return applyFilter(); }
   if (t.dataset.fel) { state.fel = t.dataset.fel; document.querySelectorAll('[data-fel]').forEach(b => b.setAttribute('aria-pressed', b === t)); return applyFilter(); }
-  if (t.id === 'fopen') { const all = state.profile.chars.map(c => c.key), every = all.every(k => state.openC.has(k)); state.openC = new Set(every ? [] : all); return keepScroll(t); }
+  if (t.dataset.fsort) { state.fsort = t.dataset.fsort; return keepScroll(t); }
+  if (t.id === 'fopen') { const all = state.profile.chars.map(c => c.key), any = all.some(k => state.openC.has(k)); state.openC = new Set(any ? [] : all); return keepScroll(t); }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', state.g); return render(); }
   if (t.dataset.goto) { if (!state.openC.has(t.dataset.ck)) { state.openC.add(t.dataset.ck); render(); } state.fq = ''; state.fshow = 'all'; state.fel = 'all'; render(); const el = document.getElementById(t.dataset.goto); if (!el) return;
     el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
@@ -963,7 +930,7 @@ document.addEventListener('click', e => {
   if (t.dataset.rvreset) { try { localStorage.removeItem('rv:' + t.dataset.rvreset); } catch {} state.openW = t.dataset.rvreset; return keepScroll(t); }
 });
 // re-render without the page jumping: keep the clicked character's card where it was
-function keepScroll(t){ const id = (t.closest('.pclose') ? 'c-' + t.dataset.open : t.closest('.cc,.ch')?.id) || t.closest('.fbar') && 'fbar', y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
+function keepScroll(t){ const id = t.closest('.ch')?.id || t.closest('.fbar') && 'fbar', y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
   render(); const el = id && document.getElementById(id); if (el) scrollBy(0, el.getBoundingClientRect().top - y0); }
 
 $('#report').onclick = () => {
