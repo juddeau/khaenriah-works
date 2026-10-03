@@ -81,23 +81,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 .seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
 .seg button{background:none;border:0;border-radius:7px;padding:6px 12px;cursor:pointer;color:var(--muted);font-size:13.5px;transition:background .15s,color .15s}
 .seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
-.tally{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
-.tally div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:2px}
-.tally b{font-family:var(--f-display);font-size:24px;font-variant-numeric:tabular-nums}
-.tally small{color:var(--muted);font-size:12.5px;line-height:1.35}
-.tally .go b{color:var(--gold)}.tally .warn b{color:var(--warn)}
 
-.queue{display:grid;gap:8px}
-.q{display:grid;grid-template-columns:28px 40px 44px minmax(0,1.4fr) minmax(0,1.3fr) 86px 86px 92px;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 14px;text-align:left;cursor:pointer;width:100%;transition:border-color .15s,transform .15s;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*40ms)}
-.q:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line));transform:translateY(-1px)}
-.q .n{font-family:var(--f-display);color:var(--muted);font-size:13px;text-align:center}
-.q .t b{display:block;font-size:14.5px}
-.q .t small,.q .p small,.q .m small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
-.q .p b{font-size:13.5px;font-weight:500}
-.q .m{text-align:right;font-variant-numeric:tabular-nums}
-.q .m b{font-size:16px;font-family:var(--f-mono);font-weight:500}
-.q .m.pc b{color:var(--ok)}
-.qmore{margin-top:8px}
 .empty{color:var(--muted);background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:16px;margin:0}
 
 .pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:3px 11px;font-size:12.5px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);white-space:nowrap;font-weight:500}
@@ -116,13 +100,6 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 
 /* characters */
 .chars{display:grid;gap:18px}
-.ch{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;animation:rise .4s ease both;animation-delay:calc(var(--i,0)*50ms)}
-.chh{display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 16%,transparent),transparent 60%);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.chh h3{margin:0;font-size:18px}
-.chh .meta{color:var(--muted);font-size:13px}
-.chh .sp{flex:1}
-.chn{flex:1 1 0;min-width:0}
-.chh .sum{display:flex;gap:6px;flex-wrap:wrap}
 .useful{padding:8px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
 .useful summary{cursor:pointer;list-style:none;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .useful summary::-webkit-details-marker{display:none}
@@ -169,6 +146,57 @@ h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em}
 .acc{font-size:11.5px;color:var(--muted)}
 .acc.ok{color:var(--ok)}.acc.warn{color:var(--warn)}
 
+/* feather plan */
+.queue{display:grid;gap:18px}
+.qg{display:grid;gap:8px;position:relative;padding-left:22px}
+.qg::before{content:'';position:absolute;left:7px;top:34px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--gc),transparent)}
+.qg.go{--gc:var(--gold)}.qg.warn{--gc:var(--warn)}
+.qgh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-left:-22px}
+.qgh b{font-size:14px;color:var(--gc);text-transform:uppercase;letter-spacing:.06em}
+.qgh b::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gc);margin-right:8px;box-shadow:0 0 10px var(--gc)}
+.qgh span{color:var(--muted);font-size:13px}
+.q{position:relative;display:grid;grid-template-columns:40px minmax(0,1.3fr) minmax(0,1.2fr) 140px 80px;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 16px;text-align:left;cursor:pointer;width:100%;
+  transition:border-color .2s,transform .2s,background .2s;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*45ms)}
+.q:hover{transform:translateX(3px);border-color:color-mix(in srgb,var(--gc) 55%,var(--line));background:color-mix(in srgb,var(--gc) 5%,var(--panel))}
+.qn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:15px;color:#1b1406;background:var(--gc);box-shadow:0 0 0 4px var(--bg),0 0 16px -2px var(--gc)}
+.qa{display:flex;align-items:center;gap:10px;min-width:0}
+.qa .aicon{width:44px;height:44px}
+.qt{min-width:0}.qt b{display:block;font-size:15px}.qt small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qc{display:grid;gap:2px;min-width:0}
+.qc small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.qc b{font-size:14.5px;color:#ffe7a6;font-weight:600}
+.qp b{font-family:var(--f-display);font-size:20px;color:var(--ok)}
+.qf b{color:var(--fg);font-weight:500}
+
+/* character list with filters */
+.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.fsearch{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 12px;flex:0 1 240px}
+.fsearch:focus-within{border-color:var(--accent)}
+.fsearch svg{width:16px;height:16px;fill:none;stroke:var(--muted);stroke-width:2;flex:none}
+.fsearch input{background:none;border:0;outline:0;padding:8px 0;min-width:0;width:100%}
+.els{display:flex;gap:4px;flex-wrap:wrap}
+.elb{height:34px;min-width:34px;padding:0 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;display:grid;place-items:center;font-size:13px}
+.elb .elic{width:18px;height:18px;margin:0}
+.elb[aria-pressed="true"]{border-color:var(--accent);background:var(--panel-2);color:var(--fg)}
+#fopen{margin-left:auto;font-size:13px}
+.chars{display:grid;gap:10px}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;animation:rise .35s ease both;animation-delay:calc(var(--i,0)*35ms);transition:border-color .2s}
+.ch.open{border-color:color-mix(in srgb,var(--el) 50%,var(--line))}
+.chh{display:flex;align-items:center;gap:14px;width:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--el) 12%,transparent),transparent 45%);border:0;padding:10px 16px;cursor:pointer;text-align:left;color:inherit}
+.chh:hover{background:linear-gradient(90deg,color-mix(in srgb,var(--el) 20%,transparent),transparent 60%)}
+.chh .face.lg{width:52px;height:52px;font-size:18px}
+.chn{min-width:150px;flex:0 1 230px}
+.chn b{display:block;font-size:16px}
+.chn .meta{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.minis{display:flex;gap:6px;flex:1}
+.mi{width:34px;height:34px;border-radius:9px;background:linear-gradient(165deg,#7a5230,#b98446 55%,#d9a25a);overflow:hidden;display:grid;place-items:center;border:2px solid transparent;opacity:.55}
+.mi img{width:100%;height:100%;object-fit:contain}
+.mi.v-go{border-color:var(--gold);opacity:1;box-shadow:0 0 10px -2px var(--gold)}.mi.v-warn{border-color:var(--warn);opacity:1}.mi.v-lock{filter:grayscale(1);opacity:.35}
+.chh .sum{display:flex;gap:6px}
+.chev{color:var(--muted);font-size:22px;transition:transform .2s;line-height:1}
+.ch.open .chev{transform:rotate(90deg)}
+.chb{border-top:1px solid var(--line);animation:rise .25s ease both}
+
 /* how it works */
 .how{margin:34px 0 10px}
 .how>summary{cursor:pointer;font-family:var(--f-display);font-size:17px;list-style:none;display:flex;gap:10px;align-items:center}
@@ -191,25 +219,20 @@ footer .wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-con
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 @media (max-width:1100px){.arts{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.q .tp{display:none}
 @media (max-width:900px){
-  .q{grid-template-columns:24px 40px 44px minmax(0,1fr) 70px 80px 92px}
-  .q .p{display:none}
-  .q .tp{display:block}
-  .tally{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@media (max-width:900px){.q{grid-template-columns:36px minmax(0,1fr) 96px 70px}.q .qc:not(.qp):not(.qf){grid-column:2 / -1;order:5}}
 @media (max-width:640px){
+  .q{grid-template-columns:36px minmax(0,1fr) 70px;gap:8px 12px;padding:12px}
+  .q .qf{display:none}
+  .chh{flex-wrap:wrap;gap:10px 12px;padding:10px 12px}.chn{flex:1;min-width:0}.minis{order:4;flex-basis:100%}.chh .sum{order:2}.chev{order:3}.opts .seg button{white-space:nowrap;font-size:12.5px;padding:6px 8px}
+  #fopen{margin-left:0}.fsearch{flex-basis:100%}
   .arts{grid-template-columns:minmax(0,1fr)}
-  .q{grid-template-columns:40px 44px minmax(0,1fr) 60px;gap:4px 10px;padding:10px 12px}
-  .q .n,.q .m.gn{display:none}
-  .q .pl{grid-column:3 / -1;display:flex;align-items:center;gap:8px}
-  .q .pl small{margin:0!important}
   .start{padding-top:30px}
   .brand>span{display:none}
   .who small{display:none}
   .who b{max-width:120px}
   .seg{display:flex;width:100%}
-  .chh{padding:12px 14px;gap:10px 12px}.chh .face.lg{width:48px;height:48px}.chh .sp{display:none}.chh .sum{flex-basis:100%}
   .seg button{flex:1;padding:6px 6px}
   .opts>span{flex-basis:100%}
 }
@@ -628,7 +651,7 @@ function bestPair(m, w, g, target){
 }
 // Pair label; a useless stat in the pair makes no difference which one it is
 function pairName(m, w, pair){
-  const [a, b] = pair.map(i => m.subs[i].k).sort((x, y) => (w[y]||0) - (w[x]||0));
+  const [a, b] = pair.map(i => m.subs[i].k).sort((x, y) => (w[y]||0) - (w[x]||0) || SUBK.indexOf(x) - SUBK.indexOf(y));
   if (!(w[a] > 0)) return 'любые два (полезных нет)';
   return `${SUB[a].n} + ${w[b] > 0 ? SUB[b].n : 'любой бесполезный'}`;
 }
@@ -689,7 +712,7 @@ const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 
 const subsOf = a => (a.subs || []).map(s => ({k: KEY_OF[s.k], value: +s.v})).filter(s => s.k);
 
 // ---------- state ----------
-const state = { profile: null, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, qAll: false };
+const state = { profile: null, g: [2,3,4].includes(+store.get('g')) ? +store.get('g') : 2, openC: new Set(), fq: '', fshow: 'all', fel: 'all' };
 const GNAME = {2: 'Обычный', 3: 'Высший', 4: 'Объявленный'};
 const feathers = n => `${n} ${plural(n, 'перо', 'пера', 'перьев')}`;
 const SLOT_IX = a => SLOT_ORDER.indexOf(a.slot);
@@ -779,24 +802,44 @@ function weightsUI(key){
 }
 function charCard(ch, n){
   const c = ch.c, i = charInfo(c.key), useful = SUBK.filter(k => ch.w[k] > 0).map(k => SUB[k].n);
-  const sum = [ch.go ? `<span class="pill go">Роллить: ${ch.go}</span>` : '', ch.maybe ? `<span class="pill warn">Можно: ${ch.maybe}</span>` : ''].join('') || '<span class="pill no">Рероллить нечего</span>';
-  const open = state.openW === c.key;
-  return `<section class="ch" style="--el:var(--${i.el});--i:${Math.min(n, 8)}" id="c-${esc(c.key)}">
-    <div class="chh">${face(c.key, 'lg')}<div class="chn"><h3>${esc(i.ru)}</h3><div class="meta">C${c.cons}${c.level ? ` · ур. ${c.level}` : ''}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</div></div><span class="sp"></span><div class="sum">${sum}</div></div>
-    <details class="useful" data-wopen="${esc(c.key)}" ${open ? 'open' : ''}><summary>Полезные статы: <b>${esc(useful.join(', ') || 'нет')}</b><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
-    ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}
+  const sum = [ch.go ? `<span class="pill go">Роллить: ${ch.go}</span>` : '', ch.maybe ? `<span class="pill warn">Можно: ${ch.maybe}</span>` : ''].join('') || '<span class="pill no">Нечего роллить</span>';
+  const open = state.openC.has(c.key);
+  // mini icons: one per piece, framed by its verdict, so the card says a lot even when closed
+  const mini = ch.arts.map(x => { const v = !x.can ? 'lock' : x.j.ok && x.r.perDust >= 0.25 ? (x.j.cls === 'go' ? 'go' : 'warn') : 'no';
+    return `<span class="mi v-${v}" title="${esc(x.a.slot)}: ${{go: 'роллить', warn: 'можно', no: 'не стоит', lock: 'нельзя'}[v]}">${imgTag([x.a.icon])}</span>`; }).join('');
+  return `<section class="ch ${open ? 'open' : ''}" style="--el:var(--${i.el});--i:${Math.min(n, 8)}" id="c-${esc(c.key)}" data-el="${i.el}" data-name="${esc((i.ru + ' ' + i.en).toLowerCase())}" data-good="${ch.go + ch.maybe}">
+    <button type="button" class="chh" data-open="${esc(c.key)}" aria-expanded="${open}">${face(c.key, 'lg')}
+      <span class="chn"><b>${esc(i.ru)}</b><span class="meta">C${c.cons}${c.weapon ? ` · ${esc(c.weapon.name)} R${c.weapon.ref}` : ''}</span></span>
+      <span class="minis">${mini}</span><span class="sum">${sum}</span><span class="chev" aria-hidden="true">›</span></button>
+    ${open ? `<div class="chb">
+      <details class="useful" ${state.openW === c.key ? 'open' : ''}><summary>Полезные статы: <b>${esc(useful.join(', ') || 'нет')}</b><span class="alt-link">изменить</span></summary>${weightsUI(c.key)}</details>
+      ${ch.arts.length ? `<div class="arts">${ch.arts.map(x => artCard(ch, x)).join('')}</div>` : '<p class="empty" style="margin:14px">На персонаже нет артефактов.</p>'}</div>` : ''}
   </section>`;
 }
 function queueRow(x, n){
   const i = charInfo(x.ch.c.key), cls = x.j.cls === 'go' ? 'go' : 'warn';
-  return `<button type="button" class="q" data-goto="${artId(x.ch, x)}" style="--i:${Math.min(n, 10)}">
-    <span class="n">${n + 1}</span>${face(x.ch.c.key)}<span class="aicon r5">${imgTag([x.a.icon])}</span>
-    <span class="t"><b>${esc(i.ru)} · ${esc(x.a.slot)}</b><small>${esc(x.j.tag)}</small><small class="tp">Пара: ${esc(pairName(x.m, x.ch.w, x.r.pair))}</small></span>
-    <span class="p"><small>Выбрать пару</small><b>${esc(pairName(x.m, x.ch.w, x.r.pair))}</b></span>
-    <span class="m pc"><b>${pct(x.r.pBetter)}</b><small>шанс</small></span>
-    <span class="m gn"><b>${r1(x.r.eGain)}</b><small>RV в среднем</small></span>
-    <span class="pl"><span class="pill ${cls}">${x.j.text}</span><small class="sub" style="display:block;font-size:11.5px;margin-top:3px;text-align:center">${feathers(x.m.cost)}</small></span>
+  return `<button type="button" class="q v-${cls}" data-goto="${artId(x.ch, x)}" data-ck="${esc(x.ch.c.key)}" style="--i:${Math.min(n, 10)};--el:var(--${i.el})">
+    <span class="qn">${n + 1}</span>
+    <span class="qa">${face(x.ch.c.key)}<span class="aicon r5">${imgTag([x.a.icon])}</span><span class="qt"><b>${esc(i.ru)}</b><small>${esc(x.a.slot)} · ${esc(PROP[x.a.main?.k] ? fmtStat(x.a.main.k, 0)[0] : '')}</small></span></span>
+    <span class="qc"><small>при реролле выбери</small><b>${esc(pairName(x.m, x.ch.w, x.r.pair))}</b></span>
+    <span class="qc qp"><small>шанс улучшения</small><b>${pct(x.r.pBetter)}</b></span>
+    <span class="qc qf"><small>цена</small><b>${feathers(x.m.cost)}</b></span>
   </button>`;
+}
+function filterBar(A){
+  const els = EL_ORDER.filter(e => A.chars.some(ch => charInfo(ch.c.key).el === e));
+  return `<div class="fbar" id="fbar">
+    <label class="fsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="fq" type="search" placeholder="Найти персонажа" value="${esc(state.fq)}" aria-label="Найти персонажа"></label>
+    <div class="seg" role="group" aria-label="Какие персонажи">${[['all', 'Все'], ['good', 'Есть что роллить']].map(([k, t]) => `<button type="button" data-fshow="${k}" aria-pressed="${state.fshow === k}">${t}</button>`).join('')}</div>
+    ${els.length > 1 ? `<div class="els">${['all', ...els].map(e => `<button type="button" class="elb" data-fel="${e}" aria-pressed="${state.fel === e}" title="${e === 'all' ? 'Все стихии' : EL_RU[e]}">${e === 'all' ? 'Все' : elIcon(e)}</button>`).join('')}</div>` : ''}
+    <button type="button" class="alt-link" id="fopen">${A.chars.every(ch => state.openC.has(ch.c.key)) ? 'Свернуть всех' : 'Раскрыть всех'}</button>
+  </div>`;
+}
+function applyFilter(){
+  const q = state.fq.trim().toLowerCase(); let shown = 0;
+  document.querySelectorAll('.chars .ch').forEach(el => { const ok = (!q || el.dataset.name.includes(q)) && (state.fshow === 'all' || +el.dataset.good > 0) && (state.fel === 'all' || el.dataset.el === state.fel);
+    el.hidden = !ok; if (ok) shown++; });
+  const e = $('#fempty'); if (e) e.hidden = shown > 0;
 }
 
 function render(){
@@ -808,23 +851,22 @@ function render(){
     <button type="button" class="btn ghost small" id="refresh">Обновить</button>`;
   $('#uid').value = p.uid || '';
   if (p.hidden || !p.chars.length) { box.innerHTML = `<div class="notice warn"><h3>${p.hidden ? 'Детали витрины закрыты' : 'Витрина пустая'}</h3><p>В игре: Профиль → Витрина персонажей. Поставь туда персонажей и включи «Показывать детали», потом подожди пару минут и нажми «Обновить».</p></div>`; return; }
-  const A = analyse(p), q = state.qAll ? A.queue : A.queue.slice(0, 8);
-  const go = A.queue.filter(x => x.j.cls === 'go').length, maybe = A.queue.length - go;
+  const A = analyse(p), goQ = A.queue.filter(x => x.j.cls === 'go'), mayQ = A.queue.filter(x => x.j.cls !== 'go');
+  const cost = xs => xs.reduce((t, x) => t + x.m.cost, 0);
+  const group = (xs, from, cls, title, note) => xs.length ? `<div class="qg ${cls}"><div class="qgh"><b>${title}</b><span>${note}</span></div>${xs.map((x, k) => queueRow(x, from + k)).join('')}</div>` : '';
   box.innerHTML = `
     <div class="opts">Какой реролл у тебя сейчас:
       <div class="seg" role="group" aria-label="Вид реролла">${[2, 3, 4].map(g => `<button type="button" data-g="${g}" aria-pressed="${state.g === g}">${GNAME[g]} · ${g}</button>`).join('')}</div>
       <span>${state.g === 2 ? 'Обычный: в выбранную пару уйдёт минимум 2 улучшения.' : state.g === 3 ? 'Высший: игра даёт его на 6-м и 12-м потраченном пере, минимум 3 улучшения в пару.' : 'Объявленный: на 18-м пере, минимум 4 улучшения в пару.'}</span></div>
-    <div class="tally">
-      <div><b>${A.n}</b><small>артефактов в витрине</small></div>
-      <div><b>${A.can}</b><small>можно рероллить (5★ +20)${A.lvl ? `; ещё не +20: ${A.lvl}` : ''}${A.low ? `; не 5★: ${A.low}` : ''}</small></div>
-      <div class="go"><b>${go}</b><small>советуем роллить</small></div>
-      <div class="warn"><b>${maybe}</b><small>можно, если есть лишние перья</small></div>
-    </div>
-    <div class="sec"><h2>Куда потратить перья</h2><p>Сверху самые выгодные. Нажми на строку, чтобы увидеть артефакт.</p></div>
-    ${A.queue.length ? `<div class="queue">${q.map(queueRow).join('')}</div>${A.queue.length > 8 ? `<div class="qmore"><button type="button" class="alt-link" id="qall">${state.qAll ? 'Свернуть' : `Показать все ${A.queue.length}`}</button></div>` : ''}`
+    <div class="sec"><h2>Куда потратить перья</h2><p>Иди по порядку: сначала шаг 1, потом 2. Нажми на шаг, чтобы открыть артефакт.</p></div>
+    ${A.queue.length ? `<div class="queue">
+        ${group(goQ, 0, 'go', 'Советуем роллить', `${feathers(cost(goQ))} на ${goQ.length} ${plural(goQ.length, 'артефакт', 'артефакта', 'артефактов')}`)}
+        ${group(mayQ, goQ.length, 'warn', 'Можно, если перья лишние', `польза меньше, ${feathers(cost(mayQ))}`)}</div>`
       : `<p class="empty">${A.can ? 'Сейчас нет артефакта, в который стоит вкладывать перо: у тех, что можно рероллить, прирост меньше +25% RV на перо или нет двух критов.' : 'Ни один артефакт пока нельзя рероллить: нужны 5★, прокачанные до +20.'}</p>`}
-    <div class="sec"><h2>Все артефакты по персонажам</h2><p>Жёлтым подсвечены полезные статы, точки показывают, сколько роллов ушло в стат.</p></div>
-    <div class="chars">${A.chars.map(charCard).join('')}</div>`;
+    <div class="sec"><h2>Все артефакты по персонажам</h2><p>Нажми на персонажа, чтобы раскрыть его артефакты. Рамка у значка показывает вердикт.</p></div>
+    ${filterBar(A)}
+    <div class="chars">${A.chars.map(charCard).join('')}<p class="empty" id="fempty" hidden>Никто не подходит под фильтр.</p></div>`;
+  applyFilter();
 }
 
 // ---------- loading ----------
@@ -875,14 +917,18 @@ async function loadUid(uid, quiet = false){
 const uidCheck = (v, final) => !v ? (final ? 'Введи UID: 9 или 10 цифр.' : '') : !/^\d+$/.test(v) ? 'В UID только цифры.' : v.length < 9 ? (final ? `Не хватает цифр: ${v.length} из 9–10.` : '') : v.length > 10 ? 'В UID не больше 10 цифр.' : '';
 function uidHint(msg){ $('#uidhint').textContent = msg; $('#uid').closest('.field').classList.toggle('bad', !!msg); }
 $('#uid').addEventListener('input', e => { const clean = e.target.value.replace(/\D/g, ''); const bad = clean !== e.target.value.replace(/\s/g, ''); e.target.value = clean; uidHint(bad ? 'В UID только цифры.' : uidCheck(clean, false)); });
+document.addEventListener('input', e => { if (e.target.id === 'fq') { state.fq = e.target.value; applyFilter(); } });
 $('#uidform').addEventListener('submit', e => { e.preventDefault(); const v = $('#uid').value.trim(), msg = uidCheck(v, true); uidHint(msg); if (!msg) loadUid(v); });
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-g],[data-goto],[data-rv],[data-rvreset],#qall,#refresh');
+  const t = e.target.closest('[data-g],[data-goto],[data-open],[data-fshow],[data-fel],#fopen,[data-rv],[data-rvreset],#refresh');
   if (!t) return;
   if (t.id === 'refresh' && state.profile?.uid) return loadUid(String(state.profile.uid));
-  if (t.id === 'qall') { state.qAll = !state.qAll; return render(); }
+  if (t.dataset.open) { const k = t.dataset.open; state.openC.has(k) ? state.openC.delete(k) : state.openC.add(k); return keepScroll(t); }
+  if (t.dataset.fshow) { state.fshow = t.dataset.fshow; document.querySelectorAll('[data-fshow]').forEach(b => b.setAttribute('aria-pressed', b === t)); return applyFilter(); }
+  if (t.dataset.fel) { state.fel = t.dataset.fel; document.querySelectorAll('[data-fel]').forEach(b => b.setAttribute('aria-pressed', b === t)); return applyFilter(); }
+  if (t.id === 'fopen') { const all = state.profile.chars.map(c => c.key), every = all.every(k => state.openC.has(k)); state.openC = new Set(every ? [] : all); return keepScroll(t); }
   if (t.dataset.g) { state.g = +t.dataset.g; store.set('g', state.g); return render(); }
-  if (t.dataset.goto) { const el = document.getElementById(t.dataset.goto); if (!el) return;
+  if (t.dataset.goto) { if (!state.openC.has(t.dataset.ck)) { state.openC.add(t.dataset.ck); render(); } state.fq = ''; state.fshow = 'all'; state.fel = 'all'; render(); const el = document.getElementById(t.dataset.goto); if (!el) return;
     el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
     el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); return; }
   if (t.dataset.rv) { const key = t.dataset.wkey, list = rvList(key), k = t.dataset.rv;
@@ -890,7 +936,7 @@ document.addEventListener('click', e => {
   if (t.dataset.rvreset) { try { localStorage.removeItem('rv:' + t.dataset.rvreset); } catch {} state.openW = t.dataset.rvreset; return keepScroll(t); }
 });
 // re-render without the page jumping: keep the clicked character's card where it was
-function keepScroll(t){ const id = t.closest('.ch')?.id, y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
+function keepScroll(t){ const id = t.closest('.ch')?.id || t.closest('.fbar') && 'fbar', y0 = id ? document.getElementById(id).getBoundingClientRect().top : 0;
   render(); const el = id && document.getElementById(id); if (el) scrollBy(0, el.getBoundingClientRect().top - y0); }
 
 $('#report').onclick = () => {
