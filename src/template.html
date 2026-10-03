@@ -731,7 +731,12 @@ function artSubs(a, m){
   return (a.subs || []).map(s => ({k: KEY_OF[s.k], v: +s.v})).filter(s => s.k);
 }
 // RV of the piece now (useful substats only, exact roll sums when Enka has the history)
-const rvOf = (x, w) => Math.round(useful(artSubs(x.a, x.m).map(s => ({k: s.k, value: s.v})), w) * 100);
+// with Enka's roll history it is counted roll by roll, each rounded to 5% like Akasha does, so the numbers match akasha.cv
+function rvOf(x, w){
+  const rolls = Array.isArray(x.a.rolls) ? x.a.rolls.map(affix) : [];
+  if (rolls.length && rolls.every(Boolean)) return rolls.reduce((t, r) => t + (w[r.k] > 0 ? Math.round(r.v / MAXV(r.k) * 20) * 5 : 0), 0);
+  return Math.round(useful(artSubs(x.a, x.m).map(s => ({k: s.k, value: s.v})), w) * 100);
+}
 // why a piece can't be rerolled, in plain words
 function cantWhy(a){
   if (a.rarity && a.rarity !== 5) return {short: 'Только 5★', long: `Это ${a.rarity}★. Рероллить можно только 5★.`};
